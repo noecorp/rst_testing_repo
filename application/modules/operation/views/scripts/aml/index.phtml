@@ -1,0 +1,40 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">AML</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('uploadaml')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/uploadaml");?>' title="Upload AML Data">Upload AML Data</a>: Upload AML records.</li>
+            <div class="clear"></div>
+          <?php }          
+           if ($helper->can('amlbyops')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/amlbyops");?>' title="Uploaded AML Report">Uploaded AML Report</a>: AML Uploaded Report.</li>
+            <div class="clear"></div>
+           <?php }          
+           if ($helper->can('displayaml')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/displayaml");?>' title="Display AML Records">Display AML Records</a>: Display AML Records Report.</li>
+            <div class="clear"></div>
+           <?php }          
+           /*if ($helper->can('kotakremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakremitters");?>' title="Kotak AML Remitter">Kotak AML Remitter</a>: Show AML Matched Kotak Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('kotakbeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakbeneficiaries");?>' title="Kotak AML Beneficiaries">Kotak AML Beneficiaries</a>: Show AML Matched Kotak Beneficiaries.</li>
+            <div class="clear"></div> 
+           <?php }          */
+           if ($helper->can('amlrejectedagents')) {?>
+             <li class="systemli"><a href='<?php echo $this->formatURL("/aml/amlrejectedagents");?>' title="AML Rejected Agents">AML Rejected Agents</a>: Show AML Matched & Rejected Agents.</li>
+            <div class="clear"></div> 
+           <?php }  
+           if ($helper->can('bankindex')) {?>
+             <li class="systemli"><a href='<?php echo $this->formatURL("/aml/bankindex");?>' title="Bank AML">Bank AML</a>: Show AML Matched Bank Remitters & Beneficiaries.</li>
+            <div class="clear"></div> 
+           <?php } 
+           ?> 
+    </ul>
+    <div class="clear"></div>
+</div>

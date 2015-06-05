@@ -1,0 +1,272 @@
+<div class="Boldtext">Bulk Upload of Cardholders</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'NEFT Instruction Batches';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Card Pack Id',
+    'AFN',
+    'Medi Assist Id',
+    'Employee Id',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Corporate Id'
+    );
+$config['columnIndexes'] = array(
+    'card_number',
+    'card_pack_id',
+    'afn',
+    'medi_assist_id',
+    'employee_id',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'employer_name',
+    'corporate_id'
+    );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+
+<?php /********** do we have items? **********/ ?>
+<?php if (count($this->rejectpaginator)) : ?>
+<div class="Boldtext">Failed Cardholder Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+           <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 <th><span>Failed Reason</span></th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>        
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php foreach($this->rejectpaginator as $item) : ?>
+                <tr>
+                    <td><?php echo util::maskCard($item[$config['columnIndexes'][0]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][6]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][8]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][10]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][11]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][12]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][13]];?></td> 
+                     <td><?php echo $item['failed_reason'];?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+<?php endif;?>
+<?php /********** finished do we have items? **********/ ?>
+
+
+<div class="Boldtext">Cardholder Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/corp_ratnakar_cardholders/uploadcardholders')?>" method = "POST"> 
+         <input type="hidden" id="batch" name="batch" value ="<?php echo $this->batch_name; ?>" >
+         <input type="hidden" id="crd_ype" name="crd_ype" value ="<?php echo $this->card_type; ?>" >  
+         <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                    <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>
+
+                    <td><?php echo util::maskCard($item[$config['columnIndexes'][0]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][6]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][8]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][10]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][11]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][12]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][13]];?></td> 
+                     
+                   
+                    
+                    
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+2;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+<input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Submit" name="submit_success">
+</div>
+</form>
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+     $("#frm1").submit(function(e) {
+           //remit_boi_remitter-neftresponse
+          if(!$('input[type=checkbox]:checked').length) {
+               //stop the form from submitting
+               e.preventDefault();
+               alert("Please select at least one to process.");
+               return false;
+          }
+
+          return true;
+     });  
+     $("#selectall").click(function () {
+          $('.reqid').attr('checked', this.checked);
+     });
+
+     // if all checkbox are selected, check the selectall checkbox
+     // and viceversa
+     $(".reqid").click(function(){
+     
+          if($(".reqid").length == $(".reqid:checked").length) {
+               $("#selectall").attr("checked", "checked");
+          } else {
+               $("#selectall").removeAttr("checked");
+          }
+     });
+     
+        
+    $('form').submit(function(){
+       var product_id = $.trim($("#product_id").val());
+       var card_type = $.trim($("#card_type").val());
+       var doc_path = $.trim($("#doc_path").val());
+       var batch = $.trim($("#batch").val());
+       if(product_id == ""){
+          alert('Please select product.'); 
+          $("#product_id").focus();
+          return false;
+      }else if(card_type == ""){
+          alert('Please select activation type.'); 
+          $("#card_type").focus();
+          return false;
+      }else if( ( (doc_path == '') || (doc_path.length < 1) ) && batch == '' ){
+          alert('Please upload document file.'); 
+          $("#doc_path").focus();
+          return false;
+      }else if( (doc_path != '') || (doc_path.length > 0) ){
+                    var extension = doc_path.split('.').pop().toUpperCase();
+                    if (extension!="TXT"){
+                        alert('Invalid file extension of Document File.\n Please upload only .txt file.');
+                        $('#doc_path').focus(); 
+                        return false;
+                    }
+                    
+              } 
+       
+      
+    return true;
+         
+});
+    
+     $("#doc_path").after("<br/><span style='font-size:12px;font-weight:normal;display:block;margin-top:10px;width:230px;'><a href='<?php echo "/uploads/sample/Format_Customer_Enroll_Functionality.csv";?>'>Download Format</a> &nbsp;|&nbsp;<a href='<?php echo $this->formatURL("/corp_ratnakar_cardholder/downloadtxtfile?type=download&filename=Format_Customer_Enroll_Functionality_Ratnakar.txt");?>'>Download Sample</a> <br/><br/>(Please upload without headers)</span>");
+});
+</script>

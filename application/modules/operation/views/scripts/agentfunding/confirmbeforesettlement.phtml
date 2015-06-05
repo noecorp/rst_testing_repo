@@ -1,0 +1,84 @@
+<?php
+if (!$this->agentFunding) {
+    ?>
+    <div class="msg msg-error"><p>You have trying to access settled bank statement or non-pending fund request.</p></div>
+    <?php
+} else {
+
+    /**
+     * Displays details for pending agent funding request
+     * @copyright company
+     */
+$config = array();
+// messages
+$config['pageTitle'] = 'Pending Requests';
+$config['emptyMessage'] = 'There is no pending requests at this time.';
+
+$config['no_add'] = TRUE;
+// column names & indexes
+$config['columnNames'] = array(
+    'Agent Code',
+    'Agent Name',
+    'Request Date',
+    'Amount',
+    'Fund Transfer Type',
+    'Journal/Cheque No.',
+    'Details',
+    'Request Status',
+    'Comments'
+);
+$config['columnIndexes'] = array(
+    'agent_code',
+    'agent_name',
+    'date_request',
+    'amount',
+    'transfer_type_name',
+    'funding_no',
+    'funding_details',
+    'agent_funding_status',
+    'comments'
+);
+    echo $this->partial(
+            'partials/default-view.phtml', array(
+        'config' => $config,
+        'item' => $this->agentFunding
+            )
+    );
+
+    $bankStatementsConfig = array();
+
+    $bankStatementsConfig['formAction'] = $this->formatURL('/agentfunding/confirmbeforesettlement?id='.$this->agentFunding->agent_funding_id);
+// messages
+    $bankStatementsConfig['pageTitle'] = 'Bank Statements';
+    $bankStatementsConfig['emptyMessage'] = 'There is no bank statementsat available.';
+
+    $bankStatementsConfig['no_add'] = TRUE;
+// column names & indexes
+
+    $bankStatementsConfig['columnNames'] = array(
+        'Journal/Cheque No',
+        'Description',
+        'Amount',
+        'Status',
+        'Date',
+    );
+
+    $bankStatementsConfig['columnIndexes'] = array(
+        'funding_no',
+        'description',
+        'amount',
+        'status',
+        'txn_date'
+    );
+
+
+    if (!empty($this->bankStatements)) {
+        echo $this->partial('partials/fundsettlement.phtml', array(
+            'config' => $bankStatementsConfig,
+            'msg' => $this->msg,
+            'agent_funding_id' => $this->agentFunding->agent_funding_id,
+                 'paginator' => $this->bankStatements,
+                )
+        );
+    }
+}

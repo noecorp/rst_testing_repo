@@ -1,0 +1,69 @@
+<div class="Boldtext">Add Hospital</div> 
+<?php echo $this->form; ?>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+
+ var city = "<?php echo $this->city;?>";
+ var pincode = "<?php echo $this->pincode;?>";
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            $("#city option[value='"+city+"']").attr("selected", "selected");
+                        }
+                    },
+         
+        });
+}  
+   
+if($("#city").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pin_code").html("");                            
+                            $("#pin_code").append(response);
+                            $("#pin_code option[value='"+pincode+"']").attr("selected", "selected");
+                        }
+                    }     
+        });
+ }
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                            $("#city").html("");
+                            $("#city").append(response);
+                        }
+                    },
+        });
+    }); 
+    $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pin_code").html("");                            
+                            $("#pin_code").append(response);
+                        }
+                    }     
+        });
+    });    
+    
+
+});     
+
+</script>

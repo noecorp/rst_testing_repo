@@ -1,0 +1,95 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @category Operation
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Business Corporate');
+
+// add generic CSS files
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/login.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/navigation.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/mystyle_operation.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/stylesheets/admin.css');
+
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->offsetSetFile(2, $this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+
+$user = Zend_Auth::getInstance()->getIdentity();
+//echo "<pre>";print_r($user);
+$bodyClass = Zend_Registry::get('controllerName') . Zend_Registry::get('actionName');
+
+$this->AutoloadResources();
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+    <head> 
+        
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+        <meta http-equiv="content-style-type" content="text/css" /> 
+        <meta http-equiv="content-script-type" content="text/javascript" /> 
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+        
+        <?php echo $this->headTitle() . PHP_EOL;?>
+        <?php echo $this->headLink() . PHP_EOL;?>
+            <?php echo  $this->jQuery(); ?>
+        <!--[if !IE 7]>
+            <style type="text/css">
+                div.wrapper {display:table;height:100%}
+            </style>
+        <![endif]-->
+    </head>
+    <body class="<?php echo $bodyClass;?>">
+		 		<div class='modal_bg'></div>
+		    <div id='header-wrapper'>
+		      <div id='header'>
+		        <img src="/images/new/logo-shmart.png" />
+		        <ul class='main-menu'>
+		         			<li><a href="<?php echo $this->formatURL('/');?>">Home</a></li> 
+		              <li><a id="logout" href="<?php echo $this->formatURL('/signup/index/');?>">Become a Shmart! Business Corporate</a></li>
+		              <li><a href="<?php echo $this->formatURL('/profile/login/');?>">Login</a></li> 
+		        </ul>
+		      </div><!---end header--->
+		    </div><!---end header-wrapper--->
+	 			<div id='main'>
+	 				<div style="width:1000px;">
+              <?php echo $this->flashMessenger();?>
+          		<?php echo $this->layout()->content;?>
+          </div>
+	 			</div><!---end main--->	
+	 			<div id='footer-wrapper'>
+			      <div id='footer'>
+			        <ul class='left-subfooter'>
+			          <li>
+			            
+			          </li>
+			        </ul>
+			        <ul class='right-subfooter'>
+			          <!--<li>
+			            <a href="#">About</a>
+			          </li>
+			          <li>
+			            <a href="#">Sitewide Terms</a>
+			          </li>
+			          <li>
+			            <a href="#">Product Terms</a>
+			          </li>
+			          <li>
+			            <a href="#">Privacy</a>
+			          </li>-->
+			        </ul>
+			      </div><!---end footer--->
+		    </div><!---footer-wrapper--->
+		</body><!---end body--->
+</html>	  

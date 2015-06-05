@@ -1,0 +1,31 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+
+<div class="Boldtext">Settings</div>
+
+<div class="innerbox">
+    <ul class="systemul">
+	<?php if ($helper->can('change-password', 'profile')) { ?>
+	   <li class="systemli"><a href="<?php echo $this->formatURL('/profile/change-password/');?>" title="Change Password">Change Password</a>: Change Password</li>
+	   <div class="clear"></div>
+       <?php }
+        if ($helper->can('updatemobile', 'setting')) { ?>
+	   <li class="systemli"><a href="<?php echo $this->formatURL('/setting/updatemobile/');?>" title="Change Mobile">Change Mobile</a>: Change Mobile</li>
+	   <div class="clear"></div>
+       <?php }
+        if ($helper->can('updateemail', 'setting')) { ?>
+	   <li class="systemli"><a href="<?php echo $this->formatURL('/setting/updateemail/');?>" title="Change Email">Change Email</a>: Change Email</li>
+	   <div class="clear"></div>
+       <?php }
+        if ($helper->can('updatebasicinfo', 'setting')) { ?>
+	   <li class="systemli"><a href="<?php echo $this->formatURL('/setting/updatebasicinfo/');?>" title="Change Personal Details">Change Personal Details</a>: Change Personal Details</li>
+	   <div class="clear"></div>
+       <?php
+       }?> 
+        <div class="clear"></div>  
+          
+    </ul>
+
+    <div class="clearfix"></div>
+</div>

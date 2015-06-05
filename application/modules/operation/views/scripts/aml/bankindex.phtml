@@ -1,0 +1,35 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Banks</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('kotakremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakremitters");?>' title="Kotak AML Remitter">Kotak AML Remitter</a>: Show AML Matched Kotak Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('kotakbeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakbeneficiaries");?>' title="Kotak AML Beneficiaries">Kotak AML Beneficiaries</a>: Show AML Matched Kotak Beneficiaries.</li>
+            <div class="clear"></div> 
+          <?php }          
+           if ($helper->can('kotakcardholders')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakcardholders");?>' title="Kotak AML kotakcardholders">Kotak AML Card Holders</a>: Show AML Matched Kotak Cardholders.</li>
+            <div class="clear"></div> 
+          <?php }          
+            if ($helper->can('ratnakarremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarremitters");?>' title="RBL AML Remitter">RBL AML Remitter</a>: Show AML Matched RBL Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('ratnakarbeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarbeneficiaries");?>' title="RBL AML Beneficiaries">RBL AML Beneficiaries</a>: Show AML Matched RBL Beneficiaries.</li>
+            <div class="clear"></div> 
+          <?php }          
+           if ($helper->can('ratnakarcardholders')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarcardholders");?>' title="RBL AML kotakcardholders">RBL AML Card Holders</a>: Show AML Matched RBL Cardholders.</li>
+            <div class="clear"></div> 
+          <?php } ?> 
+    </ul>
+    <div class="clear"></div>
+</div>

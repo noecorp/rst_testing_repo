@@ -1,0 +1,213 @@
+<div class="Boldtext">Cardholder Search</div>
+<script>
+  $(document).ready(function(){
+      var search = $("#searchCriteria").val();
+      var keyword = $("#keyword").val();
+      var product = $("#product_id").val();
+      
+     $("#btn_exportcsv").click(function(){
+         var url = '<?php echo $this->formatURL("/corp_kotak_cardholder/exportsearchcardholders?searchCriteria=".$this->formData['searchCriteria']."&keyword=".$this->formData['keyword'].'&product_id='.$this->formData['product_id'].'&sub='.$this->formData['sub'].'&status='.STATUS_ACTIVE);?>';    
+         $(location).attr('href',url);
+     });
+      
+     
+     $("#searchCriteria").change(function(){
+         
+         $("#keyword").val('');
+       }); 
+       
+        $('form').submit(function(){
+            var search = $("#searchCriteria").val();
+            var keyword = $("#keyword").val();
+            var product = $("#product_id").val();
+      
+            if(product == ''){
+                    alert('Please select product.');
+                    return false;
+            }    
+            if(search == ''){
+                alert('Search Criteria cannot be blank');
+                return false;
+            }
+            if(keyword == ''){
+                alert('Search Keyword cannot be blank');
+                return false;
+            }
+            return true;
+        });
+         
+   });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+
+// messages
+$config['pageTitle'] = 'Cardholders';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found.';
+//$config['addURL'] = '/agents/signup/';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Member Id',
+    'Employee Id',
+    'Card Number',
+    'Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Corporate Id',
+    'Status',
+    );
+$config['columnIndexes'] = array(
+    'member_id',
+    'employee_id',
+    'card_number',
+    'name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'employer_name',
+    'corporate_id',
+    'status',
+);
+
+$cntColNames = count($config['columnNames']) ;
+//$config['actions'] = array(
+//        'active'    =>  array(
+//        'action'        => 'edit',
+//        'title'         => 'Edit Cardholder',
+//        'parameter'     => TRUE,
+//        'icon'          => TRUE,
+//        'img_url'       => '/images/icons/edit.png',
+//        'img_alt'       => 'Edit Cardholder',
+//      ),
+//    );
+
+
+//$config['showActions'] = true;
+//$config['linkCol'] = array(
+//            array(
+//                'linkColName'       => 'medi_assist_id',
+//                'linkController'    => 'corp_ratnakar_cardholder',
+//                'linkAction'        => 'view',
+//                'linkTitle'         => 'View Cardholer Details',
+//                'linkParamReqd'     => TRUE,
+//                'linkParamName'     => 'id',
+//                'linkQueryStringReqd'=> TRUE,
+//                'linkQueryString'     => $this->backLink,
+//            )
+//        );
+
+//$config['statusLinkColumn'] = 'status';
+//$config['showComma'] = array('amount');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+<?php echo $this->form; ?> 
+<?php if($this->sub):?>  
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                  <th><span>Actions</span></th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+                
+                    //foreach($dateArr as $item) :?>
+            
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo $item['member_id'];?></td>
+                        <td><?php echo $item['employee_id'];?></td>
+                        <td><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/view?id='.$item['id'].'&'.$this->backLink);?>"><?php echo util::maskCard($item['card_number'],4);?></a></td>
+                        <td><?php echo $item['name'];?></td>
+                        <td><?php echo $item['name_on_card'];?></td>
+                        <td><?php echo ucfirst($item['gender']);?></td>
+                        <td><?php echo Util::returnDateFormatted($item['date_of_birth'], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item['mobile']?></td>
+                        <td><?php echo $item['email']?></td>
+                        <td><?php echo $item['employer_name']?></td>
+                        <td><?php echo $item['corporate_id']?></td>
+                        <td><?php echo $cardholderStatus[$item['status']]?></td>
+                        <td><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/addcardholderdocs?id='.$item['id'].'&'.$this->backLink);?>">Upload Documents</a></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }
+
+?>
+
+<?php endif;?>

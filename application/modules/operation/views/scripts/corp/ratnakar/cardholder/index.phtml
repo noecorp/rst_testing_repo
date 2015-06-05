@@ -1,0 +1,72 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Ratnakar</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+        if ($helper->can('uploadcardholders', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/uploadcardholders/');?>" title="Bulk Upload of Cardholders">Upload Cardholders</a>: Bulk upload of Cardholders</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('approvalpending', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/approvalpending/');?>" title="Approval Pending">Approval Pending</a>: Approval Pending</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('cardholderactivationreq', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/cardholderactivationreq/');?>" title="Bulk Upload of Cardholders- Activation Required">Upload Cardholders- Activation Required</a>: Bulk upload of Cardholders- Activation Required</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('batchstatus', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/batchstatus/');?>" title="Cardholder Batch Status">Cardholder Batch Status</a>: Status of Batch Upload of Cardholders</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('searchcardholder', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/searchcardholder/');?>" title="Search Cardholders">Search Cardholders</a>: Search cardholders</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('pendingkyc', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/pendingkyc/');?>" title="Search Cardholders">Pending KYC Docs</a>: Pending KYC Docs</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('upgradekycsearch', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/upgradekycsearch/');?>" title="KYC Upgradation">KYC Upgradation</a>: KYC Upgradation</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadcrn', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/uploadcrn/');?>" title="Bulk Upload of Cardholders">Upload CRN</a>: Bulk upload of CRN</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('crnstatus', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/crnstatus/');?>" title="CRN Status Report">CRN Status Report</a>: CRN Status Report</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('corporateload', 'corp_ratnakar_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardload/corporateload/');?>" title="Upload Corporate Wallet">Upload Corporate Wallet</a>: Bulk upload of Corporate Wallet</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('walletstatus', 'corp_ratnakar_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardload/walletstatus/');?>" title="Wallet Status">Wallet Status</a>: CardLoad Status report of Wallets</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadma', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/uploadma/');?>" title="Upload Manual Adjustment">Upload Manual Adjustment</a>: Bulk upload of manual adjustment</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('searchma', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/searchma/');?>" title="Search Manual Adjustment">Search Manual Adjustment</a>: Search Manual Adjustment</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('unsettlementrequests', 'corp_ratnakar_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardload/unsettlementrequests/');?>" title="Download Unsettled Request">Download Unsettled Request</a>: Download Unsettled Request</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('settlementresponse', 'corp_ratnakar_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardload/settlementresponse/');?>" title="Upload Settlement Response">Upload Settlement Response</a>: Upload Settlement Response</li>
+              <div class="clear"></div>
+             <?php }
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

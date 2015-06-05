@@ -1,0 +1,35 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Logs</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('agent', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/agent/');?>" title="Agent Logs">Agent Logs</a>: Agent Logs</li>
+              <div class="clear"></div>
+        <?php } 
+           if ($helper->can('product', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/product/');?>" title="Product Logs">Product Logs</a>: Product Logs</li>
+              <div class="clear"></div>
+        <?php }
+           if ($helper->can('bank', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/bank/');?>" title="Bank Logs">Bank Logs</a>: Bank Logs</li>
+              <div class="clear"></div>
+        <?php }  if ($helper->can('fee', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/fee/');?>" title="Fee Logs">Fee Logs</a>: Fee Logs</li>
+              <div class="clear"></div>
+        <?php }
+         if ($helper->can('commission', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/commission/');?>" title="Commission Logs">Commission Logs</a>: Commission Logs</li>
+              <div class="clear"></div>
+        <?php }
+        if ($helper->can('cron', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/cron/');?>" title="Cron Logs">Cron Logs</a>: Cron Logs</li>
+              <div class="clear"></div>
+        <?php }
+        ?>
+    </ul>
+    <div class="clear"></div>
+</div>

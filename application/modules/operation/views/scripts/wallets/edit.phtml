@@ -1,0 +1,147 @@
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+         $("input#date_start").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x <= curdate)
+            {
+                alert("Please enter start date greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid start date');
+                      this.value = '';
+                      $("#date_start").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+       $('form').submit(function(){
+       if (parseInt($("#load_validity_hr").val()) > 23)
+           {
+                alert('Load Validity Hour should be less than 24'); 
+               return false;
+        }        
+        else if (parseInt($("#load_validity_min").val()) > 59)
+           {
+                alert('Load Validity minutes should be less than 60'); 
+               return false;
+        }     
+           
+       var load_min = parseInt($("#load_min").val());
+       var load_max = parseInt($("#load_max").val());
+       
+       var load_cnt_daily = parseInt($("#load_max_cnt_daily").val());
+       var load_cnt_monthly = parseInt($("#load_max_cnt_monthly").val());
+       var load_cnt_yearly = parseInt($("#load_max_cnt_yearly").val());
+       
+       var load_daily = parseInt($("#load_max_val_daily").val());
+       var load_monthly = parseInt($("#load_max_val_monthly").val());
+       var load_yearly = parseInt($("#load_max_val_yearly").val());
+       
+       var txn_min = parseInt($("#txn_min").val());
+       var txn_max = parseInt($("#txn_max").val());
+       
+       var txn_cnt_daily = parseInt($("#txn_max_cnt_daily").val());
+       var txn_cnt_monthly = parseInt($("#txn_max_cnt_monthly").val());
+       var txn_cnt_yearly = parseInt($("#txn_max_cnt_yearly").val());
+       
+       var txn_daily = parseInt($("#txn_max_val_daily").val());
+       var txn_monthly = parseInt($("#txn_max_val_monthly").val());
+       var txn_yearly = parseInt($("#txn_max_val_yearly").val());
+      
+       
+       if ((load_min.length != 0) && (load_max.length != 0) && (load_max < load_min)){
+               alert('Maximum Load amount cannot be less that minimum load amount.'); 
+               return false;
+        }       
+        else if ((load_cnt_monthly.length != 0) && (load_cnt_daily.length != 0) && (load_cnt_monthly < load_cnt_daily)){
+               alert('No. of daily Loads cannot be more than no. of monthly Loads.'); 
+               return false;
+        }
+        else if ((load_cnt_yearly.length != 0) && (load_cnt_daily.length != 0) && (load_cnt_yearly < load_cnt_daily)){
+               alert('No. of daily Loads cannot be more than no. of yearly Loads.'); 
+               return false;
+        }
+        else if ((load_cnt_yearly.length  != 0)  && (load_cnt_monthly > load_cnt_yearly)  ){
+               alert('No. of monthly Loads cannot be more than no. of yearly Loads.');
+                   return false;
+        }
+         else if ((load_monthly.length != 0) && (load_daily.length != 0) && (load_monthly < load_daily)){
+               alert('Load amount of daily Transactions cannot be more than amount of monthly Transactions.'); 
+               return false;
+        }
+        else if ((load_yearly.length != 0) && (load_daily.length != 0) && (load_yearly < load_daily)){
+               alert('Load amount of daily Transactions cannot be more than amount of yearly Transactions.'); 
+               return false;
+        }
+        else if ((load_yearly.length  != 0)  && (load_monthly > load_yearly)  ){
+               alert('Load amount of monthly Transactions cannot be more than amount of yearly Transactions.');
+                   return false;
+        }
+        else if ((txn_min.length != 0) && (txn_max.length != 0) && (txn_max < load_min)){
+               alert('Maximum Load amount of Txn cannot be less that minimum Txn amount.'); 
+               return false;
+        } 
+        else if ((txn_cnt_monthly.length != 0) && (txn_cnt_daily.length != 0) && (txn_cnt_monthly < txn_cnt_daily)){
+               alert('No. of daily Transactions cannot be more than no. of monthly Transactions.'); 
+               return false;
+        }
+        else if ((txn_cnt_yearly.length != 0) && (txn_cnt_daily.length != 0) && (txn_cnt_yearly < txn_cnt_daily)){
+               alert('No. of daily Transactions cannot be more than no. of yearly Transactions.'); 
+               return false;
+        }
+        else if ((txn_cnt_yearly.length  != 0)  && (txn_cnt_monthly > txn_cnt_yearly)  ){
+               alert('No. of monthly Transactions cannot be more than no. of yearly Transactions.');
+                   return false;
+        }
+         else if ((txn_monthly.length != 0) && (txn_daily.length != 0) && (txn_monthly < txn_daily)){
+               alert('Txn amount of daily Transactions cannot be more than amount of monthly Transactions.'); 
+               return false;
+        }
+        else if ((txn_yearly.length != 0) && (txn_daily.length != 0) && (txn_yearly < txn_daily)){
+               alert('Txn amount of daily Transactions cannot be more than amount of yearly Transactions.'); 
+               return false;
+        }
+        else if ((txn_yearly.length  != 0)  && (txn_monthly > txn_yearly)  ){
+               alert('Txn amount of monthly Transactions cannot be more than amount of yearly Transactions.');
+                   return false;
+        }
+            return true;
+});
+       
+}); 
+
+</script><?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit Wallet: '.$this->item['name'];
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

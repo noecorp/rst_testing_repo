@@ -1,0 +1,182 @@
+<div class="Boldtext">Disbursement Status Report</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'Disbursement Status Report';
+$config['no_add'] = TRUE;
+$cardloadModel = $this->cardloadModel;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+    $config['columnNames'] = array(
+        'Disbursement Number',
+        'Date of Instruction',
+        'Date of upload',
+        'Account Number',
+        'Aadhaar No',
+        'Disbursement Amount',
+        'Debit Mandate Amount',
+        'Bucket',
+        'Payment Status',
+        'Student Account Credit Date',
+        'TP Account Credit Date',
+        'Auto Debit Amount',
+        'Note',
+    );
+    $config['columnIndexes'] = array(
+        'disbursement_number',
+        'date_updated',
+        'date_create',
+        'account_number',
+        'aadhar_no',
+        'amount',
+        'debit_mandate_amount',
+        'bucket',
+        'payment_status',
+        'date_load',
+        'date_load',
+        'amount',
+        'failed_reason'
+    );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+$globalBuckets = Zend_Registry::get("BOI_NSDC_DISBURSEMENT_BUCKETS");
+ ?>
+
+<div class="Boldtext">Disbursement Status Report</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+
+
+           <thead><!-- universal table heading --> 
+            <tr>
+               <!-- <th><input type="checkbox" id="selectall"/></th>-->
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) :
+               $note = $cardloadModel->getNote($item['id']);
+            //print_r($item); exit;
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                   <!-- <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>-->
+
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></td> 
+                     <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][1]], "Y-m-d", "d-m-Y", "-");?></td>
+                     <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][2]], "Y-m-d", "d-m-Y", "-");?></td>
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                     <td><?php echo Util::numberFormat($item[$config['columnIndexes'][5]]);?></td>
+                     <td><?php echo Util::numberFormat($item[$config['columnIndexes'][6]]);?></td>
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][8]]);?></td> 
+                     <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][9]], "Y-m-d", "d-m-Y", "-");?></td>
+                     <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][10]], "Y-m-d", "d-m-Y", "-");?></td>
+                     <td><?php echo Util::numberFormat($item[$config['columnIndexes'][11]]);?></td>
+                     <td><?php echo $note;?></td> 
+                      
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+
+
+<div>&nbsp;</div>
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } ?>
+    
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+    $("#btn_exportcsv").click(function(){
+            var url = '<?php echo $this->formatURL("/corp_boi_index/exportdisbursementstatusreport?disbursement_number=".$this->formData['disbursement_number']."&payment_status=".implode(",",$this->formData['payment_status'])."&account_number=".$this->formData['account_number']."&aadhar_no=".$this->formData['aadhar_no']."&tp_name=".$this->formData['tp_name']);?>';    
+            $(location).attr('href',url);
+    });
+    $("#disbursement_number").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+    $("#bucket").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+});
+function chamgeBucketType(id,bucketId) {
+    if (bucketId==5) {
+        var r = confirm("Are you sure you want to mark this record as Return?");
+    }else{
+        var r = confirm("Are you sure you want to mark this record as Manual?");
+    }
+    
+    if (r == true) {
+        var url = '<?php echo $this->formatURL("/corp_boi_index/disbursementreport?disbursement_number=".$this->formData['disbursement_number']."&bucket=".$this->formData['bucket']."&account_number=".$this->formData['account_number']."&aadhar_no=".$this->formData['aadhar_no']);?>';
+        url=url+"&id="+id+"&bucketId="+bucketId;
+        //alert(url);
+        $(location).attr('href',url)
+    } 
+}
+
+</script>

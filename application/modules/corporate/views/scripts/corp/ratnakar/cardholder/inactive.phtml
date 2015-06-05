@@ -1,0 +1,46 @@
+<?php
+/**
+ * Deactive a cardholder with its tids 
+ *
+ */
+
+ 
+$config = array();
+$config['pageTitle'] = sprintf('Deactivate "%s"?', $this->item['cardholder_name']);
+$config['areYouSureMessage'] = sprintf('Are you sure you want to deactivate cardholder "%s"?', $this->item['cardholder_name']);
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Medi Assist Id',
+    'Employee Id',
+    'Cardholder Name',
+    'Gender',
+    'Aadhaar Number',
+    'PAN',
+    'Mobile',
+    'Email',
+    'Employer Name',
+);
+
+$config['columnIndexes'] = array(
+    'card_number',
+    'medi_assist_id',
+    'employee_id',       
+    'cardholder_name',
+    'gender',
+    'aadhaar_no',
+    'pan',
+    'mobile',
+    'email',
+    'employer_name',
+);
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

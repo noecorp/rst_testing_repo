@@ -1,0 +1,36 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Reject Customer: '.$this->item->first_name.' '.$this->item->last_name;
+$config['areYouSureMessage'] = 'Are you sure you want to reject this customer?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'First Name',
+    'Member Id',
+    'Email',
+    'Mobile'
+   );
+$config['columnIndexes'] = array(
+    'first_name',
+    'member_id',
+    'email',
+    'mobile'
+   );
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

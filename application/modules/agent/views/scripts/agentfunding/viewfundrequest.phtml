@@ -1,0 +1,56 @@
+<?php
+
+$config = array();
+// messages
+$config['pageTitle'] = 'View Fund Request';
+$config['emptyMessage'] = 'There is no pending requests at this time.';
+
+$config['no_add'] = TRUE;
+// column names & indexes
+$otherColumnIndexes = array();
+$otherColumnNames = array();
+
+if ($this->agentFunding->fund_transfer_type_id == FUND_TRANSFER_TYPE_ID_CHEQUE) {
+    $chkDetails = str_replace(SEPARATOR_PIPE, "<br>", $this->agentFunding->funding_details);
+    $otherColumnIndexes = array('funding_no', 'funding_details');
+    $otherColumnNames = array($this->agentFunding->transfer_type_name, $this->agentFunding->transfer_type_name . ' Details');
+    $this->agentFunding->funding_details = $chkDetails;
+} elseif ($this->agentFunding->fund_transfer_type_id == FUND_TRANSFER_TYPE_ID_NEFT) {
+    $otherColumnIndexes = array('funding_no');
+    $otherColumnNames = array($this->agentFunding->transfer_type_name . ' No.');
+} elseif( ($this->agentFunding->fund_transfer_type_id == FUND_TRANSFER_TYPE_ID_DD)) {
+    $otherColumnIndexes = array('funding_no', 'funding_details');
+    $otherColumnNames = array($this->agentFunding->transfer_type_name . ' No.', $this->agentFunding->transfer_type_name . ' Details');
+}
+
+$config['columnNames'] = array(
+    'Request Status',
+    'Request Date',
+    'Amount',
+);
+
+$config['columnIndexes'] = array(
+    'agent_funding_status',
+    'date_request',
+    'amount',
+);
+$this->agentFunding->date_request = date('d-m-Y H:i:s', strtotime($this->agentFunding->date_request));
+
+$this->agentFunding->settlement_date = date('d-m-Y H:i:s', strtotime($this->agentFunding->settlement_date));
+$config['columnNames'] = array_merge($config['columnNames'], $otherColumnNames);
+$config['columnIndexes'] = array_merge($config['columnIndexes'], $otherColumnIndexes);
+
+if ($this->agentFunding->agent_funding_status == STATUS_APPROVED) {
+    $config['columnNames'] = array_merge($config['columnNames'], array('Approve Date', 'Approve Remarks'));
+    $config['columnIndexes'] = array_merge($config['columnIndexes'], array('settlement_date', 'settlement_remarks'));
+} elseif ($this->agentFunding->agent_funding_status == STATUS_REJECTED) {
+    $config['columnNames'] = array_merge($config['columnNames'], array('Reject Date', 'Reject Remarks'));
+    $config['columnIndexes'] = array_merge($config['columnIndexes'], array('settlement_date', 'settlement_remarks'));
+}
+
+echo $this->partial(
+        'partials/default-view.phtml', array(
+    'config' => $config,
+    'item' => $this->agentFunding
+        )
+);

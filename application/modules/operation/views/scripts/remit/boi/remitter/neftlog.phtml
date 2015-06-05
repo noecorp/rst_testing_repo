@@ -1,0 +1,50 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+$config = array();
+
+// messages
+$config['pageTitle'] = 'NEFT Download Log';
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Batch Name',
+    'Date of Download',
+    'Ops User',
+    'IP'
+    
+);
+
+$config['columnIndexes'] = array(
+    'batch_name',
+    'date_created',
+    'name',
+    'ip'
+    
+);
+
+$config['showActions'] = FALSE;
+$config['no_add'] = TRUE;
+
+$config['columnDataTypes'] = array(
+    'ip' => 'ip',
+);
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>
+<div class="back"><a class="alt" href="<?php echo $this->formatURL($this->backlink);?>">← Back</a></div>

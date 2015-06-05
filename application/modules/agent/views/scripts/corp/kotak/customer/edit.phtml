@@ -1,0 +1,210 @@
+  <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+  <div class="Boldtext">Edit Customer</div> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form; 
+  
+  $ifscCode = isset($this->remitterData['ifsc_code'])?$this->remitterData['ifsc_code']:'';
+  $user = Zend_Auth::getInstance()->getIdentity();
+  $minAge = $this->minAge;
+//  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+//  $cardholderStep1 = isset($session->cardholder_step1)?$session->cardholder_step1:'';
+  ?>
+  
+  
+  <script type="text/javascript">
+$(document).ready(function() {
+       
+  $("#bc_code").attr('readOnly', 'readOnly');  
+  $("#afn").attr('readOnly', 'readOnly');    
+ var city = $("#cty").val();
+ var pincode = $("#pin").val();
+
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#city").html("");
+                            
+                            $("#city").append(response);
+                             $("#city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+ if($("#cty").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                            $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+   $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#city").html("");
+                            $("#city").append(response);
+                            console.log(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+ 
+  $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+
+ //COMMUNICATION ADDRESS
+ 
+  var commcity = $("#comm_cty").val();
+  var commpincode = $("#c_pin").val();
+
+  if($("#comm_state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#comm_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#comm_city").html("");
+                            
+                            $("#comm_city").append(response);
+                            $("#comm_city option[value='"+commcity+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+  $("#comm_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#comm_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#comm_city").html("");
+                            $("#comm_city").append(response);
+                            console.log(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+ 
+
+if($("#comm_cty").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+commcity,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#comm_pin").html("");                            
+                            $("#comm_pin").append(response);
+                            $("#comm_pin option[value='"+commpincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+ 
+  $("#comm_city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#comm_city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#comm_pincode").html("");                            
+                            $("#comm_pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+ 
+    
+         $('form').submit(function(){
+          var dob = $.trim($("#date_of_birth").val()); 
+          /**** date of birth validation ****/
+       if(dob!='' && dob!='00-00-0000') {
+            
+            var arr_dt = dob.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            var one_year=1000*60*60*24*365
+            var age = Math.round((curdate - x)/one_year);
+            if(age < 18)
+                {
+                    alert('You need to be atleast 18 years');
+                    $("#date_of_birth").val('');
+                    $("#date_of_birth").focus();
+                    return false;
+                } else {             
+                    if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                            alert('Invalid Date of Birth');
+                            $("#date_of_birth").val('');
+                            $("#date_of_birth").focus();
+                            return false;
+                  }
+             
+         } } else {
+                    alert('Please specify date of birth');
+                    $("#date_of_birth").focus();
+                    return false;
+               } 
+          /**** date of birth validation over ****/
+         
+         
+         
+        var id_doc_path = $("#id_doc_path").val();
+        var dob = $("#date_of_birth").val();
+      
+          if(dob == ''){
+            alert('Please enter Date of Birth');
+            $("#date_of_birth").focus();
+            return false;
+        }
+      
+            return true;
+});
+      }); // ready closes here
+ 
+     
+  </script>

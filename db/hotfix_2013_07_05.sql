@@ -1,0 +1,2 @@
+SET @agent_id := (SELECT id FROM `t_agents` WHERE agent_code = '32361110018' LIMIT 1);
+UPDATE t_agent_closing_balance SET closing_balance = '4931.00' WHERE agent_id = @agent_id AND date = '2013-07-04' LIMIT 1;

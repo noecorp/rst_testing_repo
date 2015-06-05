@@ -1,0 +1,30 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Reports</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+        
+         if ($helper->can('agentwiseload')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/agentwiseload/');?>" title="Agent Wise Load">Load/Reload Report</a>: Details of loads and reloads done by you over a period</li>
+             <div class="clear"></div>
+          <?php }
+          if ($helper->can('commreport')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/commreport/');?>" title="Agent Comm Report">Agent Commission Report</a>: Details of commission earned by you over a period</li>
+             <div class="clear"></div>
+        <?php }
+           if ($helper->can('cardholderactivations')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/cardholderactivations/');?>" title="Cardholder Activations">Cardholders Activation</a>: Cardholders enrolled by you over a period</li>
+             <div class="clear"></div>
+          <?php }
+           if ($helper->can('agentfundrequests')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentfundrequests/');?>" title="Agent Fund Requests">Agent Fund Requests</a>: Details of funds loaded into your account over a period</li>
+              <div class="clear"></div>
+          <?php }
+          
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

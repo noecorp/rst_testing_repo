@@ -1,0 +1,7 @@
+/uploads/
+/logs/*
+/cache/*
+/public/agent/uploads/*
+/public/agent/uploads/*
+application/configs/application.ini
+/nbproject/private/

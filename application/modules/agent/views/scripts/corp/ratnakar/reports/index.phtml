@@ -1,0 +1,29 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Customer Registration Reports</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+             
+             if ($helper->can('customerregistration', 'corp_ratnakar_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_reports/customerregistration/');?>" title="Customer Registration Report">Customer Registration Report</a>: Customer Registration details</li>
+              <div class="clear"></div>
+             <?php }
+             
+             if ($helper->can('loadreport', 'corp_ratnakar_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_reports/loadreport/');?>" title="Load Report">Load Report</a>: Load Report details</li>
+              <div class="clear"></div>
+             <?php }
+             
+             if ($helper->can('walletwisetransactionreport', 'corp_ratnakar_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_reports/walletwisetransactionreport/');?>" title="Wallet Wise Transaction Report">Wallet Wise Transaction Report</a>: Wallet Wise Transaction Details</li>
+              <div class="clear"></div>
+             <?php }
+             
+            
+             ?>
+    </ul>
+    <div class="clear"></div>
+</div>

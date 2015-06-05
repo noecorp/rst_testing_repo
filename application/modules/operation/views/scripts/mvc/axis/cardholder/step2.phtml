@@ -1,0 +1,133 @@
+<?php echo Util::getCardholderEditTab("step2", Util::getEncrypt($this->cardholder_id)); ?>
+<?php 
+    echo $this->form; 
+    $state = $this->chDetails['state'];
+    $city = $this->chDetails['city'];
+?>
+<style>
+    dd#is_book-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_travel-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_movies-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_shopping-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_electronics-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_music-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_automobiles-element{padding-bottom:0px; margin-bottom:22px;}
+    dt#offers_label-label{clear:both;}
+    dd#offers_label-element{clear:both;}
+    dt#is_book-element{clear:both;}  
+</style>
+
+ <script type="text/javascript">
+$(document).ready(function() {
+ var state = '<?=$state?>';
+ var city = '<?=$city?>';
+
+ var stateName = $("#state").val();
+ var pincode = $("#pin").val();
+
+ $("#state option[text='"+stateName+"']").attr("selected", "selected");
+ if(state!='') {     
+     $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#city").html("");                            
+                            $("#city").append(response); 
+                            if(city!=''){
+                                $("#city").val(city);
+                                $("#city option[value='"+city+"']").attr("selected", "selected");
+                            }
+                            console.log(response);                           
+                        }
+                    }       
+        });
+ }
+   $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                            $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+        
+        $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+    
+     
+  $("#state").change(function(){
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#city").html("");                            
+                            $("#city").append(response);
+                             console.log(response);                            
+                        }
+                    }    
+        });
+    }); 
+    
+     var shmartRewards = $("#shmart_rewards").val(); 
+     if(shmartRewards=='<?php echo FLAG_NO;?>' || shmartRewards=='') { // incase first load of page                       
+              $("dt[id^='is_']").hide();
+              $("dd[id^='is_']").hide();
+              $("#[id^='is_']").hide();   
+              $("#offers_label-label").hide();
+              $("#offers_label-element]").hide();
+              
+          }  
+    
+});
+
+    // shmart rewards show/hide
+    
+    if($("#shmart_rewards").val()=='<?php echo FLAG_NO;?>'){
+        $("dt[id^='is_']").hide();
+        $("dd[id^='is_']").hide();
+        $("#[id^='is_']").hide();   
+    }    
+    
+    $("#shmart_rewards").keypress(function(){    
+        handleRewardOptions() ;                    
+    });
+    
+    $("#shmart_rewards").change(function(){    
+        handleRewardOptions() ;                    
+    });
+    
+     function handleRewardOptions(){
+         var shmartRewards = $("#shmart_rewards").val(); 
+          if(shmartRewards=='<?php echo FLAG_YES;?>') {
+              $("dt[id^='is_']").show();
+              $("dd[id^='is_']").show(); 
+              $("#[id^='is_']").show();   
+              $("#offers_label-label").show();
+              $("#offers_label-element]").show();
+          } else if(shmartRewards=='<?php echo FLAG_NO;?>' || shmartRewards=='') {                       
+              $("dt[id^='is_']").hide();
+              $("dd[id^='is_']").hide(); 
+              $("#[id^='is_']").hide();
+              $("#offers_label-label").hide();
+              $("#offers_label-element']").hide();
+              
+          }  
+     } 
+  </script>

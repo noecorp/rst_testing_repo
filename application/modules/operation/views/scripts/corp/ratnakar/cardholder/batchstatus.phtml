@@ -1,0 +1,218 @@
+<div class="Boldtext">Cardholder Batch Status</div>
+<script>
+  $(document).ready(function(){
+      
+   var batch = $("#batch").val();
+   
+   if($("#start_date").val() != '' && $("#start_date").val() != ''){
+       
+  $.ajax({
+                url: '/ajax/get-ratbatchbydate/q/'+$("#start_date").val()+'/p/'+$("#end_date").val()+'/r/'+$("#product_id").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else { 
+                            $("#batch_name").html("");                            
+                            $("#batch_name").append(response);
+                            $("#batch_name option[value='"+batch+"']").attr("selected", "selected");
+                            console.log(response);                            
+                        }
+                    }     
+        });
+ }  
+      
+      
+   
+    $("#end_date").change(function(){
+        if($("#start_date").val() != ''){
+            $.ajax({
+                url: '/ajax/get-ratbatchbydate/q/'+$("#start_date").val()+'/p/'+$("#end_date").val()+'/r/'+$("#product_id").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#batch_name").html("");                            
+                            $("#batch_name").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+        }
+        else{
+        alert('Please fill in From Date');
+        }
+    }); 
+    
+       $("#start_date").change(function(){
+        if($("#end_date").val() != ''){
+            $.ajax({
+                url: '/ajax/get-ratbatchbydate/q/'+$("#start_date").val()+'/p/'+$("#end_date").val()+'/r/'+$("#product_id").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#batch_name").html("");                            
+                            $("#batch_name").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+        }
+        else{
+        alert('Please fill in To date Date');
+        }
+    }); 
+         
+     });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Cardholder Batch: '.$this->batch_name;
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found.';
+//$config['addURL'] = '/agents/signup/';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Medi Assist Id',
+    'Employee Id',
+    'Card Number',
+    'Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Corporate Id',
+    'Status',
+    'Failed Reason',
+    );
+$config['columnIndexes'] = array(
+    'medi_assist_id',
+    'employee_id',
+    'card_number',
+    'cardholder_name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'employer_name',
+    'corporate_id',
+    'status',
+    'failed_reason',
+);
+
+$cntColNames = count($config['columnNames']) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("REMIT_STATUS");
+?>
+<?php echo $this->form; ?> 
+<?php if($this->sub):?> 
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = ''; ?>
+                <?php 
+                    //foreach($dateArr as $item) :?>
+            
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo $item['medi_assist_id'];?></td>
+                        <td><?php echo $item['employee_id'];?></td>
+                        <td><?php echo Util::maskCard($item['card_number'],4);?></td>
+                        <td><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/view?id='.$item['id'].'&viewc=batchstatus'.'&'.$this->backLink);?>"><?php echo $item['cardholder_name'];?></a></td>
+                        <td><?php echo $item['name_on_card'];?></td>
+                        <td><?php echo ucfirst($item['gender']);?></td>
+                        <td><?php echo Util::returnDateFormatted($item['date_of_birth'], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item['mobile']?></td>
+                        <td><?php echo $item['email']?></td>
+                        <td><?php echo $item['employer_name']?></td>
+                        <td><?php echo $item['corporate_id']?></td>
+                        <td><?php echo $cardholderStatus[$item['status']]?></td>
+                        <td><?php echo $item['failed_reason']?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }
+?>
+<?php endif;?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+       
+         var url = '<?php echo $this->formatURL("/corp_ratnakar_cardholder/exportbatchstatus?batch_name=".$this->batch_name."&start_date=".$this->start_date."&end_date=".$this->end_name.'&product_id='.$this->product_id);?>';    
+         $(location).attr('href',url);
+       
+    });  
+   });
+</script>

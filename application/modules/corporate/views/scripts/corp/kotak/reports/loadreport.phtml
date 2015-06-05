@@ -1,0 +1,256 @@
+<div class="Boldtext">Load Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!=''){
+$bankUnicodeArr = Util::bankUnicodesArray();    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+   $config['columnNames'] = array(
+        'Product Name',
+        'Txn Identifier Type',
+        'Card Number',
+        'Member Id',
+        'Amount',
+	'Cutoff',
+        'Currency',
+        'Narration',
+        'Wallet Code',
+        'Txn Number',
+        'Card Type',
+        'Corporate Id',
+        'Mode',
+        'Txn Reference No.',
+        'Failed Reason',
+        'Status'
+       
+    );
+    $config['columnIndexes'] = array(
+        'product_name',
+        'txn_identifier_type',
+        'card_number',
+        'member_id',
+        'amount',
+	'amount_cutoff',
+        'currency',
+        'narration',
+        'wallet_code',
+        'txn_no',
+        'card_type',
+        'corporate_id',
+        'mode',
+        'txn_code',
+        'failed_reason',
+        'status'
+    );
+
+$config['showActions'] =FALSE;
+//$config['duration'] = $this->formData['dur'];
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox" style="margin-bottom: 10px;">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+                    //foreach($dateArr as $item) :?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                    			
+                    ?>
+																
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][1]]);?></td> 
+                     <td><?php echo util::maskCard($item[$config['columnIndexes'][2]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+		     <td><?php echo $item[$config['columnIndexes'][6]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][8]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][10]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][11]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][12]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][13]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][14]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][15]]);?></td> 
+             
+                        
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls" style="text-align: right;"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }  ?>
+
+<?php
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+            var url = '<?php echo $this->formatURL("/corp_kotak_reports/exportloadreport?to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date'].'&product_id='.$this->formData['product_id'].'&bank_unicode='.$this->formData['bank_unicode'].'&employer_name='.$this->formData['employer_name'].'&employer_loc='.$this->formData['employer_loc'].'&status='.$this->formData['status']);?>';    
+            $(location).attr('href',url);
+       
+    });
+      
+     $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       //var duration = $("#dur").val();
+       
+       
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       
+       var product_id = $.trim($("#product_id").val());
+       var status = $.trim($("#status").val());
+       var employer_name = $.trim($("#employer_name").val());
+       var employer_loc = $.trim($("#employer_loc").val());
+       $('#product_id').css('background', '#fff');
+       $('#status').css('background', '#fff');
+       $('#from_date').css('background', '#fff');
+       $('#to_date').css('background', '#fff');
+       $('#employer_name').css('background', '#fff');
+       $('#employer_loc').css('background', '#fff');
+      /**** From and To date validation ****/
+      
+       if( (product_id == '') || (product_id == '0') ){
+             alert("Please select product name.");
+              $('#product_id').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if( (status == '') || (status == '0') ){
+             alert("Please select status.");
+              $('#status').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if( (from == '') || (from == '00-00-0000') ){
+             alert("Please select from date.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+             return false;
+         }else if( (to == '') || (to == '00-00-0000') ){
+             alert("Please select To date.");
+              $('#to_date').css('background', '#ff0'); // will change the background to red
+              $("#to_date").focus();
+             return false;
+         }else if(diff < 0 ){
+             alert('From date cannot be greater than To date.');
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+             return false;
+         } else if(date_range > max_range){
+             alert('Report can be fetched for a duration not more than '+max_range+' days');
+              $("#to_date").focus();
+             return false; 
+         }else if((employer_name.length < 2) && (employer_name!='')){
+             alert("Please fill department name atleast two character value.");
+              $('#employer_name').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if((employer_loc.length < 2) && (employer_loc!='')){
+             alert("Please fill location, atleast two character value.");
+              $('#employer_loc').css('background', '#ff0'); // will change the background to red
+             return false;
+         }
+      
+         /* else if(employer_name == ''){
+             alert("Please enter your department name.");
+              $('#employer_name').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(employer_loc == ''){
+             alert("Please fill the employer's location.");
+              $('#employer_loc').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(employer_loc.length < 3){
+             alert("Please fill atleast two character value.");
+              $('#employer_loc').css('background', '#ff0'); // will change the background to red
+             return false;
+         }
+        */
+        
+     
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

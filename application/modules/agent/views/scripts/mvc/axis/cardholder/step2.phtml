@@ -1,0 +1,165 @@
+<?php echo Util::getCardholderSignupTab("step2"); ?>
+<div class="Boldtext">Step2 Details</div> 
+<?php 
+
+    echo $this->form; 
+    if(isset($this->chDetails['state']) && $this->chDetails['state']=='')
+        $state = isset($this->formData['state'])?$this->formData['state']:'';
+    else 
+        $state = (isset($this->chDetails['state'])) ? $this->chDetails['state'] : ((isset($this->formData['state'])) ? $this->formData['state'] : ''); 
+     
+    if(isset($this->chDetails['city']) && $this->chDetails['city']=='')
+          $city = isset($this->formData['city'])?$this->formData['city']:'';
+     else
+         $city = (isset($this->chDetails['city'])) ? $this->chDetails['city'] : ((isset($this->formData['city'])) ? $this->formData['city'] : ''); 
+     
+    $session = new Zend_Session_Namespace('App.Agent.Controller');       
+    $cardholderStep2 = isset($session->cardholder_step2)?$session->cardholder_step2:'';   
+    
+?>
+
+<style>
+    dd#is_book-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_travel-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_movies-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_shopping-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_electronics-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_music-element{padding-bottom:0px; margin-bottom:5px;}
+    dd#is_automobiles-element{padding-bottom:0px; margin-bottom:22px;}
+    dt#offers_label-label{clear:both;}
+    dd#offers_label-element{clear:both;}
+    dt#is_book-element{clear:both;}  
+</style>
+
+ <script type="text/javascript">
+$(document).ready(function() {
+    //alert("herer");
+    /* temporarily commented for revert
+     var errorExists = "<?php //echo isset($this->errorExists)?$this->errorExists:'';?>";    
+     var cardholderStep2 = "<?php //echo $cardholderStep2;?>";
+     if(errorExists || !cardholderStep2){
+         $("#btn_next").attr("disabled","disabled");
+     }
+     
+     $("#btn_discard").click(function(){
+        discardResp = confirm('Are you sure you want to discard this customer enrollment form?');
+
+        if(discardResp==true){
+           return true;
+        }else {
+            return false;
+        }
+     });*/
+     
+     
+ var state = '<?php echo $state?>';
+ var city = '<?php echo $city?>';
+ 
+ var stateName = $("#state").val();
+ 
+ var pincode = $("#pin").val();
+
+ $("#state option[text='"+stateName+"']").attr("selected", "selected");
+
+ if(state!='') {     
+     $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#city").html("");                            
+                            $("#city").append(response); 
+                            $("#city option[value='"+city+"']").attr("selected", "selected");
+
+                            console.log(response);                           
+                        }
+                    },         
+        });
+ }
+     $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                            $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+  $("#state").change(function(){
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#city").html("");                            
+                            $("#city").append(response);
+                             console.log(response);                            
+                        }
+                    }        
+        });
+    });      
+    
+     $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+    
+    var shmartRewards = $("#shmart_rewards").val(); 
+     if(shmartRewards=='<?php echo FLAG_NO;?>' || shmartRewards=='') { // incase first load of page                       
+              $("dt[id^='is_']").hide();
+              $("dd[id^='is_']").hide();
+              $("#[id^='is_']").hide();   
+              $("#offers_label-label").hide();
+              $("#offers_label-element]").hide();
+              
+          }  
+    
+});
+
+    // shmart rewards show/hide
+    
+    if($("#shmart_rewards").val()=='<?php echo FLAG_NO;?>'){
+        $("dt[id^='is_']").hide();
+        $("dd[id^='is_']").hide();
+        $("#[id^='is_']").hide();   
+    }    
+    
+    $("#shmart_rewards").keypress(function(){    
+        handleRewardOptions() ;                    
+    });
+    
+    $("#shmart_rewards").change(function(){    
+        handleRewardOptions() ;                    
+    });
+    
+     function handleRewardOptions(){
+         var shmartRewards = $("#shmart_rewards").val(); 
+         //alert('dfas');
+          if(shmartRewards=='<?php echo FLAG_YES;?>') {
+              $("dt[id^='is_']").show();
+              $("dd[id^='is_']").show(); 
+              $("#[id^='is_']").show();   
+              $("#offers_label-label").show();
+              $("#offers_label-element]").show();
+          } else if(shmartRewards=='<?php echo FLAG_NO;?>' || shmartRewards=='') {                       
+              $("dt[id^='is_']").hide();
+              $("dd[id^='is_']").hide(); 
+              $("#[id^='is_']").hide();
+              $("#offers_label-label").hide();
+              $("#offers_label-element']").hide();
+              
+          }  
+     }     
+  </script>

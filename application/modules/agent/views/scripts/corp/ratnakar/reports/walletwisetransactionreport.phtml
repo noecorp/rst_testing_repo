@@ -1,0 +1,368 @@
+<div class="Boldtext">Wallet Wise Transaction Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+if ($this->from != '' && $this->to != '') {
+    $bankUnicodeArr = Util::bankUnicodesArray();
+    $config = array();
+    $duration = $this->from . ' - ' . $this->to;
+
+// messages
+    $config['pageTitle'] = isset($this->title) ? $this->title : ''; //'Cardholder Activations Report for period '.$duration;
+    $config['emptyMessage'] = 'No record found.';
+    $config['no_add'] = 1;
+    $config['showActions'] = false;
+
+    if ($this->formData['bank_unicode'] == $bankUnicodeArr['2']) {
+// column names & indexes
+        $config['columnNames'] = array(
+            'Transaction Date & Time',
+            'Product Name',
+            'Bank Name',
+            'Card Number',
+            'Card Pack Id',
+            'Medi Assist ID',
+            'Transaction Type',
+            'Transaction Status',
+            'Wallet Code',
+            'Mode',
+            'Amount',
+            'Transaction Amount',
+            'Fee',
+            'Service Tax',
+            'RRNO',
+            'Acknowledge No.',
+            'Decline Reason',
+            'MCC',
+            'TID',
+            'MID',
+            'Channel',
+            'Reversal flag',
+            'Transaction Narration',
+	    'Block Date',
+	    'Unblock Date',
+        );
+        $config['columnIndexes'] = array(
+            'txn_date',
+            'product_name',
+            'bank_name',
+            'card_number',
+            'card_pack_id',
+            'medi_assist_id',
+            'txn_type',
+            'status',
+            'wallet_hr_dr',
+            'wallet_hr_cr',
+            'wallet_ins_dr',
+            'wallet_ins_cr',
+            'wallet_gen_dr',
+            'wallet_gen_cr',
+            'txn_no',
+            'txn_code',
+            'failed_reason',
+            'mcc_code',
+            'tid',
+            'mid',
+            'channel',
+            'rev_indicator',
+            'mode',
+            'narration',
+	    'date_blocked',
+	    'date_unblocked',
+        );
+
+    } else {
+        // column names & indexes
+        $config['columnNames'] = array(
+            'Transaction Date & Time',
+            'Product Name',
+            'Bank Name',
+            'Card Number',
+            'Card Pack Id',
+            'Member ID',
+            'Transaction Type',
+            'Transaction Status',
+            'Wallet A Dr',
+            'Wallet A Cr',
+            'RRNO',
+            'Acknowledge No.',
+            'Decline Reason',
+            'MCC',
+            'TID',
+            'MID',
+            'Channel',
+            'Reversal flag',
+            'Mode',
+            'Transaction Narration'
+        );
+        $config['columnIndexes'] = array(
+            'txn_date',
+            'product_name',
+            'bank_name',
+            'card_number',
+            'card_pack_id',
+            'member_id',
+            'txn_type',
+            'status',
+            'wallet_hr_dr',
+            'wallet_hr_cr',
+            'txn_no',
+            'txn_code',
+            'failed_reason',
+            'mcc_code',
+            'tid',
+            'mid',
+            'channel',
+            'rev_indicator',
+            'mode',
+            'narration'
+        );
+    }
+
+    $config['showActions'] = FALSE;
+    $config['duration'] = $this->formData['dur'];
+    $config['actions'] = array();
+    $cntColNames = count($config['columnNames']) - 1;
+    ?>
+    <div class="Boldtext"><?php echo $config['pageTitle']; ?></div>
+
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /*                         * ******** display the column names ********* */ ?>
+                        <?php foreach ($config['columnNames'] as $columnName) : ?>
+                            <th><span><?php echo $columnName; ?></span></th>
+                        <?php endforeach; ?>
+                        <?php /*                         * ******** finished displaying the column names ********* */ ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                    <?php /*                     * ******** do we have items? ********* */ ?>
+                    <?php if (count($this->paginator)) : ?>
+                        <?php /*                         * ******** we do! start displaying the items ********* */ ?>
+                        <?php
+                        foreach ($this->paginator as $item) :
+                            $datePrev = '';
+                            ?>
+                            <?php //foreach($dateArr as $item) :?>
+                            <tr>
+
+                                <?php
+                                /*                                 * ******** displaying the inner columns ********* */
+                                if ($this->formData['bank_unicode'] == $bankUnicodeArr['2']) {
+                                    ?>
+                                    <td><?php echo Util::returnDateFormatted($item['txn_date'], "Y-m-d", "d-m-Y", "-", "-"); ?></td>
+                                    <td><?php echo $item['product_name']; ?></td>
+                                    <td><?php echo $item['bank_name']; ?></td>
+                                    <td><?php echo $item['card_number']; ?></td>
+                                    <td><?php echo $item['card_pack_id']; ?></td>
+                                    <td><?php echo $item['member_id']; ?></td>
+                                    <td><?php echo $item['txn_type']; ?></td>
+                                    <td><?php echo $item['status']; ?></td>
+                                    <td><?php echo $item['wlt_code'];?></td>
+                                    <td><?php echo $item['mode']; ?></td>
+                                    <td><?php echo Util::numberFormat($item['wallet_hr_dr']); ?></td>
+                                    <td><?php echo Util::numberFormat($item['trans_amount']); ?></td>
+                                    <td><?php echo Util::numberFormat($item['fee_amt']); ?></td>
+                                    <td><?php echo Util::numberFormat($item['service_tax']); ?></td>
+                                    <td><?php echo $item['txn_no']; ?></td>
+                                    <td><?php echo $item['txn_code']; ?></td>
+                                    <td><?php echo $item['failed_reason']; ?></td>
+                                    <td><?php echo $item['mcc_code']; ?></td>
+                                    <td><?php echo $item['tid']; ?></td>
+                                    <td><?php echo $item['mid']; ?></td>
+                                    <td><?php echo $item['channel']; ?></td>
+                                    <td><?php echo $item['rev_indicator']; ?></td>
+                                    <td><?php echo $item['narration']; ?></td>
+				    <td><?php echo $item['date_blocked']; ?></td>
+				    <td><?php echo $item['date_unblocked']; ?></td>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <td><?php echo Util::returnDateFormatted($item['txn_date'], "Y-m-d", "d-m-Y", "-", "-"); ?></td>
+                                    <td><?php echo $item['product_name']; ?></td>
+                                    <td><?php echo $item['bank_name']; ?></td>
+                                    <td><?php echo $item['card_number']; ?></td>
+                                    <td><?php echo $item['card_pack_id']; ?></td>
+                                    <td><?php echo $item['member_id']; ?></td>
+                                    <td><?php $txn = isset($TXN_TYPE_LABELS[$item['txn_type']])?$TXN_TYPE_LABELS[$item['txn_type']]:'';echo $txn; ?></td>
+                                    <td><?php echo $item['status']; ?></td>
+                                    <td><?php echo $item['wallet_hr_dr']; ?></td>
+                                    <td><?php echo $item['wallet_hr_cr']; ?></td>
+                                    <td><?php echo $item['txn_no']; ?></td>
+                                    <td><?php echo $item['txn_code']; ?></td>
+                                    <td><?php echo $item['failed_reason']; ?></td>
+                                    <td><?php echo $item['mcc_code']; ?></td>
+                                    <td><?php echo $item['tid']; ?></td>
+                                    <td><?php echo $item['mid']; ?></td>
+                                    <td><?php echo $item['channel']; ?></td>
+                                    <td><?php echo $item['rev_indicator']; ?></td>
+                                    <td><?php echo $item['mode']; ?></td>
+                                    <td><?php echo $item['narration']; ?></td>
+                                    <?php
+                                }
+                                ?>
+
+                             <?php /* * ******** finished displaying the inner columns ********* */ ?>
+                            </tr>    
+                            <?php
+                            //endforeach;
+                        endforeach;
+                        ?>
+                        <?php /*                         * ******** finished displaying the items ********* */ ?>
+                    <?php else: ?>
+        <?php /*         * ******** we don't have any items ********* */ ?>
+                        <tr>
+                            <td colspan="<?php echo $cntColNames + 1; ?>">
+        <?php echo $config['emptyMessage']; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+    <?php /*     * ******** finished do we have items? ********* */ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+    <div>&nbsp;</div> 
+
+
+    <?php if (count($this->paginator) > 0) { ?>
+        <div class="pagination">
+            <?php if ($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+                <?php echo $this->paginator; ?>
+            <?php endif; ?>
+        </div>
+
+    <?php }
+    if (count($this->paginator) > 0) {
+        ?>
+        <div class="show-xls"> 
+
+            <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+
+        </div>
+    <?php }
+} ?>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#btn_exportcsv").click(function() {
+
+            var url = '<?php echo $this->formatURL("/corp_ratnakar_reports/exportwalletwisetransactionreport?to_date=" . $this->formData['to_date'] . "&from_date=" . $this->formData['from_date'] . '&product_id=' . $this->formData['product_id'] . '&bank_unicode=' . $this->formData['bank_unicode'] . '&agent_id=' . $this->formData['agent_id'].'&wallet_type='.$this->formData['wallet_type']); ?>';
+            $(location).attr('href', url);
+
+        });
+
+
+
+        $("input#from_date").change(function() {
+            if (this.value) {
+                var date_start = this.value;
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x > curdate)
+                {
+                    alert("Please enter From date not greater than today's date");
+                    this.value = '';
+                    return false;
+                }
+                else {
+
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        return true;
+                    } else {
+                        alert('Please enter valid From date');
+                        this.value = '';
+                        $("#from_date").focus();
+                        return false;
+                    }
+                }
+
+
+            }
+
+        });
+
+        $("input#to_date").change(function() {
+            if (this.value) {
+                var date_start = this.value;
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x > curdate)
+                {
+                    alert("Please enter To date not greater than today's date");
+                    this.value = '';
+                    return false;
+                }
+                else {
+
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        return true;
+                    } else {
+                        alert('Please enter valid To date');
+                        this.value = '';
+                        $("#to_date").focus();
+                        return false;
+                    }
+                }
+
+
+            }
+
+        });
+
+
+        $('form').submit(function() {
+
+            var from = $.trim($("#from_date").val());
+            var to = $.trim($("#to_date").val());
+            var from_dt = from.split("-");
+            var to_dt = to.split("-");
+            var x = new Date(from_dt[2], from_dt[1], from_dt[0]);
+            var y = new Date(to_dt[2], to_dt[1], to_dt[0]);
+            var diff = y - x;
+            var one_day = 1000 * 60 * 60 * 24;
+            var date_range = diff / one_day;
+            var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+            /**** From and To date validation ****/
+            if (from == '' && to == '') {
+                alert('Please specify both From and To date');
+                return false;
+            } else if (((from == '' || from == '00-00-0000') && (to != '' && to != '00-00-0000')) || ((to == '' || to == '00-00-0000') && (from != '' && from != '00-00-0000'))) {
+                alert('Please specify both From and To date');
+                $("#from_date").focus();
+                return false;
+            } else if (diff < 0) {
+                alert('From date cannot be greater than To date.');
+                $("#from_date").focus();
+                return false;
+            }
+            else if (date_range > max_range) {
+                alert('Report can be fetched for a duration not more than ' + max_range + ' days');
+                $("#to_date").focus();
+                return false;
+            }
+
+            /**** From and To date validation over ****/
+
+            return true;
+        });
+    });
+</script>

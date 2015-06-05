@@ -1,0 +1,45 @@
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+      
+       $("input#date_created").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x <= curdate)
+            {
+                alert("Please enter start date greater than today's date");
+                this.value = '';
+                return false;
+            }
+
+        }
+        
+    });
+           
+
+}); 
+
+</script>
+<?php
+/**
+ * Add a new privilege in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Add New Fee Plan';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

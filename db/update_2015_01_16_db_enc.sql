@@ -1,0 +1,3 @@
+ALTER TABLE `crn_master` CHANGE `card_number` `card_number` VARCHAR( 35 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;
+ALTER TABLE `kotak_corp_load_request` CHANGE `card_number` `card_number` VARCHAR( 35 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;
+ALTER TABLE `kotak_corp_load_request_batch` CHANGE `card_number` `card_number` VARCHAR( 35 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;

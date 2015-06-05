@@ -1,0 +1,44 @@
+  <div class="Boldtext">MVC Status</div> 
+  <span><?php echo $this->msg?></span>
+  
+  <?php echo $this->form; 
+  $resMsg = isset($this->info['ResponseMessage'])?$this->info['ResponseMessage']:'';
+  if($resMsg!=''){
+      
+      $config = array();
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Response Code',
+        'Response Message',
+        'CRN',
+        'Status Code',
+        'Status Description',
+        'DateTime',
+        'Merchant Name',
+        
+    );
+    $config['columnIndexes'] = array(
+        'ResponseCode',
+        'ResponseMessage',
+        'CRN',
+        'StatusCode',
+        'StatusDescription',
+        'DateTime',
+        'MerchantName',
+    );
+
+    echo $this->partial(
+        'partials/default-helpdesk-listing.phtml',
+        array(
+            'config' => $config,
+            'info' => $this->info
+        )
+    );
+  
+   } 
+  ?>
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       $('.cancel').attr('href','/helpdesk/resendactivationcode');
+   });
+</script>  

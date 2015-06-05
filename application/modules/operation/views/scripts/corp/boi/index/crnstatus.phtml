@@ -1,0 +1,77 @@
+<div class="Boldtext">CRN Status</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+$config = array();
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+//if($this->formData['bank_unicode'] == $bankUnicodeArr['2']){
+if($this->sub == 1){
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Card Pack Id',
+    'Member Id',
+    'Status',
+    'File Name',
+    'Uploaded On',
+    );
+$config['columnIndexes'] = array(
+    'card_number',
+    'card_pack_id',
+    'member_id',
+    'status',
+    'file',
+    'date_created',
+);
+
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+}
+?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+     $('form').submit(function(){
+  
+       var crn_status = $.trim($("#crn_status").val()); 
+       var crn = $.trim($("#crn").val()); 
+       var card_pack_id = $.trim($("#card_pack_id").val()); 
+       var file = $("#file").val(); 
+      /**** From and To date validation ****/
+      if((crn_status=='' && crn=='' && card_pack_id=='' && file =='')){
+            alert('Please enter atleast one value');
+            $("#crn").focus();
+            return false;
+      } 
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

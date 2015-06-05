@@ -1,0 +1,1 @@
+INSERT INTO `t_fee_structure` (`f_id`, `f_product_id`, `f_txn_type_code`, `f_txn_type_desc`, `f_min_cum_amount`, `f_max_cum_amount`, `f_is_pct`, `f_fee_rate`, `f_status`, `f_by_ops_id`, `f_date_created`, `f_date_updated`) VALUES (NULL, '16', 'RMFE', 'Remittance Fee', '1.00', '999.99', '0', '15.00', 'active', '0', NOW(), NOW());

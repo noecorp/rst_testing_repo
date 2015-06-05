@@ -1,0 +1,587 @@
+  
+<div class="Boldtext">Add Cardholder - Capture Account Opening Form (AOF)</div> 
+<!-- div style="padding: 25px;">Dear Partner,<br/>
+New candidate enrollment for Phase 1 of the STAR scheme has been stopped effective 19th September 2014.</div -->
+
+<span><?php echo $this->msg ?></span>
+<?php echo $this->form;
+?>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#ref_num").attr('readOnly', 'readOnly');
+        $("#sol_id").attr('readOnly', 'readOnly');
+        $("#training_center_id").attr('readOnly', 'readOnly');
+        $("#traning_center_name").attr('readOnly', 'readOnly');
+        $("#training_partner_name").attr('readOnly', 'readOnly');
+        $("#uid_no").after("<span style='font-size:10px;font-weight:normal;'>(*In case Aadhaar No. has not been received, please provide the Enrollment ID here.)</span>");
+//  $( "#nomination_flg-label" ).next('.form-field-column').html("");
+//  $( "#nomination_flg-label" ).next('.form-field-column').html( '<label for="nomination_flg-Y"><span style="display: block; float: left; width: 10px;">Yes</span><div style="float: left; width: 100px;"><input type="radio" value="Y" id="nomination_flg-Y" name="nomination_flg" style="width:100px;"></div></label><div style="clear:both;padding:10px 0;"></div><label for="nomination_flg-N"><span style="display: block; float: left; width: 10px;">No</span><div style="float: left; width: 100px;"><input type="radio" checked="checked" value="N" id="nomination_flg-N" name="nomination_flg"style="width:100px;"></div></label>' );
+//  $( "#marital_status-label" ).next('.form-field-column').html("");
+//  $( "#marital_status-label" ).next('.form-field-column').html( '<label for="marital_status-Y"><span style="display: block; float: left; width: 10px;">Yes</span><div style="float: left; width: 100px;"><input type="radio" value="Y" id="marital_status-Y" name="marital_status" style="width:100px;"></div></label><div style="clear:both;padding:10px 0;"></div><label for="marital_status-N"><span style="display: block; float: left; width: 10px;">No</span><div style="float: left; width: 100px;"><input type="radio" checked="checked" value="N" id="marital_status-N" name="marital_status"style="width:100px;"></div></label>' );
+        $("#nominee_name-label").next(".form-field-column").hide();
+        $("#nominee_name-label").hide();
+        $("#nominee_relationship-label").next(".form-field-column").hide();
+        $("#nominee_relationship-label").hide();
+        $("#nominee_dob-label").next(".form-field-column").hide();
+        $("#nominee_dob-label").hide();
+        $("#nominee_add_line1-label").next(".form-field-column").hide();
+        $("#nominee_add_line1-label").hide();
+        $("#nominee_add_line2-label").next(".form-field-column").hide();
+        $("#nominee_add_line2-label").hide();
+        $("#nominee_city_cd-label").next(".form-field-column").hide();
+        $("#nominee_city_cd-label").hide();
+        $("#nominee_minor_guradian_cd-label").next(".form-field-column").hide();
+        $("#nominee_minor_guradian_cd-label").hide();
+        $("#minor_guardian_name-label").next(".form-field-column").hide();
+        $("#minor_guardian_name-label").hide();
+        if ($('input[name="nomination_flg"]:radio:checked').val() == "Y")
+        {
+            $("#nominee_name-label").next(".form-field-column").show();
+            $("#nominee_name-label").show();
+            $("#nominee_relationship-label").next(".form-field-column").show();
+            $("#nominee_relationship-label").show();
+            $("#nominee_dob-label").next(".form-field-column").show();
+            $("#nominee_dob-label").show();
+            $("#nominee_add_line1-label").next(".form-field-column").show();
+            $("#nominee_add_line1-label").show();
+            $("#nominee_add_line2-label").next(".form-field-column").show();
+            $("#nominee_add_line2-label").show();
+            $("#nominee_city_cd-label").next(".form-field-column").show();
+            $("#nominee_city_cd-label").show();
+//            $( "#nominee_minor_guradian_cd-label" ).next(".form-field-column").show();
+//            $( "#nominee_minor_guradian_cd-label" ).show();
+
+
+            var nominee_dob = $('input[name="nominee_dob"]').val();
+                /**** date of birth validation ****/
+                if (nominee_dob != '' && nominee_dob != '00-00-0000')
+                {
+                        var yearToCompare = 18;
+                        var arr = nominee_dob.split("-");
+                        var byr = arr[2];
+                        var bmon = arr[1];
+                        var bday = arr[0];
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; 
+                        var yyyy = today.getFullYear();
+                        if(dd<10) {
+                            dd='0'+dd
+                        } 
+
+                        if(mm<10) {
+                            mm='0'+mm
+                        } 
+
+
+                    var flg = 0;
+                    if ((yyyy - byr) > yearToCompare) { flg = 1; } else { 
+                         if ((yyyy - byr) == yearToCompare) {  
+                              if (mm - bmon > 0) { flg = 1; } else { 
+                                   if (mm - bmon == 0) { 
+                                        if (dd - bday >= 0) { flg = 1; } 
+                                   } 
+                              } 
+                         } 
+                    }
+                if(!flg) {
+                    
+                    $("#nominee_minor_guradian_cd-label").next(".form-field-column").show();
+                    $("#nominee_minor_guradian_cd-label").show();
+            
+                    $("#minor_guardian_name-label").next(".form-field-column").show();
+                    $("#minor_guardian_name-label").show();
+
+                    $("#nominee_minor_flag").val("Y");
+                            
+                                
+                                
+                    }
+                           
+                }
+
+
+        }
+
+        $('input[name="nomination_flg"]:radio').change(function() {
+            if ($('input[name="nomination_flg"]:radio:checked').val() == "Y") {
+                $("#nominee_name-label").next(".form-field-column").show();
+                $("#nominee_name-label").show();
+                $("#nominee_relationship-label").next(".form-field-column").show();
+                $("#nominee_relationship-label").show();
+                $("#nominee_dob-label").next(".form-field-column").show();
+                $("#nominee_dob-label").show();
+                $("#nominee_add_line1-label").next(".form-field-column").show();
+                $("#nominee_add_line1-label").show();
+                $("#nominee_add_line2-label").next(".form-field-column").show();
+                $("#nominee_add_line2-label").show();
+                $("#nominee_city_cd-label").next(".form-field-column").show();
+                $("#nominee_city_cd-label").show();
+//                $( "#nominee_minor_guradian_cd-label" ).next(".form-field-column").show();
+//                 $( "#nominee_minor_guradian_cd-label" ).show();
+            } else {
+                $("#nominee_name-label").next(".form-field-column").hide();
+                $("#nominee_name-label").hide();
+                //$("#nominee_name").val('');
+                $("#nominee_relationship-label").next(".form-field-column").hide();
+                $("#nominee_relationship-label").hide('');
+                //$("#nominee_relationship").val('');
+                $("#nominee_dob-label").next(".form-field-column").hide();
+                $("#nominee_dob-label").hide();
+                //$("#nominee_dob").val('');
+                $("#nominee_add_line1-label").next(".form-field-column").hide();
+                $("#nominee_add_line1-label").hide();
+                //$("#nominee_add_line1").val('');
+                $("#nominee_add_line2-label").next(".form-field-column").hide();
+                $("#nominee_add_line2-label").hide();
+                //$("#nominee_add_line2").val('');
+                $("#nominee_city_cd-label").next(".form-field-column").hide();
+                $("#nominee_city_cd-label").hide();
+                //$("#nominee_city_cd").val('');
+                $("#nominee_minor_guradian_cd-label").next(".form-field-column").hide();
+                $("#nominee_minor_guradian_cd-label").hide();
+                $("#minor_guardian_name-label").next(".form-field-column").hide();
+                $("#minor_guardian_name-label").hide();
+                //$("#nominee_minor_guradian_cd").val('');
+            }
+        });
+
+        $("#is_check").change(function() {
+
+            if ($("#is_check").is(":checked"))
+            {
+                var country = $("#country_code").val();
+                var state = $("#state").val();
+                var city = $("#city").val();
+                var pincode = $("#pincode").val();
+                var add1 = $("#address_line1").val();
+                var add2 = $("#address_line2").val();
+
+                $("#comm_pin").val(pincode);
+                $("#comm_country_code").val(country);
+                $("#comm_state option[value='" + state + "']").attr("selected", "selected");
+                $("#comm_city option[value='" + city + "']").attr("selected", "selected");
+                $("#comm_address_line1").val(add1);
+                $("#comm_address_line2").val(add2);
+                $("#comm_pin").attr('readOnly', 'readOnly');
+                $("#comm_country_code").attr('readOnly', 'readOnly');
+                $("#comm_address_line1").attr('readOnly', 'readOnly');
+                $("#comm_address_line2").attr('readOnly', 'readOnly');
+                $("#comm_state").attr("disabled", true);
+                $("#comm_city").attr("disabled", true);
+            }
+            else
+            {
+                $("#comm_pin").val('');
+                $("#comm_country_code").val('');
+                $("#comm_state").val('');
+                $("#comm_city").val('');
+                $("#comm_address_line1").val('');
+                $("#comm_address_line2").val('');
+                $("#comm_pin").removeAttr('readOnly');
+                $("#comm_country_code").removeAttr('readOnly');
+                $("#comm_address_line1").removeAttr('readOnly');
+                $("#comm_address_line2").removeAttr('readOnly');
+                $("#comm_state").removeAttr("disabled");
+                $("#comm_city").removeAttr("disabled");
+
+            }
+
+        });
+      $("#nominee_dob").blur(function() {
+          var nominee_dob = $.trim($("#nominee_dob").val());
+                /**** date of birth validation ****/
+                if (nominee_dob != '' && nominee_dob != '00-00-0000')
+                {
+//						if(!$("#nominee_minor_guradian_cd").is(':visible'))
+//						{
+//                    var arr_dt = nominee_dob.split("-");
+//                    var x = new Date();
+
+                if (!nominee_dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                            alert('Invalid Nominee Date of Birth');
+                            $("#nominee_dob").val('');
+                            $("#nominee_dob").focus();
+                            return false;
+                        }
+                        
+                        var yearToCompare = 18;
+                        var arr = nominee_dob.split("-");
+                var byr = arr[2];
+                var bmon = arr[1];
+                var bday = arr[0];
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; 
+                var yyyy = today.getFullYear();
+                if(dd<10) {
+                    dd='0'+dd
+                } 
+
+                if(mm<10) {
+                    mm='0'+mm
+                } 
+
+                var err = 0;
+                if (byr > yyyy) { err = 1; } else { 
+                     if (byr == yyyy) {  
+                          if (bmon > mm) { err = 1; } else { 
+                               if (bmon == mm) { 
+                                    if (bday > dd) { err = 1; } 
+                               } 
+                          } 
+                     } 
+                }
+                if(err) {
+                 alert('Invalid Nominee Date of Birth');
+                    $("#nominee_dob").val('');
+                    $("#nominee_dob").focus();
+                    return false;
+                }
+
+
+
+
+
+                var flg = 0;
+                if ((yyyy - byr) > yearToCompare) { flg = 1; } else { 
+                     if ((yyyy - byr) == yearToCompare) {  
+                          if (mm - bmon > 0) { flg = 1; } else { 
+                               if (mm - bmon == 0) { 
+                                    if (dd - bday >= 0) { flg = 1; } 
+                               } 
+                          } 
+                     } 
+                }
+                if(!flg) {
+                            $("#nominee_minor_guradian_cd-label").next(".form-field-column").show();
+                            $("#nominee_minor_guradian_cd-label").show();
+                            $("#nominee_minor_guradian_cd").focus();
+                            
+                            $("#minor_guardian_name-label").next(".form-field-column").show();
+                            $("#minor_guardian_name-label").show();
+                            $("#minor_guardian_name").focus();
+                                        
+                            $("#nominee_minor_flag").val("Y");
+                            
+                            if ($("#minor_guardian_name").val() == '') {
+
+                                alert('Please enter Nominee Minor Guardian');
+                                $("#minor_guardian_name").focus();
+                                return false;
+                            }
+                    
+                            if ($("#nominee_minor_guradian_cd").val() == '') {
+                                alert('Please enter Nominee Minor Guardian Relationship');
+                                $("#nominee_minor_guradian_cd").focus();
+                                return false;
+                            }
+                                
+                                
+                         }
+                           else{
+                            $("#nominee_minor_flag").val("N");
+                            $("#nominee_minor_guradian_cd-label").next(".form-field-column").hide();
+                            $("#nominee_minor_guradian_cd-label").hide();
+                            $("#minor_guardian_name-label").next(".form-field-column").hide();
+                            $("#minor_guardian_name-label").hide();
+                         }
+                        } 
+        
+    });
+        $('form').submit(function() {
+            
+            $("#nominee_minor_flag").val("N");
+
+            if ($("#first_name").val() == '') {
+                alert('Please enter First Name');
+                $("#first_name").focus();
+                return false;
+            } else if ($("#last_name").val() == '') {
+                alert('Please enter Last Name');
+                $("#last_name").focus();
+                return false;
+            } else if (!/^[0-9]{12}$/.test($("#aadhaar_no").val()) && $("#aadhaar_no").val() != "") {
+                alert("Please enter your 12 digit Aadhaar Number!");
+                $("#aadhaar_no").focus();
+                return false;
+            } else if (!/^[0-9]{14}$/.test($("#uid_no").val()) && $("#uid_no").val() != "") {
+                alert("Please provide the correct Aadhaar Number. In case Aadhaar Number is not available, please leave this field blank.");
+                $("#uid_no").focus();
+                return false;
+//				}else if (! /^[0-9]{1}$/.test($("#debit_mandate_amount").val())) {
+//					alert("Debit Mandate Amount Should Be Numeric.");
+//					$("#debit_mandate_amount").focus();
+//					return false;
+            } else if (parseFloat($("#debit_mandate_amount").val()) < 0 ||
+                    parseFloat($("#debit_mandate_amount").val()) > '<?php echo BOI_NSDC_FORM_DEBIT_MANDATE_MAX_VALUE; ?>') {
+                alert("Debit Mandate Amount Should Be Between 0 to <?php echo BOI_NSDC_FORM_DEBIT_MANDATE_MAX_VALUE; ?>. ");
+                $("#debit_mandate_amount").focus();
+                return false;
+            }
+            var dob = $.trim($("#date_of_birth").val());
+            /**** date of birth validation ****/
+            if (dob != '' && dob != '00-00-0000')
+            {
+
+                  /*  
+                var arr_dt = dob.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                var one_year = 1000 * 60 * 60 * 24 * 365.2421896
+                var age = (curdate - x) / one_year;
+                */
+                
+                
+                    //to calculate age and minor         
+                    // var dob = $("#date_of_birth").val();
+                    var res = dob.split("-"); 
+
+                    var birthMonth = res[1];
+                    var birthDay = res[0];
+                    var birthYear = res[2];
+
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - birthYear;
+
+                    if (todayMonth < birthMonth - 1)
+                    {
+                      age--;
+                    }
+
+                    if (birthMonth - 1 == todayMonth && todayDay < birthDay)
+                    {
+                      age--;
+                    }
+                    
+                    
+                if (age < 11)
+                {
+                    var dob_err = $("#date_of_birth").parent().html(); 
+                    if(dob_err.indexOf("Applicant cannot be less than 11 years of age") > -1)
+                    { }
+                    else
+                    {
+                        $("#date_of_birth").parent().append("<ul class='errors'><li>Applicant cannot be less than 11 years of age.</li></ul>");
+                    }
+                
+                    
+                    $("#date_of_birth").val('');
+                    $("#date_of_birth").focus();
+                    return false;
+        
+                } else {
+                    if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\-](?:(0[1-9]|1[012])[\-](19|20)[0-9]{2})$/)) {
+                        alert('Invalid Date of Birth');
+                        $("#date_of_birth").val('');
+                        $("#date_of_birth").focus();
+                        return false;
+                    }
+
+                }
+            } else {
+                alert('Please specify date of birth');
+                $("#date_of_birth").focus();
+                return false;
+            }
+            
+            
+            
+            if(age<18 && age >=11){
+                $("#minor_flg").val("Y");
+            }
+            if (age > 18)
+            {
+                $("#minor_flg").val("N");
+            }
+            
+            
+            /**** date of birth validation over ****/
+            var dob = $("#date_of_birth").val();
+
+            if (dob == '') {
+                alert('Please enter Date of Birth');
+                $("#date_of_birth").focus();
+                return false;
+            }
+
+            /**** date of birth validation over ****/
+
+
+            if ($("#is_check").is(":checked"))
+            {
+                var country = $("#country_code").val();
+                var comm_country = $("#comm_country_code").val();
+                var state = $("#state").val();
+                var comm_state = $("#comm_state").val();
+                var city = $("#city").val();
+                var comm_city = $("#comm_city").val();
+                var pincode = $("#pincode").val();
+                var comm_pincode = $("#comm_pin").val();
+                var add1 = $("#address_line1").val();
+                var comm_add1 = $("#comm_address_line1").val();
+                var add2 = $("#address_line2").val();
+                var comm_add2 = $("#comm_address_line2").val();
+
+                if(country != comm_country || state != comm_state || city != comm_city || pincode != comm_pincode || add1 != comm_add1 || add2 != comm_add2) {
+                    alert('Correspondence Address is not same as Permanent Address');
+                    $("#comm_address_line1").focus();
+                    return false;
+                }
+            }
+
+
+
+            if ($('input[name="nomination_flg"]:radio:checked').val() == "Y")
+            {
+                if ($("#nominee_name").val() == '') {
+                    alert('Please enter Nominee Name');
+                    $("#nominee_name").focus();
+                    return false;
+                }
+                else if ($("#nominee_relationship").val() == '') {
+                    alert('Please enter Nominee Relationship');
+                    $("#nominee_relationship").focus();
+                    return false;
+                }
+
+                else if ($("#nominee_dob").val() == '') {
+                    alert('Please enter Nominee DOB');
+                    $("#nominee_dob").focus();
+                    return false;
+                }
+                else if ($("#nominee_add_line1").val() == '') {
+                    alert('Please enter Nominee Address Line 1');
+                    $("#nominee_add_line1").focus();
+                    return false;
+                }
+                else if ($("#nominee_add_line2").val() == '') {
+                    alert('Please enter Nominee Address Line 2');
+                    $("#nominee_add_line2").focus();
+                    return false;
+                }
+                else if ($("#nominee_city_cd").val() == '') {
+                    alert('Please enter Nominee City');
+                    $("#nominee_city_cd").focus();
+                    return false;
+                }
+                var nominee_dob = $.trim($("#nominee_dob").val());
+                /**** date of birth validation ****/
+                if (nominee_dob != '' && nominee_dob != '00-00-0000')
+                {
+//						if(!$("#nominee_minor_guradian_cd").is(':visible'))
+//						{
+//                    var arr_dt = nominee_dob.split("-");
+//                    var x = new Date();
+
+                if (!nominee_dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                            alert('Invalid Nominee Date of Birth');
+                            $("#nominee_dob").val('');
+                            $("#nominee_dob").focus();
+                            return false;
+                        }
+                        
+                        var yearToCompare = 18;
+                        var arr = nominee_dob.split("-");
+                var byr = arr[2];
+                var bmon = arr[1];
+                var bday = arr[0];
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; 
+                var yyyy = today.getFullYear();
+                if(dd<10) {
+                    dd='0'+dd
+                } 
+
+                if(mm<10) {
+                    mm='0'+mm
+                } 
+
+                var err = 0;
+                if (byr > yyyy) { err = 1; } else { 
+                     if (byr == yyyy) {  
+                          if (bmon > mm) { err = 1; } else { 
+                               if (bmon == mm) { 
+                                    if (bday > dd) { err = 1; } 
+                               } 
+                          } 
+                     } 
+                }
+                if(err) {
+                 alert('Invalid Nominee Date of Birth');
+                    $("#nominee_dob").val('');
+                    $("#nominee_dob").focus();
+                    return false;
+                }
+
+
+
+
+
+                var flg = 0;
+                if ((yyyy - byr) > yearToCompare) { flg = 1; } else { 
+                     if ((yyyy - byr) == yearToCompare) {  
+                          if (mm - bmon > 0) { flg = 1; } else { 
+                               if (mm - bmon == 0) { 
+                                    if (dd - bday >= 0) { flg = 1; } 
+                               } 
+                          } 
+                     } 
+                }
+                if(!flg) {
+                            $("#nominee_minor_guradian_cd-label").next(".form-field-column").show();
+                            $("#nominee_minor_guradian_cd-label").show();
+                            $("#nominee_minor_guradian_cd").focus();
+                            
+                            $("#minor_guardian_name-label").next(".form-field-column").show();
+                            $("#minor_guardian_name-label").show();
+                            $("#minor_guardian_name").focus();
+                                        
+                            $("#nominee_minor_flag").val("Y");
+                            
+                            if ($("#minor_guardian_name").val() == '') {
+
+                                alert('Please enter Nominee Minor Guardian');
+                                $("#minor_guardian_name").focus();
+                                return false;
+                            }
+                    
+                            if ($("#nominee_minor_guradian_cd").val() == '') {
+                                alert('Please enter Nominee Minor Guardian Relationship');
+                                $("#nominee_minor_guradian_cd").focus();
+                                return false;
+                            }
+                                
+                                
+                         }
+                           
+                        }
+                    }
+
+
+                    $("#comm_pin").removeAttr('readOnly');
+                    $("#comm_country_code").removeAttr('readOnly');
+                    $("#comm_address_line1").removeAttr('readOnly');
+                    $("#comm_address_line2").removeAttr('readOnly');
+                    $("#comm_state").removeAttr("disabled");
+                    $("#comm_city").removeAttr("disabled");
+                    $("#ref_num").removeAttr('readOnly');
+                    $("#sol_id").removeAttr('readOnly');
+                    
+
+                    return true;
+        });
+
+
+}); // ready closes here
+
+
+</script>

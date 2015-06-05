@@ -1,0 +1,73 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+    $user = Zend_Auth::getInstance()->getIdentity();
+$bankUnicodeArr = Util::bankUnicodesArray();
+        $agentModel = new AgentUser();
+        $agentProduct = $agentModel->getAgentBinding($user->id);
+        $product = App_DI_Definition_BankProduct::getInstance(BANK_BOI_NDSC);
+        $productUnicode = $product->product->unicode;
+?>
+<div class="Boldtext">Reports</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+              if($productUnicode == $agentProduct['product_unicode'] ) {
+                  if($this->userType == SUPER_AGENT) { ?>
+                       <li class="systemli"><a href="<?php echo $this->formatURL('/linkedagents/subagentlisting/');?>" title="<?php echo $this->title;?>"><?php echo $this->title;?></a>: <?php echo $this->title;?></li>
+                        <div class="clear"></div>
+                        
+                        <li class="systemli"><a href="<?php echo $this->formatURL('/reports/balancesheet/');?>" title="Balance Sheet">Balance Sheet</a>: Details of Balance Sheet over a period</li>
+                        <div class="clear"></div> 
+                 <?php }
+                  else {
+              if ($helper->can('customerregistration','corp_boi_reports')) {?>   
+	        <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/customerregistration/');?>" title="Application Status Report">Application Status Report</a>: Details of Application Status Report</li>
+	        <div class="clear"></div>  
+        <?php } 
+/*             
+         if ($helper->can('consolidatedreport','corp_boi_reports')) {?>   
+	        <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/consolidatedreport/');?>" title="Application Status Report">Consolidated Report</a>: Details of Consolidated Report</li>
+	        <div class="clear"></div>  
+        <?php } */
+             
+     
+             if ($helper->can('tpmisreport','corp_boi_reports')) {?>   
+	        <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/tpmisreport/');?>" title="Payment Status Report">Payment Status Report</a>: Details of Payment Status Report</li>
+	        <div class="clear"></div>  
+        <?php } 
+         if ($helper->can('bclisting','reports')) {?>   
+	        <li class="systemli"><a href="<?php echo $this->formatURL('/reports/bclisting/');?>" title="Training Center BC Listing">Training Center BC Listing</a>: Details of Training Center BC Listing</li>
+	        <div class="clear"></div>  
+        <?php } 
+              }
+        
+              }
+              else {
+      ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/linkedagents/subagentlisting/');?>" title="<?php echo $this->title;?>"><?php echo $this->title;?></a>: <?php echo $this->title;?></li>
+             <div class="clear"></div>
+         
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/balancesheet/');?>" title="Balance Sheet">Balance Sheet</a>: Details of Balance Sheet over a period</li>
+	     <div class="clear"></div>  
+             <?php if($this->userType == SUPER_AGENT) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_reports/superdistributorremittancereport/');?>" title="Remittance">Remittance</a>: Details of Remittance over a period</li>
+	     <div class="clear"></div>  
+             
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_reports/superdistributormisreport/');?>" title="Remittance MIS">Remittance MIS</a>: Details of Remittance MIS over a period</li>
+	     <div class="clear"></div>  
+             
+             
+             <?php }else { ?>
+		<?php if($user->bank_unicode != $bankUnicodeArr[3]) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_reports/distributorremittancereport/');?>" title="Remittance">Remittance</a>: Details of Remittance over a period</li>
+	     <div class="clear"></div>  
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_reports/distributormisreport/');?>" title="Remittance MIS">Remittance MIS</a>: Details of Remittance MIS over a period</li>
+	     <div class="clear"></div>  
+		<?php } ?>
+           <?php } 
+              }?>
+    </ul>
+
+    <div class="clear"></div>
+</div>

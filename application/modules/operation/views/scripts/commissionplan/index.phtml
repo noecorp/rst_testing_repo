@@ -1,0 +1,53 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Commission Plans Available';
+$config['addMessage'] = 'Add New Commission Plan'; 
+$config['emptyMessage'] = 'There is no Commission plan at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Plan Name',
+    'Date Created',
+   // 'Items'
+);
+$config['columnIndexes'] = array(
+    'name',
+    'date_created',
+   // 'count'
+
+    
+);
+
+$config['showActions'] = false;
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'commissionplan',
+                'linkAction'        => 'commitems',
+                'linkTitle'         => 'View Agent Commission Details',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'cid',
+                'linkParamValue'     => 'cid',
+            )
+        );
+$config['noteText'] = "Commission plans, once assigned, cannot be modified. In case of a new requirement, a new Commission Plan should be defined";
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>

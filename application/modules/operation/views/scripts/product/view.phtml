@@ -1,0 +1,139 @@
+<?php
+
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+$config['pageTitle'] = sprintf('Detailed view for %s', $this->item['name']);
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Description',
+    'Currency',
+    'Program Type',
+);
+$config['columnIndexes'] = array(
+    'name',
+    'description',
+    'currency',
+    'program_type',
+);
+
+echo $this->partial(
+        'partials/default-view.phtml', array(
+    'config' => $config,
+    'item' => $this->item
+        )
+);
+
+$productPursesCofig['pageTitle'] = 'Purse in ' .$this->item['name'];
+$productPursesCofig['no_add'] = true;
+
+if (empty($this->productPurses))
+    echo '<div class="norecord">There is no purse available in this product!</div>';
+else {
+
+
+    // column names & indexes
+    $productPursesCofig['columnNames'] = array(
+        'Code',
+        'Name',
+        'Description',
+    );
+    $productPursesCofig['columnIndexes'] = array(
+        'code',
+        'name',
+        'description',
+    );
+
+    
+    $productPursesCofig['actions'] = array(
+    'editpurse' => array(
+        'action' => 'editpurse',
+        'title' => 'Edit Purse',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/edit.png',
+        'img_alt' => 'edit',
+    )
+);
+$productPursesCofig['linkCol'] = array(
+  
+    array(
+        'linkColName' => 'code',
+        'linkController' => 'product',
+         'linkAction' => 'purseview',
+        'linkTitle' => 'Purse Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'id',
+    )
+);
+
+$productPursesCofig['linkOrder'] = array('editpurse');
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $productPursesCofig,
+        'paginator' => $this->productPurses,
+            )
+    );
+}
+              
+$custLimitCofig['pageTitle'] = 'Customer Limit in ' .$this->item['name'];
+$custLimitCofig['no_add'] = true;
+
+if (empty($this->customerLimit))
+    echo '<div class="norecord">There is no customer limit available in this product!</div>';
+else {
+
+
+    // column names & indexes
+    $custLimitCofig['columnNames'] = array(
+        'Code',
+        'Name',
+        'Description',
+    );
+    $custLimitCofig['columnIndexes'] = array(
+        'code',
+        'name',
+        'description',
+    );
+
+    
+    $custLimitCofig['actions'] = array(
+    'editcustomerlimit' => array(
+        'action' => 'editcustomerlimit',
+        'title' => 'Edit Customer Limit',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/edit.png',
+        'img_alt' => 'edit',
+    )
+);
+$custLimitCofig['linkCol'] = array(
+  
+    array(
+        'linkColName' => 'code',
+        'linkController' => 'product',
+         'linkAction' => 'viewcustomerlimit',
+        'linkTitle' => 'Customer Limit Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'id',
+    )
+);
+
+$custLimitCofig['linkOrder'] = array('editcustomerlimit');
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $custLimitCofig,
+        'paginator' => $this->customerLimit,
+            )
+    );
+}

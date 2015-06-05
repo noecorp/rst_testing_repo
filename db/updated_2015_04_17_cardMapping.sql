@@ -1,0 +1,2 @@
+ALTER TABLE `rat_remittance_request` ADD `txn_load_id` INT UNSIGNED NOT NULL AFTER `manual_mapping_remarks`;
+ALTER TABLE `rat_remittance_request` ADD `failed_reason` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `txn_load_id`;

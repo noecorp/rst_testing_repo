@@ -1,0 +1,1 @@
+UPDATE `t_products` SET `flag_common` = 'yes' WHERE `t_products`.`unicode` ='710';

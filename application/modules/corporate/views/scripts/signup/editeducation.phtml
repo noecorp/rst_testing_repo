@@ -1,0 +1,13 @@
+<?php
+echo Util::getAgentEditTab("educational", $this->agent_id); 
+
+$config = array();
+$config['pageTitle'] = 'Edit Agent Education details';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

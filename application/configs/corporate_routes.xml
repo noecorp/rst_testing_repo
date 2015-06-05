@@ -1,0 +1,8 @@
+<routes>
+    <!-- Static pages routes -->
+    <about type="Zend_Controller_Router_Route">
+        <route>/about</route>
+        <defaults module="frontend" controller="index" action="static" page="about" />
+    </about>
+    
+</routes>

@@ -1,0 +1,21 @@
+INSERT INTO `t_products` VALUES ('21', '3', 'RATNAKAR CEQUITY', 'RBL CEQUITY', 'INR', '10000047', 'DigiWallet', '921', 'RAT_CTY', 'yes', 'no', '101', '127000000001', NOW(), 'active');
+
+INSERT INTO `purse_master` VALUES ('20', '3', '21', '1', 'CEP921', 'RBL CEquity Promo Wallet', 'RBL CEquity Promo Wallet', '10000', 'no', 'no', 'api', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'tid', 'yes', '0', '0', '0', '0', '0', '0', '0', '0', '1', NOW(), NOW(), NOW(), '101', 'active');
+
+SET @pm_id :=  last_insert_id();
+
+UPDATE `purse_master` SET `load_validity_day` = '60', `load_min` = '1', `load_max` = '10000', `load_max_cnt_daily` = '10', `load_max_val_daily` = '10000', `load_max_cnt_monthly` = '90', `load_max_val_monthly` = '10000', `load_max_cnt_yearly` = '1000', `load_max_val_yearly` = '120000', `txn_min` = '1', `txn_max` = '10000', `txn_max_cnt_daily` = '10', `txn_max_val_daily` = '10000', `txn_max_cnt_monthly` = '90', `txn_max_val_monthly` = '10000', `txn_max_cnt_yearly` = '1000', `txn_max_val_yearly` = '120000' WHERE `purse_master`.`id` = @pm_id;
+
+INSERT INTO `purse_master` VALUES ('21', '3', '21', '1', 'CEL921', 'RBL CEquity Loyalty Wallet', 'RBL CEquity Loyalty Wallet', '10000', 'no', 'no', 'api', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'tid', 'yes', '0', '0', '0', '0', '0', '0', '0', '0', '2', NOW(), NOW(), NOW(), '101', 'active');
+
+SET @pm_id :=  last_insert_id();
+
+UPDATE `purse_master` SET `load_validity_day` = '60', `load_min` = '1', `load_max` = '10000', `load_max_cnt_daily` = '10', `load_max_val_daily` = '10000', `load_max_cnt_monthly` = '90', `load_max_val_monthly` = '10000', `load_max_cnt_yearly` = '1000', `load_max_val_yearly` = '120000', `txn_min` = '1', `txn_max` = '10000', `txn_max_cnt_daily` = '10', `txn_max_val_daily` = '10000', `txn_max_cnt_monthly` = '90', `txn_max_val_monthly` = '10000', `txn_max_cnt_yearly` = '1000', `txn_max_val_yearly` = '120000' WHERE `purse_master`.`id` = @pm_id;
+
+INSERT INTO `product_customer_limits` (`id`, `bank_id`, `product_id`, `code`, `customer_type`, `name`, `description`, `max_balance`, `load_min`, `load_max`, `load_max_val_daily`, `load_max_val_monthly`, `load_max_val_yearly`, `txn_min`, `txn_max`, `txn_max_val_daily`, `txn_max_val_monthly`, `txn_max_val_yearly`, `date_start`, `date_created`, `date_updated`, `by_ops_id`, `status`) VALUES (NULL, '3', '21', 'KYC921', 'kyc', 'KYC RBL CEquity', 'KYC RBL CEquity', '10000', '1', '10000', '10000', '10000', '120000', '1', '10000', '10000', '10000', '120000', '2014-09-26 00:00:00', '2014-09-26 00:00:00', '0000-00-00 00:00:00', '101', 'active');
+
+INSERT INTO `product_customer_limits` (`id`, `bank_id`, `product_id`, `code`, `customer_type`, `name`, `description`, `max_balance`, `load_min`, `load_max`, `load_max_val_daily`, `load_max_val_monthly`, `load_max_val_yearly`, `txn_min`, `txn_max`, `txn_max_val_daily`, `txn_max_val_monthly`, `txn_max_val_yearly`, `date_start`, `date_created`, `date_updated`, `by_ops_id`, `status`) VALUES (NULL, '3', '21', 'NYC921', 'non-kyc', 'Non KYC RBL CEquity', 'Non KYC RBL CEquity', '10000', '1', '10000', '10000', '10000', '120000', '1', '10000', '10000', '10000', '120000', '2014-09-26 00:00:00', '2014-09-26 00:00:00', '0000-00-00 00:00:00', '101', 'active');
+
+INSERT INTO `api_user` (`id`, `tp_user_id`, `username`, `password`, `status`, `date_created`) VALUES (NULL, '25', 'cequityuser', '6b5c3a6677510c82d47d0ac1a5244c4eba0762b3', 'active', '0000-00-00 00:00:00');
+INSERT INTO `api_user_ip` (`id`, `tp_user_id`, `tp_user_ip`, `date_created`) VALUES (NULL, '25', '127.0.0.1,122.160.80.129,58.68.41.26,182.71.83.66,14.140.201.162', '0000-00-00 00:00:00');
+INSERT INTO `corporate_users` (`id`, `corporate_code`, `first_name`, `last_name`, `password`, `email`, `mobile`, `last_login`, `last_password_update`, `auth_code`, `num_login_attempts`, `session_id`, `by_ops_id`, `date_created`, `date_updated`, `is_logged`, `user_type`, `enroll_status`, `email_verification_id`, `email_verification_status`, `status`) VALUES (NULL, '4294967295', 'CEquity', ' Co', '58b0938519a795c18a8f5dbfc2fe03122783e828', 'gauravs@transerv.co.in', '7827927889', '2014-06-25 16:17:49', '2014-06-25 11:20:03', '958131', '0', NULL, NULL, '2014-06-25 05:12:15', '2014-06-25 16:17:49', '0', '-1', 'approved', '355', 'verified', 'unblocked');

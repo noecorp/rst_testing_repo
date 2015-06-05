@@ -1,0 +1,59 @@
+  <h1>Card Load</h1>
+ 
+<?php
+
+if(isset($this->Error)) {
+    print 'Error : ' .$this->Error;
+    print '<br /> <br />';
+}
+
+if(isset($this->iso)) {
+    $iso8583 = new App_ISO_ISO8583();
+    $iso8583->addISOwithHeader($this->iso); 
+    //print '<pre>';
+    print 'MTI :'. $iso8583->getMTI() . '<br />';
+    print 'Bitmap :'. $iso8583->getBitmap() . '<br />';
+    print '<pre>';
+    print_r($iso8583->getData());
+    print '</pre>';
+    print 'ISO :' .$this->iso . '<br />';
+    
+}
+
+if(isset($this->response)) {
+    print 'Response : ' . $this->response . '<br />';
+    $iso8583 = new App_ISO_ISO8583();
+    $iso8583->addISOwithHeader($this->response); 
+    //print '<pre>';
+    print 'MTI :'. $iso8583->getMTI() . '<br />';
+    print 'Bitmap :'. $iso8583->getBitmap() . '<br />';
+    print '<pre>';
+    print_r($iso8583->getData());
+    print '</pre>';
+    print 'ISO : ' . $this->response . '<br />';
+}
+ ?>
+  <form name="frm" action="" method="POST">
+      <table>
+          <tr>
+              <td>Agent Id :</td>
+              <td><input type="text" name="agent_id" value="<?php echo $this->agentId ?>" /></td>
+          </tr>
+          <tr>
+              <td>Transaction Id :</td>
+              <td><input type="text" name="transaction_id" value="<?php echo $this->transactionId ?>" /></td>
+          </tr>
+          <tr>
+              <td>CRN :</td>
+              <td><input type="text" name="crn" value="<?php echo $this->crn ?>" /></td>
+          </tr>
+          <tr>
+              <td>Amount :</td>
+              <td><input type="text" name="amount" value="<?php echo $this->amount ?>" /></td>
+          </tr>
+          <tr>
+              <td colspan="2" ><input type="submit" value="Card Load" /></td>
+          </tr>
+      </table>
+          
+  </form>

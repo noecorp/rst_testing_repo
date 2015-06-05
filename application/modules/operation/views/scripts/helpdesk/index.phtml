@@ -1,0 +1,56 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Help Desk</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+         if ($helper->can('resendactivationcode')) {?>
+              <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/resendactivationcode/");?>' title="Resend Activation Code">Resend Activation Code</a>: Resend Card Holder Activation Code </li>
+              <div class="clear"></div>
+             <?php }
+         if ($helper->can('changeregisteredmobile')) {?>
+             <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/changeregisteredmobile");?>' title="Update Mobile Number">Update Mobile Number</a>: Update Card Holder Mobile Number</li>
+             <div class="clear"></div>
+          <?php }
+           if ($helper->can('blockaccount')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/blockaccount");?>' title="Block Account">Block Account</a>: Block Card Holder Account </li>
+            <div class="clear"></div>
+          <?php }
+           if ($helper->can('unblockaccount')) {?>
+             <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/unblockaccount");?>' title="Unblock Account">Unblock Account</a>: Unblock Card Holder Account </li>
+              <div class="clear"></div>
+          <?php }
+           if ($helper->can('closeaccount')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/closeaccount");?>' title="Close Account">Close Account</a>: Close Card Holder Account </li>
+            <div class="clear"></div>
+          <?php }
+           if ($helper->can('queryaccountinfo')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/queryaccountinfo");?>' title="Account Info">Account Info</a>: Card Holder Account Info </li>
+            <div class="clear"></div>
+          <?php }
+           if ($helper->can('querymvcstatus')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/querymvcstatus");?>' title="MVC Status">MVC Status</a>: Check MVC Status </li>
+            <div class="clear"></div>
+          <?php }          
+           if ($helper->can('agentactivation')) {?>
+             <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/querymvctransaction");?>' title="MVC Transaction">MVC Transaction</a>: Check MVC Transaction </li>
+            <div class="clear"></div>
+          <?php }          
+           if ($helper->can('balanceenquiry')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/balanceenquiry");?>' title="Balance Enquiry">Balance Enquiry</a>: Balance Enquiry </li>
+              <div class="clear"></div>
+            <?php }          
+           if ($helper->can('kotakremittance')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/helpdesk/kotakremittance");?>' title="Balance Enquiry">Kotak Remittance</a>: Check Transactions by Phone No.</li>
+            <div class="clear"></div>
+          <?php } 
+          ?>
+          
+            
+          
+            
+    </ul>
+    <div class="clear"></div>
+</div>

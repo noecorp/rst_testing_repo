@@ -1,0 +1,1 @@
+ALTER TABLE `rat_corp_load_request_detail` ADD `debit_id` INT NOT NULL AFTER `txn_code` ;

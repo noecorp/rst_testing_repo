@@ -1,0 +1,41 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear  <?php echo ucfirst($this->first_name)." ".ucfirst($this->last_name);?>, </p>
+
+<p>Your Shmart! Business Partner Account has been created.</p>
+
+<p>User name: <?php echo $this->email; ?> </p>
+
+<p>Password : <?php echo $this->password; ?></p>
+
+<p>Partner Code: <?php echo $this->agent_code; ?></p>
+
+<p>Click on the link to activate your account: <a href="<?php echo $this->verify_url;?>">Click to Verify Email</a></p>
+
+<p>Please contact us IMMEDIATELY in case you have not applied to become a Shmart! Business Partner.</p>
+
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: partner@shmart.in</p>
+
+<br><br>
+
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo Util::getEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo Util::getEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo Util::getEmailTC(); ?></p>

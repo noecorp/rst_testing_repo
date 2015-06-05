@@ -1,0 +1,156 @@
+<div class="Boldtext">Remittance Transaction Recon Report</div>
+<?php
+/**
+ * Displays the Remittance Txn Recon Reports for Banks
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit) ? $this->btnSubmit : '';
+$bankUnicodeArr = Util::bankUnicodesArray();
+if($frmSubmit){
+
+$config = array();  	 							
+
+// messages
+$config['pageTitle'] = isset($this->pageTitle) ? $this->pageTitle : '';
+$config['emptyMessage'] = 'There is no remit recon at this time.';
+
+// column names & indexes
+$config['showActions'] = FALSE;
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'File Name',
+    'Action'
+);
+$config['columnIndexes'] = array(
+    'file_name'
+);
+
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities($config);
+?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+    <div class="tablebox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                            <th colspan="2"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <?php /********** displaying the inner columns **********/ ?>
+                                <td width="80%"><?php echo $item['file_name']; ?></td>
+                                
+                                <?php /********** displaying the inner columns **********/
+                                    switch ($this->formData['bank_unicode']) {
+                                            case $bankUnicodeArr['3']:
+                                                $path = 'kotak_recon_file';
+                                                break;
+                                            case $bankUnicodeArr['2']:
+                                                $path = 'rbl_recon_file';
+                                                break;
+                                    }
+                                    
+                                    $formatUrlFile = $this->formatURL("/filedownload/index?file=".$item['file_name']."&path=".$path."");
+                                ?>
+                                <td>
+                                    <a href = "<?php echo $formatUrlFile; ?>" title = "Download File"><img src="<?php echo $this->baseUrl();?>/images/icons/download_icon.png" alt="Download file"/></a></td>
+                            <?php /********** finished displaying the inner columns **********/ ?>                            
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php echo $helper->columnCount(FALSE)+1;?>">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</form>
+<div>&nbsp;</div> 
+
+<?php
+if(count($this->paginator) > 1) { ?>
+<div class="pagination">
+    <?php echo $this->paginator; ?>
+</div>
+<?php } } ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    
+    $('form').submit(function(){
+  
+        var bank =  $.trim($("#bank_unicode").val()); 
+        var from = $.trim($("#from_date").val()); 
+        var to = $.trim($("#to_date").val());
+        var from_dt = from.split("-");
+        var to_dt = to.split("-");
+        var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+        var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+        var diff = y - x;
+        var one_day=1000*60*60*24;
+        var date_range = diff/one_day;
+        var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       
+        if(bank == '') {
+            alert('Please select Bank Name.');
+            $("#bank_unicode").focus();
+            return false;
+        }
+        
+        /**** From and To date validation ****/
+        
+        if(((from == '' || from =='00-00-0000'))) {
+            alert('Please specify From date.');
+            $("#from_date").focus();
+            return false;
+        }else if(((to == '' || to=='00-00-0000'))) {
+             alert('Please specify To date.');
+             $("#to_date").focus();
+             return false;
+        } else if(diff < 0){
+           alert('From date cannot be greater than To date.');
+             $("#from_date").focus();
+             return false; 
+        } else if(date_range > max_range){
+           alert('Report can be fetched for a duration not more than '+max_range+' days');
+            $("#to_date").focus();
+            return false; 
+        }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

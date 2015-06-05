@@ -1,0 +1,60 @@
+ <?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Manage Cardholders';
+$config['addMessage'] = 'Enroll Cardholder'; 
+$config['emptyMessage'] = 'There is no Cardholder added at this time.';
+$config['addURL'] = '/cardholder/step1';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'CRN',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Mobile Country Code',
+    'Mobile Number',
+    'Status',
+    'Created Date',
+    'Modified Date'
+    
+);
+$config['columnIndexes'] = array(
+    'crn',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'mobile_country_code',
+    'mobile_number',
+    'status',
+    'date_created',
+    'date_modified'
+);
+
+$config['actions'] = array(
+      
+);
+
+
+$config['linkOrder'] = array();
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+//echo "<pre>";print_r($this->paginator);exit;

@@ -1,0 +1,231 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+
+
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agent Limit listing: '.$this->name;
+$config['addMessage'] = 'Assign Limit'; 
+$config['emptyMessage'] = 'There is no agent limit defined at this time';
+$config['addURL'] = '/agentlimit/addlimit?id='.$this->id;
+
+
+//if($this->cnt !=0)
+//$config['no_add']=true;  //to not have add button
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Date Start',
+    'Date End'
+);
+$config['columnIndexes'] = array(
+    'name',
+    'date_start_formatted',
+    'date_end_formatted'
+    
+);
+
+// Approve actions
+/*$config['actions'] = array(
+       'edit'    =>  array(
+        'action'        => 'editlimit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    ),
+    'delete'    =>  array(
+        'action'        => 'deletelimit',
+        'title'         => 'Delete',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    )
+);
+$config['linkOrder'] = array( 'edit','delete');
+$config['actions'] = array(
+       'edit'    =>  array(
+        'action'        => 'editlimit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    )
+);
+$config['linkOrder'] = array( 'edit');*/
+$config['columnNA'] = array('date_end_formatted');
+/*$config['conditional'] = array(
+    0     =>  array(
+        'param'     => 'date_end_formatted',
+        'value'     => '00-00-0000'
+    )
+);*/
+
+$config['linkCol'] = array (
+        array(
+            'linkColName'       => 'name',
+            'linkController'    => 'agentlimit',
+            'linkAction'        => 'limit',
+            'linkTitle'         => 'View Limit Details',
+            'linkParamReqd'     => TRUE,
+            'linkParamName'     => 'lid',
+            'linkParamValue'     => 'lid',
+        ),
+    ) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+    
+<?php 
+if($this->cnt ==0)
+{
+    if($helper->can('addlimit', 'agentlimit'))
+    {
+        $href = $addURL;
+        ?>
+
+        <div class="filterbox">
+        <div style="width:950px;">
+            <a class="ocean" href="<?php echo $this->formatURL($href);?>" style="float:right;" title="<?php $helper->addMessage();?>"><?php $helper->addMessage();?></a>
+        </div><!--Inner Style Div END-->
+        </div>
+
+        <?php
+
+    }
+}
+?>
+
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'> 
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+                <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                    <th><span><?php echo 'Actions';?></span></th>
+                <?php endif; ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            $prevId = 0;
+            foreach($this->paginator as $item) : ?>
+                <?php $helper->data = $item; ?>
+                <tr>
+                    <?php /********** displaying the inner columns **********/ ?>
+                    <?php 
+                    //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                    ?>
+                    <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                        <td>
+                            <?php 
+                            if(is_array($config['columnNA']) && in_array($index, $config['columnNA']) && $item[$index] == '00-00-0000'){
+                                echo 'NA'; //$helper->displayItem('NA', $index);
+                            }
+                            else {
+                                $helper->displayItem($item, $index);
+                            }
+                            ?>
+                        </td>
+                    <?php endforeach;?>
+                        
+                    <?php
+                    //$url = $this->baseUrl . '/' . $this->controllerName . '/editlimit' ;
+                    $url = '../' . $this->controllerName . '/editlimit' ;
+                    $url .= '?id=' . $item->id;
+                            if($item['date_end_formatted'] == '00-00-0000')
+                            {
+                                if ($helper->can('editlimit')) {
+                                    //$links[] = $this->link($action, $item, FALSE);
+                                    $link = 
+                                    '<td><a href="'. $this->formatURL($url) . '" title="Edit">' . PHP_EOL .
+                                    '<img src="' . $this->baseUrl . '/images/icons/edit.png' . 
+                                        '" alt="Edit" border="0"/>' . PHP_EOL .
+                                    '</a></td>';
+                                    echo $link;
+                                }
+                                else {
+                                 echo '<td><img src="' . $this->_baseUrl . $disabled_icons['edit']['img_url'] . '" alt="' . $disabled_icons['edit']['alt'] . '" border="0"/></td>';
+                                }   
+                                //echo $helper->link($link, $item, $echo = TRUE)
+                            }
+                            else {
+                            echo '<td>&nbsp;</td>';
+                           }  
+
+                    $url = '../' . $this->controllerName . '/deletelimit' ;
+                    $url .= '?id=' . $item->id;
+                            if($item['date_end_formatted'] == '00-00-0000' && $item['date_start_formatted'] > date("d-m-Y") && $prevId != 0)
+                            {
+                                $url .= '&pid=' . $prevId;
+                                if ($helper->can('deletelimit')) {
+                                    //$links[] = $this->link($action, $item, FALSE);
+                                    $link = 
+                                    '<td><a href="'. $this->formatURL($url) . '" title="Delete">' . PHP_EOL .
+                                    '<img src="' . $this->baseUrl . '/images/icons/del.png' . 
+                                        '" alt="Delete" border="0"/>' . PHP_EOL .
+                                    '</a></td>' ;
+                                    echo $link;
+                                }
+                                else {
+                                 echo '<td><img src="' . $this->_baseUrl . $disabled_icons['delete']['img_url'] . '" alt="' . $disabled_icons['delete']['alt'] . '" border="0"/></td>';
+                                }  
+                                //echo $helper->link($link, $item, $echo = TRUE)
+                            }
+                            else {
+                                 echo '<td><img src="' . $this->_baseUrl . $disabled_icons['delete']['img_url'] . '" alt="' . $disabled_icons['delete']['alt'] . '" border="0"/></td>';
+                                }  
+                    ?>
+                             
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+            $prevId = $item->id;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php $helper->columnCount();?>">
+                    <?php $helper->emptyMessage();?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+</div>
+</div>
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+
+
+<?php 

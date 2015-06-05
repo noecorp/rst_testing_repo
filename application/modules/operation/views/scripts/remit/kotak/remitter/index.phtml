@@ -1,0 +1,21 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Remittance</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+         if ($helper->can('search')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_kotak_remitter/search/');?>" title="Search Remitter">Search Remitter</a>: Search remitter details</li>
+              <div class="clear"></div>
+        <?php }  
+          if ($helper->can('holdtransactions')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_kotak_remitter/holdtransactions/');?>" title="Hold Transactions">Hold Transactions</a>: Process Hold Transactions</li>
+              <div class="clear"></div>
+        <?php } ?>
+              
+              
+    </ul>
+    <div class="clear"></div>
+</div>

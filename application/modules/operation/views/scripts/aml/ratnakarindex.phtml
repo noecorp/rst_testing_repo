@@ -1,0 +1,23 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Ratnakar</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('ratnakarremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarremitters");?>' title="Ratnakar AML Remitter">Ratnakar AML Remitter</a>: Show AML Matched Ratnakar Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('ratnakarbeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarbeneficiaries");?>' title="Ratnakar AML Beneficiaries">Ratnakar AML Beneficiaries</a>: Show AML Matched Ratnakar Beneficiaries.</li>
+            <div class="clear"></div> 
+          <?php }          
+           if ($helper->can('ratnakarcardholders')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/ratnakarcardholders");?>' title="Ratnakar AML kotakcardholders">Ratnakar AML Card Holders</a>: Show AML Matched Ratnakar Cardholders.</li>
+            <div class="clear"></div> 
+          <?php } ?> 
+    </ul>
+    <div class="clear"></div>
+</div>

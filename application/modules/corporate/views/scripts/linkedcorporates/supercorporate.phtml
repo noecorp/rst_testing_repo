@@ -1,0 +1,51 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+    $user = Zend_Auth::getInstance()->getIdentity();
+?>
+
+<div class="Boldtext">Reports</div>
+
+<div class="innerbox">
+    <ul class="systemul">
+	<?php if ($helper->can('subcorporatelisting', 'linkedcorporates') && ($user->user_type == HEAD_CORPORATE || $user->user_type == REGIONAL_CORPORATE)) { ?>
+	   <li class="systemli"><a href="<?php echo $this->formatURL('/linkedcorporates/subcorporatelisting/');?>" title="<?php echo $this->title;?>"><?php echo $this->title;?></a> : <?php echo $this->title;?></li>
+	   <div class="clear"></div>
+       <?php
+       }
+        if ($helper->can('loadreport', 'corp_ratnakar_reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_reports/loadreport/');?>" title="Load Report">Load Report</a> : Load Report</li>
+            <div class="clear"></div>
+        <?php }
+        if ($helper->can('activecards', 'corp_ratnakar_reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_reports/activecards/');?>" title="Enrollment Report">Enrollment Report</a> : Enrollment Report</li>
+            <div class="clear"></div>
+        <?php }
+        if ($helper->can('corporatefunding', 'reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/reports/corporatefunding/');?>" title="Corporate Funding Report">Corporate Funding Report</a> : Corporate Funding Report</li>
+            <div class="clear"></div>
+        <?php }
+       if ($helper->can('loadreport', 'corp_kotak_reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/loadreport/');?>" title="Kotak Load Report">Kotak Load Report</a> : Kotak Load Report</li>
+            <div class="clear"></div>
+        <?php }
+        if ($helper->can('activecards', 'corp_kotak_reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/activecards/');?>" title="Kotak Enrollment Report">Kotak Enrollment Report</a> : Kotak Enrollment Report</li>
+            <div class="clear"></div>
+        <?php }
+        if ($helper->can('corporatefunding', 'corp_kotak_reports')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/corporatefunding/');?>" title="Kotak Corporate Funding Report">Kotak Corporate Funding Report</a> : Kotak Corporate Funding Report</li>
+            <div class="clear"></div>
+        <?php }
+        ?> 
+        <div class="clear"></div>  
+          
+    </ul>
+
+    <div class="clearfix"></div>
+</div>

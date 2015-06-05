@@ -1,0 +1,1 @@
+ALTER TABLE `rat_corp_cardholders` ADD `partner_ref_no` VARCHAR( 50 ) NOT NULL AFTER `employee_id` ;

@@ -1,0 +1,210 @@
+<script type="text/javascript" src="/js/SpryTabbedPanels.js"></script>
+
+
+<link href="/css/tables.css" rel="stylesheet" type="text/css" />
+<link href="/css/SpryTabbedPanels.css" rel="stylesheet" type="text/css" />
+<?php
+/**
+ * View for the default item details UI
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+$helper = $this->listingUtilities($this->config);
+$details = $this->config['detailsarray'];
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+
+    
+<div class="tablebox">
+<div class="table-wrapper">
+    <div id="TabbedPanels1" class="TabbedPanels">
+  <ul class="TabbedPanelsTabGroup">
+    <li class="TabbedPanelsTab" tabindex="0">Basic Details</li>
+    <li class="TabbedPanelsTab" tabindex="0">Address Details</li>
+    <li class="TabbedPanelsTab" tabindex="0">Shmart Details</li>
+    <li class="TabbedPanelsTab" tabindex="0">Balance</li>
+  
+  </ul>
+  <div class="TabbedPanelsContentGroup">
+          
+       <div class="TabbedPanelsContent"><!---Tab Basic Details Start --->
+        <div class="cellbox">
+          <div class="cell-row">
+          <div class="greycell">CRN</div>
+          <div class="greycelllight"><?php echo $details['crn']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Name</div>
+          <div class="greycelllight"><?php echo ucfirst($details['first_name'])." ".ucfirst($details['last_name']);?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Email</div>
+          <div class="greycelllight"><?php echo $details['email']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Mobile No.</div>
+          <div class="greycelllight"><?php echo $details['mobile']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">DOB</div>
+          <div class="greycelllight"><?php echo $details['date_of_birth']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Gender</div>
+          <div class="greycelllight"><?php echo $details['gender']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Customer MVC Type</div>
+          <div class="greycelllight"><?php echo $details['customer_mvc_type']?></div>
+        </div>
+       
+      </div>
+       </div>
+      
+      <!---Content Tab 1 End--->
+    <div class="TabbedPanelsContent"><!---Tab Address Details Start --->
+    
+    <div class="TabbedPanelsContent"><!---Tab Basic Details Start --->
+        <div class="cellbox">
+    
+      
+     
+ 
+ 
+      
+        
+        <div class="cell-row">
+          <div class="greycell">Address Line 1</div>
+          <div class="greycelllight"><?php echo $details['address_line1']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Address Line 2</div>
+          <div class="greycelllight"><?php echo $details['address_line2']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">City</div>
+          <div class="greycelllight"><?php echo $details['city']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Taluka</div>
+          <div class="greycelllight"><?php echo $details['taluka']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">District</div>
+          <div class="greycelllight"><?php echo $details['district']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">State</div>
+          <div class="greycelllight"><?php echo $details['state']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Country</div>
+          <div class="greycelllight"><?php echo $details['country']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Pincode</div>
+          <div class="greycelllight"><?php echo $details['pincode']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Alt. Contact Number</div>
+          <div class="greycelllight"><?php echo $details['alternate_contact_number']?></div>
+        </div>
+      <div class="cell-row">
+          <div class="greycell">Educational Qualification</div>
+          <div class="greycelllight"><?php echo $details['educational_qualifications']?></div>
+        </div>
+      <div class="cell-row">
+          <div class="greycell">Mother Maiden Name</div>
+          <div class="greycelllight"><?php echo $details['mother_maiden_name']?></div>
+        </div>
+      <div class="cell-row">
+          <div class="greycell">Family members</div>
+          <div class="greycelllight"><?php echo $details['family_members']?></div>
+        </div>
+      </div>
+      
+    </div>
+    <!---Cell BOX END--->
+    
+    </div>
+      <!---Content Tab 2 End--->
+    
+    
+      <div class="TabbedPanelsContent"><!---Tab BANKACCOUNT Start --->
+     <div class="cellbox">
+    
+    <div class="cell-row">
+        <div class="greycell">ECS Ref. No</div>
+        <div class="greycelllight"><?php echo $details['ecs_ref_no']?></div>
+    </div>
+   <div class="cell-row">
+       <div class="greycell">Shmart Rewards</div>
+       <div class="greycelllight"><?php echo $details['shmart_rewards']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Bank Account</div>
+       <div class="greycelllight"><?php echo $details['already_bank_account']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Products Acknowledgement</div>
+       <div class="greycelllight"><?php echo $details['products_acknowledgement']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Rewards Acknowledgement</div>
+       <div class="greycelllight"><?php echo $details['rewards_acknowledgement']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Date Created</div>
+       <div class="greycelllight"><?php echo $details['date_created']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Approval By</div>
+       <div class="greycelllight"><?php if(isset($this->config['opsname'])) echo $this->config['opsname'];else echo $details['approval_ops_id'];?></div>
+   </div>
+          <div class="cell-row">
+       <div class="greycell">Approval date</div>
+       <div class="greycelllight"><?php echo $details['approval_datetime']?></div>
+   </div>
+          <div class="cell-row">
+       <div class="greycell">Status</div>
+       <div class="greycelllight"><?php echo $details['Cstatus']?></div>
+   </div>
+          <div class="cell-row">
+       <div class="greycell">Status</div>
+       <div class="greycelllight"><?php echo $details['Cstatus']?></div>
+   </div>
+      
+      </div>
+      
+    </div>  <!---Content Tab 3 End---> 
+  
+    
+      <div class="TabbedPanelsContent"><!---Tab BANKACCOUNT Start --->
+     <div class="cellbox">
+    
+    <div class="cell-row">
+        <div class="greycell">Last Amount Balance</div>
+        <div class="greycelllight"><?php if(isset($this->config['balance'])) echo Util::numberFormat($this->config['balance']); else echo 'Nil';?>
+    </div>
+   
+      
+      </div>
+      
+    </div>  <!---Content Tab 4 End---> 
+    
+         
+      
+  </div> <!-- TabbedPanelsContentGroup End -->
+</div>
+<div class="clear"></div>
+<div id="pagination-box"></div><!---pagination-box End--->
+
+</div>
+</div><!---TABLE-box End--->
+
+<div class="back"><a class="alt" href="<?php echo $this->formatURL($this->config['backlink']);?>">← Back</a></div>

@@ -1,0 +1,59 @@
+<div class="Boldtext">Load/Reload Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+
+if($frmSubmit){
+    
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Load/Reload Report for AGENTNAME for period STARTDATE - ENDDATE';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'CRN',
+    'Customer Name',
+    'Mobile Number',   
+    'Transaction Amount',   
+    'Transaction Type',   
+    'Transaction Ref Number',   
+    'Product Code',   
+);
+
+$config['columnIndexes'] = array(
+    'date_created',
+    'crn',
+    'cardholder_name',
+    'mobile_number',
+    'amount',    
+    'txn_type',    
+    'txn_code',    
+    'product_id'    
+);
+
+$config['actions'] = array();
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+}
+
+//echo "<pre>";print_r($this->paginator);exit;

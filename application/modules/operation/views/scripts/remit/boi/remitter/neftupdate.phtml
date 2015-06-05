@@ -1,0 +1,61 @@
+<div class="Boldtext">NEFT Instructions Confirm <?php echo $this->status;?></div>
+<?php 
+
+    echo $this->form;
+
+/**
+ * Displays all selected neft instructions
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'NEFT Instructions (Batch Name: '.$this->batch_name.')';
+//$config['addMessage'] = 'Add new Agent'; 
+$config['emptyMessage'] = 'There is no NEFT Instruction selected.';
+//$config['addURL'] = '/agents/signup/';
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+        'Amount',
+        'IFSC Code',
+        'Name',
+        'Bank Account Type',
+        'Address',
+        'Email',
+        'Mobile',
+        'Transaction Reference Number',
+        'Sender Message',
+    );
+
+$config['columnIndexes'] = array(
+    'amount',
+    'ifsc_code',
+    'name',
+    'bank_account_type',
+    'address_line1',
+    'email',
+    'mobile',
+    'txn_code',
+    'sender_msg',
+);
+
+$config['showActions'] = false;
+
+
+// render the default listing
+    echo $this->partial(
+        'partials/default-listing.phtml',
+        array(
+            'config' => $config,
+            'paginator' => $this->paginator,
+        )
+    );
+
+?>

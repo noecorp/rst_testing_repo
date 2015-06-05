@@ -1,0 +1,216 @@
+<div class="Boldtext">Download Disbursement TTUM File</div>
+
+<?php 
+
+echo $this->form;
+if($this->records){
+
+$config['pageTitle'] = 'Download Disbursement TTUM File';
+
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+    $config['columnNames'] = array(
+        'TTUM File',
+        //'Wallet File',
+        'Disbursement Number',
+        'Date Process',
+        'Date Created',
+    );
+    $config['columnIndexes'] = array(
+        'file_name',
+        //'wallet_file_name',
+        'disbursement_no',
+        'date_process',
+        'date_created',
+     );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+
+<div class="Boldtext">Disbursement Load File Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+
+
+           <thead><!-- universal table heading --> 
+            <tr>
+               <!-- <th><input type="checkbox" id="selectall"/></th>-->
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 <th colspan="3">Action</th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : //print_r($item); exit;
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                   <!-- <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>-->
+
+                     <!--<td><a href="JavaScript:void(0);" onclick="downloadFile(<?php echo $cardId; ?>);"><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></a></td>-->
+                     <td><a href="JavaScript:void(0);" onclick="downloadFile(<?php echo $cardId; ?>);"><?php if(!empty($item['updated_ttum_file_name'])) echo strtoupper($item['updated_ttum_file_name']); else echo strtoupper($item[$config['columnIndexes'][0]]);?></a></td>
+                     <!--<td><a href="JavaScript:void(0);" onclick="downloadWalletWaFile(<?php echo $cardId; ?>);"><?php echo strtoupper($item[$config['columnIndexes'][1]]);?></a></td> -->
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><a href="JavaScript:void(0);" onclick="downloadFile(<?php echo $cardId; ?>);" title="Download TTUM File"><img src="<?php echo $this->baseUrl();?>/images/icons/download_icon.png" alt="Download file"/></a></td>
+                     <td><?php if($item['status']!='processed'){?><a href="JavaScript:void(0);" onClick="chamgeBucketType(<?php echo $cardId; ?>);" title="MARK AS PROCESSED"><img src="<?php echo $this->baseUrl();?>/images/icons/process.jpg" alt="MARK AS PROCESSED"/></a><?php }?></td>
+                     <td><a href="<?php echo $this->formatURL('/corp_boi_index/editdisbursemenfile?id='.$cardId);?>" title="EDIT DETAILS"><img src="<?php echo $this->baseUrl();?>/images/icons/edit.png" alt="EDIT DETAILS"/></a></td>
+                      
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+3;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+
+
+<div>&nbsp;</div>
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+     
+     $("input#from_date").change(function() {
+        if(this.value){
+               var date_start = this.value; 
+               var arr_dt = date_start.split("-");
+               var x = new Date();
+               x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+               var curdate = new Date();
+               if(x > curdate)
+               {
+                   alert("Please enter From date not greater than today's date");
+                   this.value = '';
+                   return false;
+               }
+               else{      
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                         return true;
+                    }else{
+                         alert('Please enter valid From date');
+                         this.value = '';
+                         $("#from_date").focus();
+                         return false;
+                    }
+               }
+               return true;
+          }
+    });
+          
+    $("input#to_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter To date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid To date');
+                      this.value = '';
+                      $("#to_date").focus();
+                      return false;
+                    }
+               }
+          }
+        
+    });
+     
+});     
+
+
+function chamgeBucketType(id) {
+    var r = confirm("Are you sure you want to process this file?");
+    if (r == true) {
+        var url = '<?php echo $this->formatURL("/corp_boi_index/disbursemenfile?disbursement_number=". $this->formData['disbursement_number'] . "&from_date=".$this->formData['from_date'].'&to_date='.$this->formData['to_date']);?>';
+        url=url+"&id="+id;
+        //alert(url);
+        $(location).attr('href',url)
+    } 
+}
+
+function downloadFile(id) {
+        var url = '<?php echo $this->formatURL("/corp_boi_index/disbursemenfile?disbursement_number=". $this->formData['disbursement_number'] . "&from_date=".$this->formData['from_date'].'&to_date='.$this->formData['to_date']);?>';
+        url=url+"&type=download&file_id="+id;
+        //alert(url);
+        $(location).attr('href',url);
+}
+function downloadWalletWaFile(id) {
+        var url = '<?php echo $this->formatURL("/corp_boi_index/disbursemenfile?disbursement_number=". $this->formData['disbursement_number'] . "&from_date=".$this->formData['from_date'].'&to_date='.$this->formData['to_date']);?>';
+        url=url+"&type=download_wallet&file_id="+id;
+        //alert(url);
+        $(location).attr('href',url)
+}
+</script>

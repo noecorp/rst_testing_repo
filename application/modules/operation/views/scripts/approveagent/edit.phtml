@@ -1,0 +1,62 @@
+<script type="text/javascript">
+$(document).ready(function() {
+   var master = $("#master").val();
+    $.ajax({
+                url: '/ajax/get-fee/q/'+$("#bank_id").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#fee_id").html("");
+                            
+                            $("#fee_id").append(response);
+                            $("#fee_id option[value='"+master+"']").attr("selected", "selected");
+                            console.log(response);
+                          
+                        }
+                    }
+         
+        }); 
+        
+            $("#bank_id").change(function(){
+  
+            $.ajax({
+                url: '/ajax/get-fee/q/'+$("#bank_id").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#fee_id").html("");
+                            
+                            $("#fee_id").append(response);
+                            console.log(response);
+                          
+                        }
+                    }
+         
+        });
+    }); 
+});      
+  </script>
+<?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit product and fee for the agent';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

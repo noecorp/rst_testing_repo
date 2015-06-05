@@ -1,0 +1,171 @@
+<div class="Boldtext">NEFT response</div>
+<?php
+/**
+ * Manages the NEFT instruction list
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+echo $this->form;
+
+if($this->batchName!=''){
+$batchName = isset($this->formData['batch_name'])?$this->formData['batch_name']:"";
+$config = array();
+$config['pageTitle'] = 'NEFT Response';
+
+$config = array();
+
+// messages
+$config['pageTitle'] = $this->title;
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+        'Batch Name',    
+        'Amount',
+        'IFSC Code',
+        'Name',
+        'Bank Account Type',
+        'Address',
+        'Email',
+        'Mobile',
+        'Transaction Reference Number',
+        'Sender Message',
+    );
+
+$config['columnIndexes'] = array(
+    'batch_name',
+    'amount',
+    'ifsc_code',
+    'name',
+    'bank_account_type',
+    'address_line1',
+    'email',
+    'mobile',
+    'txn_code',
+    'sender_msg',
+);
+
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?>&nbsp;</div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+        <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/remit_ratnakar_remitter/neftresponse')?>" method = "POST"> 
+         <input type="hidden" name="batch_name" id ="batch_name" value="<?php echo $batchName;?>">
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                ?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                    $remidArr = Util::toArray($item);
+                    $remId = $remidArr['id'];
+                    ?>
+                        <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $remId; ?>"/></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo Util::numberFormat($remidArr[$config['columnIndexes'][1]]);?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][9]];?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr> 
+              
+
+            <?php 
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+2;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div>
+<div style="float: left; clear: both;margin-left: 20px;padding-bottom: 10px;">
+<input id="process_instructions" class="tangerine" type="submit" title="Success" value="Success" name="submit_success">
+<input id="process_instructions" class="tangerine" type="submit" title="Failure" value="Failure" name="submit_failure">
+</div>
+</form>
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } } ?>
+
+
+
+<script>
+$(document).ready(function() {
+$("#frm1").submit(function(e) {
+    
+       var batchName = document.frm_neft_response.batch_name.value;
+       document.frm1.batch_name.value = batchName;   
+           //remit_ratnakar_remitter-neftresponse
+       
+    if(!$('input[type=checkbox]:checked').length) {
+        //stop the form from submitting
+        e.preventDefault();
+        alert("Please select at least one to process.");
+    }
+
+    return true;
+    });  
+$("#selectall").click(function () {
+$('.reqid').attr('checked', this.checked);
+});
+
+// if all checkbox are selected, check the selectall checkbox
+// and viceversa
+$(".reqid").click(function(){
+
+if($(".reqid").length == $(".reqid:checked").length) {
+$("#selectall").attr("checked", "checked");
+} else {
+$("#selectall").removeAttr("checked");
+}
+
+});
+});
+</script>

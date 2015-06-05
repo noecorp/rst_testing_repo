@@ -1,0 +1,121 @@
+<div class="Boldtext">Agent Authorized Funding Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Agent Code',
+    'Agent Name',
+    'Opening Balance (for the day)',
+    'Agent Funding Amount (Authorized)',
+    'Authorized By',
+    'Remarks (Agent Comments)',
+    'Closing Balance (for the day)',
+);
+
+$config['columnIndexes'] = array(
+    'txn_datetime',
+    'agent_code',
+    'agent_name',
+    'agent_opening_balance',
+    'txn_amount',
+    'ops_name',
+    'comments',
+    'agent_closing_balance',
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$config['showComma'] = array('txn_amount','agent_closing_balance','agent_opening_balance');
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } } ?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+            var url = '<?php echo $this->formatURL("/reports/exportagentfundrequests?dur=".$this->formData['dur']."&to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date']);?>';    
+            $(location).attr('href',url);
+       
+    });
+    
+     $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       /**** From and To date validation ****/
+      if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+            alert('Please select either duration or from and to date.');
+            $("#dur").focus();
+            return false;
+      } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                    alert('Please specify From date.');
+                    $("#from_date").focus();
+                    return false;
+               }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify To date.');
+                    $("#to_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

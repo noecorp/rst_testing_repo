@@ -1,0 +1,1 @@
+ALTER TABLE `rat_corp_load_request` ADD `reversal_by` INT UNSIGNED NOT NULL AFTER `original_transaction_id` ;

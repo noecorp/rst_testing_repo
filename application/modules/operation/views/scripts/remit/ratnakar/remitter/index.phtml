@@ -1,0 +1,49 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext"> Ratnakar Remittance</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+         if ($helper->can('search')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/search/');?>" title="Search Remitter">Search Remitter</a>: Search Remitter Details</li>
+              <div class="clear"></div>
+        <?php } 
+        if ($helper->can('uploadpaymenthistory')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/uploadpaymenthistory/');?>" title="Payment History">Payment History</a>: Upload Payment History File</li>
+              <div class="clear"></div>
+        <?php }
+         if ($helper->can('uploadresponsepaymenthistory')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/uploadresponsepaymenthistory/');?>" title="Response Payment History">Response File </a>: Response Payment History File </li>
+              <div class="clear"></div>
+        <?php }
+          if ($helper->can('neftrequests')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/neftrequests/');?>" title="NEFT Instruction Batches">NEFT Instruction Batches</a>: NEFT Instruction Batches</li>
+              <div class="clear"></div>
+        <?php }  
+          if ($helper->can('neftresponse')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/neftresponse/');?>" title="NEFT Response">NEFT Response</a>: NEFT Response</li>
+              <div class="clear"></div>
+        <?php } 
+              if ($helper->can('manualmapping')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/manualmapping/');?>" title="Manual Mapping">Manual Mapping</a>: Manual Mapping</li>
+              <div class="clear"></div>
+        <?php }
+        if ($helper->can('manualrejection')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/manualrejection/');?>" title="Manual Rejection">Manual Rejection</a>: Manual Rejection</li>
+              <div class="clear"></div>
+        <?php }
+         if ($helper->can('searchreport')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/searchreport/');?>" title="Remittance Report">Remittance Report</a>:Search Remittance Report</li>
+              <div class="clear"></div>
+        <?php }
+        if ($helper->can('exportpaymenthistoryreport')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_ratnakar_remitter/exportpaymenthistoryreport/');?>" title="Payment History Report">Payment History Report</a>:Payment History Report</li>
+              <div class="clear"></div>
+        <?php }
+        ?> 
+              
+    </ul>
+    <div class="clear"></div>
+</div>

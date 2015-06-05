@@ -1,0 +1,963 @@
+<?php
+/**
+ * View for the login action
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+?>
+<?php 
+if(!empty($this->showServiceAgreement)){
+    $hideOtherDiv = 'display:block;';
+}else{
+    $hideOtherDiv = (intval($this->bcecontract) == 0)? 'display:none;':'display:block;';
+}
+
+if (intval($this->bcecontract) == 0 && empty($this->showServiceAgreement)){ ?>
+    <style type="text/css">
+        #cover{ 
+            position:fixed;
+            top:0;
+            left:0;
+            background:rgba(0,0,0,0.6);
+            z-index:5;
+            width:100%;
+            height:100%;
+            display:block;
+            opacity:2;
+        }
+        #serviceAgreement {
+            display:block;
+            height:580px;
+            width:775px;
+            padding:10px 20px;
+            margin-left: -282px;
+            margin-top: -186px;
+            position:relative;
+            z-index:10;
+            display:block;
+            background: white;
+            border:5px solid #cccccc;
+            border-radius:10px;
+            opacity:2;
+            overflow: scroll;
+        }
+        .myClass input {
+            background-repeat: no-repeat;
+            border: medium none;
+            color: #999;
+            font-size: 15px;
+            padding-left: 50px;
+            width: 15px!important;
+            height: 15px;
+            }
+
+        <!--
+        @page { size: 8.5in 11in; margin: 1in }
+        P { margin-bottom: 0.08in; direction: ltr; color: #000000; line-height: 115%; widows: 2; orphans: 2 }
+        P.western { font-family: "Calibri", sans-serif; font-size: 11pt; so-language: en-US }
+        P.cjk { font-family: "Calibri", sans-serif; font-size: 11pt }
+        P.ctl { font-family: "Times New Roman", serif; font-size: 11pt; so-language: ar-SA }
+        -->
+
+    </style>
+    <div id="serviceAgreement">
+        <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>SERVICE AGREEMENT</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>This Service Agreement
+            (this “</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Agreement</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”)
+            is made between </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>TranServ
+                Pvt. Ltd. </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>a
+            Company incorporated under the Companies Act, 1956 and having its
+            registered office at </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">7/D,32
+                Corporate Avenue,32 Mahal Industrial Estate, Off. Mahakali Caves
+                Road, Andheri (E), Mumbai – 400 093</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            hereafter referred as </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>‘TRANSERV’
+                OR THE “COMPANY” </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>(which
+            expression shall wherever the context so require, includes its/ their
+            administrators, group companies, societies, associates, affiliates,
+            subsidiaries etc.) OF THE ONE PART</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>AND</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Any person (“Business
+            Correspondent Agent” or “BCA”) who completes the registration
+            and enrolment process with Transerv to become a Business
+            Correspondent Agent (as defined herein) and provide Services to a
+            Customer through the BCA Platform of the Company pursuant to the
+            terms of this Agreement</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>TranServ and the BCA are
+            hereinafter collectively referred to as the “</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Parties</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            and individually as the “</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Party</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”.</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>&nbsp;
+            </B></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>BY CLICKING THE
+            ACCEPTANCE BUTTON OR BY ACCESSING, USING OR INSTALLING ANY PART OF
+            THE BCA PROGRAM OF THE COMPANY, BCA EXPRESSLY AGREES TO AND CONSENTS
+            TO BE BOUND BY THE TERMS OF THIS AGREEMENT. IF THE USER DOES NOT
+            AGREE TO ALL THE TERMS OF THE AGREEMENT, THE BUTTON INDICATING
+            NON-ACCEPTANCE MUST BE SELECTED, COMPANY WILL PROMPTLY CANCEL THE BCA
+            REGISTRATION AND THIS TRANSACTION AND THE BCA MAY NOT ACCESS, USE OR
+            INSTALL ANY PART OF THE AGENT PLATFORM</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>REGISTRATION</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%"><A NAME="OLE_LINK10"></A><A NAME="OLE_LINK11"></A>
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA has represented
+            that it can assist Transerv in facilitating financial inclusion,
+            electronic transactions &amp; other sale of other financial products
+            and services though the Agent Platform created by Transerv.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA has applied to
+            Transerv to be registered as a Business Correspondent Agent on a
+            non-exclusive basis to provide Services to the Customers on the terms
+            and conditions set out in this Agreement. Transerv has carried out
+            the thorough due diligence and fulfilled all the KYC requirements as
+            may be necessary under the applicable law and has registered and
+            enrolled the BCA as a Business Correspondent Agent for the purpose of
+            this Agreement.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.49in; text-indent: -0.2in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>DEFINITIONS
+            </B></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><B> </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Unless
+            the context otherwise requires, the following expressions shall have
+            the respective meanings:</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">&quot;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>Affiliate(s)</B></SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">&quot;
+            </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>of a
+            Party (&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Subject
+                Person</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;)
+            means any person or entity that directly or indirectly Controls, or
+            is Controlled by, or is under common Control with, the Subject
+            Person. &quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Control</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            means the power to direct or cause the direction of the management
+            and policies of such person, whether through the ownership of voting
+            securities or rights, by contract or otherwise. Without limitation
+            any person owning 26% (twenty six percent) or more of the voting
+            rights of another person will be deemed to Control that person. The
+            terms &quot;Controlled by&quot;, &quot;under common Control with&quot;
+            and &quot;Controlling&quot; will have correlative meanings. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.14in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Agent
+                Platform</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>
+            </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>shall
+            mean a modular platform developed and owned by TranServ giving access
+            to BCAs to offer financial products and services to customers.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%"><A NAME="OLE_LINK2"></A><A NAME="OLE_LINK1"></A>
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Applicable
+                Law</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            means all laws in force and effect as of the date hereof and which
+            may be promulgated or brought into force and effect hereinafter in
+            India and will include any statute, ordinance, code, law, decree,
+            circular, rule or regulation including any revisions, amendments or
+            re-enactments including without limitation rules, regulations and
+            notifications made thereunder and judgments, decrees, injunctions,
+            writs, orders and notifications issued by any court of record or any
+            appropriate authorities as may be in force and effect during the
+            subsistence and applicable to the Agreement whether now or at any
+            time in the future in effect.    </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Business Services</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean the services rendered by the Company to the Customers from
+            time to time.   </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Company/TranServ”
+            </B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>shall
+            mean Transerv Private Limited.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="text-indent: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Customer
+                Data</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in Clause 7.3; </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Computer System</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean the computer system to be arranged by the BCA and kept in
+            the Premises for the purpose of carrying out the Services. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Confidential
+                Information</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall include the (i) information furnished to the BCA pursuant to
+            this Agreement including passwords, information relating to ‘Top
+            Up’ etc.; (ii) contents of this Agreement; and (iii) any other
+            agreement executed in connection with this Agreement (iv) all
+            Customer Data; (v) </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>all
+            information disclosed by the </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">Company</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            t</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">o
+                the BCA</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            or that the BCA may otherwise have been privy to as a result of the
+            relationship between the Parties</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>.
+            </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Customer</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean the customer of the Prepaid card and other financial
+            products who  avails the Services.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Customer
+                Data</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in Clause 7.3 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Effective
+                Date</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            means the date of execution of the Agreement.    </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">&quot;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>Intellectual
+                    Property Rights</B></SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">&quot;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">
+                means</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">
+                all rights and interests, vested in or arising out of any
+                Intellectual Property, which includes (without limitation) rights and
+                interests in inventions, patents, copyrights, designs, trademarks,
+                trade-names, technology, Business names, logos, commercial symbols,
+                processes, developments, licenses, trade secrets, goodwill,
+                specifications, patterns, drawings, computer software, formulae,
+                technical information, research data, concepts, methods, procedures,
+                designs, Confidential Information and any other knowledge of any
+                nature whatsoever throughout the world, and including all
+                applications for patents, copyrights, trademarks, trade names, rights
+                to apply and any amendments/modifications, renewals thereto and all
+                other intellectual property rights relating thereto. </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            “<FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Merchandise</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean the marketing materials and consumable materials for
+            display at the Premises as may be supplied by the Transerv to the
+            BCA.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Payment
+                Terms</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in paragraph 9 of Annexure 1;</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Payment
+                Terms Notice</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in paragraph 9 of Annexure 1; </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>    “</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Premises</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean the premises from where the BCA is authorized by TranServ
+            to provide the Services under the terms of this Agreement.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>    “</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Services</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”
+            shall mean all or part of the Business Services as may be permitted
+            by the Company, to be provided by the BCA to the Customer, through
+            the BCA Platform of the Company by using the ‘User ID’ and the
+            password generated by the Company for the BCA pursuant to the terms
+            of this Agreement. A detailed scope of Services has been given in
+            Clause 2.1 and Annexure 1 of this Agreement.   </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Services
+                Modification</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in Clause 2.4 of this Agreement.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>    &quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Services
+                Modification Notice</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in Clause 2.4 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>    &quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Term</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            has been defined in Clause 4.1 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.14in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>TranServ
+                Branding</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;
+            means the </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">designs,
+                trademarks, trade-names, business names, logos, commercial symbols,
+            </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>owned
+            by the Company. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>OBLIGATIONS
+                OF THE BCA</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.1&nbsp;&nbsp;&nbsp;&nbsp;
+            The BCA agrees that it shall provide the Services from the Premises
+            as set out below.</FONT></FONT></P>
+        <OL>
+            <OL>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Enrolling customers
+                        /Selling of prepaid  card (Virtual/plastic) including filling
+                        applications forms and collection Documents</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Recharge /Reload
+                        Prepaid cards</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Enabling and
+                        facilitating transactions such as deposit, withdrawal, remittances
+                        including, but not limited to cash to bank account transfers,
+                        account to account transfers, etc.</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Sale of Other Financial
+                        Products and Services as offered by TranServ from time to time</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Deliver Monthly Targets
+                        for Customer Acquisition, transactions, credit, investments and
+                        other services as will be agreed to with the Company from time to
+                        time</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Liaise with TranServ
+                        Employees to ensure timely delivery of services to customers</FONT></FONT></P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Organizing Camps within
+                        local communities to create awareness and business opportunity. </FONT></FONT>
+                    </P>
+                <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.19in; line-height: 125%">
+                        <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Prepare and share MIS
+                        reports and statements in regular formats on a defined periodic
+                        basis.</FONT></FONT></P>
+            </OL>
+        </OL>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.94in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA will provide the
+            Customers with Services in accordance with the terms and conditions
+            given in Annexure 1. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA further agrees
+            that it shall at the time of providing Services from the Premises act
+            in a courteous manner and according to the instructions, operating or
+            training manual provided by the TranServ from time to time. </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">Further
+                the BCA must exercise all reasonable skill, care and diligence in the
+                performance of the Services, as may be required of an agent
+                undertaking works of a similar nature. </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.2&nbsp;&nbsp;&nbsp;&nbsp;The
+            BCA agrees that it shall not</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">
+                during the Term of this Agreement and for a period of 3 months after
+                the termination of this Agreement</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            deal, negotiate or work with any of the business rivals or
+            competitors engaged in any business which may be similar or same as
+            the business of the Company .In the event the BCA indulges in such
+            practice during the Term of the Agreement, then the Company may at
+            its sole discretion terminate this Agreement and shall be entitled to
+            initiate appropriate legal proceedings against the BCA for seeking
+            damages, specific performance, or any other relief available in
+            Applicable law or equity.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.3&nbsp;&nbsp;&nbsp;&nbsp;
+            The BCA agrees that it shall be solely responsible for all expenses,
+            including expenses for arranging for a computer, printer, internet
+            connection, electricity, salaries of the employees hired by the  BCA
+            etc. incurred by the BCA in providing Services. The BCA will be
+            responsible to pay wages and employment benefits to the employees,
+            staff appointed by the BCA to undertake the Services and to comply
+            with all Applicable Laws in this regard. The Company will in no way
+            be responsible for the payment of wages or employment benefits to the
+            BCAs employee or staff. The BCA must disengage any employee, staff
+            appointed by it for performance of the Services, upon receipt of
+            written request from the Company in relation to the same. The Company
+            will not be liable for any costs that the BCA incurs in relation to
+            providing these Services, including but not limited to employee
+            salaries, office expenses among others</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.4&nbsp;&nbsp;&nbsp;&nbsp;
+            The BCA agrees and acknowledges that the Company shall have the right
+            to modify or completely change, </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><I>inter
+                alia</I></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>,
+            the scope of the Services (&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Services
+                Modification</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;)
+            to be rendered by the BCA, service levels with prior notice
+            (&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Services
+                Modification Notice</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;)
+            to the BCAs. In the event the Services Modification is not acceptable
+            to the BCA, it must within 7 days of receipt of the Services
+            Modification Notice communicate its non-acceptance to the Services
+            Modification. The Services Modification will be deemed to be accepted
+            by the BCA in the event the BCA fails to communicate its
+            non-acceptance 7 days of receipt of the Services Modification Notice.
+            The Company will have the right to terminate this Agreement in the
+            event the BCA does not accept Services Modification. The Services
+            Modification Notice may be issued by the Company to the BCA via post
+            or any form electronic communication including email or fax. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.5     The BCA undertakes
+            to keep the Customer Application forms and KYC related documents in
+            its safe custody and will do further processing as per the
+            instructions of TranServ issued from time to time. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.6&nbsp;&nbsp;&nbsp;&nbsp;
+            The BCA agrees that it shall be solely liable for the accuracy of any
+            information and/or communication shared with the Company or on use of
+            BCA Platform of the Company pursuant to the terms of this Agreement
+            or otherwise.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">2.7&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">The
+                BCA acknowledges that any breach of the terms of this Agreement by
+                the BCA shall result in severe loss and long term hardship to the
+                Company and the Company shall have the right to initiate appropriate
+                legal proceedings against the </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BCA</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">
+                including seeking damages, specific performance, or any other relief
+                available in Applicable Law and equity.</SPAN></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">2.8&nbsp;&nbsp;&nbsp;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+            BCA agrees to use the TranServ Branding and the Merchandise only for
+            the limited purpose of providing the Services and its other
+            obligations under this Agreement. The BCA must adhere to any
+            instructions issued by the Company from time to time in relation to
+            use of the TranServ Branding, the Merchandise or any other
+            Intellectual Property Right owned by the Company.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.9&nbsp;&nbsp;&nbsp; The
+            BCA agrees to allow the Company, its auditors and any other person
+            authorised by the Company to access the Premises to enable the
+            Company to monitor the BCAs’ compliance with the terms and
+            conditions of this Agreement, to inspect or remove the Merchandise,
+            to inspect the BCAs’ records of the transaction etc.</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">
+                The BCA must fully cooperate with the Company and the auditors
+                appointed by the Company and must provide all records, documents as
+                may be requested by the auditors for </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>undertaking</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">
+                the audit. </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.10&nbsp; The BCA hereby
+            agrees to indemnify, keep indemnified and hold the  Company and each
+            of their directors, officers, employees BCAs and representatives
+            harmless from and against all claims, costs, expenses, legal
+            proceedings, damages, penalties, fines, liabilities incurred or
+            suffered by the Company and each of its directors, officers,
+            employees BCAs and representatives in any manner relating to any
+            representation or warranty of the BCA set forth in this Agreement,
+            being untrue or incorrect, for the breach of the obligations and/or
+            covenants of the BCA under this Agreement and also for any third
+            party actions against the Company arising due to the breach of the
+            obligations of the BCA or its employees at the time of carrying out
+            the Services. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.59in; text-indent: -0.3in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.11&nbsp;The BCA shall
+            pay, on accepting this Agreement, a one-time fee as sign-up fee to
+            the Transerv.  The amount will be conveyed to the BCA by Transerv
+            separately. The sign-up fee shall not be refundable to the BCA in any
+            circumstance. The said fees are towards providing the BCA with the
+            Transerv Branding and for use of BCA Platform for conducting the said
+            business. In consideration for the Services the BCA will be entitled
+            to the fees and other amounts as given in paragraph 8 and 9 of
+            Annexure 1.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.59in; text-indent: -0.3in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.12 The BCA agrees to
+            deposit and maintain with TranServ during the term of this Agreement
+            such balance amounts as may be prescribed by TranServ from time to
+            time as the working limit that the BCA maintains with TranServ in
+            advance, in order to ensure timely settlement of transactions and to
+            ensure seamless service to the Customers. Such balance amount would
+            be refundable to the BCA upon termination of this Agreement. However,
+            TranServ may in its sole discretion forfeit such balance amount or
+            part thereof, in the event the BCA is in breach of Applicable Laws or
+            any of its obligations, representations and warranties contained
+            herein, </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.59in; text-indent: -0.3in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>2.13 TranServ will from
+            time to time provide the BCA with the details of fair and reasonable
+            charges/fees that the BCA can charge Customers for provision of the
+            Services. The BCA hereby agrees and undertakes not to charge
+            Customers any additional fees, in any manner whatsoever, except as
+            has been provided by TranServ. In the event the BCA is in breach of
+            this clause 2.13, TranServ shall have the right to take suitable
+            action against the BCA. Such action will include but not limited to,
+            issuance of a show cause notice and deduction of Rs.500/- (Rupees
+            Five Hundred only) from any amounts due to the BCA under this
+            Agreements. Additionally, the BCA would also have to refund the extra
+            amount to the customer. If the BCA continues to be in breach of this
+            Clause, TranServ will have the right to terminate this Agreement with
+            immediate effect.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>REPRESENTATIONS
+                AND WARRANITES </B></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">3.1&nbsp;&nbsp;&nbsp;&nbsp;
+            </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">The
+                BCA represents and warrants that: </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>a)&nbsp;&nbsp;&nbsp;The
+            terms and conditions of this Agreement as set forth herein have been
+            duly accepted by it and this Agreement constitutes its legal and
+            binding obligations, enforceable against it in accordance with its
+            terms.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>b)&nbsp;&nbsp;&nbsp;The
+            acceptance of this Agreement and the performance of its obligations
+            hereunder do not require the consent of any person other than the BCA
+            itself and do not violate any rule, permit, consent or any provision
+            of the laws of India.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>c)&nbsp;&nbsp;&nbsp;As of
+            the date of this Agreement, the BCA is neither insolvent nor bankrupt
+            and is not the subject matter of any proceeding for its liquidation,
+            winding up or dissolution.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">d)&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>All
+            information provided by the BCA, for the purposes of this Agreement,
+            is true, complete and accurate in all respect.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>e)  </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>As
+            of the date of Agreement the BCA does not have any criminal record
+            and no criminal proceedings are pending with police, courts or other
+            authorities</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>f)  The BCA declares that
+            he/she is not linked with and is not an active member of any
+            political party registered in India.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>g) </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">The
+                BCA will provide Services in accordance with Applicable Laws, this
+                Agreement and the instructions provided by the Company from time to
+                time. </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.25in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%; widows: 0; orphans: 0">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>TERM AND
+                TERMINATION</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>4.1&nbsp;&nbsp;&nbsp;&nbsp;
+            This Agreement is effective upon the BCA’s acceptance of as set
+            forth herein and continue to be in force, unless terminated in
+            accordance with this terms of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.69in; text-indent: -0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>4.2&nbsp;&nbsp;&nbsp;&nbsp;
+            The Company shall have the right to terminate this Agreement on the
+            occurrence of any of the following events:</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notice
+            by the Company; provided however that the period of notice to be
+            given by the  Company to the BCA for termination of this Agreement
+            shall not be less than [15] days; </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(b)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material
+            breach by the BCA of any its obligation under this Agreement which
+            remains uncured for a period of [15] days from the date a notice has
+            been given by the Company;</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(c)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            breach by the BCA of any of its representations or warranties as set
+            forth in this Agreement; </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(d)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filing
+            of voluntary or involuntary proceedings by or against the BCA under
+            bankruptcy or insolvency laws or under laws for liquidation,
+            dissolution, receivership or similar procedures, or the BCA seeks or
+            consents to similar relief or remedies without proceedings;</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(e)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in
+            the event the BCA is a company, change of  Control of the BCA; </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(f)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upon
+            the occurrence of the event specified in Paragraph 1 of Annexure 1
+            appended to this Agreement.    </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(g)     in the event the BCA
+            is in breach of Clause 2.2 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(h) In the event the BCA
+            does not accept the Services Modification, in accordance with Clause
+            2.4 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(i) In the event the BCA
+            does not accept the Payment Terms specified by the Company in
+            accordance with paragraph 9 of Annexure 1 to this Agreement.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>(j) In the event the BCA
+            is in breach of Clause 2.13 of this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 125%">
+            <BR>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>4.3     The Parties may
+            terminate this Agreement anytime by mutual consent by giving a prior
+            written notice of 15 days/. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%; widows: 0; orphans: 0">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>GOVERNING
+                LAW AND DISPUTE RESOLUTION</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>5.1 The terms of this
+            Agreement shall be subject to and governed by the laws of India and
+            the courts at Mumbai, India shall have exclusive jurisdiction over
+            all matters arising out of or relating to this Agreement. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>6.</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B> INTELLECTUAL
+                PROPERTY</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 1in; text-indent: -0.5in; margin-bottom: 0in; line-height: 125%">
+            <BR>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">The
+                BCA specifically agrees and confirms that nothing contained in this
+                Agreement amounts to a license or assignment of the intellectual
+                property of the Company in favour of BCA, unless specifically
+                provided for in the Agreement for provision of the Services. The
+                Company at all times will be the sole and absolute owner of all the
+                Intellectual Property Rights in the TranServ Branding, Merchandise
+                and all information provided by the Company to the BCA for providing
+                the Services. The BCA expressly agrees and confirms that it
+                unconditionally waives and will not claim to possess any Intellectual
+                Property Rights over the TranServ Branding, Merchandise or any other
+                intellectual property owned by the Company.</SPAN></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 125%">
+            <BR>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%; widows: 0; orphans: 0">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>MISCELLANEOUS</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>7.1&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Specific
+                Performance of Obligations </B></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%"><A NAME="_DV_C372"></A>
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The Parties agree that to
+            the fullest extent permitted by Applicable Law the rights and
+            obligations of the Parties under this Agreement shall be subject to
+            the right of specific performance and may be specifically enforced
+            against a defaulting Party. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>7.2&nbsp;&nbsp;&nbsp;&nbsp;
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Restriction
+                on Assignment </B></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.39in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA cannot assign any
+            of its rights and obligations under this Agreement without the prior
+            written consent of the Transerv. The BCA, however, accords its
+            consent for assignment by Transerv of any of its rights and
+            obligations under this Agreement to any of the Affiliates of the
+            Company.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>7.3 </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Confidential
+                Information</B></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall use the
+            Confidential Information only for the purpose of its obligations
+            under this Agreement and shall hold the Confidential Information in
+            confidence and shall not disclose or use or attempt to </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>disclose</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            or use the same, either for its own benefit or for the benefit of any
+            third party, except as may be necessary for performance of its
+            obligations under the terms of this Agreement and strictly on a need
+            to know basis. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The Confidential
+            Information would include any details of the Customer that the BCA
+            may be privy to. The BCA shall maintain as confidential the customer
+            data and any details concerning the including Customer Application
+            forms and KYC related documents (“</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Customer
+                Data</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>”)
+            throughout the Term and after its termination in perpetuity. The BCA
+            must ensure that its employees, staff engaged for providing the
+            Services also maintain as confidential the confidential information
+            and Customer Data as stipulated hereinabove. The BCA and/or its
+            employees and staff must take adequate measures for maintaining the
+            security of the Customer Data and must inform the Company in case of
+            any security breaches and/or leakage of confidential Customer Data.
+            The BCA agrees to hold harmless and indemnify the Company for breach
+            of this clause of the Agreement caused by the BCA or its employees
+            and staff engaged for providing the Services. </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>Within 10 -(ten) days of
+            the expiry or termination of this Agreement, the BCA</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>will return
+            to the Company, all the Confidential Information including but not
+            limited to the Customer Data stored in any medium, and acquired by
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>the BCA</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">.</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>will
+            deliver to the Company all tangible copies of the Confidential
+            Information, including but not limited to magnetic or electronic
+            media containing the Confidential Information, note(s) and paper(s)
+            in whatever form containing the Confidential Information or parts
+            thereof, and any copies of the Confidential Information in whatever
+            form.  </FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN">7.4</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IN"><B>   Notices
+                </B></SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IE">Any
+                notice required to be given under this Agreement shall be in writing
+                and shall be served if </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>hand
+            delivery or by prepaid postage, registered mail or by recognized
+            courier service or by telex, cable or facsimile transmission</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IE">
+                to the address and for the attention of the Company as set out in
+                this Agreement and to the BCA as set out in the registration records
+                of the BCA with the Company.  </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-IE">7</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">.8  </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>Survival</B></SPAN></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">Clauses
+                7.3 (</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><I>Confidentiality</I></SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">),
+                2.2, 2.10, 5 (</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><I>Governing
+                    Law and Dispute Resolution</I></SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">),
+                7.4 (</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><I>Notices</I></SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">),
+                and this clause will survive termination or expiry of this Agreement.
+            </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">7.9  </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>Entire
+                    Agreement </B></SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%"><A NAME="_DV_M403"></A>
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">This
+                Agreement constitutes the whole agreement between the Parties
+                relating to the subject matter hereof and supersedes any prior
+                arrangements whether oral or written. </SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; text-indent: -0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">7.10</SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>  Waiver</B></SPAN></FONT></FONT></P>
+        <P LANG="en-GB" CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.46in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%"><A NAME="_DV_M371"></A>
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2>No Party will be deemed
+            to have waived any right under this Agreement, unless such Party has
+            delivered to the other Parties a written waiver signed by an
+            authorised officer of such waiving Party. No delay or omission in the
+            exercise of any power or remedy will be construed to be a waiver of
+            any default or acquiescence.</FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">7.11 </SPAN></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB"><B>No
+                    Partnership </B></SPAN></FONT></FONT>
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.49in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN LANG="en-GB">Nothing
+                contained in this Agreement shall be construed (a) to create an
+                association, trust, partnership, or joint venture, (b) to impose a
+                trust or partnership duty, obligation, or liability on or with regard
+                to either Party, (c) to create any principal-to-principal
+                relationship between the Parties, or (d) to create any duty, standard
+                of care or liability to any person or entity not a party to this
+                Agreement.</SPAN></FONT></FONT></P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+          
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%; page-break-inside: avoid; page-break-after: avoid">
+           
+        </P>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-left: 0.5in; text-indent: -0.5in; margin-top: 0.19in; margin-bottom: 0.19in; line-height: 125%">
+            <FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>ANNEXURE 1</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>-
+            </FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>OTHER
+                TERMS AND CONDITIONS</B></FONT></FONT></P>
+        <OL>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall achieve
+                    the targets set out by the Company (at the beginning of each month)
+                    for selling of prepaid  card (Virtual/plastic) and recharge
+                    (loading/) and sale of other financial products as advised by the
+                    Company from time to time and in the event the BCA despite its best
+                    efforts fails to achieve its targets as set out by the Company for a
+                    continuous period of 6 months, then such failure of the BCA shall be
+                    deemed to be a breach of this Agreement by the BCA and the Transerv
+                    shall have the right to terminate this Agreement by giving a notice
+                    of -15 days to the BCA.</FONT></FONT></P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall properly
+                    record the complaints that are received by it from the Customer in
+                    connection with the Services and take appropriate action to remedy
+                    such complaint and/or to prevent its recurrence. The BCA agrees that
+                    in the event it is unable to remedy the complaint it shall pass the
+                    details of such complaints to the TranServ as soon as possible and
+                    in any event before the expiry of 7 days from the date of receipt of
+                    such complaint from the Customer for necessary action by the
+                    TranServ.</FONT></FONT></P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall display
+                    the Merchandise at the Premises and shall use the same as per the
+                    policy of the Company as may be amended from time to time.</FONT></FONT></P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%"><A NAME="_GoBack"></A>
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall co-operate
+                    with the Company in complying with any special conditions or
+                    requirements that the Company may specify from time to time and
+                    shall, unconditionally and without any protest and demur, carry out
+                    the instructions/directions issued by the TranServ or the Company
+                    from time to time. </FONT></FONT>
+                </P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall ensure
+                    that no activity is undertaken at the Premises which will, or is
+                    likely to, adversely affect, the reputation of the Company </FONT></FONT>
+                </P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA shall notify the
+                    TranServ at least 10 days in advance of any refurbishment or
+                    temporary closure of the Premises. </FONT></FONT>
+                </P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The BCA agrees to
+                    maintain an account with the TranServ (“BCA Account”).  As
+                    required by TranServ, the BCA may have to maintain a refundable
+                    deposit without charging any interest from the company, for the
+                    purpose of running the business.</FONT></FONT></P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The TranServ undertakes
+                    to pay to the BCA, in consideration of rendering of Services, a
+                    fixed sum of money per enrollment &amp; specified amount on each
+                    transaction carried on by the BCA  or such other amount as per the
+                    policy of the Company from time to time.</FONT></FONT></P>
+            <LI><P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.19in; line-height: 125%">
+                    <FONT FACE="Arial, sans-serif"><FONT SIZE=2>The amount of
+                    consideration paid by the Company to the BCA and the terms and
+                    conditions in relation to payment of fees and other amounts to the
+                    BCA (&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Payment
+                        Terms</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;)
+                    may be determined and altered by the Company with prior written
+                    notice (&quot;</FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Payment
+                        Terms Notice</B></FONT></FONT><FONT FACE="Arial, sans-serif"><FONT SIZE=2>&quot;)
+                    to the BCA from time to time. In the event the Payment Terms are not
+                    acceptable to the BCA, it must within 7 days of receipt of the
+                    Payment Terms Notice, communicate to the Company its non-acceptance
+                    to the Payment Terms. The Payment Terms will be deemed to be
+                    accepted by the BCA in the event the BCA fails to communicate its
+                    non-acceptance 7 days of receipt of the Payment Terms Notice. The
+                    Company will have the right to terminate this Agreement in the event
+                    the BCA does not accept the Payment Terms specified by the Company. 
+                    The Payment Terms Notice may be issued by the Company to the BCA via
+                    post or any form electronic communication including email or fax. </FONT></FONT>
+                </P>
+        </OL>
+        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0.14in"><BR> </P>
+        <div style="padding:5px 0 0 70px;">
+            <div class="myClass" style="float:left;"><input type="checkbox" name="bcecontract" id="bcecontract" value="1" onclick="termsAndCondtion();"/></div>
+            <div style="float:left; padding-top:0px; padding-left: 20px;">“I have read and I accept the terms of the above agreement” </div>
+        </div>
+        </div>
+    <div id="cover"></div>
+
+<?php } ?> <!-- End of the Service agreement condition -->
+<div class="toplogbg" id="divToplogbg" style="<?php echo $hideOtherDiv;?>">
+                <div class="confirm-details">Authorization Code</div>
+            </div>
+            <div class="middlebg" id="divMiddlebg" style="<?php echo $hideOtherDiv;?>">
+
+            <div>
+        <?php if (isset($this->resent)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Authcode resent sucessfully';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->notresent)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br /> Authcode could not be resent';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->error)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Invalid authorization code. You have '.$this->num.' login attempts remaining.';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->empty)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Authorization code';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->inactive)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Your Account is inactive. Please contact the Agent Help Center.';?></p>
+            </div>
+        <?php endif;?>
+       <?php if (isset($this->locked)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Your Account is locked. Please contact the Agent Help Center.';?></p>
+            </div>
+        <?php endif;?>
+        <div class="agentbox">
+            <?php
+            $user = Zend_Auth::getInstance()->getIdentity();
+            
+            if ($user->photo == NULL){
+                    $imgUrl = $this->baseUrl().'/images/icons/agn-big-icon.png';
+                }
+                else{
+                    $imgUrl = $this->baseUrl().'/uploads/photo/'.$user->photo;
+                }
+            ?>
+            <img src="<?php echo $imgUrl;?>" width ="100"/>
+
+            </div>
+        <?php echo $this->form;?>
+         <div class="div3">
+             <div class="link2"><a href="<?php echo $this->formatURL('/profile/resend-authcode/');?>">Resend Authorization Code</a></div>
+ 
+        </div>
+
+    
+    </div>
+                <div class="clear"></div>
+            </div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    
+  $("#resend").click(function(){
+     
+         document.getElementById('resend').style.cursor = 'wait';
+         document.getElementById('submit').style.cursor = 'wait';
+         document.body.style.cursor = 'wait';
+            $.ajax({
+                url: '/ajax/resend-authcode',
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            alert('Auth code Resent!');
+                              document.getElementById('resend').style.cursor = 'default';
+                              document.getElementById('submit').style.cursor = 'default';
+                              document.body.style.cursor = 'default';
+                     
+                        }
+                    }
+         
+        });
+    });   
+     
+});
+   
+  // function for hide the service aggrement
+ function termsAndCondtion()
+ {
+   if($("#bcecontract").is(':checked')){
+       $("#econtractaccepted").val(22);
+       $("#serviceAgreement").hide();
+       $("#cover").hide();
+       $("#divToplogbg").show();
+       $("#divMiddlebg").show();
+       $("#divClear").show();
+       $("#divBottomlogbg").show();
+   }
+ }      
+  </script>

@@ -1,0 +1,1 @@
+ALTER TABLE `rat_payment_history` ADD `upload_status` ENUM('success','failed') NOT NULL AFTER `date_updated`, ADD `failed_reason` VARCHAR(25) NULL AFTER `upload_status`;

@@ -1,0 +1,195 @@
+<!--<div class="Boldtext">Commission Report</div>-->
+<div class="Boldtext"><?php echo $this->pageTitle;?></div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->submit)?$this->submit:'';
+
+if($frmSubmit){
+    
+$config = array();
+
+// messages
+$config['pageTitle'] = $this->title;
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'Agent Name',
+    'Email',
+    'Contact Numbers',
+    'Gender', 
+    'Date Of Birth',
+    'PAN',
+    'Education Level',
+    'Establishment Details',
+    'Residential Type',
+    'Residential Details',
+    'Identification Details',
+    'Address Proof Details',
+    'Bank Details',
+    
+);
+
+$config['columnIndexes'] = array();
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+?>
+
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                
+                ?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo Util::returnDateFormatted($item->date_created, "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item->title.' '.$item->first_name.' '.$item->last_name;?></td>
+                        <td><?php echo $item->email;?></td>
+                        <td><?php 
+                                    $mobile = $item->mobile1;
+                                    if($item->mobile2!='' && trim($item->mobile2)!='-')
+                                        $mobile .= ', '.$item->mobile2;
+                                    
+                                    echo $mobile;
+                            ?></td>
+                        <td><?php echo ucfirst($item->gender);?></td>
+                        <td><?php echo Util::returnDateFormatted($item->date_of_birth, "Y-m-d", "d-m-Y", "-") ;?></td>
+                        <td><?php echo $item->pan_number;?></td>
+                        <td><?php echo ucfirst($item->education_level);?></td>
+                        <td><?php 
+                                  $establishment='';
+                                  if($item->estab_name!='') 
+                                     $establishment = $item->estab_name;
+                                  if($item->estab_address1!='') 
+                                     $establishment .= ', '.$item->estab_address1;
+                                  if($item->estab_address2!='') 
+                                     $establishment .= ', '.$item->estab_address2;
+                                  if($item->estab_taluka!='') 
+                                     $establishment .= ', '.$item->estab_taluka;
+                                  if($item->estab_district!='') 
+                                     $establishment .= ', '.$item->estab_district;
+                                  if($item->estab_city!='') 
+                                     $establishment .= ', '.$item->estab_city;
+                                  if($item->estab_state!='') 
+                                     $establishment .= ', '.$item->estab_state;
+                                  if($item->estab_pincode!='') 
+                                     $establishment .= ', '.$item->estab_pincode;
+                                  
+                                  echo $establishment;
+                            ?>
+                        </td>
+                        <td><?php echo ucfirst($item->res_type);?></td>
+                        <td><?php 
+                                  $residence='';
+                                  if($item->res_address1!='') 
+                                     $residence = $item->res_address1;
+                                  if($item->estab_address2!='') 
+                                     $residence .= ', '.$item->estab_address2;
+                                  if($item->res_taluka!='') 
+                                     $residence .= ', '.$item->res_taluka;
+                                  if($item->res_district!='') 
+                                     $residence .= ', '.$item->res_district;
+                                  if($item->res_city!='') 
+                                     $residence .= ', '.$item->res_city;
+                                  if($item->res_state!='') 
+                                     $residence .= ', '.$item->res_state;
+                                  if($item->res_country!='') 
+                                     $residence .= ', '.$item->res_country;
+                                  if($item->res_pincode!='') 
+                                     $residence .= ', '.$item->res_pincode;
+                                  
+                                  echo $residence;
+                            ?></td>
+                        <td><?php echo ucfirst($item->Identification_type).' - '.$item->Identification_number?></td>
+                        <td><?php 
+                                $addressProof ='';
+                                if($item->address_proof!='')
+                                   $addressProof = ucfirst($item->address_proof).' - ';
+                                if($item->address_proof_number!='')
+                                   $addressProof .= $item->address_proof_number;
+                                    
+                                echo $addressProof; ?></td>
+                        <td><?php 
+                                  $bank='';
+                                  if($item->bank_account_number!='') 
+                                     $bank = 'Account No. '.$item->bank_account_number;
+                                  if($item->bank_name!='') 
+                                     $bank .= ', '.$item->bank_name;
+                                  if($item->bank_location!='') 
+                                     $bank .= ', '.$item->bank_location;
+                                  if($item->bank_area!='') 
+                                     $bank = $bank.', '.$item->bank_area;
+                                  if($item->bank_city!='') 
+                                     $bank .= ', '.$item->bank_city;
+                                  if($item->bank_ifsc_code!='') 
+                                     $bank .= ', <br>IFSC Code - '.$item->bank_ifsc_code;
+                                  if($item->branch_id!='') 
+                                     $bank .= ', <br>Branch Id - '.$item->branch_id;
+                                  
+                                  echo $bank;
+                            ?></td>
+                        
+                        
+
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } } ?>

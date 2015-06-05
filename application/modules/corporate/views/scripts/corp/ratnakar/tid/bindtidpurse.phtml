@@ -1,0 +1,117 @@
+<div class="Boldtext">Bind TID to Purse</div>
+<?php 
+
+echo $this->form;
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$config['columnNames'] = array(
+    'TID',
+    'MID',
+    'MCC',
+    'ME Name',
+    'Acquire Id',
+    'Status'
+    );
+
+$cntColNames = count($config['columnNames']) - 1 ;
+?>
+<div class="Boldtext"></div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/corp_ratnakar_tid/bindtidtopurse')?>" method = "POST">  
+           <input type="hidden" id="purse" name="purse" />
+         <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall" <?php if (!count($this->paginator)) : ?>disabled="disabled"<?php endif; ?>/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+               ?>
+                
+                <tr>                  
+                    <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $item['tid']; ?>"/></td>
+                    <td><?php echo $item['tid'];?></td> 
+                    <td><?php echo $item['mid'];?></td> 
+                    <td><?php echo $item['mcc'];?></td> 
+                    <td><?php echo $item['me_name'];?></td> 
+                    <td><?php echo $item['acquire_id'];?></td> 
+                    <td><?php echo ucwords($item['status']);?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+2;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+<input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Submit" name="submit_success">
+</div>
+</form>
+
+<script>
+$(document).ready(function() {
+     $("#frm1").submit(function(e) {
+         var purse_id = $.trim($("#purse_id").val());
+         if(purse_id == ''){
+           alert('Please select purse.'); 
+           $("#purse_id").focus();
+           return false;
+        }
+           //remit_boi_remitter-neftresponse
+          if(!$('input[type=checkbox]:checked').length) {
+               //stop the form from submitting
+               e.preventDefault();
+               alert("Please select at least one to process.");
+               return false;
+          }
+
+          return true;
+     });  
+     $("#selectall").click(function () {
+          $('.reqid').attr('checked', this.checked);
+     });
+
+     // if all checkbox are selected, check the selectall checkbox
+     // and viceversa
+     $(".reqid").click(function(){
+     
+          if($(".reqid").length == $(".reqid:checked").length) {
+               $("#selectall").attr("checked", "checked");
+          } else {
+               $("#selectall").removeAttr("checked");
+          }
+     });
+     
+     $("#purse_id").change(function(){
+         $("#purse").val($(this).val());
+     });
+});
+</script>

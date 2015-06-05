@@ -1,0 +1,316 @@
+<div class="Boldtext">Agent Summary Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$agentId = isset($this->formData['id'])?$this->formData['id']:'';
+$dur = isset($this->formData['dur'])?$this->formData['dur']:'';
+
+if($this->sub!=''){
+    
+$config = array();
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['addMessage'] = 'Back'; 
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Super Distributor Code',
+    'Super Distributor Name',
+    'Distributor Code',
+    'Distributor Name',
+    'Agent Name',
+    'Agent Code',        
+    'Email',
+    'Mobile',
+    'City',
+    'Pin Code',
+    'Card Loads Count',
+    'Card Loads Amount',
+//    'Card Reloads Count',        
+//    'Card Reloads Amount',
+    'Remitters Registration Count',
+    'Remitters Registration Amount',
+    'Remittance Count',   
+    'Remittance Amount',   
+    'Remittance Refund Count' , 
+    'Remittance Refund Amount',
+    'Product Name'
+);
+
+$config['columnIndexes'] = array(
+    'txn_date',
+    'super_agent_code',
+    'super_agent_name',
+    'distributor_code',
+    'distributor_name',
+    'agent_name',
+    'agent_code',
+    'email',
+    'mobile',
+    'estab_city',
+    'estab_pincode',
+    'total_agent_loads_count',
+    'total_agent_loads', 
+//    'total_agent_reloads_count',
+//    'total_agent_reloads',
+    'agent_total_remitters_count', 
+    'agent_total_remitters_fee',
+    'agent_total_remittance_count',
+    'agent_total_remittance',    
+    'agent_total_remittance_refund_count',
+    'agent_total_remittance_refund',
+    'product_name'
+);
+
+$config['actions'] = array();
+$config['showComma'] = array('amount');
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$noteText = isset($config['noteText']) ? $config['noteText'] : '' ;
+$cntColNames = count($config['columnNames']) - 1;
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][0]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][9]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][10]];?></td>
+                        <td><?php echo (int)$item[$config['columnIndexes'][11]]; ?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][12]]);?></td>
+                        
+                       <?php /*
+
+                        <td><?php if($item[$config['columnIndexes'][13]] > 0 && $helper->can('agentwiseload', 'mvc_axis_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/mvc_axis_reports/agentwiseload?sub=Submit&dur=".$dur."&id=".$item['agent_id']."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See agent reloads"><?php echo $item[$config['columnIndexes'][13]];?></a>
+                        <?php } else echo (int)$item[$config['columnIndexes'][13]]; ?>
+                        
+                        </td>
+                        
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][14]]);?></td>
+                        * 
+                        *                         */
+                       ?>
+                        
+                        <td>
+                            <?php if($item[$config['columnIndexes'][13]] > 0 && $helper->can('remitterregn', 'remit_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/remit_reports/remitterregn?sub=Submit&duration=".$dur."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See agent remitters"><?php echo $item[$config['columnIndexes'][13]];?></a>
+                            <?php } else echo (int)$item[$config['columnIndexes'][13]]; ?>
+                        </td>
+                        <td> <?php echo Util::numberFormat($item[$config['columnIndexes'][14]]);?> </td>
+                        
+                        <td>
+                            <?php if($item[$config['columnIndexes'][15]] > 0 && $helper->can('agentwiseremittancereport', 'remit_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/remit_reports/agentwiseremittancereport?sub=Submit&dur=".$dur."&id=".$item['agent_id']."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See agent remittances"><?php echo $item[$config['columnIndexes'][15]];?></a>
+                            <?php } else echo (int)$item[$config['columnIndexes'][15]]; ?>
+                        </td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][16]]);?></td>
+                        
+                        <td>
+                            <?php if($item[$config['columnIndexes'][17]] > 0 && $helper->can('remittancerefund', 'remit_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/remit_reports/remittancerefund?sub=Submit&dur=".$dur."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See remittance refund"><?php echo $item[$config['columnIndexes'][17]];?></a>
+                            <?php } else echo (int)$item[$config['columnIndexes'][17]]; ?>
+                        </td>
+                        
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][18]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][19]];
+                        
+                           
+                        
+                        ?></td>
+                        
+                        
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php $datePrev = $item[$config['columnIndexes'][0]];?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_exportcsv").click(function () {
+            var dur = '<?php echo $this->formData['dur']; ?>';
+            var url = '<?php echo $this->formatURL("/reports/exportagentsummary?dur=" . $this->formData['dur'] . "&id=" . $agentId . "&bank_unicode=" . $this->formData['bank_unicode'] . "&to_date=" . $this->formData['to_date'] . "&from_date=" . $this->formData['from_date']); ?>';
+            $(location).attr('href', url);
+        });
+        function JsdateReturn(Inputdate) {
+            var date = Inputdate.substring(0, 2);
+            var month = Inputdate.substring(3, 5);
+            var year = Inputdate.substring(6, 10);
+            var inputdate = new Date(year, month - 1, date);
+            return inputdate;
+        }
+        var agent_id = $("#agent_id").val();
+
+        if ($("#bank_unicode").val() != '') {
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/' + $("#bank_unicode").val() + '/p/TRUE',
+                success: function (response) {
+                    if (response === 1) {
+                    } else {
+                        $("#id").html("");
+                        $("#id").append(response);
+                        if (agent_id != '') {
+                            $("#id option[value='" + agent_id + "']").attr("selected", "selected");
+                        }
+                    }
+                }
+            });
+        }
+
+        $("#bank_unicode").change(function () {
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/' + $("#bank_unicode").val() + '/p/TRUE',
+                success: function (response) {
+                    if (response === 1) {
+                    } else {
+                        $("#id").html("");
+                        $("#id").append(response);
+                    }
+                }
+            });
+        });
+
+        $('#from_date,#to_date,#dur').change(function () {
+            var duration = $("#dur").val();
+            var from_date = $("#from_date").val();
+            var to_date = $("#to_date").val();
+            $('#from_date,#to_date').css('background', '#fff');
+            if ((duration == '') && (from_date != '' || to_date != '')) {
+                var inputdate = JsdateReturn(this.value);
+                var today = new Date(<?= date("Y") ?>,<?= date("m") - 1 ?>,<?= date("d") ?>);
+                if (inputdate > today) {
+                    if (this.id == 'from_date') {
+                        alert("From date cannot be greater than todate.");
+                    } else if (this.id == 'to_date') {
+                        alert("To date cannot be greater than todate.");
+                    }
+                    $("#" + this.id).val('').css('background', '#ff0');
+                    return false;
+                }
+                if ((from_date != '') && (to_date != '')) {
+                    var from_date = JsdateReturn(from_date);
+                    var to_date = JsdateReturn(to_date);
+                    var diff = to_date - from_date;
+                    var one_day = 1000 * 60 * 60 * 24;
+                    var date_range = diff / one_day;
+                    var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+                    if (to_date < from_date) {
+                        alert("From date cannot be greater than to date.");
+                        $("#to_date").val('').css('background', '#ff0');
+                        return false;
+                    } else if (date_range > max_range) {
+                        alert('Report can be fetched for a duration not more than ' + max_range + ' days');
+                        $("#to_date").val('').css('background', '#ff0');
+                        return false;
+                    }
+                }
+            } else if ((duration != '') && (from_date != '' || to_date != '')) {
+                alert('Please select either duration or from and to date.');
+                $("#" + this.id).val('');
+                $("#dur").focus();
+                return false;
+            }
+        });
+        $('form').submit(function () {
+            var from = $.trim($("#from_date").val());
+            var to = $.trim($("#to_date").val());
+            var duration = $("#dur").val();
+            var bank_unicode = $.trim($("#bank_unicode").val());
+            $('#bank_unicode').css('background', '#fff');
+            if ((bank_unicode == '') || (bank_unicode == '0')) {
+                alert("Please select bank name.");
+                $('#bank_unicode').css('background', '#ff0');
+                $("#bank_unicode").focus();
+                return false;
+            } else if ((duration == '' && (from == '' && to == '')) || (duration != '' && (from != '' || to != ''))) {
+                alert('Please select either duration or from and to date.');
+                return false;
+            } else if ((duration == '') && (from == '' || to == '')) {
+                alert('Please select from and to date.');
+                return false;
+            }
+            return true;
+        });
+    });
+</script>

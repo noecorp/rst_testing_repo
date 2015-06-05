@@ -1,0 +1,7 @@
+<?php 
+if ($this->status == FLAG_SUCCESS){ ?>
+Congratulations! <?php echo $this->nick_name;?>, has been successfully enrolled as a Beneficiary for <?php echo $this->product_name;?> Service.
+    <?php } 
+else if ($this->status == FLAG_FAILURE){ ?>
+Dear Customer, Enrollment of <?php echo $this->nick_name;?> as your Beneficiary for <?php echo $this->product_name;?> Service is not successful. Please try again.
+<?php } ?>

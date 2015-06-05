@@ -1,0 +1,45 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Reject Agent: '.$this->item->name;
+$config['areYouSureMessage'] = 'Are you sure you want to reject this agent?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Email',
+    'Mobile',
+    'Institution Name',
+    'Center ID',
+    'Terminal ID (TID) 1',
+    'Terminal ID (TID) 2',
+    'Terminal ID (TID) 3',
+    'Linked Branch ID',
+   );
+$config['columnIndexes'] = array(
+    'name',
+    'email',
+    'mobile1',
+    'institution_name',
+    'centre_id',
+    'terminal_id_tid_1',
+    'terminal_id_tid_2',
+    'terminal_id_tid_3',
+    'branch_id',
+   );
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

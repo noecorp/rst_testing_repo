@@ -1,0 +1,434 @@
+<div class="Boldtext">Wallet Balance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+ $bankUnicodeArr = Util::bankUnicodesArray();
+if($frmSubmit){
+    
+$config = array();
+  	 							
+
+// messages
+$config['pageTitle'] = $this->pageTitle;
+$config['emptyMessage'] = 'No record found.';
+
+$RatnakarBank = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+$bankRatnakarUnicode = $RatnakarBank->bank->unicode;
+
+// column names & indexes
+if(($this->formData['bank_unicode'] == $bankRatnakarUnicode) ){
+    $config['columnNames'] = array(
+        'Product Name',
+        'Bank Name',
+        'Aadhaar No',
+        'Currency ',
+        'Card Number ',
+        'CRN',
+        'Mobile',
+        'Medi Assist / Employee ID',
+        'Partner Reference No',
+        'Status',
+        'Corporate Id',
+        'Corporate Name',
+        'Report Date',
+        'Wallet Code',
+        'Balance',
+        'Total Balance',
+	'Block Fund',
+	'Accept Fund',
+	'Release Block Fund'
+    );
+    
+    $config['columnIndexes'] = array(
+        'product_name',
+        'bank_name',
+        'aadhaar_no',
+        'currency',
+        'card_number',
+        'crn',
+        'mobile',
+        'member_id',
+        'partner_ref_no',
+        'status',
+        'corporate_code',
+        'corporate_name',
+        'date',
+        'wallet_code',
+        'closing_balance',
+	'blocked_amount',
+	'claimed_amount',
+	'released_amount'
+    );
+} else {
+    $config['columnNames'] = array(
+        'Product Name',
+        'Bank Name',
+        'Aadhaar No',
+        'Currency ',
+        'Card Number ',
+        'CRN',
+        'Mobile',
+        'Member / Employee ID',
+        'Cust ID',
+        'Status',
+        'Corporate Id',
+        'Corporate Name',
+        'Report Date',
+        'Wallet Code',
+        'Balance',
+    );
+
+    $config['columnIndexes'] = array(
+        'product_name',
+        'bank_name',
+        'aadhaar_no',
+        'currency',
+        'card_number',
+        'crn',
+        'mobile',
+        'member_id',
+        'cust_id',
+        'status',
+        'corporate_code',
+        'corporate_name',
+        'date',
+        'wallet_code',
+        'closing_balance',
+    );
+}
+
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+<div style="clear:both;"></div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0' >
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            $count = 1;
+            foreach($this->paginator as $item) : 
+                
+                $end = FALSE;
+
+                if($this->formData['bank_unicode'] == $bankRatnakarUnicode) {
+                    if($count == 1) {
+                        $totalBal = $item[$config['columnIndexes'][14]];
+                        $custMasterId = $item['customer_master_id'];
+                        if($this->rsCount == $count) {
+                            $end = TRUE;
+                        }
+                    } elseif($custMasterId == $item['customer_master_id']) {
+                        $totalBal += $item[$config['columnIndexes'][14]];
+                        $custMasterId = $item['customer_master_id'];
+
+                        if($this->rsCount == $count) { 
+                            $end = TRUE;
+                        } 
+                    } elseif($custMasterId != $item['customer_master_id']) { ?>
+                        <tr>
+                            <td colspan="16" style="text-align: right;"><?php echo $totalBal; ?></td>
+			    <td colspan="3" style="text-align: right;"></td>
+                        </tr>
+                    <?php
+                        if($this->rsCount == $count) {
+                            $totalBal = 0;
+                            $totalBal += $item[$config['columnIndexes'][14]];
+                            $custMasterId = $item['customer_master_id'];
+                            $end = TRUE;
+                        } else {
+                            $totalBal = 0;
+                            $totalBal += $item[$config['columnIndexes'][14]];
+                            $custMasterId = $item['customer_master_id'];
+                        }
+                    } 
+                }
+            ?>
+                    
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/
+                    switch ($this->formData['bank_unicode']) {
+                            case $bankUnicodeArr['3']:
+                                $code = '-';
+                                $name = KOTAK_BANK;
+                                break;
+                            case $bankUnicodeArr['2']:
+                                $code = '-';
+                                $name = RATNAKAR_BANK_NAME;
+                                break;
+                            case $bankUnicodeArr['1']:
+                                $code = BOI_NSDC_PRODUCT_CODE;
+                                $name = BANK_OF_INDIA;
+                                break;
+                        }
+                    ?>
+
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $name;?></td> 
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo CURRENCY_INR;?></td>
+                        <td><?php echo Util::maskCard($item[$config['columnIndexes'][4]]);?></td>
+                        <td><?php echo Util::maskCard($item[$config['columnIndexes'][5]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+			<td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo ucfirst($item[$config['columnIndexes'][9]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][10]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][11]];?></td>
+			<td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][12]], "d-m-Y", "Y-m-d", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][13]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][14]];?></td>
+                        
+                        <?php
+                            if($this->formData['bank_unicode'] == $bankRatnakarUnicode) {
+                        ?>
+                            <td></td>
+			    <td><?php echo $item['blocked_amount'];?></td>
+			    <td><?php echo $item['claimed_amount'];?></td>
+			    <td><?php echo $item['released_amount'] + $item['unblocked_amount'];?></td>
+                        <?php } ?>
+
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>
+                <?php
+                
+                if($end == TRUE) { ?>
+                    <tr>
+                        <td colspan="16" style="text-align: right;"><?php echo $totalBal; ?></td>
+			<td colspan="3" style="text-align: right;"></td>
+                    </tr>
+                <?php } ?>
+                
+            <?php 
+            $count++;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } 
+
+}
+
+
+
+?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+   
+ var product = $("#product").val();
+ if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-bankproductscommon/q/'+$("#bank_unicode").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                            $("#product_id option[value='"+product+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+
+  $("#bank_unicode").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/'+$("#bank_unicode").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+    $("#btn_exportcsv").click(function(){
+        
+       
+            var url = '<?php echo $this->formatURL("/reports/exportwalletbalance?to_date=".$this->formData['to_date']."&product_id=".$this->formData['product_id']."&bank_unicode=".$this->formData['bank_unicode']."&wallettype=".$this->formData['wallettype']);?>';    
+            $(location).attr('href',url);
+       
+    });  
+    
+    $("input#from_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter From date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                  return true;
+                }else{
+                    alert('Please enter valid From date');
+                  this.value = '';
+                  $("#from_date").focus();
+                  return false;
+                }
+            }
+
+
+        }
+        
+    });
+          
+       $("input#to_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter To date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid To date');
+                      this.value = '';
+                      $("#to_date").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+    
+    $('form').submit(function(){
+  
+       /*var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "< ?php echo SEARCH_DURATION_MAX; ?>";
+      
+     if((from == '') || (to == '') ) {
+                    alert('Please specify both From and To date.');
+                    $("#from_date").focus();
+                    return false;
+               }  
+   else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000')) || ((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify both From and To date.');
+                    $("#from_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+*/              
+       /**** From and To date validation over ****/
+      
+      if($("#to_date").val() == '')
+        {
+            alert('Please enter valid  date');
+            $("#to_date").focus();
+            return false;
+        }
+        else 
+        {
+            var date_start = $("#to_date").val();
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x >= curdate)
+            {
+                alert("Please enter date less than today's date");
+                $("#to_date").val('');
+                $("#to_date").focus();
+                return false;
+            } else{      
+            
+            if (!date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                alert('Please enter valid date');
+                $("#to_date").val('');
+                $("#to_date").focus();
+                return false;
+            }
+        } 
+
+        }
+     return true; 
+   });    
+});
+</script>

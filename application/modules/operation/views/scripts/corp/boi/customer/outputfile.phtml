@@ -1,0 +1,203 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Application Output File';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Batch Name',
+    'Date Created',
+    'No. of Records',
+    );
+$config['columnIndexes'] = array(
+    'batch_name',
+    'date_created',
+    'count'
+);
+
+$cntColNames = count($config['columnNames']) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+
+?>
+<?php echo $this->form; ?> 
+<?php 
+echo '<!-- <pre>';print_r($this->paginator);echo '</pre> -->';
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+              ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                 $formatUrlPhoto = $this->formatURL("/filedownload/index?file=".$item[$config['columnIndexes'][0]]."&path=output_file");
+            ?>   
+               
+               
+               <td><a href = "<?php echo $formatUrlPhoto; ?>" title = "Download File"><?php echo $item[$config['columnIndexes'][0]];?></a></td>
+               <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][1]],'d-m-Y','Y-m-d');?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {    
+   
+          
+       $("input#start_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter From date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid From date');
+                      this.value = '';
+                      $("#start_date").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+          
+       $("input#end_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter To date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid To date');
+                      this.value = '';
+                      $("#end_date").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+     $('form').submit(function(){
+  
+       var from = $.trim($("#start_date").val()); 
+       var to = $.trim($("#end_date").val()); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       
+ 
+      /**** From and To date validation ****/
+    if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000')) || ((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify both From and To date.');
+                    $("#start_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#start_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#end_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

@@ -1,0 +1,214 @@
+<div class="Boldtext">NEFT Instruction Batches</div>
+<?php 
+
+echo $this->form;
+
+$config['pageTitle'] = 'NEFT Instruction Batches';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Batch Files',
+    'Transaction Count',
+    'Total Amount',
+    'Download Count'
+    );
+$config['columnIndexes'] = array(
+    'batch_name',
+    'txn_count',
+    'txn_amount',
+    'dn_count'
+    
+    );
+
+
+
+//$config['actions'] = array(
+//        'download'    =>  array(
+//        'action'        => 'neftbatch',
+//        'title'         => 'Download',
+//        'parameter'     => TRUE,
+//        'icon'          => TRUE,
+//        'img_url'       => '/images/icons/file_download.png',
+//        //'link_class'    => 'btn',
+//        'img_alt'       => 'edit',
+//    ),
+//    
+//       
+//    );
+//
+//$config['linkOrder'] = array('download');
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+?>
+
+<?php
+
+if($this->records){ ?>
+
+<div class="Boldtext">NEFT Instruction Batches</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th colspan="2"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?> 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+               ?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                    <td>
+                        <?php if ($helper->can('neftbatchdetails', 'remit_boi_remitter')) {?>
+             <a href="<?php echo $this->formatURL("/remit_boi_remitter/neftbatchdetails?batch_name=".$item[$config['columnIndexes'][0]]."&from_date=".$this->from."&to_date=".$this->to."&amount=".$this->amount);?>" alt="View Batch Details" title ="View Batch Details"><?php echo $item[$config['columnIndexes'][0]];?></a>
+             <?php } else {
+                 echo $item[$config['columnIndexes'][0]];
+             } ?>
+                    </td>   
+                            
+            
+                    
+                    <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                <td><?php echo Util::numberFormat($item[$config['columnIndexes'][2]]);?></td>
+                        <td>
+                           <?php 
+                           if($item[$config['columnIndexes'][3]] != 0 && $helper->can('neftlog', 'remit_boi_remitter')){
+                           ?>
+                                <a href="<?php echo $this->formatURL("/remit_boi_remitter/neftlog?batch=".$item[$config['columnIndexes'][0]]);?>" alt="View NEFT Log" title="View NEFT Log"><?php echo $item[$config['columnIndexes'][3]];?></a>
+                        <?php 
+                           }
+                        else {
+                            echo $item[$config['columnIndexes'][3]];
+                        }
+                        ?>
+                        <td>
+                        <?php if ($item['neft_processed'] == FLAG_NO && $helper->can('neftbatch', 'remit_boi_remitter')) {
+                              ?>
+             <a href="<?php echo $this->formatURL("/remit_boi_remitter/neftbatch?batch=".$item[$config['columnIndexes'][0]]);?>"><img alt="Download" title ="Download" src="<?php echo $this->baseUrl();?>/images/icons/file_download.png" border="0" height="22" width="20"></a>
+             <?php } else
+                    {
+                        echo '-'; 
+                    }?>
+                           
+                    </td>
+                     <td>
+                    <?php if ($helper->can('neftprocessed', 'remit_boi_remitter')) {
+                                 if($item['neft_processed'] == FLAG_NO) {?>
+             <a href="<?php echo $this->formatURL("/remit_boi_remitter/neftprocessed?batch_name=".$item[$config['columnIndexes'][0]]);?>"><img alt="Mark as Processed" title ="Mark as Processed" src="<?php echo $this->baseUrl();?>/images/icons/icon_processed.gif" border="0" height="22" width="20"></a>
+             <?php } 
+             else
+             {
+                 echo STATUS_PROCESSED; 
+             }
+             }?>
+                           
+                    </td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+</div>
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       
+      
+    
+     $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       
+      /**** From and To date validation ****/
+             if(from == '' || from =='00-00-0000') {
+                    alert('Please specify From date.');
+                    $("#from_date").focus();
+                    return false;
+               } 
+               if(to =='' || to =='00-00-0000') {
+                    alert('Please specify To date.');
+                    $("#to_date").focus();
+                    return false;
+               } 
+               if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+          /**** From and To date validation over ****/
+          
+          
+     return true; 
+   }); 
+}); 
+
+
+</script>

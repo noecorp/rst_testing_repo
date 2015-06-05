@@ -1,0 +1,234 @@
+<div class="Boldtext">Agent Commission Summary Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$agentId = isset($this->formData['id'])?$this->formData['id']:'';
+$dur = isset($this->formData['dur'])?$this->formData['dur']:'';
+$noteText = isset($this->noteText)?$this->noteText:'';
+
+
+if($dur!=''){
+    
+$config = array();
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['addMessage'] = 'Back'; 
+$config['no_add']=1;
+$config['showActions'] = false;
+//$config['noteText'] = '';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Super Distributor Code',
+    'Super Distributor Name',
+    'Distributor Code',
+    'Distributor Name',
+    'Agent/Distributor/Super Distributor Name',
+    'Agent/Distributor/Super Distributor Code',        
+    'City',
+    'Pin Code',
+    'Card Load/Reload Amount',
+    'Card Load/Reload Commission Amount',        
+    'Remittance Amount',
+    'Remittance Commission Amount',
+    'Commission Plan',
+    'Remittance Fee'
+);
+
+$config['columnIndexes'] = array(
+    'txn_date',
+    'super_agent_code',
+    'super_agent_name',
+    'distributor_code',
+    'distributor_name',
+    'agent_name',
+    'agent_code',
+    'estab_city',
+    'estab_pincode',
+    'total_agent_load_reload_amount', 
+    'total_agent_load_reload_comm',
+    'total_agent_remit_amount',
+    'total_agent_remit_comm',
+    'plan_commission_name',
+    'transaction_fee'
+);
+
+$config['actions'] = array();
+$config['showComma'] = array('amount');
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$cntColNames = count($config['columnNames']) - 1;
+
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][0]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][9]]);?></td>
+                        <td><?php if($item[$config['columnIndexes'][10]] > 0 && $helper->can('agentwiseloadreloadcomm','mvc_axis_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/mvc_axis_reports/agentwiseloadreloadcomm?btn_submit=Submit&duration=".$dur."&agent_id=".$item['agent_id']."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See agent commissions"><?php echo $item[$config['columnIndexes'][10]];?></a>
+                            <?php } else echo Util::numberFormat($item[$config['columnIndexes'][10]]); ?>
+                        </td>
+                            
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][11]]);?></td>
+                        <td><?php if($item[$config['columnIndexes'][12]] > 0 && $helper->can('agentwiseremittancecommission','remit_reports')){
+                            ?> <a href="<?php echo $this->formatURL("/remit_reports/agentwiseremittancecommission?btn_submit=Submit&duration=".$dur."&id=".$item['agent_id']."&bank_unicode=".$this->formData['bank_unicode']);?>" title="See agent remittances"><?php echo Util::numberFormat($item[$config['columnIndexes'][12]]);?></a>
+                            <?php } else echo Util::numberFormat($item[$config['columnIndexes'][12]]); ?>
+                        </td>
+                        <td><?php echo $item[$config['columnIndexes'][13]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][14]];?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php $datePrev = $item[$config['columnIndexes'][0]];?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } 
+    if(isset($noteText) && $noteText != '') {
+    ?>
+    <div class="note"><b>*Note: </b><?php echo $noteText;?></div>
+<?php } }?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+        if(dur==''){
+            alert('Please specify duration');
+        } else {
+            var url = '<?php echo $this->formatURL("/reports/exportagentcommissionsummary?dur=".$dur."&id=".$agentId."&bank_unicode=".$this->formData['bank_unicode']);?>';    
+            $(location).attr('href',url);
+       }
+    });
+    var agent_id = $("#agent_id").val();
+
+ if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-agentsdropdown/q/'+$("#bank_unicode").val()+'/p/TRUE',
+                    success: function(response) {
+                        if(response === 1) {                            
+                        } else {                            
+                            $("#id").html("");                            
+                            $("#id").append(response);
+                            if(agent_id != ''){
+                            $("#id option[value='"+agent_id+"']").attr("selected", "selected");
+                            }
+                        }
+                    }     
+        });
+ }
+ 
+  $("#bank_unicode").change(function(){
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/'+$("#bank_unicode").val()+'/p/TRUE',
+                    success: function(response) {
+                        if(response === 1) {                            
+                        } else {                            
+                            $("#id").html("");                            
+                            $("#id").append(response);
+                        }
+                    }     
+        });
+    });
+    
+     $('form').submit(function(){
+         
+         var bank_unicode = $.trim($("#bank_unicode").val());
+         var id = $.trim($("#id").val());
+         var dur = $.trim($("#dur").val());
+         $('#bank_unicode').css('background', '#fff');
+         $('#id').css('background', '#fff');
+         $('#dur').css('background', '#fff');
+        if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if( (id == '') || (id == '0') ){
+             alert("Please select agent name.");
+              $('#id').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(dur == ''){
+             alert("Please select duration period.");
+              $('#dur').css('background', '#ff0'); // will change the background to red
+             return false;
+         }
+          
+     return true; 
+   }); 
+});
+</script>

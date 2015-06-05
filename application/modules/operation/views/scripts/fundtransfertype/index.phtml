@@ -1,0 +1,58 @@
+ <?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Fund Transfer Type';
+$config['addMessage'] = 'Add Fund Transfer Type'; 
+$config['emptyMessage'] = 'No fund transfer type found.';
+$config['addURL'] = '/fundtransfertype/add';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Status',
+    'Added By',
+    'Created Date',   
+);
+
+$config['columnIndexes'] = array(
+    'name',
+    'status',
+    'ops_name',
+    'date_created'    
+);
+
+$config['actions'] = array(
+    array(
+        'action'        => 'edit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+        'img_alt'       => 'edit',
+    )  
+);
+
+
+$config['linkOrder'] = array(
+    );
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+//echo "<pre>";print_r($this->paginator);exit;

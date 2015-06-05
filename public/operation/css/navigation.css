@@ -1,0 +1,133 @@
+/* CSS Document */
+
+
+
+ ul.mainnav {
+  text-align: left;
+  display: inline;
+  margin: 0;
+  padding: 1px 4px 17px 0;
+  list-style: none;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+ul.mainnav li {
+  font: bold 12px/18px sans-serif;
+  display: inline-block;
+  margin-right: -4px;
+  position: relative;
+  padding: 14px 0px;
+  background: #F7931E;
+	border-right:solid thin #cf770f;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -ms-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  transition: all 0.1s;
+}
+ul.mainnav li:hover{ background: #555; color: #fff; }
+ul.mainnav li a { color:#000; text-decoration:none;  padding: 15px; }
+ul.mainnav li a:hover{ color:#fff;  }
+
+ul.mainnav li ul {
+  padding: 0;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transiton: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -ms-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  -transition: opacity 0.2s;
+}
+ul.mainnav li ul.mainnav  li { 
+  background: #555; 
+  display: block; 
+  color: #fff;
+  text-shadow: 0 -1px 0 #000;
+}
+ul.mainnav li ul.mainnav li a:hover { background: #666; }
+ul.mainnav li:hover ul.mainnav {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+
+
+ul.subnav {
+  text-align: left;
+  display: inline;
+  margin: 0;
+  padding: 15px 4px 17px 0;
+  list-style: none;
+  
+ 
+}
+ul.subnav li {
+  /*font: bold 12px/18px sans-serif;*/
+  display: inline-block;
+  margin-right: -4px;
+  position: relative;
+  padding: 9px 0px;
+  background: #E0E7ED;
+  cursor: pointer;
+ 
+}
+ul.subnav li:hover{ background: #555; color: #fff; }
+ul.subnav li a { color:#000; text-decoration:none;  padding: 15px; }
+ul.subnav li a:hover{ color:#fff;  }
+
+ul.subnav li ul {
+  padding: 0;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transiton: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -ms-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  -transition: opacity 0.2s;
+}
+ul.subnav li ul.subnav  li { 
+  background: #555; 
+  display: block; 
+  color: #fff;
+}
+ul.subnav li ul.subnav li a:hover { background: #666; }
+ul.subnav li:hover ul.subnav {
+  display: block;
+  visibility: visible;
+}
+ul.subnav li.selected{ 
+    background: #555; 
+    color: #fff; 
+}
+ul.subnav li.selected a{ 
+    color: #fff; 
+}
+
+ul.mainnav li.selected{ 
+    background: #555; 
+    color: #fff; 
+}
+ul.mainnav li.selected a{ 
+    color: #fff; 
+}
+

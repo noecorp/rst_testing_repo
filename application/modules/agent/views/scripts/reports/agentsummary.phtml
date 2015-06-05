@@ -1,0 +1,182 @@
+<div class="Boldtext">Agent Transaction Summary Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$dur = isset($this->formData['dur'])?$this->formData['dur']:'';
+$bankBoi = App_DI_Definition_Bank::getInstance(BANK_BOI);
+$bankBoiUnicode = $bankBoi->bank->unicode;
+if($this->sub!=''){
+    
+$config = array();
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Agent Name',
+    'Agent Code', 
+    'Card Loads Count', 
+    'Card Loads Amount',
+    'Card Reloads Count',       
+    'Card Reloads Amount',
+    'Remitters Registration Count',
+    'Remitters Registration Amount',
+    'Remittance Count',
+    'Remittance Amount',   
+    'Remittance Refund Count',   
+    'Remittance Refund Amount',   
+);
+
+$config['columnIndexes'] = array(
+    'txn_date',
+    'agent_name',
+    'agent_code',
+    'total_agent_loads_count',
+    'total_agent_loads', 
+    'total_agent_reloads_count',
+    'total_agent_reloads',
+    'agent_total_remitters_count',
+    'agent_total_remitters_fee',
+    'agent_total_remittance_count',  
+    'agent_total_remittance',    
+    'agent_total_remittance_refund_count',
+    'agent_total_remittance_refund',
+);
+
+$config['actions'] = array();
+$config['showComma'] = array('amount');
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$noteText = isset($config['noteText']) ? $config['noteText'] : '' ;
+$cntColNames = count($config['columnNames']) - 1;
+
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][0]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td>
+                            <?php if($item[$config['columnIndexes'][3]] > 0){
+                            ?> <a href="<?php echo $this->formatURL("/mvc_axis_reports/agentwiseload?sub=Submit&dur=".$dur);?>" title="See agent loads"><?php echo $item[$config['columnIndexes'][3]];?></a>
+                            <?php } else echo $item[$config['columnIndexes'][3]]; ?>
+                        </td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][4]]);?></td>
+                        <td>
+                            <?php if($item[$config['columnIndexes'][5]] > 0){
+                            ?> <a href="<?php echo $this->formatURL("/mvc_axis_reports/agentwiseload?sub=Submit&dur=".$dur);?>" title="See agent reloads"><?php echo $item[$config['columnIndexes'][5]];?></a>
+                            <?php } else echo $item[$config['columnIndexes'][5]]; ?>
+                        </td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][6]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]]; ?> </td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][8]]);?></td>
+                        <td><?php if($item[$config['columnIndexes'][9]] > 0 && ($helper->can('remittancereport','remit_boi_reports') || $helper->can('remittancereport','remit_kotak_reports'))){
+                           if($this->formData['bank_unicode'] == $bankBoiUnicode){
+                           
+                                $url = "/remit_boi_reports/remittancereport?sub=Submit&dur=".$dur."&bank_unicode=".$this->formData['bank_unicode'];
+                            }else{
+                                $url = "/remit_kotak_reports/remittancereport?sub=Submit&dur=".$dur."&bank_unicode=".$this->formData['bank_unicode'];
+  
+                            }
+                            
+                            ?> <a href="<?php echo $this->formatURL($url);?>" title="See agent remittances"><?php echo $item[$config['columnIndexes'][9]];?></a>
+                        <?php } else echo $item[$config['columnIndexes'][9]]; ?>
+                        
+                        </td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][10]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][11]]; ?> </td>
+                        <td> <?php echo Util::numberFormat($item[$config['columnIndexes'][12]]);?> </td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php $datePrev = $item[$config['columnIndexes'][0]];?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+        if(dur==''){
+            alert('Please specify duration');
+        } else {
+            var url = '<?php echo $this->formatURL("/reports/exportagentsummary?dur=".$dur."&bank_unicode=".$this->formData['bank_unicode']);?>';    
+            $(location).attr('href',url);
+       }
+    });     
+});
+</script>

@@ -1,0 +1,210 @@
+<script>
+  $(document).ready(function(){
+     
+     $("#searchCriteria").change(function(){
+         
+         $("#keyword").val('');
+       });      
+         
+     });
+</script><?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Cardholders Listing';
+$config['addMessage'] = 'Enroll Cardholder'; 
+$config['emptyMessage'] = 'There is no Cardholder added at this time.';
+$config['addURL'] = '/mvc_axis_cardholder/step1';
+
+$config['no_add']=1;  //to not have add button
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name', 
+    'Email Id',
+    'Mobile Number',
+    'CRN',
+    'City',
+    'State',
+    'Pincode',
+    'Date of Birth',   
+);
+$config['columnIndexes'] = array(
+    
+    'name',
+    'email',
+    'mobile',
+    'crn',
+    'city',
+    'state',
+    'pincode',
+    'date_of_birth',   
+);
+$config['showActions'] =TRUE;
+//$config['viewLinkColumn'] = 'name';
+
+// render the default listing
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+?>
+<?php echo $this->form; ?> 
+<?php if(!empty($this->paginator)):?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+        
+<?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->canAdd()):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+<div class="filterbox">
+
+<div style="width:950px; margin:10px auto;">
+
+<?php if(isset($addImg) && $addImg != '') {?>    
+<div class="addnew-comm"><img src="<?php echo $this->baseUrl();?>/<?php echo $addImg;?>" border="0" usemap="#Map" />
+  <map name="Map" id="Map">
+    <area shape="rect" coords="5,5,216,25" href="<?php echo $href; ?>" />
+  </map>
+</div>
+
+<?php }
+else {
+    ?>
+    <a class="addnew-comm" href="<?php echo $this->formatURL(href);?>"><?php $helper->addMessage();?></a>
+    <?php
+}
+?>
+</div><!--Inner Style Div END-->
+
+
+</div>
+        
+<?php endif;?> 
+<?php endif;?>  
+
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0' style="margin:auto"> 
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th colspan ="2" class="last tc"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            
+                                    <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());
+                                    ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());
+                           // echo $index;
+                           
+                            ?>
+                                    <?php $helper->displayItem($item, $index);?>
+                                </td>
+                                  <?php 
+                            
+                           
+                            ?>
+                            <?php endforeach; ?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            
+                                 <!--<td style="margin:0; padding:0;">
+                                    <div class="iconbox">
+                                        <ul class="actions">-->
+                                    <?php 
+                                        $status = $item->toArray();
+                                        
+                                        $id = $status['id'];
+                                        $encrId = Util::getEncrypt($id);
+                                        
+                                        if($status['status'] == STATUS_PENDING || $status['status'] == STATUS_BLOCKED){
+                                          if ($helper->can('unblock')) {
+                                              $formatUrl = $this->formatURL("/mvc_axis_cardholder/unblock?id=".$id.'&'.$this->backLink);
+                                            echo "<td><a href='".$formatUrl."'><img alt='Unblock' title='Unblock' src='".$this->baseUrl()."/images/icons/unblock.png' border='0'></a></td>";
+                                          }
+                                          else {
+                                              echo "<td>-</td>";
+                                          }
+                                        }
+                                        else
+                                        {
+                                         if ($helper->can('block')) {
+                                             $formatUrl = $this->formatURL("/mvc_axis_cardholder/block?id=".$id.'&'.$this->backLink);
+                                          echo "<td><a href='".$formatUrl."'><img alt='Block' title='Block' src='".$this->baseUrl()."/images/icons/blocked.png' border='0'></a></td>";
+                                         }
+                                         else {
+                                             echo "<td>-</td>";
+                                         }
+                                           
+                                        }
+                                        if ($helper->can('step1')) {
+                                            $formatUrl = $this->formatURL("/mvc_axis_cardholder/step1?ch=".$encrId);
+                                        echo "<td><a href='".$formatUrl."'><img alt='Edit' title='Edit' src='".$this->baseUrl()."/images/icons/edit.png' border='0'></a></td>";
+                                        }
+                                        else {
+                                            echo "<td>-</td>";
+                                        }
+                                   
+                                    ?>
+                                       <!-- </ul>
+                                    </div>
+                                 </td> -->
+                            
+                        </tr>    
+                    <?php  $config['linkOrder'] = array('action_taken');   endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php echo $helper->columnCount(FALSE)+1;?>" class="emptyMessage">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;
+                ?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php endif;?>

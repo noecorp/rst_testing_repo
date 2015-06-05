@@ -1,0 +1,151 @@
+<?php 
+
+$config = array();
+$config['pageTitle'] = 'Add Beneficiary for: '.$this->remitter_name;
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+
+
+
+$session = new Zend_Session_Namespace('App.Agent.Controller'); 
+?>
+<script type="text/javascript">
+  $(document).ready(function() {
+      var beneficiary_auth = <?php echo isset($session->beneficiary_auth)?$session->beneficiary_auth:0;?>;
+      var ifsc = $("#ifsc").val();
+      var bank = $("#bank_name").val(); 
+      
+     if($("#bank_name").val() != ''){
+     $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#bank_name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            
+                            $("#ifsc_code").html("");                           
+                            $("#ifsc_code").append(response);
+                            
+                            if(beneficiary_auth!='' && beneficiary_auth>0){  
+                            var optionsIfsc = document.getElementById('ifsc_code').options;
+                        
+                            for (var i=0, iLen=optionsIfsc.length; i<iLen; i++) {
+                              optionsIfsc[i].disabled = true;}
+                           
+                            $("#ifsc_code option[value='"+ifsc+"']").removeAttr('disabled');
+                            }
+                             $("#ifsc_code option[value='"+ifsc+"']").attr("selected", "selected");
+                            
+                        }
+                    }
+         
+        });
+     }
+     if($("#ifsc").val() != ''){
+             $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#ifsc").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                            
+                           
+                            $("#branch_name").val(resArr['0']);  
+                            $("#branch_city").val(resArr['1']);  
+                            $("#branch_address").val(resArr['2']);  
+                          
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+     }
+        $("#bank_name").change(function(){
+            $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#bank_name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            $("#bank_location").val('');  
+                            $("#bank_city").val('');  
+                            $("#bank_area").val(''); 
+                            $("#ifsc_code").html("");                           
+                            $("#ifsc_code").append(response);
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });  
+         $("#ifsc_code").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#ifsc_code").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                            
+                           
+                            $("#branch_name").val(resArr['0']);  
+                            $("#branch_city").val(resArr['1']);  
+                            $("#branch_address").val(resArr['2']);  
+                          
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });  
+    $('form').submit(function() {
+var acountno = $("#bank_account_number").val();
+var confacountno = $("#conf_bank_account_number").val();
+
+if(acountno != confacountno){
+    alert('Account No. and confirm Account No. values do not match');
+    return false;
+}
+else {
+     var ifsccode =  $.trim($('#ifsc_code').val());
+     $('#ifsc_code').val(ifsccode);
+    return true;
+}
+
+}); 
+   $("#btn_auth_code").click(function() { 
+      
+   $("#send_auth_code").val('1');           
+   $("form").submit();
+   });
+     
+ 
+     if(beneficiary_auth!='' && beneficiary_auth>0){       
+         
+         $("#btn_auth_code").html('Resend Beneficiary Authorization Code');
+         $("#name").attr('readOnly', 'readOnly');
+         $("#nick_name").attr('readOnly', 'readOnly');
+         $("#branch_name").attr('readOnly', 'readOnly');
+         //$("#bank_account_number").attr('readOnly', 'readOnly');
+         //$("#conf_bank_account_number").attr('readOnly', 'readOnly');
+         var optionsBank = document.getElementById('bank_name').options;
+        for (var i=0, iLen=optionsBank.length; i<iLen; i++) {
+         optionsBank[i].disabled = true;
+            }  
+       $("#bank_name option[value='"+bank+"']").removeAttr('disabled');
+       } 
+       
+       
+       });  
+     
+</script>

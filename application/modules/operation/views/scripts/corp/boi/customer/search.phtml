@@ -1,0 +1,222 @@
+<div class="Boldtext">Pending Customers Applications</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Pending Customers Applications';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found';
+if($this->sub == 1){
+// column names & indexes
+$config['columnNames'] = array(
+    'Application Ref No.',
+    'Name',
+//    'Last Name',
+//    'Member Id',
+//    'Card Number',
+//    'Card pack Id',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Debit Mandate Amount',
+    'Bank Status',
+    'Submission Date -Maker',
+    'Submission Date -Checker',
+    'Authorized Date',
+    );
+$config['columnIndexes'] = array(
+    'ref_num',
+    'name',
+//    'last_name',
+//    'member_id',
+//    'card_number',
+//    'card_pack_id',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'debit_mandate_amount',
+    'status_bank',
+    'date_created',
+    'date_approval',
+    'date_authorize',
+);
+$config['viewLinkColumn'] = 'name';
+$cntColNames = count($config['columnNames']) ;
+$config['actions'] = array(
+        'approve'    =>  array(
+        'action'        => 'approve',
+        'title'         => 'Approve Customer',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/approve.png',
+        'img_alt'       => 'Approve Customer',
+      ),
+        'reject'    =>  array(
+        'action'        => 'reject',
+        'title'         => 'Reject Customer',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/reject.png',
+        'img_alt'       => 'Reject Customer',
+      ),
+    );
+
+$config['linkOrder'] = array('approve','reject');
+$config['showActions'] = true;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+
+ 
+<div class="tablebox" style="clear:both;">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm3" id ="frm3" action ="<?php echo $this->formatURL('/corp_boi_customer/bulkapprove')?>" method = "POST"> 
+        <thead><!-- universal table heading --> 
+            <tr>
+                 <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                  <th><span>Actions</span></th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+           <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+             
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                    <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>
+                     <td><?php echo $item[$config['columnIndexes'][0]];?></td> 
+                     <td>
+                         <?php if ($helper->can('view')) {?>
+                        <a href="<?php echo $this->formatURL('/corp_boi_customer/view?id='.$cardId);?>" title="View Details">
+                        <?php echo strtoupper($item[$config['columnIndexes'][1]]);?>
+                        </a>
+                         <?php } else { echo strtoupper($item[$config['columnIndexes'][1]]); }?>
+                     </td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][6]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][7]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][8]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td> 
+                     
+             
+                    
+                    
+                        
+                 
+                           
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!--<td style="margin:0; padding:0;">
+                                    <div class="iconbox">-->
+                                    <?php echo $helper->links($item);
+                                    ?>
+                                    <!--</div>
+                                </td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+    <input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Approve" name="submit_success">
+
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php } 
+        if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } ?>
+<script>
+$(document).ready(function() {
+     $(document).ready(function(){
+      $("#btn_exportcsv").click(function(){
+        
+            var url = '<?php echo $this->formatURL("/corp_boi_customer/exportsearch?state=".$this->formData['state']."&pincode=".$this->formData['pincode']."&mobile=".$this->formData['mobile']."&ref_num=".$this->formData['ref_num']."&date_created=".$this->formData['date_created']);?>';    
+            $(location).attr('href',url);
+       
+    });
+     
+         
+     });
+$("#frm1").submit(function(e) {
+    
+           //remit_boi_remitter-neftresponse
+       
+    if(!$('input[type=checkbox]:checked').length) {
+        //stop the form from submitting
+        e.preventDefault();
+        alert("Please select at least one to process.");
+    }
+
+    return true;
+    });  
+$("#selectall").click(function () {
+$('.reqid').attr('checked', this.checked);
+});
+
+// if all checkbox are selected, check the selectall checkbox
+// and viceversa
+$(".reqid").click(function(){
+
+if($(".reqid").length == $(".reqid:checked").length) {
+$("#selectall").attr("checked", "checked");
+} else {
+$("#selectall").removeAttr("checked");
+}
+});
+});
+</script>
+
+ 

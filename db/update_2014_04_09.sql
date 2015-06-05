@@ -1,0 +1,1 @@
+INSERT INTO `t_cities` (`code`, `name`, `pincode`, `state_code`, `country_code`, `std_code`) VALUES ('SIRSA', 'HARYANA', '125055', 'HAR', '356', '01666');

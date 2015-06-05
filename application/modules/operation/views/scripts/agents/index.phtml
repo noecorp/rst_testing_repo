@@ -1,0 +1,42 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Agents</div>
+
+<div class="innerbox">
+    <ul>
+        <?php 
+        /*if ($helper->can('signup', 'agents')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/agents/signup');?>" title="Add Agent">Add Agent</a>: Add new Agent Details</li>
+              <div class="clear"></div>
+             <?php }
+         * 
+         */
+         if ($helper->can('index', 'agentsummary')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/agentsummary/index');?>" title="Agents">Agents</a>: Agents Details</li>
+              <div class="clear"></div>
+             <?php }
+         if ($helper->can('index', 'approveagent')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/approveagent/index');?>" title="Approval Pending">Approval Pending</a>: Approval Pending Details</li>
+             <div class="clear"></div>
+          <?php }
+           if ($helper->can('rejectedlist', 'approveagent')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/approveagent/rejectedlist');?>" title="Rejected Agents">Rejected Agents</a>: Rejected Agents Details</li>
+             <div class="clear"></div>
+
+          <?php }
+           if ($helper->can('index', 'agents')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/agents/agentbalancealert');?>" title="Agents Balance Alert">Agents Balance Alert</a>: Agents Balance Alert</li>
+              <div class="clear"></div>
+             <?php }
+             ?>
+             
+    </ul>
+</div>
+<?php if($helper->canShowAddButton() && $helper->can('signup', 'agents')){?> 
+<div class="filterbox">
+    <div style="width:950px; margin:10px auto;">
+        <a href="<?php echo $this->formatURL('/agents/signup');?>" class="ocean" style="float:right;" title="Add New Agent">Add New Agent</a>
+    </div><!--Inner Style Div END-->
+</div>
+<?php } ?>

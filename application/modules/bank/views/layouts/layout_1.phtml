@@ -1,0 +1,162 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @category Operation
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Bank Portal');
+
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->offsetSetFile(2, $this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+
+$user = Zend_Auth::getInstance()->getIdentity();
+$lastLogin = $user->last_login;
+$lastLogin = Util::returnDateFormatted($lastLogin, "Y-m-d", "d-m-Y", "-");
+$logoBank = $user->logo_bank;
+//echo "<pre>";print_r($user);
+$bodyClass = Zend_Registry::get('controllerName') . Zend_Registry::get('actionName');
+
+$this->AutoloadResources();
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head> 
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="content-style-type" content="text/css" /> 
+    <meta http-equiv="content-script-type" content="text/javascript" /> 
+
+    <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+    <?php echo $this->headLink() . PHP_EOL;?>
+    <?php echo  $this->jQuery()->enable(); ?>
+    <!--[if !IE 7]>
+        <style type="text/css">
+            div.wrapper {display:table;height:100%}
+        </style>
+    <![endif]-->
+    
+      <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <link href="<?php echo $this->baseUrl();?>/css/mystyle_operation.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/pagination.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/navigation.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/tables.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="<?php echo $bodyClass;?>">
+<div id="wrapper">
+    <div id="content1" class="right">
+        <div class="topheader">
+            <div class="logo">
+                <img src="<?php echo $this->baseUrl();?>/images/logo/logo-shmart.png" alt="Shmart Pay" width="228" height="51" />
+            </div><!---Logo End--->
+            
+
+            <div class="loginbox">
+            <?php if($this->IsLogin()) {
+                if ($user->photo == NULL){
+                    $imgUrl = $this->baseUrl().'/images/icons/agent-small.png';
+                }
+                else{
+                    $imgUrl = $this->baseUrl().'/uploads/photo/'.$user->photo;
+                }
+                ?>
+                <div class="box1">
+                <div class="login-icon"><img src="<?php echo $imgUrl;?>" width="35" /></div><!---login-icon End--->
+                <div class="login-text">Welcome<br /><?php echo ucfirst($user->first_name).' '.ucfirst($user->last_name);?></div><!---login-text End--->
+                </div><!---BOX 1 End--->
+                <div class="box2">
+                <div class="passbox">
+                    <a href="<?php echo $this->formatURL('/profile/change-password/');?>">Change Password</a><br />
+                </div>
+                <div class="logout"><a href="<?php echo $this->formatURL('/profile/logout/');?>">Log Out
+                </a></div>
+                <!--<div class="inbox"><a href="#">Inbox (Messages)</a></div>-->
+                <div class="last-login">Last Login: <?php echo $lastLogin;?></div>
+                </div><!---BOX 2 End--->
+            <?php } ?>
+            </div><!---LogINBOX End--->
+            
+                
+            <?php if(!empty($logoBank)) { ?>
+            <div class="logo-bank">
+                <img src="<?php echo $this->baseUrl();?>/images/logo/<?php echo $logoBank;?>" height="90"/>
+            </div><!---Logo End--->
+            <?php } ?>
+
+            <div class="clear"></div>
+        </div><!---TopheaderEnd--->
+        
+        
+        
+        <div class="clear"></div>
+        <div id="navBOX">
+            <?php echo $this->renderMenu();?>
+        </div>
+        <div class="clear"></div>
+        <div class="path"> <?php echo $this->renderSubMenu();?> </div>            
+        
+       
+                <!-- flash messenger - displays success / fail messages to the user -->
+                <?php echo $this->flashMessenger();?>
+
+                <!-- main content - the content of the view will be rendered here -->
+                <?php echo $this->layout()->content;?>
+           
+                <div style="height:20px;"></div>
+<div id="footer" class="top">
+
+<div  class="footer-cc">Customer Care Number: <?php echo AGENT_AUTH_CALL_CENTRE_NUMBER;?></div>
+
+</div>
+        
+<div class="copyright">
+<div class="footer-left-box">
+<div class="footer-box">
+<!--<div class="text2">Connect with us on</div>-Text 2 END-
+<div class="facebook">
+    <img src="<?php echo $this->baseUrl();?>/images/icons/facebook.png"  border="0" usemap="#Map10" />
+  <map name="Map10" id="Map10">
+    <area shape="rect" coords="-1,1,35,33" href="https://www.facebook.com/pages/Shmart/582198341805655" target="_blank"/>
+  </map>
+</div>
+<div class="twitter">
+    <img src="<?php echo $this->baseUrl();?>/images/icons/twitter.png" border="0" usemap="#Map11" />
+  <map name="Map11" id="Map11">
+    <area shape="rect" coords="-10,2,24,36" href="https://twitter.com/ShmartPay" target="_blank"/>
+  </map>
+</div>-->
+<div class="term"><a href="#">Terms &amp; Conditions</a></div>
+<div class="clear"></div>
+
+
+
+
+</div><!---Footer Box END--->
+
+
+</div>
+<div  class="footer-rights">2013 Shmart!Pay® Prepaid System. Worldwide rights reserved by TranServ Private Limited</div>
+
+<div class="clear"></div>
+</div><!---Copyright END--->
+<div class="clear"></div>
+</div><!---Content1 END--->
+<div class="clear"></div>
+</div> <!-- Wrapper End -->
+
+        <?php //echo $this->headScript() . PHP_EOL;?>
+    </body> 
+</html>

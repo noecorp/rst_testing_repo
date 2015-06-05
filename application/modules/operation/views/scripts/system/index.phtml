@@ -1,0 +1,25 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Manage ACL</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('index', 'groups')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/groups/index/');?>" title="Manage Groups">Manage Groups</a>: Add, Edit, View, Delete and Set Permissions for Groups</li>
+              <div class="clear"></div>
+        <?php } if ($helper->can('index', 'users')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/users/index/');?>" title="Manage Users">Manage Users</a>: Add, Edit, View, Delete Users</li>
+              <div class="clear"></div>
+        <?php } if ($helper->can('importcrn', 'system')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/system/importcrn/');?>" title="Import CRN">Import CRN</a>: Import CRNs</li>
+              <div class="clear"></div>
+        <?php } if ($helper->can('index', 'history')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/history/index/');?>" title="Logs">Logs</a>: Logs</li>
+              <div class="clear"></div>
+        <?php } ?>
+        
+    </ul>
+    <div class="clear"></div>
+</div>

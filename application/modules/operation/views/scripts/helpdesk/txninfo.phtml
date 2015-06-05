@@ -1,0 +1,23 @@
+<div class="Boldtext">Transaction Response Info.</div> 
+
+<?php
+$config = array();
+// column names & indexes
+$config['columnNames'] = array(
+    'Authorize Status',
+    'Response Code',
+    'Response Description',
+);
+$config['columnIndexes'] = array(
+    'auth_status',
+    'resp_code',
+    'resp_desc'
+);
+
+echo $this->partial(
+        'partials/default-helpdesk-listing.phtml', array(
+    'config' => $config,
+    'info' => $this->info
+        )
+);
+

@@ -1,0 +1,1 @@
+DELETE FROM  `t_agent_closing_balance` WHERE date >= '2013-07-31';

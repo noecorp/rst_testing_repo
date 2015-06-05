@@ -1,0 +1,73 @@
+<?php echo Util::getAgentRegistrationTab("educational",$this->agent_id); 
+
+echo $this->form;
+?>
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       
+       
+       
+          var type = $("#education_level").val();
+        
+            if (type == 'intermediate'){
+            $("#graduation_degree").attr('disabled', 'disabled'); 
+            $("#graduation_college").attr('disabled', 'disabled'); 
+            $("#p_graduation_degree").attr('disabled', 'disabled'); 
+            $("#p_graduation_college").attr('disabled', 'disabled'); 
+
+            }
+            
+            else if (type == 'graduate'){
+            $("#graduation_degree").removeAttr('disabled');
+            $("#graduation_college").removeAttr('disabled');
+            $("#p_graduation_degree").attr('disabled', 'disabled'); 
+            $("#p_graduation_college").attr('disabled', 'disabled'); 
+
+            }
+            
+            else {
+            $("#graduation_degree").removeAttr('disabled');
+            $("#graduation_college").removeAttr('disabled');
+            $("#p_graduation_degree").removeAttr('disabled');
+            $("#p_graduation_college").removeAttr('disabled');
+
+            }
+            
+         $("#education_level").change(function() {
+         var type = $("#education_level").val();
+        
+            if (type == 'intermediate'){
+            $("#graduation_degree").attr('disabled', 'disabled'); 
+            $("#graduation_college").attr('disabled', 'disabled'); 
+            $("#p_graduation_degree").attr('disabled', 'disabled'); 
+            $("#p_graduation_college").attr('disabled', 'disabled'); 
+
+            }
+            
+            else if (type == 'graduate'){
+            $("#graduation_degree").removeAttr('disabled');
+            $("#graduation_college").removeAttr('disabled');
+            $("#p_graduation_degree").attr('disabled', 'disabled'); 
+            $("#p_graduation_college").attr('disabled', 'disabled'); 
+
+            }
+            
+            else {
+            $("#graduation_degree").removeAttr('disabled');
+            $("#graduation_college").removeAttr('disabled');
+            $("#p_graduation_degree").removeAttr('disabled');
+            $("#p_graduation_college").removeAttr('disabled');
+
+            }
+         
+        
+    });
+   
+   
+
+  
+
+}); 
+
+
+</script>

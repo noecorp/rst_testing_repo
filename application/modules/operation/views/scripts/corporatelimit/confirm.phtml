@@ -1,0 +1,38 @@
+<?php
+/**
+ * Delete a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Load Agent Limit';
+$config['areYouSureMessage'] = 'Are you sure you want to load the agent limit?';
+//echo "<pre>";print_r($this->item);
+// column names & indexes
+$config['columnNames'] = array(
+    'first_name' => 'First Name',
+    'last_name' => 'Last Name',
+    'active_balance' =>  'Active Balance',
+    'amount' => 'Loading Limit',
+    'amountAfterLoad' => 'Limit After Loading Balance'
+);
+$config['columnIndexes'] = array(
+    'first_name',
+    'last_name',
+    'active_balance',
+    'amount',
+    'amountAfterLoad'
+);
+
+echo $this->partial(
+    'partials/default-confirm-limit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

@@ -1,0 +1,47 @@
+  <div class="Boldtext">Account Info</div> 
+  <span><?php echo $this->msg?></span>
+  
+  <?php echo $this->form; 
+  $resMsg = isset($this->info['ResponseMessage'])?$this->info['ResponseMessage']:'';
+  if($resMsg!=''){
+      
+      $config = array();
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Response Code',
+        'Response Message',
+        'CRN',
+        'Mobile Number',
+        'Device ID',
+        'Account Block Status',
+        'Account Close',
+        'MVCC/MVCI Activation Status',
+        'Account Block DateTime',
+        'Secure Verification Type',
+        'Secure Verification Data',
+        'Customer Type',
+    );
+    $config['columnIndexes'] = array(
+        'ResponseCode',
+        'ResponseMessage',
+        'CRN',
+        'MobileNumber',
+        'DeviceID',
+        'AccountBlockStatus',
+        'AccountClose',
+        'ActivationStatus',
+        'AccountBlockDateTime',
+        'SecureVerificationType',
+        'SecureVerificationData',
+        'CustomerType',
+    );
+
+    echo $this->partial(
+        'partials/default-helpdesk-listing.phtml',
+        array(
+            'config' => $config,
+            'info' => $this->info
+        )
+    );
+  
+ } 

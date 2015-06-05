@@ -1,0 +1,116 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Manage Roles';
+$config['addMessage'] = 'Add New User Group'; 
+$config['emptyMessage'] = 'There is not user editable groups registered at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Module',
+    'Role',
+    'Number of Users',
+    //'Parent group',
+);
+$config['columnIndexes'] = array(
+    'module',    
+    'name',
+    'count',
+  //  'parent_name'
+);
+
+// additional actions
+/*$config['additionalActions'] = array(
+    'flippers_dev'    =>  array(
+        'action'        => 'flippers',
+        'title'         => 'Edit Flippers',
+        'link_class'    => 'ico',
+        'img_alt'       => 'Flippers',
+        'img_url'       => '/images/icons/accept.png',
+        'parameter'     => TRUE,
+    ),
+    // 'flippers_prod'    =>  array(
+    //     'action'        => 'flippers',
+    //     'title'         => 'Edit flippers on production',
+    //     'link_class'    => 'ico',
+    //     'img_alt'       => 'Flippers on production',
+    //     'img_url'       => '/images/icons/led-ico/user_business.png',
+    //     'parameter'     => TRUE,
+    // ),
+);*/
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => 'edit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+        //'link_class'    => 'btn',
+        'img_alt'       => 'edit',
+        //'extra_param'  => TRUE,
+     ),
+       'delete'    =>  array(
+        'action'        => 'delete',
+        'title'         => 'Delete',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/del.png',
+        //'link_class'    => 'btn1',
+        'img_alt'       => 'delete',
+    ),
+    'flippers_dev'    =>  array(
+        'action'        => 'flippers',
+        'title'         => 'Manage Permissions',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/accept.png',
+        //'link_class'    => 'ico',
+        'img_alt'       => 'Manage Permissions',
+    ),
+    );
+
+$config['linkCol'] = array (
+        array(
+            'linkColName'       => 'count',
+            'linkController'    => 'users',
+            'linkAction'        => 'index',
+            'linkTitle'         => 'View Group Users',
+            'linkParamReqd'     => TRUE,
+            'linkParamName'     => 'gid',
+        ),
+    ) ;
+
+$config['actionsConditional'] = array('edit', 'delete');
+// configure the permissions
+$config['linkOrder'] = array('edit','delete','flippers_dev');
+
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'id',
+        'operator' => 'in_array',
+        'value'     => array(GROUP_ID_ADMINISTRATOR, GROUP_ID_GUEST)
+    ),
+    1     =>  array(
+        'param'     => 'count',
+        'operator' => '==',
+        'value'     => 0
+    )
+);
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

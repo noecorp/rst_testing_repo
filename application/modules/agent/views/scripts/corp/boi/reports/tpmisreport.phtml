@@ -1,0 +1,221 @@
+<div class="Boldtext">Payment Status Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->formData['sub'] == 1){
+$bankUnicodeArr = Util::bankUnicodesArray();    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'AOF Reference Number',
+    'Application Date',
+    'Name (of the Trainee)',
+    'NSDC Enrollment Number',
+    'Aadhaar No.',
+    'Linked Branch ID',
+    'Transerv Status',
+    'Bank Status',
+    'Account No.',
+    'IFSC Code',
+    'Card No.',
+    'Debit Mandate Amount',
+    'NSDC Wallet Load Date',
+    'NSDC Load Amount',
+    'Available Balance on Wallet',
+    'Amount debited through POS',
+    'Wallet Auto Debit Date',
+    'Wallet Auto Debit Amount',
+    'Traning Center BC Name',
+    'Training Center ID',
+    'Training Center Name',
+    'Training Partner Name',
+    );
+
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+// render the default listing
+$cntColNames = count($config['columnNames']) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+
+?>
+
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                     
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+              ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo $item['ref_num'];?></td>
+                        <td><?php echo $item['date_created'];?></td>
+                        <td><?php echo $item['name'];?></td>
+                        <td><?php echo $item['nsdc_enrollment_no'];?></td>
+                        <td><?php echo $item['aadhaar_no'];?></td>
+                        <td><?php echo $item['sol_id'];?></td>
+                        <td><?php echo $item['status_ops'];?></td>
+                        <td><?php echo $item['status_bank'];?></td>
+                        <td><?php echo $item['account_no'];?></td>
+                        <td><?php echo $item['ifsc_code'];?></td>
+                        <td><?php echo $item['card_number'];?></td>
+                        <td><?php echo $item['debit_mandate_amount'];?></td>
+                        <td><?php echo $item['date_load'];?></td>
+                        <td><?php echo $item['load_amount'];?></td>
+                        <td><?php echo $item['current_wallet_balance'];?></td>
+                        <td><?php echo $item['debit_amount_pos'];?></td>
+                        <td><?php echo $item['date_auto_debit'];?></td>
+                        <td><?php echo $item['auto_debit_amount'];?></td>
+                        <td><?php echo $item['by_agent_name'];?></td>
+                        <td><?php echo $item['training_center_id'];?></td>
+                        <td><?php echo $item['traning_center_name'];?></td>
+                        <td><?php echo $item['training_partner_name'];?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } ?>
+<?php 
+}?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+    var url = '<?php echo $this->formatURL("/corp_boi_reports/exporttpmisreport?product_id=".$this->formData['product_id'].'&agent_code='.$this->formData['agent_code'].'&aadhaar_no='.$this->formData['aadhaar_no'].'&account_no='.$this->formData['account_no'].'&to_date='.$this->formData['to_date'].'&from_date='.$this->formData['from_date']);?>';    
+    $(location).attr('href',url);
+       
+    });
+
+    var agent = $("#agent").val();
+
+  
+ 
+     $('form').submit(function(){
+       var agent_code = $.trim($("#agent_code").val()); 
+       var aadhaar = $.trim($("#aadhaar_no").val()); 
+       var account_no = $.trim($("#account_no").val()); 
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       var validateDate = 0;
+      /**** From and To date validation ****/
+      if(aadhaar == '' && account_no == '' && agent_code == '') {
+            if(from =='' && to ==''){
+                    alert('Please select either one search criteria or date range');
+                    return false;
+            }
+            else{
+                validateDate = 1;
+            }
+       }
+       else {
+	if(from != '' || to != '') {
+		 validateDate = 1;
+	}
+       }
+    
+    
+      if(validateDate){  
+        if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000')) || ((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify both From and To date.');
+                    $("#from_date").focus();
+                    return false;
+               } 
+               else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+           }   
+       /**** From and To date validation over ****/
+         
+     return true; 
+   });    
+});
+</script>

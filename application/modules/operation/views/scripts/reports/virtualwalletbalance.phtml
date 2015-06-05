@@ -1,0 +1,236 @@
+<div class="Boldtext"><?= $this->heading ?></div>
+<?= $this->form ?>
+<?php
+$frmSubmit = isset($this->btnSubmit) ? $this->btnSubmit : '';
+$bankUnicodeArr = Util::bankUnicodesArray();
+if ($frmSubmit) {
+    $config = array();
+    // messages
+    $config['pageTitle'] = $this->pageTitle;
+    $config['emptyMessage'] = 'No record found.';
+
+    $config['columnNames'] = array(
+        'Product Name',
+        'Bank Name',
+        'Aadhaar No',
+        'Currency ',
+        'Card Number ',
+        'CRN',
+        'Mobile',
+        'Medi Assist / Employee ID',
+        'Partner Reference No',
+        'Status',
+        'Corporate Id',
+        'Corporate Name',
+        'Report Date',
+        'Wallet Code',
+        'Balance',
+        'Total Balance'
+    );
+
+    $config['columnIndexes'] = array(
+        'product_name',
+        'bank_name',
+        'aadhaar_no',
+        'currency',
+        'card_number',
+        'crn',
+        'mobile',
+        'member_id',
+        'partner_ref_no',
+        'status',
+        'corporate_code',
+        'corporate_name',
+        'date',
+        'wallet_code',
+        'closing_balance',
+    );
+    $config['actions'] = array();
+    $cntColNames = count($config['columnNames']) - 1;
+    ?>
+    <div class="Boldtext"><?php echo $config['pageTitle']; ?></div>
+    <div style="clear:both;"></div>
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0' >
+                <thead><!-- universal table heading --> 
+                    <tr> 
+                        <?php foreach ($config['columnNames'] as $columnName) : ?>
+                            <th><span><?php echo $columnName; ?></span></th>
+                        <?php endforeach; ?> 
+                    </tr> 
+                </thead>
+                <tbody> 
+                    <?php if (count($this->paginator)) : ?> 
+                        <?php
+                        $count = 1;
+                        foreach ($this->paginator as $item) :
+
+                            $end = FALSE;
+
+                            if ($count == 1) {
+                                $totalBal = $item[$config['columnIndexes'][14]];
+                                $custMasterId = $item['customer_master_id'];
+                                if ($this->rsCount == $count) {
+                                    $end = TRUE;
+                                }
+                            } elseif ($custMasterId == $item['customer_master_id']) {
+                                $totalBal += $item[$config['columnIndexes'][14]];
+                                $custMasterId = $item['customer_master_id'];
+
+                                if ($this->rsCount == $count) {
+                                    $end = TRUE;
+                                }
+                            } elseif ($custMasterId != $item['customer_master_id']) {
+                                ?>
+                                <tr>
+                                    <td colspan="16" style="text-align: right;"><?php echo $totalBal; ?></td>
+                                </tr>
+                                <?php
+                                if ($this->rsCount == $count) {
+                                    $totalBal = 0;
+                                    $totalBal += $item[$config['columnIndexes'][14]];
+                                    $custMasterId = $item['customer_master_id'];
+                                    $end = TRUE;
+                                } else {
+                                    $totalBal = 0;
+                                    $totalBal += $item[$config['columnIndexes'][14]];
+                                    $custMasterId = $item['customer_master_id'];
+                                }
+                            }
+                            ?>
+                            <tr>
+                                <td><?php echo $item[$config['columnIndexes'][0]]; ?></td>
+                                <td><?php echo RATNAKAR_BANK_NAME; ?></td> 
+                                <td><?php echo $item[$config['columnIndexes'][2]]; ?></td>
+                                <td><?php echo CURRENCY_INR; ?></td>
+                                <td><?php echo Util::maskCard($item[$config['columnIndexes'][4]], 4); ?></td>
+                                <td><?php echo Util::maskCard($item[$config['columnIndexes'][5]], 4); ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][6]]; ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][7]]; ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][8]]; ?></td>
+                                <td><?php echo ucfirst(STATUS_ACTIVE); ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][10]]; ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][11]]; ?></td>
+                                <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][12]], "d-m-Y", "Y-m-d", "-"); ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][13]]; ?></td>
+                                <td><?php echo $item[$config['columnIndexes'][14]]; ?></td>
+                                <td></td>
+                            </tr>
+                            <?php if ($end == TRUE) { ?>
+                                <tr>
+                                    <td colspan="16" style="text-align: right;"><?php echo $totalBal; ?></td>
+                                </tr>
+                                <?php
+                            }
+                            $count++;
+                        endforeach;
+                    else:
+                        ?> 
+                        <tr>
+                            <td colspan="<?php echo $cntColNames + 1; ?>">
+                                <?php echo $config['emptyMessage']; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+    <div>&nbsp;</div> 
+    <?php
+    if (count($this->paginator) > 0) {
+        echo '<div class="show-xls">'
+        . '<input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">'
+        . '</div>';
+    }
+}
+?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var product = $("#product").val();
+        if ($("#bank_unicode").val() != '') {
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/' + $("#bank_unicode").val(),
+                success: function (response) {
+                    if (response == 1) {
+                    } else {
+                        $("#product_id").html("");
+                        $("#product_id").append(response);
+                        $("#product_id option[value='" + product + "']").attr("selected", "selected");
+                        console.log(response);
+                    }
+                }
+            });
+        }
+        $("#bank_unicode").change(function () {
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/' + $("#bank_unicode").val(),
+                success: function (response) {
+                    if (response == 1) {
+                    } else {
+                        $("#product_id").html("");
+                        $("#product_id").append(response);
+                        console.log(response);
+                    }
+                }
+            });
+        });
+        $("#btn_exportcsv").click(function () {
+            var url = '<?php echo $this->formatURL("/reports/exportvirtualwalletbalance?to_date=" . $this->formData['to_date'] . "&product_id=" . $this->formData['product_id'] . "&bank_unicode=" . $this->formData['bank_unicode']); ?>';
+            $(location).attr('href', url);
+
+        });
+        $("input#to_date").change(function () {
+            if (this.value) {
+                var date_start = this.value;
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x > curdate) {
+                    alert("Please enter To date not greater than today's date");
+                    this.value = '';
+                    return false;
+                }
+                else {
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        return true;
+                    } else {
+                        alert('Please enter valid To date');
+                        this.value = '';
+                        $("#to_date").focus();
+                        return false;
+                    }
+                }
+            }
+        });
+        $('form').submit(function () {
+            if ($("#to_date").val() == '') {
+                alert('Please enter valid  date');
+                $("#to_date").focus();
+                return false;
+            } else {
+                var date_start = $("#to_date").val();
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x >= curdate) {
+                    alert("Please enter date less than today's date");
+                    $("#to_date").val('');
+                    $("#to_date").focus();
+                    return false;
+                } else {
+                    if (!date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        alert('Please enter valid date');
+                        $("#to_date").val('');
+                        $("#to_date").focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        });
+    });
+</script>

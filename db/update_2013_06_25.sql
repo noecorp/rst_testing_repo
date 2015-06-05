@@ -1,0 +1,1 @@
+ALTER TABLE `t_log_login` CHANGE `comment_auth` `comment_auth` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT 'na';

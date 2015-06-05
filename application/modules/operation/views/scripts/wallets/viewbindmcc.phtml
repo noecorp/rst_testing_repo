@@ -1,0 +1,43 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+$config['pageTitle'] = sprintf('Allowed MCC Details for: %s', $this->wallet['name']);
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'MCC Code',
+    'Category',
+    'Sub Category',
+    'Start Date',
+);
+$config['columnIndexes'] = array(
+    'mcc_code',
+    'category',
+    'sub_category',
+    'datetime_start',
+);
+
+$config['backlink'] = $this->backlink;
+$config['showActions'] = FALSE;
+$config['no_add'] = TRUE; 
+
+    // render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL($this->backlink); ?>">← Back</a></div>
+
+

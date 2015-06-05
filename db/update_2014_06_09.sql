@@ -1,0 +1,2 @@
+ALTER TABLE `t_agent_details`
+ADD COLUMN `date_updated`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_created`;

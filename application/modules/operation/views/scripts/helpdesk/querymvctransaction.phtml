@@ -1,0 +1,81 @@
+<div class="Boldtext">MVC Transaction</div> 
+  <span><?php echo $this->msg?></span>
+  <dl class="zend_form_addresponse">
+  
+  <?php echo $this->form; 
+  $resMsg = isset($this->info['ResponseMessage'])?$this->info['ResponseMessage']:'';
+  if($resMsg!=''){
+      
+      $config = array();
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Response Code',
+        'Response Message',
+        'CRN',
+    );
+    $config['columnIndexes'] = array(
+        'ResponseCode',
+        'ResponseMessage',
+        'CRN',
+    );
+
+    echo $this->partial(
+        'partials/default-helpdesk-listing.phtml',
+        array(
+            'config' => $config,
+            'info' => $this->info
+        )
+    );
+  
+    
+    if(isset($this->info['TransactionHistoryDetail']) && !empty($this->info['TransactionHistoryDetail']))
+    {
+     ?>
+      <div class="reportbox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <th colspan="7">Transaction History Detail:</th>
+                    </tr>
+                    <tr>
+                        <th>PAN</th>
+                        <th>Expiry Date</th>
+                        <th>CVV2</th>
+                        <th>Date Time</th>
+                        <th>Amount</th>
+                        <th>Status Code</th>
+                        <th>Status Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <?php 
+                    foreach($this->info['TransactionHistoryDetail'] as $trans)
+                    {
+                      ?>  <tr>
+                            <td><?php echo $trans->PAN;?></td>
+                            <td><?php echo $trans->ExpDate;?></td>
+                            <td><?php echo $trans->CVV2;?></td>
+                            <td><?php echo $trans->DateTime;?></td>
+                            <td><?php echo App_Api_MVC_Transactions::displayAmount($trans->Amount);?></td>
+                            <td><?php echo $trans->StatusCode;?></td>
+                            <td><?php echo $trans->StatusDescription;?></td>
+                        </tr>
+                        <?php
+                    } ?>
+                </tbody>
+            </table>
+            </div>
+      </div>
+                
+    <?php
+        
+      }
+    } ?>
+  </dl>
+  
+  <script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       $('.cancel').attr('href','/helpdesk/resendactivationcode');
+   });
+</script>

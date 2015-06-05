@@ -1,0 +1,27 @@
+    <?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Reports</div>
+
+<div class="innerbox">
+    <ul>
+        
+        <?php 
+         if ($helper->can('applications','corp_kotak_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/applications/');?>" title="Applications Report">Applications Report</a>:  All/Authorized/Rejected Applications</li>
+             <div class="clear"></div>
+          <?php }
+      
+             if ($helper->can('remitterregn','corp_kotak_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/remitterregn/');?>" title="Remitter Registration Report">Remitter Registration Report</a>:  Remitter Registration Report</li>
+             <div class="clear"></div>
+          <?php }
+      
+         if ($helper->can('beneregistration','corp_kotak_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_reports/beneregistration/');?>" title="Beneficiary Registration Report">Beneficiary Registration Report</a>:  Beneficiary Registration Report</li>
+             <div class="clear"></div>
+          <?php }
+        ?>
+    </ul>
+    <div class="clear"></div>
+</div>

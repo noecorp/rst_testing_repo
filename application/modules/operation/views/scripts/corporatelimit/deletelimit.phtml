@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+    $('.cancel').attr('href',document.referrer);
+    });  
+ </script>
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Delete Corporate Limit: '.$this->agent_name;
+$config['areYouSureMessage'] = 'Are you sure you want to delete the limit?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Start Date',
+    
+);
+$config['columnIndexes'] = array(
+    'name',
+    'date_start_formatted',
+    
+);
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

@@ -1,0 +1,21 @@
+<?php
+/**
+ * View for the login action
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+?>
+    <div class="Boldtext">Verification Code</div>
+    
+    <?php /*if (isset($this->error)):?>
+        <div class="msg msg-error">
+            <p><?php echo '<strong>Oops!</strong><br />Invalid Verification Code';?></p>
+        </div>
+    <?php endif; */?>
+    <?php echo $this->form;?>
+    <div class="div3">
+             <div class="link2"><a href="<?php echo $this->formatURL('/profile/resend-authcode?verify=resend');?>">Resend Verification Code</a></div>
+    </div>

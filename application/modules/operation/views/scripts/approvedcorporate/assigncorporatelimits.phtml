@@ -1,0 +1,252 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    if($("#product_id").val() == ''){
+        $("#plan_fee_id-label").hide();
+        $("#plan_fee_id").hide();
+    }
+    if($("#program_type").val() == '<?php echo PROGRAM_TYPE_REMIT; ?>')
+    {
+        $("#plan_fee_id-label").show();
+        $("#plan_fee_id").show();
+        $("#product_limit_id-label").show();
+        $("#product_limit_id").show();
+        $("#plan_commission_id-label").show();
+        $("#plan_commission_id").show();
+    }
+    else if($("#program_type").val() == '<?php echo PROGRAM_TYPE_CORP; ?>')
+    {
+        $("#product_limit_id-label").hide();
+        $("#product_limit_id").hide();
+        $("#plan_commission_id-label").hide();
+        $("#plan_commission_id").hide();
+    }
+    else
+    {
+        $("#plan_fee_id-label").hide();
+        $("#plan_fee_id").hide();
+        $("#product_limit_id-label").show();
+        $("#product_limit_id").show();
+        $("#plan_commission_id-label").show();
+        $("#plan_commission_id").show();
+    }
+    
+   
+    
+    // Autopopulate product list
+  if($("#product").val().length != 0){
+$.ajax({
+                url: '/ajax/get-bankbyproduct/q/'+$("#product").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#bank_id").html("");
+                            
+                            $("#bank_id").append(response);
+                           
+                            console.log(response);
+                          
+                        }
+                    }
+         
+        }); 
+        
+  }   
+
+  // Autopopulate product list
+  if($("#bank_id").val().length != 0 && $("#program_type").val().length != 0){
+$.ajax({
+//                url: '/ajax/get-product/q/'+$("#bank_id").val(),
+                    url: '/ajax/get-corpprogramproducts/q/'+$("#bank_id").val()+'/p/'+$("#program_type").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#product_id").html("");
+                            
+                            $("#product_id").append(response);
+                            $("#product_id option[value='"+$("#product").val()+"']").attr("selected", "selected");
+                            console.log(response);
+                          
+                        }
+                    }
+         
+        }); 
+        
+  }     //Autopopulate product limit
+   
+        
+ 
+    
+      $("#bank_id").change(function(){
+        if($("#program_type").val().length != 0){
+  
+            $.ajax({
+                //url: '/ajax/get-product/q/'+$("#bank_id").val(),
+                url: '/ajax/get-corpprogramproducts/q/'+$("#bank_id").val()+'/p/'+$("#program_type").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#product_id").html("");
+                            
+                            $("#product_id").append(response);
+                            console.log(response);
+                          
+                        }
+                    }
+            });
+            $("#product_limit_id").val('');
+        }
+    });  
+    
+    $("#program_type").change(function(){
+            if($("#bank_id").val().length != 0){
+            $.ajax({
+                url: '/ajax/get-corpprogramproducts/q/'+$("#bank_id").val()+'/p/'+$("#program_type").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            $("#product_id").html("");
+                            
+                            $("#product_id").append(response);
+                            console.log(response);
+                          
+                        }
+                    }
+         
+        });
+        $("#product_limit_id").val('');
+        }
+        if($("#program_type").val() == '<?php echo PROGRAM_TYPE_REMIT; ?>')
+    {
+        $("#plan_fee_id-label").show();
+        $("#plan_fee_id").show();
+        $("#product_limit_id-label").show();
+        $("#product_limit_id").show();
+        $("#plan_commission_id-label").show();
+        $("#plan_commission_id").show();
+    }
+    else if($("#program_type").val() == '<?php echo PROGRAM_TYPE_CORP; ?>')
+    {
+        $("#product_limit_id-label").hide();
+        $("#product_limit_id").hide();
+        $("#plan_commission_id-label").hide();
+        $("#plan_commission_id").hide();
+    }
+    else
+    {
+        $("#plan_fee_id-label").hide();
+        $("#plan_fee_id").hide();
+        $("#product_limit_id-label").show();
+        $("#product_limit_id").show();
+        $("#plan_commission_id-label").show();
+        $("#plan_commission_id").show();
+    }
+    
+    });  
+  
+     $("input#date_start").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x <= curdate)
+            {
+                alert("Please enter start date greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid start date');
+                      this.value = '';
+                      return false;
+                    }
+                }
+
+        }
+        
+    });
+    
+    $("form").submit(function(){
+        if($("#program_type").val() == '<?php echo PROGRAM_TYPE_REMIT; ?>')
+        {
+            if($("#plan_fee_id").val() == '')
+            {
+                alert('Please select fee plan');
+                $("#plan_fee_id").focus();
+                return false;
+            }
+        }
+        if($("#date_start").val() == '')
+        {
+            alert('Please enter valid start date');
+            $("#date_start").focus();
+            return false;
+        }
+        else 
+        {
+            var date_start = $("#date_start").val();
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x <= curdate)
+            {
+                alert("Please enter start date greater than today's date");
+                $("#date_start").val('');
+                $("#date_start").focus();
+                return false;
+            } else{      
+            
+                    if (!date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                        alert('Please enter valid start date');
+                        $("#date_start").val('');
+                        $("#date_start").focus();
+                        return false;
+                    }
+                } 
+
+        }
+            
+        return true;
+    });
+});      
+  </script>
+    
+    <?php
+/**
+ * Add a new Agent Fee in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright Transerv
+ */
+
+$config = array();
+$config['pageTitle'] = 'Assign new product,commission, fee and corporate limit to the Corporate';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+
+
+?>
+
+

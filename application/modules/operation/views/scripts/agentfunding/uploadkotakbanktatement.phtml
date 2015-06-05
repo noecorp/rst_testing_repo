@@ -1,0 +1,78 @@
+<div class="Boldtext"><?php echo $this->title ?></div>
+
+<div class="tablebox">
+
+    <?php echo $this->form; ?>
+</div>
+
+<?php
+if ((isset($this->bank)) && ($this->bank == BANK_ICICI)) :
+
+    $config['columnNames'] = array(
+        'Customer Code',
+        'Vendor Code',
+        'Amount',
+        'Transaction Date',
+        'UTR No.',
+        'IFSC Code',
+        'Credit Account No.',
+        'vendor Name',
+        'Mode',
+        'Beneficiary Bank',
+    );
+    ?>
+    <?php if (count($this->rejectpaginator)) : ?>
+        <div class="Boldtext">Failed Statements Details</div>
+        <div class="tablebox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+                <table width="950" cellspacing='0'>
+                    <thead><!-- universal table heading --> 
+                        <tr>
+                            <?php foreach ($config['columnNames'] as $columnName) : ?>
+                                <th><span><?php echo $columnName; ?></span></th>
+                            <?php endforeach; ?>
+                            <th>Failed Reason</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->rejectpaginator as $item) : ?>
+                            <tr>
+                                <?php for ($columnNum = 0; $columnNum < ICICI_BANK_STATEMENT_COLUMNS; $columnNum++) { ?>
+                                    <td><?php echo $item[$columnNum]; ?></td> 
+                                <?php } ?>
+                                <td><?php echo $item['failed_reason']; ?></td> 
+                            </tr>    
+                        <?php endforeach; ?> 
+                    </tbody> 
+                </table>
+            </div>
+            <div>&nbsp;</div>
+        </div>
+    <?php endif; ?>
+    <?php if (count($this->paginator)) : ?>
+        <div class="Boldtext">Submitted Statements Details</div>
+        <div class="tablebox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+                <table width="950" cellspacing='0'>
+                    <thead><!-- universal table heading --> 
+                        <tr> 
+                            <?php foreach ($config['columnNames'] as $columnName) : ?>
+                                <th><span><?php echo $columnName; ?></span></th>
+                            <?php endforeach; ?> 
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->paginator as $item) : ?>
+                            <tr>
+                                <?php for ($columnNum = 0; $columnNum < ICICI_BANK_STATEMENT_COLUMNS; $columnNum++) { ?>
+                                    <td><?php echo $item[$columnNum]; ?></td> 
+                                <?php } ?>
+                            </tr>    
+                        <?php endforeach; ?> 
+                    </tbody> 
+                </table>
+            </div>
+            <div>&nbsp;</div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * Displays a product purse detail 
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$productPursesConfig = array();
+$productPursesConfig['pageTitle'] = 'Customer limit details for : ' .$this->item->code;
+$productPursesConfig['no_add'] = true;
+
+
+    // column names & indexes
+    $productPursesConfig['columnNames'] = array(
+        'Code',
+        'Name',
+        'Description',
+        'Max Balance',
+        'Minimum Value per Load',
+        'Maximum Value per Load',
+        'Max Load Amount per Day',
+        'Max Load Amount per Month',
+        'Max Load Amount per Year',
+        'Minimum Value of Txn',
+        'Maximum Value of Txn',
+        'Max Txn Amount per Day',
+        'Max Txn Amount per Month',
+        'Max Txn Amount per Year',
+        'Start Date',
+    );
+
+    $productPursesConfig['columnIndexes'] = array(
+        'code',
+        'name',
+        'description',
+        'max_balance',
+        'load_min',
+        'load_max',
+        'load_max_val_daily',
+        'load_max_val_monthly',
+        'load_max_val_yearly',
+        'txn_min',
+        'txn_max',
+        'txn_max_val_daily',
+        'txn_max_val_monthly',
+        'txn_max_val_yearly',
+        'date_start',
+        );
+        
+ 
+    // render the default listing
+    echo $this->partial(
+            'partials/default-view.phtml', array(
+        'config' => $productPursesConfig,
+        'item' => $this->item,
+            )
+    );
+
+              

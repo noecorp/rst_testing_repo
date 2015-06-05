@@ -1,0 +1,65 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Kotak GPR</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+              if ($helper->can('uploadcardholders', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/uploadcardholders/');?>" title="Bulk Upload of Cardholders">Upload Cardholders</a>: Bulk upload of Cardholders</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('cardholderactivationreq', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/cardholderactivationreq/');?>" title="Upload Cardholders - Activation Required">Upload Cardholders - Activation Required</a>: Upload cardholders - Activation Required</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('batchstatus', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/batchstatus/');?>" title="Cardholder Batch Status">Cardholder Batch Status</a>: Cardholder Batch Status</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('searchcardholders', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/searchcardholders/');?>" title="Search Cardholders">Search Cardholders</a>: Search cardholders</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('pendingkyc', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/pendingkyc/');?>" title="Pending KYC Docs">Pending KYC Docs</a>: Pending KYC Docs</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('upgradekycsearch', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/upgradekycsearch/');?>" title="KYC Upgradation">KYC Upgradation</a>: KYC Upgradation process</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('kycupgradereport', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/kycupgradereport/');?>" title="KYC Upgrade Report">KYC Upgrade Report</a>: KYC Upgrade Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadcrn', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/uploadcrn/');?>" title="Upload CRN">Upload CRN</a>: Upload CRN</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('crnstatus', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/crnstatus/');?>" title="CRN Status Report">CRN Status Report</a>: CRN Status Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('corporateload', 'corp_kotak_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardload/corporateload/');?>" title="Upload Corporate Wallet">Upload Corporate Wallet</a>: Upload Corporate Wallet</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('walletstatusgpr', 'corp_kotak_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardload/walletstatusgpr/');?>" title="Wallet Status">Wallet Status</a>: Wallet Status</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadma', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/uploadma/');?>" title="Upload Manual Adjustment">Upload Manual Adjustment</a>: Upload Manual Adjustment</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('searchma', 'corp_kotak_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardholder/searchma/');?>" title="Search Manual Adjustment">Search Manual Adjustment</a>: Search Manual Adjustment</li>
+              <div class="clear"></div>
+             <?php }
+               
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

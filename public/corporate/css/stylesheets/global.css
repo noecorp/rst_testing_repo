@@ -1,0 +1,387 @@
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/OpenSans-Light-webfont.eot"), url("../fonts/OpenSans-Light-webfont.eot?") format("eot"), url("../fonts/OpenSans-Light-webfont.woff") format("woff"), url("../fonts/OpenSans-Light-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 300;
+  src: url("../fonts/OpenSans-LightItalic-webfont.eot"), url("../fonts/OpenSans-LightItalic-webfont.eot?") format("eot"), url("../fonts/OpenSans-LightItalic-webfont.woff") format("woff"), url("../fonts/OpenSans-LightItalic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/OpenSans-Regular-webfont.eot"), url("../fonts/OpenSans-Regular-webfont.eot?") format("eot"), url("../fonts/OpenSans-Regular-webfont.woff") format("woff"), url("../fonts/OpenSans-Regular-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: normal;
+  src: url("../fonts/OpenSans-Italic-webfont.eot"), url("../fonts/OpenSans-Italic-webfont.eot?") format("eot"), url("../fonts/OpenSans-Italic-webfont.woff") format("woff"), url("../fonts/OpenSans-Italic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/OpenSans-Semibold-webfont.eot"), url("../fonts/OpenSans-Semibold-webfont.eot?") format("eot"), url("../fonts/OpenSans-Semibold-webfont.woff") format("woff"), url("../fonts/OpenSans-Semibold-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 600;
+  src: url("../fonts/OpenSans-SemiboldItalic-webfont.eot"), url("../fonts/OpenSans-SemiboldItalic-webfont.eot?") format("eot"), url("../fonts/OpenSans-SemiboldItalic-webfont.woff") format("woff"), url("../fonts/OpenSans-SemiboldItalic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/OpenSans-Bold-webfont.eot"), url("../fonts/OpenSans-Bold-webfont.eot?") format("eot"), url("../fonts/OpenSans-Bold-webfont.woff") format("woff"), url("../fonts/OpenSans-Bold-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../fonts/OpenSans-BoldItalic-webfont.eot"), url("../fonts/OpenSans-BoldItalic-webfont.eot?") format("eot"), url("../fonts/OpenSans-BoldItalic-webfont.woff") format("woff"), url("../fonts/OpenSans-BoldItalic-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 800;
+  src: url("../fonts/OpenSans-ExtraBold-webfont.eot"), url("../fonts/OpenSans-ExtraBold-webfont.eot?") format("eot"), url("../fonts/OpenSans-ExtraBold-webfont.woff") format("woff"), url("../fonts/OpenSans-ExtraBold-webfont.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 800;
+  src: url("../fonts/OpenSans-ExtraBoldItalic-webfont.eot"), url("../fonts/OpenSans-ExtraBoldItalic-webfont.eot?") format("eot"), url("../fonts/OpenSans-ExtraBoldItalic-webfont.woff") format("woff"), url("../fonts/OpenSans-ExtraBoldItalic-webfont.ttf") format("truetype"); }
+
+/* line 34, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+body {
+  font-family: 'Open Sans';
+  font-size: 13px; }
+
+/* line 39, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+a {
+  color: inherit;
+  text-decoration: none;
+  color: #f7a03d; }
+  /* line 43, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  a:hover {
+    text-decoration: underline; }
+
+/* line 48, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+ul {
+  float: right;
+  display: inline-block; }
+  /* line 51, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  ul li {
+    float: left; }
+
+/* line 56, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+input[type=text], input[type='password'], input[type="email"] {
+  padding: 4px;
+  font-weight: 400;
+  border-radius: 3px;
+  height: 24px;
+  border: 1px solid #dad1c6;
+  font-size: 13px;
+  outline: none;
+  color: #5b5349; }
+  /* line 71, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  input[type=text]:focus, input[type='password']:focus, input[type="email"]:focus {
+    box-shadow: 0 0 2px #c09a6d;
+    border: 1px solid #dfcbb4; }
+
+/* line 77, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+input[type='submit'], a.button, button, a.button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 4px;
+  background: #746c5f;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer; }
+  /* line 88, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  input[type='submit']:hover, a.button:hover, button:hover, a.button:hover {
+    background: #8f8677;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out; }
+
+/* line 98, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+select {
+  height: 30px; }
+
+/* line 102, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+button.blue, a.blue.button {
+  padding: 10px 20px;
+  background: #00aeef; }
+  /* line 105, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  button.blue:hover, a.blue.button:hover {
+    background: #23c3ff; }
+
+/* line 110, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+a.button {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+/* line 118, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+#flash-messages #flash-error, #flash-messages #flash-notice, #flash-messages #flash-alert {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #eaddcc;
+  color: #fff;
+  line-height: 18px; }
+/* line 129, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+#flash-messages #flash-error {
+  background: maroon; }
+
+/* line 134, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.ui-widget-header {
+  background: #fff !important;
+  border: none !important; }
+
+/* line 139, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: none !important;
+  border-radius: 3px;
+  border: 1px solid #dad1c6; }
+  /* line 143, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .ui-state-default:hover, .ui-widget-content .ui-state-default:hover, .ui-widget-header .ui-state-default:hover {
+    background: #eaddcc !important; }
+
+/* line 148, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+table.ui-datepicker-calendar, thead {
+  border: none !important; }
+
+/* line 153, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.ui-datepicker-calendar tr:hover {
+  background: none !important; }
+
+/* line 158, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+  border: 2px solid #dad1c6 !important; }
+
+/* line 163, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.static-pages #left-col {
+  font-size: 24px;
+  line-height: 33px;
+  color: #fff;
+  width: 30%;
+  min-width: 268px;
+  padding: 0 33px;
+  font-weight: 300;
+  background: #f7a03d;
+  z-index: -999;
+  min-height: 1000px;
+  float: left; }
+  /* line 176, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #left-col img {
+    margin-top: 70px;
+    margin-bottom: 50px;
+    float: left; }
+  /* line 182, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #left-col h2 {
+    clear: both;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 120px; }
+  /* line 190, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #left-col p.lead {
+    margin-bottom: 40px; }
+  /* line 193, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #left-col p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px; }
+/* line 201, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.static-pages #right-col {
+  float: left;
+  padding: 68px 50px 0 30px;
+  width: 50%; }
+  /* line 208, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col min-width 600px   . content  {
+    margin: 0 auto; }
+  /* line 212, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col .row {
+    clear: both; }
+  /* line 216, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col .img-container {
+    width: 80px;
+    height: 120px;
+    float: left;
+    margin-right: 32px; }
+  /* line 223, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col .text-container {
+    display: block; }
+    /* line 225, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .static-pages #right-col .text-container h4 {
+      font-size: 16px;
+      color: #7e776c;
+      font-weight: 600; }
+    /* line 230, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .static-pages #right-col .text-container p {
+      margin-top: 20px;
+      margin-bottom: 50px;
+      clear: none; }
+  /* line 238, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col p.mb-20 {
+    float: left;
+    margin-bottom: 20px; }
+  /* line 243, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .static-pages #right-col h2 {
+    margin-bottom: 20px; }
+
+/* line 249, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.error-message {
+  clear: both;
+  width: 80%;
+  margin: 0 auto;
+  background: #ff5151;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  line-height: 21px;
+  margin-bottom: 30px; }
+
+/* line 261, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.application-logout {
+  float: right;
+  color: #fff !important;
+  margin-top: 20px;
+  padding: 5px;
+  border-radius: 4px;
+  background: #f7a03d; }
+  /* line 268, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .application-logout:hover {
+    text-decoration: none;
+    background: #e97e04; }
+
+/* line 274, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+input.error {
+  border: 1px solid red; }
+
+/* line 278, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.transparent-logo {
+  display: block;
+  margin-top: -30px;
+  margin-bottom: 20px !important; }
+
+/* line 285, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.static-pages p {
+  clear: both; }
+/* line 289, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.static-pages em {
+  font-style: italic; }
+/* line 293, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.static-pages h3 {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-bottom: 10px; }
+
+/* line 301, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.pagination {
+  margin-top: 20px; }
+  /* line 303, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .pagination a, .pagination span, .pagination em {
+    text-align: center;
+    margin-right: 5px;
+    padding: 3px 5px; }
+  /* line 309, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .pagination a {
+    background: #eaddcc;
+    color: #fff; }
+    /* line 312, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .pagination a:hover {
+      text-decoration: none;
+      background: #ccad84; }
+  /* line 317, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .pagination a.next_page {
+    color: #f7a03d;
+    background: none; }
+    /* line 320, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .pagination a.next_page:hover {
+      text-decoration: underline; }
+
+/* line 326, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.left-side {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+  /* line 331, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .left-side p.leading {
+    font-size: 19px;
+    line-height: 25px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-bottom: 30px; }
+  /* line 339, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .left-side .features {
+    line-height: 15px;
+    font-size: 12px;
+    margin-bottom: 10px; }
+  /* line 345, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .left-side strong {
+    font-weight: bold; }
+  /* line 349, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .left-side a {
+    text-decoration: underline;
+    display: block;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased; }
+    /* line 356, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .left-side a:hover {
+      text-decoration: none; }
+  /* line 361, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  .left-side a.view-more {
+    float: left;
+    padding: 5px;
+    line-height: 18px;
+    border-radius: 3px;
+    margin-top: 15px;
+    color: #AD6C23;
+    background: #ffC685;
+    text-decoration: none;
+    font-size: 12px; }
+    /* line 371, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+    .left-side a.view-more:hover {
+      background: #ff961f; }
+
+/* line 377, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+#tnc .left-side {
+  height: 5500px; }
+
+/* line 381, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+ul.legal {
+  color: inherit; }
+  /* line 383, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+  ul.legal li {
+    float: left;
+    clear: both;
+    list-style-type: disc;
+    margin-bottom: 15px;
+    font-size: 13px;
+    line-height: 17px;
+    margin-left: 50px; }
+
+/* line 395, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.content.list table {
+  width: 400px;
+  float: left; }
+
+/* line 407, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/global.css.scss */
+.right {
+  float: right; }

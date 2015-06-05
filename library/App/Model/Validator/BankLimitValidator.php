@@ -1,0 +1,387 @@
+<?php
+
+/*
+ * Validator class for Customer Limits
+ * 
+ */
+class Validator_BankLimitValidator extends App_Model
+{
+    
+  /**
+     * Column for the primary key
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_primary = 'id';
+    
+    /**
+     * Holds the table's name
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_name = DbTable::TABLE_BANK_CUSTOMER_LIMITS;
+    
+    private $_message;
+    private $_message_code;
+    
+    public function getMessage()
+    {
+        return $this->_message;
+    }
+    
+    private function setMessage($msg)
+    {
+        $this->_message = $msg;
+    }
+    
+    public function getMessageCode()
+    {
+        return $this->_message_code;
+    }
+    
+    private function setMessageCode($msg)
+    {
+        $this->_message_code = $msg;
+    }
+    
+    public function getCustomerLimits($bankId = 0, $bankUnicode = '', $customerType = TYPE_NONKYC)
+    {
+        if(!is_numeric($bankId) || !$bankId > 0) {
+            App_Logger::log("No record found with this bank id.", Zend_Log::ALERT);
+            throw new App_Exception(ErrorCodes::ERROR_INSUFFICIENT_DATA_AUTHENTICATION_MSG,  ErrorCodes::ERROR_INSUFFICIENT_DATA_FOR_PROCESSING);
+        }
+        $select = $this->select()
+                ->from($this->_name, array('max_balance', 'load_min', 'load_max', 'load_max_val_daily', 'load_max_val_monthly', 'load_max_val_yearly'))
+                ->where('bank_id = ?', $bankId)
+                ->where('customer_type = ?', $customerType)
+                ->where('status = ?', STATUS_ACTIVE); 
+        $rs = $this->fetchRow($select);      
+        if(empty($rs)) {
+            return FALSE;
+        }
+        return $rs;
+    }
+    
+    
+    /*
+     * $params['customer_master_id'] = customer master id
+     * $params['amount'] = amount
+     * $params['product_id'] =>  product_id,
+     * $params['bank_unicode'] =>  bank_unicode,
+     * 
+     */
+    public function chkAllowLoad($params)
+    {
+        if ($params['customer_master_id'] == '' || $params['amount'] == '' 
+              || $params['bank_id'] == '' || $params['bank_unicode'] == ''){
+            throw new App_Exception(ErrorCodes::ERROR_EDIGITAL_INSUFFICIENT_DATA_CARDLOAD_MSG, ErrorCodes::ERROR_EDIGITAL_INSUFFICIENT_DATA_CARDLOAD_CODE);
+        }
+        $params['customer_type'] = TYPE_NONKYC;
+        $bankUnicodeArr = Util::bankUnicodesArray();
+        $bankCustModel = new Customers();
+        $custType = $bankCustModel->checkCustomer(array('bank_id'=>$params['bank_id']));
+         if($custType['customer_type'] == TYPE_KYC) {
+                    $params['customer_type'] = TYPE_KYC;
+         }
+        switch($params['bank_unicode']) {
+            case $bankUnicodeArr['2']: // rat
+
+                $custPurseModel = new Corp_Ratnakar_CustomerPurse();
+//                $custParams = array('customer_master_id' => $params['customer_master_id']);
+//                $custArr = $custModel->getCardholderInfo($custParams);
+//                if($custArr['customer_type'] == TYPE_KYC) {
+//                    $params['customer_type'] = TYPE_KYC;
+//                }
+                $customerLimits = $this->getCustomerLimits($params['bank_id'], $params['bank_unicode'], $params['customer_type']);
+                if($customerLimits) {
+                    $this->chkMinMaxRange($params['amount'], $customerLimits['load_min'], $customerLimits['load_max'], "Customer Load");
+                    //  chk max balance
+                    $existingBal = $custPurseModel->getCustBankBalance($params['customer_master_id'], $params['bank_id']);
+                    
+                    $newBal = $existingBal['sum'] + $params['amount'];
+                    if($newBal > $customerLimits['max_balance']) {
+                        App_Logger::log("Max. Balance allowed for the customer: ".$customerLimits['max_balance'].". Existing Balance: ".$existingBal['sum'].". Amount tried: ".$params['amount'], Zend_Log::ALERT);
+                        throw new App_Exception("Max. Balance allowed for the customer: ".Util::numberFormat($customerLimits['max_balance']).". Existing Balance: ".Util::numberFormat($existingBal['sum']).". Amount tried: ".Util::numberFormat($params['amount']), ErrorCodes::ERROR_EDIGITAL_CUSTOMER_MAX_BALANCE_CODE);
+                    }
+                    
+                    // D/M/Y
+                    $this->chkLimits($customerLimits, $params, 'load',$params['bank_unicode']);
+                   
+                }
+                break;
+        }
+        
+        return TRUE;
+      
+    }
+    
+    /* if amount is within range */
+    public function chkMinMaxRange($amount, $limitMin, $limitMax, $txt = "Customer Load")
+    {
+        if($limitMin > 0 && $amount < $limitMin)
+        {
+            App_Logger::log("Amount less than Min value for ".$txt.". Min Amount Allowed: ".Util::numberFormat($limitMin).". Amount tried: ".Util::numberFormat($amount), Zend_Log::ALERT);
+            throw new Exception ("Amount less than Min value for ".$txt.". Min Amount Allowed: ".Util::numberFormat($limitMin).". Amount tried: ".Util::numberFormat($amount),  ErrorCodes::ERROR_INSUFFICIENT_AMOUNT);
+        }
+        elseif($limitMax > 0 && $amount > $limitMax)
+        {   
+            App_Logger::log("Amount exceeds Max value for ".$txt.". Max Amount Allowed: ".Util::numberFormat($limitMax).". Amount tried: ".Util::numberFormat($amount), Zend_Log::ALERT);
+            throw new Exception ("Amount exceeds Max value for ".$txt.". Max Amount Allowed: ".Util::numberFormat($limitMax).". Amount tried: ".Util::numberFormat($amount),ErrorCodes::ERROR_INSUFFICIENT_AMOUNT);
+        }
+        return TRUE;
+    }
+    
+    
+    /*  chk load stats    */
+    public function chkLimits($limitDetails, $params, $txnType = 'load', $bankUnicode = '' )
+    {
+        $bankUnicodeArr = Util::bankUnicodesArray();
+        if ($bankUnicode == '') {
+            $bankUnicode = $bankUnicodeArr['2']; // rat
+        }
+        switch ($bankUnicode) {
+            
+            case $bankUnicodeArr['2']: // rat
+                $objCardload = new Corp_Ratnakar_Cardload();
+                break;
+            
+        }
+        
+        if($txnType == 'load')
+        {
+            $statusStr = "'".STATUS_LOADED."', '".STATUS_COMPLETED."'";
+        }
+        // DAILY LIMITS
+        if($limitDetails['load_max_val_daily'] > 0)
+        {
+            $curDate = date('Y-m-d'); 
+            $row = $objCardload->getCustomerBankStatsDaily($params['customer_master_id'], $params['bank_id'], $curDate, $statusStr);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag($total, $params['amount'], $limitDetails['load_max_val_daily'], "Daily", "Customer Load");
+            }
+        }
+        // MONTHLY LIMITS
+        if($limitDetails['load_max_val_monthly'] > 0)
+        {
+            $curMonth = date('m');
+            $curYear = date('Y');
+            $curMonthDays = Util::getMonthDays($curMonth, $curYear);
+            $startDate = $curYear.'-'.$curMonth.'-01';
+            $endDate = $curYear.'-'.$curMonth.'-'.$curMonthDays;   
+            $row = $objCardload->getCustomerBankStatsDuration($params['customer_master_id'], $params['bank_id'], $startDate, $endDate, $statusStr);
+//            echo "<pre>";print_r($row);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag($total, $params['amount'], $limitDetails['load_max_val_monthly'], "Monthly", "Customer Load");
+            }
+        }
+        // YEARLY LIMITS
+        if($limitDetails['load_max_val_yearly'] > 0)
+        {
+            $startDate = date("Y-01-01");
+            $endDate = date("Y-12-31");   
+            $row = $objCardload->getCustomerBankStatsDuration($params['customer_master_id'], $params['bank_id'], $startDate, $endDate, $statusStr);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag($total, $params['amount'], $limitDetails['load_max_val_yearly'], "Yearly", "Customer Load");
+            }
+        }
+        return TRUE;
+    }
+    
+    private function getLimitFlag($total, $amount, $amtMax, $period = "Daily", $txt = "Customer")
+    {
+        $totalAmt = $total+$amount;
+        if($amtMax > 0 && $totalAmt > $amtMax)
+        {
+           App_Logger::log("Transaction Amount will exceed Max. Amount of ".$period." Txns Allowed for ".$txt.". Max ".$period." Txns Allowed: ".Util::numberFormat($amtMax).". Amount of Txns already done: ".Util::numberFormat($total).". Amount tried: ".Util::numberFormat($amount), Zend_Log::ALERT);
+            throw new App_Exception ("Transaction Amount will exceed Max. Amount of ".$period." Txns Allowed for ".$txt.". Max ".$period." Txns Allowed: ".Util::numberFormat($amtMax).". Amount of Txns already done: ".Util::numberFormat($total).". Amount tried: ".Util::numberFormat($amount),ErrorCodes::ERROR_TRANSACTION_LIMIT);
+        } 
+        
+        return TRUE;
+    }
+    
+    
+   
+    /*
+     * $params['customer_master_id'] = customer master id
+     * $params['amount'] = amount
+     * $params['product_id'] =>  product_id,
+     * $params['bank_unicode'] =>  bank_unicode,
+     * 
+     */
+    public function chkAllowAuth($params)
+    {
+        $flg = TRUE;
+         if ($params['customer_master_id'] == '' || $params['amount'] == '' 
+             || $params['bank_id'] == '' ){
+            throw new App_Exception(ErrorCodes::ERROR_INSUFFICIENT_DATA_AUTHENTICATION_MSG,  ErrorCodes::ERROR_INSUFFICIENT_DATA_FOR_PROCESSING);
+        }
+        try {
+            
+            $params['customer_type'] = TYPE_NONKYC;
+            $bankUnicodeArr = Util::bankUnicodesArray();
+            $bankCustModel = new Customers();
+            $custType = $bankCustModel->checkCustomer(array('bank_id'=>$params['bank_id']));
+            if($custArr['customer_type'] == TYPE_KYC) {
+                  $params['customer_type'] = TYPE_KYC;
+            }
+            switch($params['bank_unicode']) {
+                case $bankUnicodeArr['2']: // rat
+    //            default:
+                    $custModel = new Corp_Ratnakar_Cardholders();
+//                    $custParams = array('customer_master_id' => $params['customer_master_id']);
+//                    $custArr = $custModel->getCardholderInfo($custParams);
+//                    if($custArr['customer_type'] == TYPE_KYC) {
+//                        $params['customer_type'] = TYPE_KYC;
+//                    }
+
+                    $customerLimits = $this->getCustomerLimits($params['bank_id'], $params['bank_unicode'], $params['customer_type']);
+                    if($customerLimits) {
+                        $this->chkMinMaxRange($params['amount'], $customerLimits['txn_min'], $customerLimits['txn_max'], "Customer Transaction");
+
+                        $this->chkAuthTxnLimits($customerLimits, $params, $txnType = 'authtxn' );
+
+                    }
+                    break;
+            }
+            
+        } catch (App_Exception $e){
+            $flg = FALSE;
+            $error_msg = $e->getMessage();
+            $error_msg_code = $e->getCode();
+        }
+        if($flg != TRUE)
+        {
+            $this->setMessage($error_msg);
+            $this->setMessageCode($error_msg_code);
+            return FALSE;
+        }
+        return TRUE;
+      
+    }
+    
+    
+    
+    
+    /*  chk auth txn stats    */
+    public function chkAuthTxnLimits($limitDetails, $params, $txnType = 'authtxn' )
+    {
+        $objCardload = new AuthRequest();
+        $bankUnicodeArr = Util::bankUnicodesArray();
+        if ($params['bank_unicode'] == '') {
+            $bankUnicode = $bankUnicodeArr['2']; // rat
+        } else {
+            $bankUnicode = $params['bank_unicode'];
+        }
+        
+        if($txnType == 'authtxn')
+        {
+            $statusStr = "'".STATUS_COMPLETED."'";
+        }
+        // DAILY LIMITS
+        if($limitDetails['txn_max_val_daily'] > 0)
+        {
+            $curDate = date('Y-m-d');
+            $row = $objCardload->getCustomerBankStatsDaily($params['customer_master_id'], $params['bank_id'], $curDate, $statusStr);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag( $total, $params['amount'], $limitDetails['txn_max_val_daily'], "Daily", "Customer Transaction");
+            }
+        }
+        // MONTHLY LIMITS
+        if($limitDetails['txn_max_val_monthly'] > 0)
+        {
+            $curMonth = date('m');
+            $curYear = date('Y');
+            $curMonthDays = Util::getMonthDays($curMonth, $curYear);
+            $startDate = $curYear.'-'.$curMonth.'-01';
+            $endDate = $curYear.'-'.$curMonth.'-'.$curMonthDays;   
+            $row = $objCardload->getCustomerBankStatsDuration($params['customer_master_id'], $params['bank_id'], $startDate, $endDate, $statusStr);
+//            echo "<pre>";print_r($row);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag($total, $params['amount'], $limitDetails['txn_max_val_monthly'], "Monthly", "Customer Transaction");
+            }
+        }
+        // YEARLY LIMITS
+        if($limitDetails['txn_max_val_yearly'] > 0)
+        {
+            $startDate = date("Y-01-01");
+            $endDate = date("Y-12-31");   
+            $row = $objCardload->getCustomerBankStatsDuration($params['customer_master_id'], $params['bank_id'], $startDate, $endDate, $statusStr);
+            if($row)
+            {
+                $total = ($row['total'] > 0) ? $row['total'] : 0;
+                $this->getLimitFlag( $total, $params['amount'], $limitDetails['txn_max_val_yearly'], "Yearly", "Customer Transaction");
+            }
+        }
+        return TRUE;
+    }
+    
+    public function chkBankAllowLoad($params)
+    {
+        if ($params['customer_master_id'] == '' || $params['amount'] == '' 
+              || $params['bank_id'] == '' || $params['bank_unicode'] == ''){
+            throw new App_Exception('Insufficient Data for validating Load');
+        }
+        $params['customer_type'] = TYPE_NONKYC;
+        $bankUnicodeArr = Util::bankUnicodesArray();
+        
+        $cardholderObj = new Corp_Ratnakar_Cardholders();
+        $cardholderDetails = $cardholderObj->getCardholderInfo(array('customer_master_id' => $params['customer_master_id']));
+
+        $params['rat_customer_id'] = $cardholderDetails->rat_customer_id;
+        $params['cardholder_id'] = $cardholderDetails->id;
+        
+        $bankCustModel = new Customers();
+        $custType = $bankCustModel->checkBankCustomer($params);
+        if($custType['customer_type'] == TYPE_KYC) {
+            $params['customer_type'] = TYPE_KYC;
+        }
+        
+        $custMasterIdArr = array();
+        
+        $cardholderIdDetails = $bankCustModel->getCustomerId($custType['id']);
+        foreach($cardholderIdDetails as $val){
+            $custMasterIdArr[] = $val['customer_master_id'];
+        }
+        
+        $customerMasterIds =  implode(',', $custMasterIdArr);
+        
+        switch($params['bank_unicode']) {
+            case $bankUnicodeArr['2']: // rat
+
+                $custPurseModel = new Corp_Ratnakar_CustomerPurse();
+                $customerLimits = $this->getCustomerLimits($params['bank_id'], $params['bank_unicode'], $params['customer_type']);
+                if($customerLimits) {
+                    $this->chkMinMaxRange($params['amount'], $customerLimits['load_min'], $customerLimits['load_max'], "Customer Load");
+                    //  chk max balance
+                    $existingBal = $custPurseModel->getCustBankBalance($customerMasterIds, $params['bank_id']);
+                    
+                    $newBal = $existingBal['sum'] + $params['amount'];
+                    if($newBal > $customerLimits['max_balance']) {
+                        App_Logger::log("Max. Balance allowed for the customer: ".$customerLimits['max_balance'].". Existing Balance: ".$existingBal['sum'].". Amount tried: ".$params['amount'], Zend_Log::ALERT);
+                        throw new App_Exception("Max. Balance allowed for the customer: ".Util::numberFormat($customerLimits['max_balance']).". Existing Balance: ".Util::numberFormat($existingBal['sum']).". Amount tried: ".Util::numberFormat($params['amount']));
+                    }
+                    
+                    $params['customer_master_id'] = $customerMasterIds;
+                    // D/M/Y
+                    $this->chkLimits($customerLimits, $params, 'load',$params['bank_unicode']);
+                   
+                }
+                break;
+        }
+        
+        return TRUE;
+      
+    }
+}

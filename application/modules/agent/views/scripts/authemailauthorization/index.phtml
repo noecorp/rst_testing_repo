@@ -1,0 +1,18 @@
+<?php
+
+if($this->msg=='success'){
+    $url = App_DI_Container::get('ConfigObject')->agent->url;
+    $loginUrl = $url.'/profile/login';
+?>
+<a href="<?php echo $this->formatURL($loginUrl);?>">Click here to Login</a>
+<?php
+}
+else if($this->msg=='failure'){
+    ?>
+    
+ Secondary email not authorized.  
+ 
+ <?php
+}
+
+?>

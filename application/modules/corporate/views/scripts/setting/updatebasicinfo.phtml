@@ -1,0 +1,77 @@
+<?php 
+
+echo $this->form;
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+  var city = $("#city").val();
+  var pincode = $("#pin").val();
+
+  if($("#city").val() != ''){
+    $.ajax({
+                  url: '/ajax/get-pincode/q/'+city,
+                      success: function(response) {
+                          if(response == 1) {                            
+                          } else {                            
+                              $("#res_pincode").html("");                            
+                              $("#res_pincode").append(response);
+                              $("#res_pincode option[value='"+pincode+"']").attr("selected", "selected");
+                               console.log(response);                            
+                          }
+                      }     
+          });
+  }
+  if($("#res_state").val() != ''){
+            $.ajax({
+                   url: '/ajax/get-city/q/'+$("#res_state").val(),
+                       success: function(response) {
+                           if(response == 1) {
+                            
+                           } else {
+                               
+                               $("#res_city").html("");
+                               
+                               $("#res_city").append(response);
+                                $("#res_city option[value='"+city+"']").attr("selected", "selected");
+                               console.log(response);
+                            
+   
+                           }
+                       },
+            
+           });
+  }  
+  $("#res_city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#res_city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#res_pincode").html("");                            
+                            $("#res_pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+  $("#res_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#res_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            $("#res_city").html("");
+                            $("#res_city").append(response);
+                            console.log(response);
+                            
+                        }
+                    },
+         
+        });
+    }); 
+
+});//end document ready  
+    
+</script>

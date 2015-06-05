@@ -1,0 +1,25 @@
+<?php 
+
+
+
+echo $this->message;
+echo $this->form;
+?>
+ <script>
+  $(document).ready(function(){
+      var i = 1;
+      $('#button').click(function() {
+    
+      $('#doc_path').after('<dt id="doc_type'+i+'-label"><label class="required" for="doc_type'+i+'">Document Type *</label></dt>');
+      $('#doc_type'+i+'-label').after('<dd id="doc_type'+i+'-element"><select id="doc_type'+i+'" name="doc_type'+i+'"><option selected="selected" label="Passport" value="passport">Passport</option><option label="Photo" value="photo">Photo</option><option label="Shop Photo" value="shopphoto">Shop Photo</option><option label="ID proof" value="idproof">ID proof</option><option label="Address Proof" value="addressproof">Address Proof</option><option label="PAN number" value="pan">PAN number</option><option label="Others" value="others">Others</option></select></dd>');
+      
+      $('#doc_type'+i+'-element').after('<dt id="doc_path'+i+'-label"><label class="required" for="doc_path'+i+'">Document File Path</label></dt>');
+      $('#doc_path'+i+'-label').after('<dd><input id="doc_path'+i+'" type="file" name="doc_path'+i+'"></dd>');
+      
+    
+      i++;
+}); 
+      
+      
+     });
+  </script>

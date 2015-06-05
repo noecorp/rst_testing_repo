@@ -1,0 +1,75 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Bank Listing';
+$config['no_add'] = TRUE; 
+$config['emptyMessage'] = 'There is no bank added at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'IFSC Code',
+    'Branch Name',
+    'Branch City',
+    'Products Enrolled'
+    
+);
+$config['columnIndexes'] = array(
+    'name',
+    'ifsc_code',
+    'branch_name',
+    'city',
+    'count'
+    
+);
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'count',
+                'linkController'    => 'product',
+                'linkAction'        => 'index',
+                'linkTitle'         => 'View Products',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'bid',
+            ),
+            array(
+                'linkColName' => 'name',
+                'linkController' => 'bank',
+                 'linkAction' => 'view',
+                'linkTitle' => 'Bank Details',
+                'linkParamReqd' => TRUE,
+                'linkParamName' => 'bid',
+            )
+        );
+
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => 'edit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+        //'link_class'    => 'btn',
+        'img_alt'       => 'edit',
+    )
+    );
+
+
+$config['linkOrder'] = array('edit');
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

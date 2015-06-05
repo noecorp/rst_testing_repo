@@ -1,0 +1,41 @@
+<?php
+$name = 'User';
+    if(isset($this->first_name)) {
+        $name = ucfirst($this->first_name) . ' ' . ucfirst($this->middle_name) . ' '. ucfirst($this->last_name);
+    }
+?>
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+<p>Dear <?php echo $name; ?>,</p>
+<p>The Authorization Code for accessing your Shmart! Business Partner Account is: <?php echo $this->auth_code ?>.</p>
+<p>This request for access has been initiated from a Computer/Device with IP:
+<?php echo ucfirst($this->user_ip); ?> on <?php echo $this->date_time;?>. Please contact us IMMEDIATELY if you have NOT initiated this login attempt.</p>
+
+<p>Please Note:</p>
+<ul>
+    <li>This Authorization Code is valid for your current session only. For a new login attempt, a new Authorization Code will be generated.</li>
+    <li>Your Account will get blocked after <?php $this->login_attempts; ?> unsuccessful login attempts.</li>
+</ul>
+
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: partner.support@shmart.co.in</p>
+
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo \Util::getEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo \Util::getEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo \Util::getEmailTC(); ?></p>

@@ -1,0 +1,220 @@
+<?php echo Util::getCorporateRegistrationAgentTab("identification",$this->agent_id); 
+if(!empty($this->item)){
+    if(is_array($this->item))
+        $item = $this->item;
+    else 
+        $item = $this->item->toArray();
+}
+//$item = !empty($this->item)?$this->item->toArray():'';
+$panNumber = isset($item['pan_number'])?$item['pan_number']:'';
+
+echo $this->form;
+?>
+<script type="text/javascript">
+jQuery.validator.setDefaults({
+	debug: true,
+	success: "valid"
+});
+</script>
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       var panStatus = '<?php echo $panNumber;?>';
+       var panStatusOnError = $('#pan_number_status').val();
+       if(panStatus=='Applied' || panStatusOnError=='Applied'){
+            $('#pan_number').val('');
+            $('#pan_number-label').hide(); // Hide divs
+            $('#pan_number').hide(); // Hide divs
+       }
+       
+       $('#passport_expiry-label').hide(); // Hide divs
+       $('#passport_expiry').hide(); // Hide divs
+       var idtype = $('#Identification_type').val();
+       var addtype = $('#address_proof_type').val();
+       if(idtype == 'passport' || addtype == 'passport'){
+          $('#passport_expiry-label').show(); // Hide divs
+          $('#passport_expiry').show(); // Hide divs 
+       }
+       
+       
+       $("#Identification_type").change(function() {
+	    if(this.value) {
+		var type = this.value; 
+		var addtype = $('#address_proof_type').val();
+		if(type == 'passport' || addtype == 'passport'){
+		
+		    $('#passport_expiry-label').show(); // Show divs
+		    $('#passport_expiry').show(); // Show divs 
+		}else {
+		    $('#passport_expiry-label').hide(); // Hide divs
+		    $('#passport_expiry').hide(); // Hide divs
+		}
+	    }
+	}); 
+    
+    
+        $("#address_proof_type").change(function() {
+	    if(this.value) {
+		var type = this.value; 
+		var idtype = $('#Identification_type').val();
+		if(type == 'passport' || idtype == 'passport'){
+		    $('#passport_expiry-label').show(); // Hide divs
+		    $('#passport_expiry').show(); // Hide divs 
+		}else {
+		    $('#passport_expiry-label').hide(); // Hide divs
+		    $('#passport_expiry').hide(); // Hide divs
+		}
+            }
+	}); 
+       
+    
+    $('form').submit(function(){
+       var idtype = $('#Identification_type').val();  
+       var adtype = $('#address_proof_type').val();
+       var idnum = $('#Identification_number').val();  
+       var adnum = $('#address_proof_number').val();
+       var pannum = $('#pan_number').val();
+       var pannumstatus = $('#pan_number_status').val();
+       var dob = $.trim($("#date_of_birth").val()); 
+      
+      /**** date of birth validation ****/
+       if(dob!='' && dob!='00-00-0000') {
+            
+            var arr_dt = dob.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+		alert('Invalid Date of Birth');
+		$("#date_of_birth").val('');
+		$("#date_of_birth").focus();
+		return false;
+	    }
+	} else {
+	    alert('Please specify date of birth');
+	    $("#date_of_birth").focus();
+	    return false;
+        } 
+          /**** date of birth validation over ****/
+       
+        if(idtype=='pan' && idnum!='' && pannumstatus=='Applied'){
+           alert('PAN Status cannot be applied for as you specified PAN above in identification type');
+           return false;          
+        }
+       
+        if (idtype == 'pan' && pannumstatus == '<?php echo STATUS_ALREADY;?>'){
+	    var panPat = /^([a-zA-Z]{5})(\d{4})([a-zA-Z]{1})$/;
+            var code = /([C,P,H,F,A,T,B,L,J,G])/;
+            var code_chk = pannum.substring(3,4);
+	    var pancode_chk = idnum.substring(3,4);
+	    
+	    if (pannum.search(panPat) == -1) {
+                alert("Invalid Pan No");
+		$('#pan_number').focus();
+                return false;
+            }else if (code.test(code_chk) == false) {
+                alert("Invaild PAN Card No.");
+		$('#pan_number').focus();
+                return false;
+            }else if (idnum.search(panPat) == -1) {
+                alert("Invalid Pan No");
+		$('#address_proof_number').focus();
+                return false;
+            }else if (code.test(pancode_chk) == false) {
+                alert("Invaild PAN Card No.");
+		$('#address_proof_number').focus();
+                return false;
+            }else if (idnum != pannum){
+                  alert ('Pan Number entered does not match');
+                  return false;  
+            }
+        }
+        if (idtype == adtype ){
+	    if (idnum != adnum){
+		 alert ('Identification and address proof number do not match');
+		 return false;  
+	    }
+        }
+           
+        if (idtype == 'passport' || adtype == 'passport'){
+            var passportExpiry = $('#passport_expiry').val();
+            if(passportExpiry == '00-00-0000' || passportExpiry == ''){  
+              alert ('Please enter passport expiry date');
+              $("#passport_expiry").focus();
+              return false;
+            } else {             
+                    if (!passportExpiry.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                            alert('Invalid Passport Expiry Date');
+                            $("#passport_expiry").val('');
+                            $("#passport_expiry").focus();
+                            return false;
+                  }
+	    }
+        }
+        var addValidation = '<?php echo $this->jsValidation;?>';
+	var alphaNum = /[^a-zA-Z0-9]/;
+	//alert(addValidation);
+	if (addValidation == 1) {
+	    var id_doc_path = $('#id_doc_path').val();
+            var address_doc_path = $('#address_doc_path').val();
+	    if(idtype == ''){
+		   alert('Please select Identification type');
+		   $('#Identification_type').focus();  
+		   return false;
+	    }else if(idnum == '' || alphaNum.test(idnum)){
+		   alert('Identification number is not alphanumeric');
+		   $('#Identification_number').focus();  
+		   return false;
+	    }else if(adtype == ''){
+		   alert('Please select Address Proof Type');
+		   $('#address_proof_type').focus();  
+		   return false;
+	    }else if(adnum == '' || alphaNum.test(adnum)){
+		   alert('Address proof number is not alphanumeric');
+		   $('#address_proof_number').focus();  
+		   return false;
+	    }else if(id_doc_path == ''){
+		   alert('Please select Identification Proof File');
+		   $('#id_doc_path').focus();  
+		   return false;
+	    }else if(address_doc_path == ''){
+		   alert('Please select Address Proof File');
+		   $('#address_doc_path').focus();  
+		   return false;
+	    }
+	}else if(idnum != '' && alphaNum.test(idnum)){
+	    alert('Identification number is not alphanumeric');
+	    $('#Identification_number').focus();  
+	    return false;
+	}else if(adnum != '' && alphaNum.test(adnum)){
+	    alert('Address proof number number is not alphanumeric');
+	    $('#address_proof_type').focus();  
+	    return false;
+	}
+	
+       
+        return true;
+   }); 
+}); 
+
+
+$("#pan_number_status").change(function(){    
+        handlePancard() ;                    
+    });
+    
+    
+     function handlePancard(){
+         var panNumberStatus = $("#pan_number_status").val(); 
+         
+         //alert('dfas');
+          if(panNumberStatus=='already') {
+                $('#pan_number-label').show(); // Hide divs
+                $('#pan_number').show(); // Hide divs
+                $('#pan_number').val('');
+          } else if(panNumberStatus=='Applied') {                       
+                $('#pan_number-label').hide(); // Hide divs
+                $('#pan_number').hide(); // Hide divs
+              
+          }  
+     } 
+
+</script>

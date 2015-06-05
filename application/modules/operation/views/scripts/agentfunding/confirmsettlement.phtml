@@ -1,0 +1,117 @@
+<?php
+if (!$this->agentFunding && !$this->bankStatement) {
+    ?>
+    <div class="msg msg-error"><p>You have trying to access settlement bank statement or non pending fund request.</p></div>
+    <?php
+} else {
+    $config['columnNames'] = array(
+        'Journal/Cheque No.',
+        'Amount',
+        'Request Date',
+        'Request Status',
+        'Fund Transfer Type',
+        'Agent Name',
+        'Agent Code',
+    );
+    $config['columnIndexes'] = array(
+        'funding_no',
+        'amount',
+        'date_request',
+        'agent_funding_status',
+        'transfer_type_name',
+        'agent_name',
+        'agent_code',
+    );
+
+
+    $bankStatementsConfig = array();
+    // messages
+    $bankStatementsConfig['pageTitle'] = 'Unsettled Banks Statement';
+    $bankStatementsConfig['emptyMessage'] = 'There is no bank statementsat available.';
+
+    $bankStatementsConfig['no_add'] = TRUE;
+    // column names & indexes
+    $bankStatementsConfig['columnNames'] = array(
+        'Journal/Cheque No',
+        'Amount',
+        'Txn Date',
+        'Status',
+        'Mode',
+        'Description',
+    );
+
+    $bankStatementsConfig['columnIndexes'] = array(
+        'funding_no',
+        'amount',
+        'txn_date',
+        'status',
+        'mode',
+        'description',
+    );
+
+    $agentFundingIndexes = array_combine($config['columnNames'], $config['columnIndexes']);
+    $agentFunding = Util::toArray($this->agentFunding);
+    ?>
+    <div class="Boldtext">Confirm Settlement</div>
+
+
+    <table style="margin-left:150px;margin-bottom: 25px" >
+        <tr>
+            <td  align="center"><b>Fund Request</b></td>
+            <td  align="center"><b>Bank Statement</b></td>
+        </tr>
+
+        <tr>
+            <td valign="top" >
+                <table border="0">
+                    <?php foreach ($agentFundingIndexes as $columnName => $columnValue) : ?>
+                        <tr>
+                            <td style="text-align: left;font-weight:bold"><?php echo $columnName; ?></td>
+                            <td>:</td>
+                            <td align="left"><?php echo $agentFunding[$columnValue] ?></td>
+                        </tr>        
+                    <?php endforeach; ?>
+                </table>
+            </td>
+            <td valign="top">
+
+                <table border="0">
+                    <?php
+                    $bankStatementsIndex = array_combine($bankStatementsConfig['columnNames'], $bankStatementsConfig['columnIndexes']);
+                    $bankStatement = Util::toArray($this->bankStatement);
+
+                    foreach ($bankStatementsIndex as $columnName => $columnValue) :
+                        ?>
+                        <tr>
+                            <td style="text-align: left;font-weight:bold"><?php echo $columnName; ?></td>
+                            <td>:</td>
+                            <td align="left"><?php echo $bankStatement[$columnValue] ?></td>
+                        </tr>        
+                    <?php endforeach; ?>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+    <dl class="innerbox form">
+        <div>
+            <form action ="<?php echo $this->formatURL('/agentfunding/dosettlement') ?>" method = "POST">
+                <div style="float: left">Settlement Remarks: </div>
+                <div style="float: left">
+                    <textarea  style="margin-left:10px;" cols="70" rows="8" name="settlement_remarks" id="settlement_remarks"></textarea>
+                    <input type="hidden" name="agent_funding_id" value="<?php echo $this->agentFunding->agent_funding_id; ?>"/> 
+                    <input type="hidden" name="statement_id" value="<?php echo $this->bankStatement->statement_id; ?>"/> 
+                </div>
+                <div style="clear: both"></div>
+
+                <dd class="form-field-column edit" style="float: left; clear: both;">
+                    <input id="process_settlement" class="tangerine" type="submit" title="Yes, Process Settlement" value="Yes, Process Settlement" name="submit">
+                    <span>or</span>
+                    <a  class="cancel" href="<?php echo $this->formatURL('/agentfunding/confirmbeforesettlement?id='. $this->agentFunding->agent_funding_id) ?>">Cancel</a> 
+                </dd>
+            </form> 
+        </div>
+    </dl>
+    <?php
+}
+?>

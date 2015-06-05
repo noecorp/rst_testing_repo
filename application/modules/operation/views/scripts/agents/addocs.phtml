@@ -1,0 +1,81 @@
+<?php 
+
+
+
+echo $this->message;
+echo $this->form;
+?>
+ <script>
+  $(document).ready(function(){
+      var id = document.URL.split('=');
+      $('.cancel').attr('href',document.referrer);
+      var allowed = $('#limit').val();
+      var i = 1;
+      var ddCount = 3;
+      $('#button').click(function() {
+      if(i<allowed){
+    
+      if(i == 1){
+          
+        $dl = $('.innerbox.form');
+        $headers = $dl.find('dd.form-field-column.edit');
+        $headers.each(function(k,v) {
+
+        if(k==1){ 
+                $(this).after('<dt id="doc_type'+i+'-label"><label class="form-name-column required" for="doc_type'+i+'">Document Type *</label></dt>');
+                $('#doc_type'+i+'-label').after('<dd id="doc_type'+i+'-element" class="form-field-column edit"><select id="doc_type'+i+'" name="doc_type'+i+'"><option label="Passport" value="passport">Passport</option><option label="Photo" value="photo">Photo</option><option label="Shop Photo" value="shop photo">Shop Photo</option><option label="PAN number" value="pan">PAN number</option><option label="UID" value="uid">UID</option><option label="Voter ID" value="voter id">Voter ID</option><option label="Ration Card" value="ration card">Ration Card</option><option label="Electricity Bill" value="electricity bill">Electricity Bill</option><option label="Telephone Bill" value="telephone bill">Telephone Bill</option><option label="State Govt issued letter" value="state govt letter">State Govt issued letter</option><option label="PSU/Govt Deptt/Defence ID card" value="id card">PSU/Govt Deptt/Defence ID card</option><option label="Income Tax letter" value="income tax letter">Income Tax letter</option></select></dd>');
+                $('#doc_type'+i+'-element').after('<dt id="doc_path'+i+'-label"><label class="form-name-column required" for="doc_path'+i+'">Document File Path</label></dt>');
+                $('#doc_path'+i+'-label').after('<dd class="form-field-column edit"><input id="doc_path'+i+'" type="file" name="doc_path'+i+'"></dd>');
+               }
+        });
+      }
+      else
+      {
+          var j = i-1;          
+          $dl = $('.innerbox.form');
+          $headers = $dl.find('dd.form-field-column.edit');
+          $headers.each(function(k,v) {
+            
+            if(k==ddCount){ 
+                //alert(i+'---'+k+'----'+ddCount);
+                $(this).after('<dt id="doc_type'+i+'-label"><label class="form-name-column required" for="doc_type'+i+'">Document Type *</label></dt>');
+                $('#doc_type'+i+'-label').after('<dd id="doc_type'+i+'-element" class="form-field-column edit"><select id="doc_type'+i+'" name="doc_type'+i+'"><option label="Passport" value="passport">Passport</option><option label="Photo" value="photo">Photo</option><option label="Shop Photo" value="shop photo">Shop Photo</option><option label="PAN number" value="pan">PAN number</option><option label="UID" value="uid">UID</option><option label="Voter ID" value="voter id">Voter ID</option><option label="Ration Card" value="ration card">Ration Card</option><option label="Electricity Bill" value="electricity bill">Electricity Bill</option><option label="Telephone Bill" value="telephone bill">Telephone Bill</option><option label="State Govt issued letter" value="state govt letter">State Govt issued letter</option><option label="PSU/Govt Deptt/Defence ID card" value="id card">PSU/Govt Deptt/Defence ID card</option><option label="Income Tax letter" value="income tax letter">Income Tax letter</option></select></dd>');
+                $('#doc_type'+i+'-element').after('<dt id="doc_path'+i+'-label"><label class="form-name-column required" for="doc_path'+i+'">Document File Path</label></dt>');
+                $('#doc_path'+i+'-label').after('<dd class="form-field-column edit"><input id="doc_path'+i+'" type="file" name="doc_path'+i+'"></dd>');
+            }
+
+            });
+            ddCount = ddCount+2;
+        }
+      }
+      else
+      {
+          $('#button').hide('slow', function() {
+          alert('Not more than '+allowed+' document uploads are allowed');
+  });
+      }
+    
+      i++;
+}); 
+      
+     $('form').submit(function(){
+      if($('#doc_path').length>0  && $('#doc_path').val()=== '')
+         {
+         alert('Please select file to be uploaded ');
+     return false;
+         }
+    
+     for(i = 1; i < allowed; i++)
+    {
+        if($('#doc_path'+i).length>0  && $('#doc_path'+i).val()=== '')
+         {
+         alert('Please select file to be uploaded ');
+     return false;
+         }
+    }
+      
+     return true;
+});
+         
+     });
+  </script>

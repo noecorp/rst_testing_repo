@@ -1,0 +1,41 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Confirm Transaction';
+$config['areYouSureMessage'] = 'Are you sure you want to confirm this process?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Response',
+    'API Credit Response',
+    'API Response',
+   );
+$config['columnIndexes'] = array(
+    'response',
+    'cr_response',
+    'final_response',
+   );
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);?>
+<!--<div class="back"><a class="alt" href="<?php echo $this->formatURL($this->backlink);?>">Cancel</a></div>-->
+<script type="text/javascript" charset="utf-8"> 
+$(document).ready(function() {
+       $('.cancel').prop('href','<?php echo $this->formatURL($this->backlink);?>');
+}); 
+
+</script>

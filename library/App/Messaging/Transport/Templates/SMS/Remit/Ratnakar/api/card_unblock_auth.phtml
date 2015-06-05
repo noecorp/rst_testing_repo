@@ -1,0 +1,7 @@
+<?php
+if ((isset($this->product_const)) && ($this->product_const == PRODUCT_CONST_RAT_BMS)) {
+    echo $this->auth_code . ' is the One-Time Password(OTP) to activate MyWallet. This OTP is usable only once and valid for '.SMS_VALID_OTP_TIME_TEMPLATE.' minutes from the request.';
+} else {
+    //
+}
+?>

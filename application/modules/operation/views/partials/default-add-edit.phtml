@@ -1,0 +1,21 @@
+<?php
+/**
+ * View that defines the default add/edit UI 
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+
+$helper = $this->listingUtilities($this->config);
+$noteText = isset($this->config['noteText']) ? $this->config['noteText'] : '' ;
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<?php echo $this->form;?>
+<?php if(isset($noteText) && $noteText != '') {
+    ?>
+    <div class="note"><b>*Note: </b><?php echo $noteText;?></div>
+<?php } ?>

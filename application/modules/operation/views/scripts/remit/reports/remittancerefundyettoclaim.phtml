@@ -1,0 +1,265 @@
+<div class="Boldtext">Remittance Refund Yet to claim Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$sub = isset($this->sub)?$this->sub:'';
+$dur = isset($this->formData['dur'])?$this->formData['dur']:'';
+$bankunicode = isset($this->formData['bank_unicode'])?$this->formData['bank_unicode']:'';
+//echo 
+if($sub!='' && $bankunicode != ''){
+    
+$config = array();
+
+// messages
+$config['pageTitle'] = $this->pageTitle;
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'Remitter Name',
+    'Remitter Mobile',
+    'Remitter Email',
+    'Beneficiary Name', 
+    'Beneficiary Bank Account',
+    'Transaction Reference Number',
+    'Refund Amount',
+    'Reason / Neft Remarks',
+    'Fee Reversal',
+    'Service Tax Reversal',
+    'Super Distributor Code',
+    'Super Distributor Name',
+    'Distributor Code',
+    'Distributor Name',
+    'Agent Code',
+    'Agent Name',
+    'Agent Bank',
+    'Agent Mobile Number',
+    'UTR',
+    'Shmart ref number',
+    'Date UTR',
+    'Status UTR',
+    'Date Status Response',
+    'Status Response',
+    'Transaction Status',
+    'Batch Name',
+    'Batch Date',
+    'Neft Processed',
+    'Neft Processed Date',
+    'Status SMS',
+    'Date Updated'
+);
+
+$config['columnIndexes'] = array(
+    'date_created',
+    'remitter_name',
+    'remitter_mobile',
+    'remitter_email',
+    'beneficiary_name',
+    'bank_account_number',
+    'txn_code',
+    'amount',
+    'remarks',
+    'fee',
+    'service_tax',
+    'sup_dist_code',
+    'sup_dist_name',
+    'dist_code',
+    'dist_name',
+    'mobile',
+    'utr',
+    'agent_code',
+    'agent_name',
+    'date_utr',
+    'status_utr',
+    'date_status_response',
+    'status_response',
+    'status',
+    'batch_name',
+    'batch_date',
+    'neft_processed',
+    'neft_processed_date',
+    'status_sms',
+    'date_updated',
+    'bank_name'
+);
+
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                ?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php $dateArr = explode(" ",$item[$config['columnIndexes'][0]]);
+                                  echo Util::returnDateFormatted($dateArr[0], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][7]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][9]]);?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][10]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][11]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][12]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][13]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][14]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][17]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][18]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][30]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][15]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][16]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][19]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][20]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][21]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][22]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][23]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][24]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][25]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][26]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][27]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][28]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][29]];?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } 
+
+
+/*// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);*/
+
+}
+
+//echo "<pre>";print_r($this->paginator);exit;
+
+?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        
+        var dur = '<?php $dur = isset($this->formData['dur'])?$this->formData['dur']:''; echo $dur;?>';
+        var on_date = '<?php $on_date = isset($this->formData['on_date'])?$this->formData['on_date']:''; echo $on_date;?>';
+
+        if(dur=='' && on_date==''){
+            alert('Please specify either duration or date');
+        }
+        else{
+           var url = '<?php echo $this->formatURL("/remit_reports/exportremittancerefundyettoclaim?dur=".$this->formData['dur']."&on_date=".$this->formData['on_date']."&bank_unicode=".$this->formData['bank_unicode']
+);?>';    
+            $(location).attr('href',url);
+       }
+    });  
+    
+        $('form').submit(function(){
+            var bank_unicode = $.trim($("#bank_unicode").val());
+            var dur = $.trim($("#dur").val());
+            var from = $.trim($("#on_date").val()); 
+            var arr_dt = from.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+             
+            $('#bank_unicode').css('background', '#fff');
+            $('#dur').css('background', '#fff');
+            $('#on_date').css('background', '#fff');
+            
+            if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+              $("#bank_unicode").focus();
+              return false;
+            }else if((dur=='' && (from=='') ) || (dur!='' && (from!='') )){
+                   alert('Please select either duration or date.');
+                   $('#dur').css('background', '#ff0');    
+                   $("#dur").focus();
+               return false;
+            } else if(x > curdate)
+            {
+                alert("Please enter a valid date");
+                $("#on_date").val('');
+                $("#on_date").focus();
+                return false;
+            }
+          
+         return true;   
+        });    
+
+    
+});
+</script>

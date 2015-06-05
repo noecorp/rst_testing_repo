@@ -1,0 +1,50 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Kotak Amul</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+      
+             if ($helper->can('customerlist', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/customerlist/');?>" title="Search Customers">Search Customers</a>: Search Customers</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('search', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/search/');?>" title="Pending Customer List">Pending Customer List</a>: Pending Customer List</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('bankstatus', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/bankstatus/');?>" title="Bank Status Applications">Bank Status Applications</a>: Bank Status Applications</li>
+              <div class="clear"></div>
+             <?php }
+             
+              if ($helper->can('uploadcrn', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/uploadcrn/');?>" title="Bulk Upload of CRN">Upload CRN</a>: Bulk Upload of CRN</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('uploaddeliveryflag', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/uploaddeliveryflag/');?>" title="Upload Delivery Flag File">Upload Delivery Flag File</a>: Upload Delivery Flag File</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('deliverystatus', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/deliverystatus/');?>" title="Delivery File Status Report">Delivery File Status Report</a>: Delivery File Status Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('cardload', 'corp_kotak_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardload/cardload/');?>" title="Upload Card Load">Upload Card Load</a>: Upload Card Load</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('walletstatus', 'corp_kotak_cardload')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_cardload/walletstatus/');?>" title="Wallet Status">Wallet Status</a>: Wallet Status</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('authorizedapplications', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/authorizedapplications/');?>" title="Download Authorization Applications">Authorized Applications</a>: Download Authorized Applications</li>
+              <div class="clear"></div>
+             <?php }
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

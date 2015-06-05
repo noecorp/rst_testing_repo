@@ -1,0 +1,204 @@
+<div class="Boldtext">Agents Balance Alert Amount Search</div>
+<script>
+  $(document).ready(function(){
+     
+     $("#searchCriteria").change(function(){
+         
+         $("#keyword").val('');
+       });      
+         
+     });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agents';
+$config['addMessage'] = 'Add New Agent Balance Alert'; 
+$config['emptyMessage'] = 'There is no agent balance alert added at this time.';
+$config['addURL'] = '/agents/addagentbalancealert/';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    
+    'Agent Code',
+    'Agent Name',
+    'Mobile Number',   
+    'Email ID',
+    'Amount Limit (<span class="WebRupee"></span>)',    
+    'Type',    
+    'Parent Agent',    
+    );
+$config['columnIndexes'] = array(
+    'agent_code',
+    'name',
+    'mobile1',    
+    'email',
+    'amount',
+    'type',
+    'parent_agent',
+    
+);
+
+
+$config['showActions'] =FALSE;
+//$config['viewLinkColumn'] = 'name';
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'agentsummary',
+                'linkAction'        => 'view',
+                'linkTitle'         => 'View Agent Details',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'id',
+                'linkQueryStringReqd'=> TRUE,
+                'linkQueryString'     => $this->backLink,
+            )
+        );
+
+//$config['statusLinkColumn'] = 'status';
+$config['showComma'] = array('amount');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+?>
+<?php echo $this->form; ?> 
+<?php if(!empty($this->paginator)):?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+ <?php endif;?>         
+ 
+
+<?php if(!empty($this->paginator)):?>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+     <div class="tablebox">
+         <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="1600" cellspacing='0'> 
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                         <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th colspan ="3" class="last tc"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : 
+                      ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                    if($index == 'type') {
+                                        echo $this->agentUser->getUserTypeinHRF($item['id']);
+                                    } elseif ($index == 'parent_agent') {
+                                        $info=  $this->agentUser->getParentInfo($item['id']);
+                                        if(isset($info['agent_code'])) {
+                                            $url = '/agentsummary/view?id='.$info['id'].'&'.$this->backLink;
+                                            echo $link =  '<a href="'. $this->formatURL($url) . '" title="Agent Summary">'.$info['agent_code'].'</a>' ;                                            
+                                        } else {
+                                            echo '-';
+                                        }
+                                    } else {
+                                    $helper->displayItem($item, $index);
+                                    }
+                                    ?>
+                                </td>
+                                
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                           <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!-- td style="margin:0; padding:0;">
+                                    <div class="iconbox">
+                                        <ul class="actions" -->
+                                    <?php //echo $helper->links($item);
+                                     
+                                     $controllerName = $this->controllerName;
+                                   
+                                    $url = $controllerName;
+                                    if($item['status'] == STATUS_BLOCKED )
+                                    {
+                                        if($helper->can('unblock'))
+                                        {
+                                            $url = '/agentsummary/unblock?id='.$item['id'].'&'.$this->backLink;
+                                            $link =  '<td><a href="'. $this->formatURL($url) . '" title="Unblock">' . PHP_EOL . '<img alt="Unblock" src="'.$this->baseUrl().'/images/icons/unblock.png" border="0"></a></td>' ;
+                                        
+                                        }
+                                        else
+                                        {
+                                            $link =  '<td>-</td>';
+                                        }
+                                        //echo $helper->link($link, $item, $echo = TRUE)
+                                    }
+                                    
+                                   
+                                    if($helper->can('edit', 'agents'))
+                                    {
+                                        if($item['alert_id'] !=''){
+                                        $editurl = $this->formatURL('/agents/addagentbalancealert?agent_id='.$item['id'].'&id='.$item['alert_id'].'&min_amount_alert='.$item['amount']);
+                                        }else{
+                                        $editurl = $this->formatURL('/agents/addagentbalancealert?agent_id='.$item['id']);    
+                                        }
+                                        $editlink = '<td><a href="'. $editurl . '" title="Add or Edit">' . PHP_EOL . '<img alt="Edit" src="'.$this->baseUrl().'/images/icons/edit.png" border="0"></a></td>';
+                                    }
+                                    else
+                                    {
+                                        $editlink = '<td><img src="' . $this->_baseUrl . $disabled_icons['edit']['img_url'] . '" alt="' . $disabled_icons['edit']['alt'] . '" border="0"/>&nbsp;</td>';
+                                    }
+                                   
+                                    echo $editlink;
+                                    ?>
+                                    <!-- /ul> 
+                                    </div -->
+                                <!-- /td --> 
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php echo $helper->columnCount(FALSE)+2;?>" class="emptyMessage">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+         </div>
+        </div>
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php endif;?>

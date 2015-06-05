@@ -1,0 +1,205 @@
+<div class="Boldtext">Search Manual Adjustment</div>
+<script>
+  $(document).ready(function(){
+      
+     $("#searchCriteria").change(function(){
+         
+         $("#keyword").val('');
+       });      
+         
+     });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Search Manual Adjustment';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'Record not found';
+//$config['addURL'] = '/agents/signup/';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Wallet Code',
+    'Credit/Debit',
+    'Amount',
+    'RRN',
+    'Narration',
+    'Failed Reason',
+    'Status',    
+    'Added On',    
+    );
+$config['columnIndexes'] = array(
+    'card_number',
+    'wallet_code',
+    'mode',
+    'amount',
+    'rrn',
+    'narration',
+    'failed_reason',
+    'status',
+    'date_created',
+);
+
+//$config['actions'] = array(
+//        'active'    =>  array(
+//        'action'        => 'edit',
+//        'title'         => 'Edit Cardholder',
+//        'parameter'     => TRUE,
+//        'icon'          => TRUE,
+//        'img_url'       => '/images/icons/edit.png',
+//        'img_alt'       => 'Edit Cardholder',
+//      ),
+//    );
+
+
+//$config['showActions'] = true;
+//$config['linkCol'] = array(
+//            array(
+//                'linkColName'       => 'medi_assist_id',
+//                'linkController'    => 'corp_ratnakar_cardholder',
+//                'linkAction'        => 'view',
+//                'linkTitle'         => 'View Cardholer Details',
+//                'linkParamReqd'     => TRUE,
+//                'linkParamName'     => 'id',
+//                'linkQueryStringReqd'=> TRUE,
+//                'linkQueryString'     => $this->backLink,
+//            )
+//        );
+
+//$config['statusLinkColumn'] = 'status';
+//$config['showComma'] = array('amount');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+<?php echo $this->form; ?> 
+<?php if(!empty($this->paginator)):?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+        <?php elseif($this->validFormSubmit == TRUE):?>
+            <?php /********** we don't have any items **********/ ?>
+             <div class="Boldtext"><?php echo $config['emptyMessage'];?></div>
+ <?php endif;?>         
+
+
+<?php if(!empty($this->paginator)):?>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (!empty($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+                
+                    //foreach($dateArr as $item) :?>
+            
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo util::maskCard($item[$config['columnIndexes'][0]],4);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+<?php endif;?>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var productId = $("#product_id").val();
+ 
+  if($("#product_id").val() != ''){
+   $.ajax({
+                 url: '/ajax/get-distinctbatchs/q/'+productId,
+                     success: function(response) {
+                         if(response == 1) {                            
+                         } else {                            
+                             $("#file").html("");                            
+                             $("#file").append(response);
+                            //$("#file option[value='"+commpincode+"']").attr("selected", "selected");
+                              console.log(response);                            
+                         }
+                     }     
+         });
+  }
+  
+});
+
+$("#product_id").change(function(){
+     var productId = $("#product_id").val();
+            $.ajax({
+                url: '/ajax/get-distinctbatchs/q/'+productId,
+                     success: function(response) {
+                         if(response == 1) {                            
+                         } else {                            
+                             $("#file").html("");                            
+                             $("#file").append(response);
+                            //$("#file option[value='"+commpincode+"']").attr("selected", "selected");
+                              console.log(response);                            
+                         }
+                     }     
+         
+        });
+    }); 
+</script>

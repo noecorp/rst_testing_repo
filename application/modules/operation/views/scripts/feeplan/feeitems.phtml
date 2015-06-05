@@ -1,0 +1,89 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+if(in_array($this->fid, $this->bindPlanItems))
+   $config['no_add']= TRUE;
+
+// messages
+$config['pageTitle'] = 'Plan Name: '.$this->name;
+$config['addMessage'] = 'Add New Transaction Type'; 
+$config['emptyMessage'] = 'There is no Fee plan at this time.';
+$config['addURL'] = '../feeplan/addfeeitems?fp_id='.$this->fid;
+
+// column names & indexes
+$config['columnNames'] = array(
+    //'id',
+    'Transaction Code',
+    'Transaction Type',    
+    'Fixed Amount per Trxn (<span class="WebRupee"></span>)',
+    '% of Amount',
+    'Minimum Amount per Trxn (<span class="WebRupee"></span>)',
+    'Maximum Amount per Trxn (<span class="WebRupee"></span>)'
+    
+);
+$config['columnIndexes'] = array(
+   // 'plan_commission_id',
+    'typecode',
+    'typecode_name',    
+    'txn_flat',
+    'txn_pcnt',
+    'txn_min',
+    'txn_max',
+    );
+//$config['columnNA'] = array('date_end_formatted');
+
+// Approve actions
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => 'edititem',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+        //'link_class'    => 'btn',
+        'img_alt'       => 'edit',
+        'acl_action'     => 'edititem',
+    ),
+    'delete'    =>  array(
+        'action'        => 'deleteitem',
+        'title'         => 'Delete',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/del.png',
+        //'link_class'    => 'btn1',
+        'img_alt'       => 'delete',
+        'acl_action'     => 'deleteitem',
+    )
+);
+$config['actionsConditional'] = array('edit','delete');
+$config['linkOrder'] = array('edit', 'delete');
+$config['showComma'] = array('txn_flat',
+                             'txn_min',
+                             'txn_max');
+
+
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'plan_fee_id',
+        'operator' => 'in_array',
+        'value'     => $this->bindPlanItems
+    )
+);
+$config['noteText'] = 'Note : Fee Plans, once assigned, cannot be modified. In case of a new requirement, a new Fee Plan should be defined';
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

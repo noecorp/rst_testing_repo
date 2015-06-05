@@ -1,0 +1,40 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Manage Products';
+$config['addMessage'] = 'Add new product'; 
+$config['emptyMessage'] = 'There is no product registered at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Description',
+    'Limit Minimum',
+    'Limit Maximum',
+    'Limit First Load'
+);
+$config['columnIndexes'] = array(
+    'name',
+    'description',
+    'limit_min',
+    'limit_max',
+    'limit_first_load'
+);
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

@@ -1,0 +1,28 @@
+<?php
+$helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">My Funding</div>
+
+<div class="innerbox">
+    <ul>
+        <?php if ($helper->can('requestfund', 'agentfunding')) { ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/requestfund'); ?>" title="Request Fund">Request Fund</a>: Request Fund</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('fundrequest', 'agentfunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/fundrequest'); ?>" title="My Fund Requests">My Fund Requests</a>: My Fund Requests</li>
+            <div class="clear"></div>
+        <?php }
+        if ($helper->can('requestvirtualfund', 'agentfunding')) {
+            echo '<li class="systemli"><a href="'.$this->formatURL('/agentfunding/requestvirtualfund').'" title="Request Virtual Fund">Request Virtual Fund</a>: Request Virtual Fund</li><div class="clear"></div>';
+        }
+        if ($helper->can('virtualfundrequest', 'agentfunding')) {
+            echo '<li class="systemli"><a href="'.$this->formatURL('/agentfunding/virtualfundrequest').'" title="My Virtual Fund Requests">My Virtual Fund Requests</a>: My Virtual Fund Requests</li><div class="clear"></div>';
+        }
+        ?>
+
+    </ul>
+
+</div>

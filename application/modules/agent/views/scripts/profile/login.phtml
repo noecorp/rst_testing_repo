@@ -1,0 +1,91 @@
+<?php
+/**
+ * View for the login action
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+?>
+
+<?php
+ if (isset($this->msgType)){
+                switch($this->msgType){
+                    case 'mobilenumberupdated':
+                        $successMsg = 'Your Mobile Number has been successfully updated. Please login again.';
+                        break;
+                }
+                ?>
+
+            <div class="msg msg-success">
+                <p><?php  echo $successMsg; ?></p>
+            </div>  
+                
+ <?php } ?>
+<div class="toplogbg">
+                <div class="confirm-details"></div>
+            </div>
+<div class="middlebg">
+
+            <div class="div1">
+        
+        <?php 
+            if (isset($this->errType)){
+                switch($this->errType){
+                    case 'err_sess':
+                        $errMsg = '<strong>Oops!</strong><br />Either Session timed out or someone else is trying to login with your credentials. Please re-login.';
+                        break;
+                    case 'incorrectuser':
+                        $errMsg = '<strong>Oops!</strong><br />Invalid Username or Password';
+                        break;
+                    case 'incorrectpass':
+                        $errMsg = '<strong>Oops!</strong><br />Invalid Username or Password. You have '.$this->num.' login attempts remaining.';
+                        break;
+                    case 'notverified':
+                        $errMsg = '<strong>Oops!</strong><br />Your Email id is not verified. Please contact the Agent Help Center.';
+                        break;
+                    case 'notapproved':
+                        $errMsg = '<strong>Oops!</strong><br />Your account is not approved by Agent Help Center.';
+                        break;
+                    case 'blocked':
+                        $errMsg = '<strong>Oops!</strong><br />Your account is inactive. Please contact the Agent Help Center.';
+                        break;
+                    case 'locked':
+                        $errMsg = '<strong>Oops!</strong><br />Your account is locked. Please contact the Agent Help Center.';
+                        break;
+                    case 'rejected':
+                        $errMsg = '<strong>Oops!</strong><br />Your account has been rejected. Please contact the Agent Help Center.';
+                        break;
+                   
+                }
+                ?>
+                <div class="error">
+                <p><?php  echo $errMsg; ?></p>
+            </div>  
+          <?php       
+            }
+          ?>
+       
+        <div class="agentbox">
+
+        <!--<div  style="font-family:Arial, Helvetica, sans-serif; font-size:14px; margin-top:99px; font-weight:bold; text-align:center;">BUSINESS PARTNER LOGIN</div>-->
+        <img src="<?php echo $this->baseUrl();?>/images/icons/agn-big-icon.png" />
+
+        </div>
+        <?php echo $this->form;?>
+         <div class="div3">
+             <div class="link2"><a href="<?php echo $this->formatURL('/profile/forgot-password/');?>">Forgot your password?</a></div>
+             <div class="link2"><a href="<?php echo $this->formatURL('/profile/resend-verificationlink/');?>">Resend Verification Link</a></div>
+ 
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("#profile-login").submit(function () {
+        var pass = $("#password").val();
+        var encodedString = crypt_fn('<?php echo App_DI_Container::get('ConfigObject')->{agent}->security->loginClientKey; ?>', pass);
+        $("#password").val(encodedString);
+    });
+</script>

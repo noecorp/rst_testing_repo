@@ -1,0 +1,124 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @category Operation
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Bank Portal');
+
+// add generic CSS files
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/login.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/navigation.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/mystyle_operation.css');
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->offsetSetFile(2, $this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+
+$user = Zend_Auth::getInstance()->getIdentity();
+//echo "<pre>";print_r($user);
+$bodyClass = Zend_Registry::get('controllerName') . Zend_Registry::get('actionName');
+
+$this->AutoloadResources();
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+    <head> 
+        
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+        <meta http-equiv="content-style-type" content="text/css" /> 
+        <meta http-equiv="content-script-type" content="text/javascript" /> 
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+        
+        <?php echo $this->headTitle() . PHP_EOL;?>
+        <?php echo $this->headLink() . PHP_EOL;?>
+            <?php echo  $this->jQuery(); ?>
+        <!--[if !IE 7]>
+            <style type="text/css">
+                div.wrapper {display:table;height:100%}
+            </style>
+        <![endif]-->
+    </head>
+    <body class="<?php echo $bodyClass;?>">
+        <div id="wrapper">
+            <div id="content1">
+                <div style="width:1000px; float:left; background-color:#000;">
+                <div id="topheader">
+                <div class="logo"><img src="<?php echo $this->baseUrl();?>/images/logo/logo-shmart.png" width="228" height="51" /></div>
+                <div class="topheader-right">Bank</div>
+                
+                </div>
+                </div>
+                
+                <div id="navBOX">
+                    <ul class="mainnav">
+                      <li><a href="<?php echo $this->formatURL('/');?>">Home</a></li> 
+                        <li><a href="<?php echo $this->formatURL('/profile/login/');?>">Login</a></li> 
+                    </ul>
+                    <div class="navbox-right"></div>
+                </div>
+               
+                    
+                <div class="clear"></div>
+                <div style="width:1000px;">
+                <?php echo $this->flashMessenger();?>
+            <?php echo $this->layout()->content;?>
+                </div>
+
+
+                
+                
+            <div class="clear"></div>
+            
+            <div id="footer-notlogged">  
+                
+            <div class="copyright">
+              <div  class="footer-cc">Customer Care Number: <?php echo AGENT_AUTH_CALL_CENTRE_NUMBER;?></div>
+            <div class="footer-left-box">
+            <div class="footer-box">
+<!--            <div class="text2">Connect with us on</div>-Text 2 END-
+            <div class="facebook">
+                <img src="<?php echo $this->baseUrl();?>/images/icons/facebook.png"  border="0" usemap="#Map10" />
+              <map name="Map10" id="Map10">
+                <area shape="rect" coords="-1,1,35,33" href="https://www.facebook.com/pages/Shmart/582198341805655" target="_blank" />
+              </map>
+            </div>
+            <div class="twitter">
+                <img src="<?php echo $this->baseUrl();?>/images/icons/twitter.png" border="0" usemap="#Map11" />
+              <map name="Map11" id="Map11">
+                <area shape="rect" coords="-3,2,31,36" href="https://twitter.com/ShmartPay" target="_blank" />
+              </map>
+            </div>-->
+            <div class="term"><a href="#">Terms &amp; Conditions</a></div>
+            <div class="clear"></div>
+
+
+
+
+            </div><!---Footer Box END--->
+
+
+            </div>
+            <div class="footer-rights">2013 Shmart!Pay® Prepaid System. Worldwide rights reserved by TranServ Private Limited</div>
+
+            <div class="clear"></div>
+            </div> <!-- copyright ends -->
+             
+            </div>
+ 
+        </div><!---Content End--->
+        <div class="clear"></div>
+        </div><!---Wrapper End--->
+        
+        <?php //echo $this->headScript() . PHP_EOL;?>
+    </body> 
+</html>

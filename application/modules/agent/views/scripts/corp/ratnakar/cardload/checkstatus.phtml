@@ -1,0 +1,85 @@
+<div class="Boldtext">Load Cardholder</div> 
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+echo $this->form;
+    $session = new Zend_Session_Namespace('App.Agent.Controller');      
+$config = array();
+
+?>
+<div class="clearboth"></div>
+<div class="tablebox">
+
+    <table style="width: 96%;align:centre;margin-left:18px;">
+            <tr>
+                <th style="width:20%">Name</th>            
+                <td style="width: 80%" align="left"><?php echo $this->details['name'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Date of Birth</th>            
+                <td style="width: 80%" align="left"><?php echo $this->details['date_of_birth'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Gender</th>            
+                <td style="width: 80%" align="left"><?php echo $this->details['gender'];?></td>
+            </tr>  
+             
+            <tr>
+                <th style="width:20%">Employer Name</th>            
+                <td style="width: 80%" align="left"><?php echo $this->details['employer_name'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Corporate id</th>            
+                <td style="width: 80%" align="left"><?php echo $this->details['corporate_id'];?></td>
+            </tr> 
+    </table>
+   
+</div>
+<div class="clearboth"></div>
+
+<div>&nbsp;</div>
+<script type="text/javascript">
+  $(document).ready(function() { 
+      $("#submit_form").click(function() { 
+          if($("#amount").val() == '')  {
+            alert('Please enter valid amount for fund transfer') ;
+            $("#amount").focus();
+            return false;
+       }
+        
+        $("#is_submit").val('1');
+        $("#submit_form").attr("disabled","disabled");
+        $("form").submit();
+   });
+   
+   $("#btn_auth_code").click(function() { 
+      
+   $("#send_auth_code").val('1'); 
+   $("#is_submit").val('0');
+    $("form").submit();
+   });
+   
+    
+   
+     var fundtransfer_auth = <?php echo isset($session->fundtransfer_auth)?$session->fundtransfer_auth:0;?>;
+       
+     if(fundtransfer_auth!='' && fundtransfer_auth>0){       
+         
+         $("#btn_auth_code").html('Resend Authorization Code');
+         }
+    $('form').submit(function() {
+       if($("#amount").val() == '')  {
+         alert('Please enter valid amount for fund transfer') ;
+         $("#amount").focus();
+         return false;
+       } 
+       return true;
+      });  
+ });      
+</script>

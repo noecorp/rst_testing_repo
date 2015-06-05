@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Displays details for pending agent funding request
+ * @copyright company
+ */
+$config = array();
+// messages
+$config['pageTitle'] = 'Pending Requests';
+$config['emptyMessage'] = 'There is no pending requests at this time.';
+
+$config['no_add'] = TRUE;
+// column names & indexes
+$config['columnNames'] = array(
+    'Agent Code',
+    'Agent Name',
+    'Request Date',
+    'Amount',
+    'Fund Transfer Type',
+    'Journal/Cheque No.',
+    'Details',
+    'Request Status',
+    'Comments'
+);
+$config['columnIndexes'] = array(
+    'agent_code',
+    'agent_name',
+    'date_request',
+    'amount',
+    'transfer_type_name',
+    'funding_no',
+    'funding_details',
+    'agent_funding_status',
+    'comments'
+);
+$this->agentFunding->date_request = Util::returnDateFormatted($this->agentFunding->date_request, 'd-m-Y H:i:s');
+echo $this->partial(
+        'partials/default-view.phtml', array(
+    'config' => $config,
+    'item' => $this->agentFunding,
+        )
+);
+echo $this->form;

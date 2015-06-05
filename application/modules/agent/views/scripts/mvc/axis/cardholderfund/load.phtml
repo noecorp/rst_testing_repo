@@ -1,0 +1,111 @@
+<?php
+    $session = new Zend_Session_Namespace('App.Agent.Controller'); 
+?>
+<script type="text/javascript">
+     $(document).ready(function() { 
+     var cardholder_auth = '<?php echo isset($session->ch_fund_load_auth)?$session->ch_fund_load_auth:0;?>';
+     
+//     $("#oosubmit").click(function(){
+//          
+//            $("#oosubmit").attr("disabled","disabled");
+//            ("form").submit();
+//         
+//      });
+//      
+      
+     $("#btn_submit").click(function(){
+          if($("#amount").val() == '')  {
+                alert('Please enter load amount') ;
+                $("#amount").focus();
+                return false;
+           }
+            $("#is_submit").val('1');
+            $("#send_auth_code").val('0');
+            //alert('dfa');   
+            $("#btn_submit").attr("disabled","disabled");           
+            $("#frmFund").submit();
+       });
+       
+       
+     if(cardholder_auth!='' && cardholder_auth>0){ 
+       
+       $("#btn_auth_code").attr('value','Resend Authorization Code');
+       $("#amount").attr('readonly','readonly');
+         
+
+     }   
+     
+    });    
+     
+     
+     
+</script>
+<?php echo Util::getCardholderFundLoadTab("mobile"); ?> 
+<div class="Boldtext">Fund Load Details</div>
+  <span><?php echo $this->msg?></span>
+   <div class="tablebox">
+       <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+            <thead><!-- universal table heading --> 
+                    <tr>
+                        
+                    </tr> 
+                </thead> 
+                <tbody>
+                    <tr>
+  <th style="width:20%">Cardholder Name: </th>
+  <td style="width: 80%" align="left"><?php echo $this->chInfo['name'];?></td>
+  </tr>
+  
+   <tr>
+  <th style="width:20%">Cardholder Email: </th>
+  <td style="width: 80%" align="left"><?php echo $this->chInfo['email'];?></td> 
+   </tr>
+   <tr>
+  <th style="width:20%">Cardholder Mobile: (+91) </th>
+  <td style="width: 80%" align="left"><?php echo $this->chInfo['mobile_number'];?></td>
+   </tr>
+  
+  </tbody>
+            </table>
+       </div>
+  </div>
+ 
+  
+  <?php echo $this->form;  
+  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+  ?>
+  
+  
+  <script type="text/javascript">
+       $(document).ready(function() {
+       //$('.cancel').attr('href','/mvc_axis_cardholderfund/cancel');
+       
+       $("#btn_auth_code").click(function(){
+            $("#send_auth_code").val('1');
+             $("#is_submit").val('0');
+            $("#frmFund").submit();
+       });
+       
+        
+       
+   });
+   
+   /*function sendAuthCode(){
+        $("#send_auth_code").val('1');
+        //alert($("#frmFund"));
+        $("#frmFund").submit();       
+   }*/
+   
+
+ <?php
+    $session = new Zend_Session_Namespace('App.Agent.Controller');    
+ ?>
+     var update_mobile_auth = <?php echo isset($session->update_mobile_auth)?$session->update_mobile_auth:0;?>;
+     //alert(cardholder_auth);
+     
+     if(update_mobile_auth!='' && update_mobile_auth>0){       
+         $("#btn_auth_code").attr("disabled","disabled");
+     }         
+  </script>
+  

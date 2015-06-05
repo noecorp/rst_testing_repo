@@ -1,0 +1,2 @@
+ALTER TABLE `rat_corp_load_request` ADD `is_reversal` ENUM( 'y', 'n' ) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL DEFAULT 'n' AFTER `txn_no` ;
+ALTER TABLE `rat_corp_load_request` ADD `original_transaction_id` INT( 11 ) UNSIGNED NOT NULL AFTER `is_reversal` ;

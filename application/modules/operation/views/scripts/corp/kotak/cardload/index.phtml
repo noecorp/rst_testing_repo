@@ -1,0 +1,20 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Medi Assist</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+               if ($helper->can('searchcardholder', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/searchcardholder/');?>" title="Search Cardholders">Search Cardholders</a>: Search cardholders</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadcardholders', 'corp_ratnakar_cardholder')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/uploadcardholders/');?>" title="Bulk Upload of Cardholders">Bulk Upload of Cardholders</a>: Bulk upload of cardholders</li>
+              <div class="clear"></div>
+             <?php }
+            ?>
+    </ul>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,54 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = "Agent Fund Request's Response";
+
+//$config['addURL'] = '/fundrequest/send';
+$config['emptyMessage'] = 'No fund response found.';
+$config['addMessage'] = 'Add Response'; 
+$config['addURL'] = '/fundrequest/addresponse?id='.$this->requestId;
+$session = new Zend_Session_Namespace('App.Operation.Controller'); 
+$request_status = isset($session->request_status)?$session->request_status:'';
+//echo $request_status.'==';
+if($request_status!='pending')
+    $config['no_add']=1;
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Response Comments',    
+    'Status',
+    'Response By',
+    'Response Date',   
+);
+
+$config['columnIndexes'] = array(
+    'comments',
+    'response_status',
+    'username',
+    'datetime_response'    
+);
+
+$config['showActions'] = false;
+$config['agentInfo'] = $this->agentInfo;
+
+// render the default listing
+echo $this->partial(
+    'partials/agent-fund-req-respnse.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+unset($session->request_status);
+//echo "<pre>";print_r($this->paginator);exit;

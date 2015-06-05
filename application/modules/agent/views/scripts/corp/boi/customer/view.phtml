@@ -1,0 +1,235 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+$config['pageTitle'] = sprintf('Detailed view for %s', $this->item['first_name']);
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Linked Branch SOL ID',
+    'Title',
+    'First Name',
+    'Middle Name',
+    'Surname',
+    'Aadhaar Number',
+    'Aadhaar Enrollment ID',
+    'NSDC Enrollment No',
+    'Debit Mandate Amount',
+    'Training Center ID',
+    'Training Center Name',
+    'Training Partner Name',
+    'PAN',
+    'Sex',
+    'Date of Birth',
+    'Marital Status',
+    'Occupation',
+    'Permanent Address Line 1',
+    'Permanent Address Line 2',
+    'State',
+    'City',
+    'Pincode',
+    'Correspondence Address Line 1',
+    'Correspondence Address Line 2',
+    'Correspondence State',
+    'Correspondence City',
+    'Correspondence Pincode',
+    'Landline',
+    'Mobile',
+    'Email',
+    'Nominee Name',
+    'Nominee Relationship',
+    'Nominee DOB',
+    'Nominee Address Line 1',
+    'Nominee Address Line 2',
+    'Nominee City',
+    'Nominee Minor Guardian',
+    'Nominee Minor Guardian Relationship',
+    'AOF REF No.',
+    'Date Created',
+    'Date Activation',
+    'Customer Status', 
+    'Failed Reason',
+    'Date Failed',
+   
+);
+$config['columnIndexes'] = array(
+    'sol_id',
+    'title',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'aadhaar_no',
+    'uid_no',
+    'nsdc_enrollment_no',
+    'debit_mandate_amount',
+    'training_center_id',
+    'traning_center_name',
+    'training_partner_name',
+    'pan',
+    'gender',
+    'date_of_birth',
+    'marital_status',
+    'occupation',
+    'address_line1',
+    'address_line2',
+    'state',
+    'city',
+    'pincode',
+    'comm_address_line1',
+    'comm_address_line2',
+    'comm_state',
+    'comm_city',
+    'comm_pin',
+    'landline',
+    'mobile',
+    'email',
+    'nominee_name',
+    'nominee_relationship',
+    'nominee_dob',
+    'nominee_add_line1',
+    'nominee_add_line2',
+    'nominee_city_cd',
+    'minor_guardian_name',
+    'nominee_minor_guradian_cd',
+    'ref_num',
+    'date_created',
+    'date_activation',
+    'status',
+    'failed_reason',
+    'date_failed',
+);
+
+$config['backlink'] = $this->backlink;
+$helper = $this->listingUtilities($config);
+//print_r($this->item);
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<div class="innerbox">
+
+
+<?php $indexes = array_combine($helper->getColumnNames(), $helper->getColumnIndexes()) ?>
+        <?php foreach($helper->getColumnNamesAndValues($this->item) as $columnName => $columnValue) : ?>
+
+<div class="formrow-view">
+  <div class="form-name-column-view"><?php echo $columnName;?>:</div>
+  <div class="form-field-column-view">
+  <div id="inner"><span style="font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:normal;">
+          <?php 
+          $rctModel = new RctMaster();
+         if($indexes[$columnName] == 'city' || $indexes[$columnName] == 'comm_city' || $indexes[$columnName] == 'nominee_city_cd'){
+            $cityName = $rctModel->getCityName($columnValue);
+             $helper->displayItem( $cityName, $indexes[$columnName]);
+         }
+         elseif($indexes[$columnName] == 'state' || $indexes[$columnName] == 'comm_state'){
+             $stateName = $rctModel->getStateName($columnValue);
+             $helper->displayItem($stateName, $indexes[$columnName]);
+         } 
+         elseif($indexes[$columnName] == 'occupation'){
+             $stateName = $rctModel->getOccupationName($columnValue);
+             $helper->displayItem($stateName, $indexes[$columnName]);
+         } 
+         elseif($indexes[$columnName] == 'nominee_relationship'){
+             $relName = $rctModel->getRelationName($columnValue);
+             $helper->displayItem($relName, $indexes[$columnName]);
+         } 
+         elseif($indexes[$columnName] == 'nominee_minor_guradian_cd'){
+             $relName = $rctModel->getRelationName($columnValue);
+             $helper->displayItem($relName, $indexes[$columnName]);
+         }
+         else{
+          $helper->displayItem($columnValue, $indexes[$columnName]);
+          
+         }
+          ?>
+      </span>
+   
+    </div>
+  </div>
+</div>
+
+ <?php endforeach;?>
+
+
+
+<div class="clear"></div>
+</div>
+<?php
+         
+//card holder purses cofig var
+$cardholderPursesCofig['pageTitle'] = $this->item['first_name'] . ' ' . $this->item['middle_name'] . ' ' . $this->item['last_name'] . "'s Wallet";
+$cardholderPursesCofig['no_add'] = true;
+$cardholderPursesCofig['showActions'] = FALSE;
+
+if (empty($this->cardholderPurses)) {
+    echo '<div class="norecord">There is no Wallet available for this Customer!</div>';
+} else {
+
+    // column names & indexes
+    $cardholderPursesCofig['columnNames'] = array(
+        'Name',
+        'Description',
+        'Amount'
+    );
+    $cardholderPursesCofig['columnIndexes'] = array(
+        'name',
+        'description',
+        'amount'
+    );
+
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $cardholderPursesCofig,
+        'paginator' => $this->cardholderPurses,
+            )
+    );
+}
+
+//card holder purses cofig var
+$cardholderStatusCofig['pageTitle'] = $this->item['first_name'] . ' ' . $this->item['middle_name'] . ' ' . $this->item['last_name'] . "'s Comments";
+$cardholderStatusCofig['no_add'] = true;
+$cardholderStatusCofig['showActions'] = FALSE;
+
+if (empty($this->cardholderStatus)) {
+    echo '<div class="norecord">There is no status available for this Card Holder!</div>';
+} else {
+
+    // column names & indexes
+    $cardholderStatusCofig['columnNames'] = array(
+        'Date',
+        'By Type',
+        'Maker',
+        'Checker',
+        'Authorizer',
+        'Comment',
+    );
+    $cardholderStatusCofig['columnIndexes'] = array(
+        'date_created',
+        'by_type',
+        'm_name',
+        'c_name',
+        'a_name',
+        'comments',
+    );
+
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $cardholderStatusCofig,
+        'paginator' => $this->cardholderStatus,
+            )
+    );
+}
+?>
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL($this->backlink); ?>">← Back</a></div>
+
+

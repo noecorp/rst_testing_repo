@@ -1,0 +1,51 @@
+<?php //echo Util::getFundRequestTab("send"); ?> 
+  <span><?php echo $this->msg?></span>
+  
+    <div class="tablebox">
+           
+             <table width="95%" cellspacing='0' align="center">
+  
+    
+    <tr>
+                <th style="width:20%"><?php echo 'Agent Name: ';?></th>            
+                <td style="width: 80%" align="left"><?php echo $this->reqInfo['agent_name'];?></td>
+            </tr> 
+                     
+            <tr>
+                <th style="width:20%">Request Amount (<span class="WebRupee"></span>)</th>            
+                <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->reqInfo['amt']);?></td>
+            </tr> 
+            
+            <tr>
+                <th style="width:20%">Request Comments</th>            
+                <td style="width: 80%" align="left"><?php echo $this->reqInfo['comments'];?></td>
+            </tr> 
+                  
+             <tr>
+                <th style="width:20%">Fund Transfer Type</th>            
+                <td style="width: 80%" align="left"><?php echo $this->reqInfo['fund_transfer_type'];?></td>
+            </tr> 
+            
+            <tr>
+                <th style="width:20%">Request Date</th>            
+                <td style="width: 80%" align="left"><?php echo Util::returnDateFormatted($this->reqInfo['datetime_request'], "d-m-Y", "Y-m-d", "-");?></td>
+            </tr> 
+            
+                      
+                                           
+                    
+                               
+                    
+             
+                  
+                  
+                    
+              
+             </table>
+  
+
+  
+  
+  <?php echo $this->form; ?>
+  </dl>
+  

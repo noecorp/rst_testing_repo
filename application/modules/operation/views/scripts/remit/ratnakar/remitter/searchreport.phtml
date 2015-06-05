@@ -1,0 +1,166 @@
+<div class="Boldtext">Ratnakar Remittance Report</div>
+<?php 
+    echo $this->form;
+?>
+
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$sub = isset($this->sub)?$this->sub:'';
+if($sub!=''){
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Remittance Report';
+//$config['addMessage'] = 'Add new Agent'; 
+$config['emptyMessage'] = 'There is no remittance at this time.';
+//$config['addURL'] = '/agents/signup/';
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Agent Code',
+    'Agent Name',
+    'Agent City',
+    'Pin Number',
+    'Cust Ref No',
+    'UTR No',
+    'Transaction Amount',
+    'Mobile',
+    'Status',
+    'UTR Updation',
+    'Status Updation',
+    'Reason Code',
+    'Reason Remark',
+    );
+$config['columnIndexes'] = array(
+    'transaction_date',
+    'agent_code',
+    'agent_name',
+    'estab_city',
+    'estab_pincode',
+    'txn_code',
+    'utr',
+    'amount',
+    'mobile',
+    'request_status',
+    'date_utr',
+    'date_status_response',
+    'rejection_code',
+    'rejection_remark',
+);
+
+$config['showActions'] = false;
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'remit_ratnakar_remitter',
+                'linkAction'        => 'beneficiary',
+                'linkTitle'         => 'View Beneficiaries',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'rid',
+                'linkParamValue'    => 'id',
+            )
+        );
+//$config['noteText'] = "Commission plans, once assigned, cannot be modified. In case of a new requirement, a new Commission Plan should be defined";
+
+// render the default listing
+    echo $this->partial(
+        'partials/default-listing.phtml',
+        array(
+            'config' => $config,
+            'paginator' => $this->paginator,
+        )
+    );
+
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+     $("#btn_exportcsv").click(function(){
+       
+            var url = '<?php echo $this->formatURL("/remit_ratnakar_remitter/exportsearchreport?name=".$this->formData['name']."&from_date=".$this->formData['from_date']."&to_date=".$this->formData['to_date']."&status=".$this->formData['status']."&utr=".$this->formData['utr']."&txn_code=".$this->formData['txn_code']."&mobile=".$this->formData['mobile']."&bank_account_number=".$this->formData['bank_account_number']."&sub=1");?>';
+            $(location).attr('href',url);
+       
+    }); 
+    
+    
+    $('form').submit(function(){
+        var name = $.trim($("#name").val()); 
+        var from_date = $.trim($("#from_date").val()); 
+        var to_date = $.trim($("#to_date").val()); 
+        var status = $.trim($("#status").val());
+        var utr = $.trim($("#utr").val());
+        var txn_code = $.trim($("#txn_code").val());
+        var mobile = $.trim($("#mobile").val());
+        var bank_account_number = $.trim($("#bank_account_number").val());
+        var from_dt = from_date.split("-");
+        var to_dt = to_date.split("-");
+        var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+        var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+        var diff = y - x;
+        $('#name').css('background', '#fff');
+        $('#from_date').css('background', '#fff');
+        $('#to_date').css('background', '#fff');
+        $('#status').css('background', '#fff');
+        $('#utr').css('background', '#fff');
+        $('#txn_code').css('background', '#fff');
+        $('#mobile').css('background', '#fff');
+        $('#bank_account_number').css('background', '#fff');
+        
+        if( (name == '') && (from_date == '') && (to_date == '') && (status == '') && (utr == '') && (txn_code == '') && (bank_account_number == '') ){
+             alert("Please fill at least one field value.");
+              $('#name').css('background', '#ff0'); // will change the background to red
+              $("#name").focus();
+              return false;
+         }else if( (name != '') && (name.length < 2) ){
+             alert("Please enter name value, at least two characters.");
+              $('#name').css('background', '#ff0'); // will change the background to red
+              $("#name").focus();
+              return false;
+         }else if( (from_date != '') && (from_date.length < 10) ){
+             alert("Please enter proper from date.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+              return false;
+         }else if( (to_date != '') && (to_date.length < 10) ){
+             alert("Please enter proper to date.");
+              $('#to_date').css('background', '#ff0'); // will change the background to red
+              $("#to_date").focus();
+              return false;
+         }else if( (from_date != '') &&  (to_date == '') ){
+             alert("Please enter to date.");
+              $('#to_date').css('background', '#ff0'); // will change the background to red
+              $("#to_date").focus();
+              return false;
+         }else if( (to_date != '') &&  (from_date == '') ){
+             alert("Please enter from date.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+              return false;
+         }else if(diff < 0){
+               alert('From date cannot be greater than To date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                 return false; 
+            }else{
+         return true;
+         }
+        }); 
+         
+     });
+</script>

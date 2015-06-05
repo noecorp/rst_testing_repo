@@ -1,0 +1,7 @@
+<?php if($this->status == FLAG_SUCCESS){?>
+Hi <?php echo $this->name;?>, Thanks for registering with <?php echo SHMART_WALLET;?>. Use mobile number as user Id and password <?php echo $this->password;?> to start transacting.For query call <?php echo RATNAKAR_AGENT_CALL_CENTRE_NUMBER ;?>.
+
+<?php }
+else if ($this->status == FLAG_FAILURE){?>
+Dear Customer, your registration for <?php echo $this->product_name;?> Service is not successful. Please try again or contact us at <?php echo $this->call_centre_number;?> for assistance.
+<?php }

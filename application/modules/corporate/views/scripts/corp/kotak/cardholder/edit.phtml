@@ -1,0 +1,349 @@
+ <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+ <div class="Boldtext">Add Cardholder</div> 
+  <span><?php echo $this->msg?></span>
+  <?php 
+  echo $this->form;  
+  ?>
+  
+  
+  <script type="text/javascript">
+    var sendAuthButton = false;  
+   function sendAuthCode(){
+        $("#send_auth_code").val('1');
+         sendAuthButton = true;
+        $("#frmAdd").submit();   
+   }
+    var city = $("#cty").val();
+ var pincode = $("#pin").val();
+
+ if($("#cty").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                            $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#city").html("");
+                            
+                            $("#city").append(response);
+                             $("#city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+  $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#city").html("");
+                            $("#city").append(response);
+                            console.log(response);
+                        
+                        }
+                    },
+         
+        });
+    });   
+   //COMMUNICATION ADDRESS
+ 
+  var commcity = $("#comm_cty").val();
+ var commpincode = $("#comm_pin").val();
+
+ if($("#comm_cty").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+commcity,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#comm_pincode").html("");                            
+                            $("#comm_pincode").append(response);
+                            $("#comm_pincode option[value='"+commpincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+ if($("#comm_state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#comm_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#comm_city").html("");
+                            
+                            $("#comm_city").append(response);
+                            $("#comm_city option[value='"+commcity+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+  $("#comm_city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#comm_city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#comm_pincode").html("");                            
+                            $("#comm_pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+  $("#comm_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#comm_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#comm_city").html("");
+                            $("#comm_city").append(response);
+                            console.log(response);
+                        
+                        }
+                    },
+         
+        });
+    });
+    $("#first_name").focusout(function(){ 
+        var lname = $("#last_name").val();
+        var fname = $("#first_name").val();
+        $("#name_on_card").val(fname+' '+lname);
+    });
+    
+    $("#last_name").focusout(function(){
+        var lname = $("#last_name").val();
+        var fname = $("#first_name").val();
+        $("#name_on_card").val(fname+' '+lname);                            
+    });
+  
+
+    $('form').submit(function(){
+      
+       var dob = $.trim($("#date_of_birth").val()); 
+          /**** date of birth validation ****/
+       if(dob!='' && dob!='00-00-0000' && !sendAuthButton) {
+            
+            var arr_dt = dob.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            var one_year=1000*60*60*24*365
+            var age = Math.round((curdate - x)/one_year);
+            if(age < 18)
+                {
+                    alert('You need to be atleast 18 years');
+                    $("#date_of_birth").val('');
+                    $("#date_of_birth").focus();
+                    return false;
+                } else {             
+                    if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                            alert('Invalid Date of Birth');
+                            $("#date_of_birth").val('');
+                            $("#date_of_birth").focus();
+                            return false;
+                    }
+                }
+        } else if(!sendAuthButton)  {
+            alert('Please specify date of birth');
+            $("#date_of_birth").focus();
+            return false;
+        }
+        if(!sendAuthButton)  {
+          if($('#id_proof_type-label').css('display') == 'block' || $('#id_proof_type-label').css('display') == 'inline-block') {
+              var alphaNum = /[^a-zA-Z0-9]/;
+              var idtype = $('#id_proof_type').val();  
+              var adtype = $('#address_proof_type').val();
+              var idnum = $('#id_proof_number').val();  
+              var adnum = $('#address_proof_number').val();
+              var id_doc_path = $('#id_doc_path').val();
+              var address_doc_path = $('#address_doc_path').val();
+              
+             
+             
+              if (idtype == 'pan'){  
+                  var panPat = /^([a-zA-Z]{5})(\d{4})([a-zA-Z]{1})$/;
+                  var code = /([C,P,H,F,A,T,B,L,J,G])/;
+                  var code_chk = idnum.substring(3,4);
+                  var pancode_chk = idnum.substring(3,4);
+                  
+                  if (idnum.search(panPat) == -1) {
+                      alert("Invalid Pan No");
+                      $('#pan_number').focus();
+                      return false;
+                  }else if (code.test(code_chk) == false) {
+                      alert("Invaild PAN Card No.");
+                      $('#pan_number').focus();
+                      return false;
+                  }
+              }
+              if (idtype == adtype ){
+                  if (idnum != adnum){
+                       alert ('Identification and address proof number do not match');
+                       return false;  
+                  }
+              }
+              if(idtype == ''){
+                     alert('Please select Identification type');
+                     $('#id_proof_type').focus();  
+                     return false;
+              }else if(idnum == '' || alphaNum.test(idnum)){
+                     alert('Identification number is not alphanumeric');
+                     $('#id_proof_number').focus();  
+                     return false;
+              }else if(adtype == ''){
+                     alert('Please select Address Proof Type');
+                     $('#address_proof_type').focus();  
+                     return false;
+              }else if(adnum == '' || alphaNum.test(adnum)){
+                     alert('Address proof number is not alphanumeric');
+                     $('#address_proof_number').focus();  
+                     return false;
+              }else if(id_doc_path == ''){
+                     alert('Please select Identification Proof File');
+                     $('#id_doc_path').focus();  
+                     return false;
+              }else if(address_doc_path == ''){
+                     alert('Please select Address Proof File');
+                     $('#address_doc_path').focus();  
+                     return false;
+              }
+          }
+        }    
+        return true;
+         
+    });
+    
+    
+ <?php     $session = new Zend_Session_Namespace('App.Corporate.Controller');     ?>
+     var cardholder_auth = <?php echo isset($session->corp_cardholder_auth)?$session->corp_cardholder_auth:0;?>;
+     var validated_cardholder_auth = <?php echo isset($session->corp_validated_cardholder_auth)?$session->corp_validated_cardholder_auth:0;?>    
+
+     //alert(cardholder_auth);
+     //alert(validated_cardholder_auth);
+     
+     if(cardholder_auth!='' && cardholder_auth>0){       
+         //$("#btn_auth_code").attr("disabled","disabled");
+         $("#btn_auth_code").html('Resend Authorization Code');
+         //$('#btn_auth_code').after("<a id='resend_auth' href=''> Resend Auth Code</a>").show('slow');
+         //$('#resend_auth_code').val('resend');
+         
+
+     }   
+     
+     if(validated_cardholder_auth==1){
+         $("#mobile_number").attr("readonly","readonly");
+     }
+
+$("#product_id").change(function(){
+  
+    var productName = $('#product_id option:selected').text()
+    //alert(productName);
+    if (productName=="KOTAK SEMI CLOSE GPR") {
+      $("#id_proof_type-label").hide();
+      $("#id_proof_type-label").next('dd').hide();
+      
+      $("#id_proof_number-label").hide();
+      $("#id_proof_number-label").next('dd').hide();
+      
+      $("#id_doc_path-label").hide();
+      $("#id_doc_path-label").next('dd').hide();
+      
+      $("#address_proof_type-label").hide();
+      $("#address_proof_type-label").next('dd').hide();
+      
+      $("#address_proof_number-label").hide();
+      $("#address_proof_number-label").next('dd').hide();
+      
+      $("#address_doc_path-label").hide();
+      $("#address_doc_path-label").next('dd').hide();
+      
+    }else{
+      $("#id_proof_type-label").show();
+      $("#id_proof_type-label").next('dd').show();
+      
+      $("#id_proof_number-label").show();
+      $("#id_proof_number-label").next('dd').show();
+      
+      $("#id_doc_path-label").show();
+      $("#id_doc_path-label").next('dd').show();
+      
+      $("#address_proof_type-label").show();
+      $("#address_proof_type-label").next('dd').show();
+      
+      $("#address_proof_number-label").show();
+      $("#address_proof_number-label").next('dd').show();
+      
+      $("#address_doc_path-label").show();
+      $("#address_doc_path-label").next('dd').show();
+    }
+  
+});    
+var productName = $('#product_id option:selected').text()
+  //alert(productName);
+  if (productName=="KOTAK SEMI CLOSE GPR") {
+    $("#id_proof_type-label").hide();
+    $("#id_proof_type-label").next('dd').hide();
+    
+    $("#id_proof_number-label").hide();
+    $("#id_proof_number-label").next('dd').hide();
+    
+    $("#id_doc_path-label").hide();
+    $("#id_doc_path-label").next('dd').hide();
+    
+    $("#address_proof_type-label").hide();
+    $("#address_proof_type-label").next('dd').hide();
+    
+    $("#address_proof_number-label").hide();
+    $("#address_proof_number-label").next('dd').hide();
+    
+    $("#address_doc_path-label").hide();
+    $("#address_doc_path-label").next('dd').hide();
+    
+  }
+     
+  </script>

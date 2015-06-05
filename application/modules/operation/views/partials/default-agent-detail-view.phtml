@@ -1,0 +1,458 @@
+<script type="text/javascript" src="/js/SpryTabbedPanels.js"></script>
+
+
+<link href="/css/tables.css" rel="stylesheet" type="text/css" />
+<link href="/css/SpryTabbedPanels.css" rel="stylesheet" type="text/css" />
+
+
+
+<?php
+/**
+ * View for the default item details UI
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+$helper = $this->listingUtilities($this->config);
+$productArr = $this->config['productarray'];
+$limitArr = $this->config['limitarray'];
+$document = $this->config['documentarray'];
+$details = $this->config['detailsarray'];
+$statusaction = '';
+switch ($this->config['agentStatus']) {
+            case STATUS_UNBLOCKED:
+                if($helper->can('block')) {
+                    $formatUrl = $this->formatURL("/agentsummary/block?id=".$this->config['id']);
+                    $statusaction ="(<a href=".$formatUrl.">Block Agent</a>)";
+                }
+                break;
+            case STATUS_BLOCKED:
+                if($helper->can('unblock')) {
+                    $formatUrl = $this->formatURL("/agentsummary/unblock?id=".$this->config['id']);
+                    $statusaction ="(<a href=".$formatUrl.">Unblock Agent</a>)";
+                }
+                break;
+            case STATUS_LOCKED:
+                if($helper->can('unlock')) {
+                    $formatUrl = $this->formatURL("/agentsummary/unlock?id=".$this->config['id']);
+                    $statusaction ="(<a href=".$formatUrl.">Unlock Agent</a>)";
+                }
+                break;
+}     
+
+$pageTitle = sprintf('Detailed view for: %s - %s %s', ucwords($this->item['name']),$this->item['agent_code'],$statusaction);
+$url = \App_DI_Container::get('ConfigObject')->agent->url;
+$photoName = $details['profile_photo'];
+if($photoName == NULL){
+    $photoName = AGENT_DEFAULT_PROFILE_PHOTO;
+}
+$photoUrl = $url."/uploads/photo/".$photoName;
+?>
+<div class="Boldtext"><?php echo $pageTitle;?></div>
+
+<div class="tablebox">
+<div class="table-wrapper">
+    <div id="TabbedPanels1" class="TabbedPanels">
+  <ul class="TabbedPanelsTabGroup">
+    <li class="TabbedPanelsTab" tabindex="0">Contact Details</li>
+    <li class="TabbedPanelsTab" tabindex="0">Personal Details</li>
+    <li class="TabbedPanelsTab" tabindex="0">Bank Account</li>
+    <li class="TabbedPanelsTab" tabindex="0">Products and Commissions</li>
+    <li class="TabbedPanelsTab" tabindex="0">Transaction Limit</li>
+    <li class="TabbedPanelsTab" tabindex="0">Documents</li>
+    <li class="TabbedPanelsTab" tabindex="0">Agent Balance</li>
+  </ul>
+  <div class="TabbedPanelsContentGroup">
+      
+       <div class="TabbedPanelsContent"><!---Tab Contact Details Start --->
+              <div class="cellbox">
+      <div class="cell-row-header">
+        PREMISES ADDRESS
+      </div>
+      <!---Cell Row--->
+      <div class="cell-row">
+          <div class="greycell">Office Name</div>
+          <div class="greycelllight"><?php echo $details['estab_name']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Address Line 1</div>
+          <div class="greycelllight"><?php echo $details['estab_address1']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Address Line 2</div>
+          <div class="greycelllight"><?php echo $details['estab_address2']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">City</div>
+          <div class="greycelllight"><?php echo $details['estab_city']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Taluka</div>
+          <div class="greycelllight"><?php echo $details['estab_taluka']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">District</div>
+          <div class="greycelllight"><?php echo $details['estab_district']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">State</div>
+          <div class="greycelllight"><?php echo $details['estab_state']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Country</div>
+          <div class="greycelllight"><?php echo Util::getCountryName($details['estab_country']);?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Pincode</div>
+          <div class="greycelllight"><?php echo $details['estab_pincode']?></div>
+        </div>
+      
+    </div>
+           <div class="cellbox">
+               <div style ="float:right;height:100px;border:1px solid;margin-right:10px;clear:both;"><img src="<?php echo $photoUrl;?>" width="100" height="100"></div>
+          <div class="cell-row">
+          <div class="greycell">Mobile No.</div>
+          <div class="greycelllight"><?php echo $details['mobile1']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Landline No.</div>
+          <div class="greycelllight"><?php echo $details['mobile2']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Email</div>
+          <div class="greycelllight"><?php echo $details['email']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Agent Code</div>
+          <div class="greycelllight"><?php echo $details['agent_code']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Institution Name</div>
+          <div class="greycelllight"><?php echo $details['institution_name']?></div>
+        </div>
+ 
+         <div class="cell-row">
+          <div class="greycell">Centre ID</div>
+          <div class="greycelllight"><?php echo $details['centre_id']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Terminal ID (TID) 1</div>
+          <div class="greycelllight"><?php echo $details['terminal_id_tid_1']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Terminal ID (TID) 2</div>
+          <div class="greycelllight"><?php echo $details['terminal_id_tid_2']?></div>
+        </div>
+       <div class="cell-row">
+          <div class="greycell">Terminal ID (TID) 3</div>
+          <div class="greycelllight"><?php echo $details['terminal_id_tid_3']?></div>
+        </div>
+               
+               
+               
+             </div>
+     
+    <!---Cell BOX END---><!---Cell BOX END--->
+        
+     
+       </div>
+      
+      <!---Content Tab 1 End--->
+    <div class="TabbedPanelsContent"><!---Tab PERSONAL Details Start --->
+    
+    <div style="width:900px; float:left;">
+    </div>
+    <div class="cellbox">
+        <div class="cell-row">
+            <div class="greycell">BC Agent</div> 
+            <div class="greycelllight"><?php echo $details['bcagent']?></div>
+        </div>
+        <div class="cell-row">
+            <div class="greycell">Date of Birth</div> 
+            <div class="greycelllight"><?php echo $details['date_of_birth']?></div>
+        </div>
+        <div class="cell-row">
+            <div class="greycell">Gender</div> 
+            <div class="greycelllight"><?php echo ucfirst($details['gender']);?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Identification Type</div> 
+            <div class="greycelllight"><?php echo ucfirst($details['Identification_type']);?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Identification Number</div> 
+            <div class="greycelllight"><?php echo $details['Identification_number']?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Address Proof Type</div> 
+            <div class="greycelllight"><?php echo ucfirst($details['address_proof_type']);?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Address Proof Number</div> 
+            <div class="greycelllight"><?php echo $details['address_proof_number']?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Pan Number</div> 
+            <div class="greycelllight"><?php echo $details['pan_number']?></div> 
+        </div> 
+        <div class="cell-row">
+            <div class="greycell">Education Level</div> 
+            <div class="greycelllight"><?php echo ucwords($details['education_level']);?></div> 
+        </div> 
+        <?php if($details['Identification_type'] =='passport' || $details['address_proof_type'] == 'passport' ){?>
+        <div class="cell-row">
+            <div class="greycell">Passport Expiry</div> 
+            <div class="greycelllight"><?php echo $details['passport_expiry'];?></div> 
+        </div> 
+        <?php } ?>
+    </div>
+     
+ 
+ 
+    <div class="cellbox">
+      <div class="cell-row-header">
+        RESIDENTIAL ADDRESS
+      </div>
+      
+      <div class="cell-row">
+        <div class="greycell">Residential Type</div>
+        <div class="greycelllight"><?php if(isset($details['res_type']) && $details['res_type'] != ''){ echo Util::getResidentType($details['res_type']);}?></div>
+        <div class="cell-row">
+          <div class="greycell">Address Line 1</div>
+          <div class="greycelllight"><?php echo $details['res_address1']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Address Line 2</div>
+          <div class="greycelllight"><?php echo $details['res_address2']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">City</div>
+          <div class="greycelllight"><?php echo $details['res_city']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Taluka</div>
+          <div class="greycelllight"><?php echo $details['res_taluka']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">District</div>
+          <div class="greycelllight"><?php echo $details['res_district']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">State</div>
+          <div class="greycelllight"><?php echo $details['res_state']?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Country</div>
+          <div class="greycelllight"><?php echo Util::getCountryName($details['res_country']);?></div>
+        </div>
+        <div class="cell-row">
+          <div class="greycell">Pincode</div>
+          <div class="greycelllight"><?php echo $details['estab_pincode']?></div>
+        </div>
+      </div>
+      
+    </div>
+    <!---Cell BOX END--- ><!---Cell BOX END--->
+    
+    </div>
+      <!---Content Tab 2 End--->
+      
+      <div class="TabbedPanelsContent"><!---Tab BANKACCOUNT Start --->
+     <div class="cellbox">
+    
+    <div class="cell-row">
+        <div class="greycell">Name of Bank</div>
+        <div class="greycelllight"><?php echo $details['bank_name']?></div>
+    </div>
+   <div class="cell-row">
+       <div class="greycell">Account Number</div>
+       <div class="greycelllight"><?php echo $details['bank_account_number']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Branch Location</div>
+       <div class="greycelllight"><?php echo $details['bank_location']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Branch City</div>
+       <div class="greycelllight"><?php echo $details['bank_city']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Bank IFSC code</div>
+       <div class="greycelllight"><?php echo $details['bank_ifsc_code']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Branch Id</div>
+       <div class="greycelllight"><?php echo $details['branch_id']?></div>
+   </div>
+   <div class="cell-row">
+       <div class="greycell">Branch Area</div>
+       <div class="greycelllight"><?php echo $details['bank_area']?></div>
+   </div>
+      
+      </div>
+      
+    </div>  <!---Content Tab 3 End---> 
+      
+      <div class="TabbedPanelsContent"> <!---Tab Commission  Start --->
+       <?php 
+            if($helper->can('index', 'approvedagent')) {
+                $formatUrl = $this->formatURL("/approvedagent/index?id=".$this->config['agent_id']);
+            ?>   
+                <a  href="<?php echo $formatUrl;?>" class="ocean">Manage Agent Products & Commissions</a>
+    <?php } ?>
+    
+    <?php 
+              if(empty($productArr))
+                echo '<div class="norecord">No Products Assigned!</div>';
+        else { ?>
+             <table width="950" cellspacing='0' style="margin:auto; border:none;"> 
+                <tr>
+                  
+                    <th align="left">Product Name</th>
+                    <th align="left">Product Limit Code</th>
+                    <th align="left">Commission Plan Name</th>
+                    <th align="left">Fee Plan Name</th>
+                    <th align="left">Start Date</th>
+                    <th align="left">End Date</th>
+                </tr>
+           
+        <?php 
+       
+        foreach($productArr as $key => $value) : ?>
+            
+            <tr>
+                
+                <td align="left"><?php echo $value['product_name'];?></td>
+                <td align="left"><?php echo $value['product_limit_code'];?></td>
+                <td align="left"><?php echo $value['commission_name'];?></td>
+                <td align="left"><?php echo $value['fee_name'];?></td>
+                <td align="left"><?php echo $value['date_start'];?></td>
+                <td align="left"><?php if($value['date_end'] == '00-00-0000') echo 'NA';
+                else echo $value['date_end'];?></td>
+            </tr>  
+            
+          
+       <?php endforeach;?>
+            </table>
+            <?php }?>
+        
+    </div><!---Content Tab 4 End---> 
+      
+      <div class="TabbedPanelsContent"> <!---Tab Transaction limit Start --->
+          <?php 
+            if($helper->can('list', 'agentlimit')) {
+                $formatUrl = $this->formatURL("/agentlimit/list?id=".$this->config['agent_id']);
+            ?> 
+          <a href="<?php echo $formatUrl;?>" class="ocean" >Manage Transaction Limits</a>
+          <?php } ?>
+          <?php  if(empty($limitArr)) {   echo '<div class="norecord">No Limit Assigned!</div>';}
+        else {
+            ?>
+            <table width="950" class="agentlimit"> 
+               
+                <tr>
+                   
+                    <th align="left">Limit Name</th>                
+                    <th align="left">Start Date</th>
+                    <th align="left">End Date</th>
+                </tr>
+                
+             <?php foreach($limitArr as $key => $value) : ?>
+                <tr>
+                    
+                    <td align="left"><?php echo $value['name'];?></td>
+                    <td align="left"><?php echo $value['date_start'];?></td>
+                    <td align="left"><?php if($value['date_end'] == '00-00-0000')echo 'NA';
+                    else echo $value['date_end'];?></td>
+                </tr>
+               
+            <?php endforeach;?>
+                </table>
+              <?php }?>
+      </div> <!-- Content Tab 5 End -->
+      
+      <div class="TabbedPanelsContent"><!---Tab Documents Start --->
+          <?php 
+                if($helper->can('addocs', 'system')) {
+                    $formatUrl = $this->formatURL("/agents/addocs?id=".$this->config['agent_id']);
+                ?>
+                    <a href="<?php echo $formatUrl;?>" class="ocean">Upload Documents</a>
+            <?php } ?>
+          <?php if(empty($document))
+           {
+               echo '<div class="norecord">No Documents uploaded!</div>';
+             
+            }
+           $doc =1;
+            foreach($document as $doc):
+            $imgIcon = $doc['doc_type'];
+
+                switch ($imgIcon) {
+                            case "passport":
+                                $docTypeImg = 'passport.png';
+                                break;
+                            case "photo":
+                                $docTypeImg = 'photo.png';
+                                break;
+                            case "shopphoto":
+                               $docTypeImg = 'shopphoto.png';
+                                break;
+                            case "idprooof":
+                                $docTypeImg = 'idproof.png';
+                                break;
+                            case "pan":
+                                $docTypeImg = 'pan.png';
+                                break;
+                            case "addressproof":
+                                $docTypeImg = 'addressproof.png';
+                                break;
+                            case "others":
+                                $docTypeImg = 'others.png';
+                                break;
+                            default:
+                                $docTypeImg = 'others.png';
+                                break;
+                     }
+                $imgPath = '/images/icons/'.$docTypeImg;
+               
+                ?>
+                <?php 
+                if($helper->can('index', 'filedownload')) {
+                    $formatUrl = $this->formatURL("/filedownload/index?file=".$doc['file_name']);
+                ?><a href="<?php echo $formatUrl; ?>"><img src=<?php echo $imgPath;?> width="100" height="100" border="0"/></a>
+                <?php } 
+                else { ?>
+                    <img src=<?php echo $imgPath;?> width="100" height="100"/>
+                <?php } ?>
+               <?php $doc++; ?>
+                <?php endforeach;?>
+          
+          
+          
+   
+    </div> <!-- Content Tab 6 End --> 
+    
+          <div class="TabbedPanelsContent"> <!---Tab Agent Balance Start --->
+          <div class="norecord"> Last Amount Balance:  </b><?php if(isset($this->config['balance'])) echo Util::numberFormat($this->config['balance']); else echo 'Nil';?></div>
+      </div> <!-- Content Tab 7 End -->
+      
+  </div> <!-- TabbedPanelsContentGroup End -->
+</div>
+<div class="clear"></div>
+<div id="pagination-box"></div><!---pagination-box End--->
+
+</div>
+</div><!---TABLE-box End--->
+
+
+
+<div class="back">
+    <?php if(isset($this->config['backlink']) && !empty($this->config['backlink'])) {?>
+    <a class="alt" href="<?php echo $this->formatURL($this->config['backlink']);?>">← Back</a>
+    <?php
+    }
+    ?>
+</div>
+

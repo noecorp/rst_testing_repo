@@ -1,0 +1,8 @@
+<?php
+$responseStatus = isset($this->response_status)?$this->response_status:'';
+if($responseStatus==FLAG_PENDING || $responseStatus==FLAG_DECLINE){
+?>
+Your fund request status with amount <?php echo $this->amount;?> has been <?php echo $responseStatus;?> on <?php echo $this->on_date ?>.
+<?php } else { ?>
+Your Shmart! Agent Account has been credited with <?php echo CURRENCY_INR; echo ' '; echo $this->amount ?> on <?php echo $this->on_date ?>. Your Available Balance is <?php echo CURRENCY_INR; echo ' ';echo $this->new_balance ?>.
+<?php } ?>

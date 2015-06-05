@@ -1,0 +1,1 @@
+ALTER TABLE `kotak_remittance_refund` ADD `txnrefnum` VARCHAR(20) NULL AFTER `txn_code`;

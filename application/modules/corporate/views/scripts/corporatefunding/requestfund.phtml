@@ -1,0 +1,103 @@
+<?php //echo Util::getFundRequestTab("send");                        ?> 
+<div class="Boldtext">Partner Funding</div> 
+<span><?php echo $this->msg ?></span>
+<?php echo $this->form; ?>
+
+<script>
+    $(document).ready(function() {
+        fundType();
+    });
+    function fundType() {
+
+        var fund_type_id = $('#fund_transfer_type_id').val();
+     
+        var selectNullVal = '';
+        var selectCash = <?php echo FUND_TRANSFER_TYPE_ID_CASH ?>;
+        var selectDD = <?php echo FUND_TRANSFER_TYPE_ID_DD ?>;
+        var selectChk = <?php echo FUND_TRANSFER_TYPE_ID_CHEQUE ?>;
+        var selectNeft = <?php echo FUND_TRANSFER_TYPE_ID_NEFT ?>;
+        var selectBankTransfer = <?php echo FUND_TRANSFER_TYPE_ID_BANK_TRANSFER ?>;
+        
+        if (fund_type_id == selectNullVal) {
+            hideCheque();
+            hideJournal();
+            hideOther();
+        }
+        else if (fund_type_id == selectCash || fund_type_id == selectDD) {
+            hideCheque();
+            hideJournal();
+            showOther();
+        } else if (fund_type_id == selectChk) {
+            hideJournal();
+            hideOther();
+            showCheque();
+        } else if (fund_type_id == selectNeft || fund_type_id == selectBankTransfer) {
+            hideOther();
+            hideCheque();
+            showJournal();
+        }
+    }
+
+
+    function hideJournal() {
+        $('#journal_no-label').hide();
+        $('#journal_no').parent().hide();
+
+    }
+
+
+    function hideCheque() {
+
+        $('#cheque_no-label').hide();
+        $('#cheque_no').parent().hide();
+
+        $('#bank_of_cheque_issue-label').hide();
+        $('#bank_of_cheque_issue').parent().hide();
+
+        $('#date_of_cheque_issue-label').hide();
+        $('#date_of_cheque_issue').parent().hide();
+
+        $('#branch_of_cheque-label').hide();
+        $('#branch_of_cheque').parent().hide();
+
+    }
+
+    function hideOther() {
+        $('#other_txn-label').hide();
+        $('#other_txn').parent().hide();
+
+        $('#funding_details-label').hide();
+        $('#funding_details').parent().hide();
+
+    }
+
+    function showJournal() {
+        $('#journal_no-label').show();
+        $('#journal_no').parent().show();
+
+    }
+
+    function showCheque() {
+        $('#cheque_no-label').show();
+        $('#cheque_no').parent().show();
+
+        $('#bank_of_cheque_issue-label').show();
+        $('#bank_of_cheque_issue').parent().show();
+
+        $('#date_of_cheque_issue-label').show();
+        $('#date_of_cheque_issue').parent().show();
+
+        $('#branch_of_cheque-label').show();
+        $('#branch_of_cheque').parent().show();
+    }
+
+    function showOther() {
+        $('#other_txn-label').show();
+        $('#other_txn').parent().show();
+
+        $('#funding_details-label').show();
+        $('#funding_details').parent().show();
+
+    }
+
+</script>

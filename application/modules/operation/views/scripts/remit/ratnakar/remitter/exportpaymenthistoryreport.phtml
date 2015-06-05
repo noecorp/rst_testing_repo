@@ -1,0 +1,59 @@
+<div class="Boldtext">Ratnakar Payment History Report</div>
+<?php 
+    echo $this->form;
+
+?>
+<script type="text/javascript">
+  $(document).ready(function(){
+ 
+    
+    $('form').submit(function(){
+        var from_date = $.trim($("#from_date").val()); 
+        var to_date = $.trim($("#to_date").val()); 
+        var from_dt = from_date.split("-");
+        var to_dt = to_date.split("-");
+        var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+        var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+        var diff = y - x;
+        
+        $('#from_date').css('background', '#fff');
+        $('#to_date').css('background', '#fff');
+        
+        if( (from_date == '') && (to_date == '') ){
+             alert("Please enter proper date range.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+              return false;
+         }
+       else if( (from_date != '') && (from_date.length < 10) ){
+             alert("Please enter proper from date.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+              return false;
+         }else if( (to_date != '') && (to_date.length < 10) ){
+             alert("Please enter proper to date.");
+              $('#to_date').css('background', '#ff0'); // will change the background to red
+              $("#to_date").focus();
+              return false;
+         }else if( (from_date != '') &&  (to_date == '') ){
+             alert("Please enter to date.");
+              $('#to_date').css('background', '#ff0'); // will change the background to red
+              $("#to_date").focus();
+              return false;
+         }else if( (to_date != '') &&  (from_date == '') ){
+             alert("Please enter from date.");
+              $('#from_date').css('background', '#ff0'); // will change the background to red
+              $("#from_date").focus();
+              return false;
+         }else if(diff < 0){
+               alert('From date cannot be greater than To date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                 return false; 
+            }
+         return true;
+        
+        }); 
+         
+     });
+</script>

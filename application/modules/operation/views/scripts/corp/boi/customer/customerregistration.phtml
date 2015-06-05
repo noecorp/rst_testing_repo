@@ -1,0 +1,209 @@
+<div class="Boldtext">Application Status Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!='' || $this->formData['date_approval'] != ''){
+$bankUnicodeArr = Util::bankUnicodesArray();    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'AOF Reference Number',
+    'Name (of the Trainee)',
+    'Aadhaar Number',
+    'NSDC Enrollment Number',
+    'Checker Status',
+    'Authorizer Status',
+    'IFSC Code',
+    'Account No.',
+    'Card No.',
+    'Traning Center BC Name',
+    'Debit Mandate Amount',
+    'Training Center ID',
+    'Traning Center Name',
+    'Training Partner Name',
+    'Application Date',
+    'Checker Date',
+    );
+$config['columnIndexes'] = array(
+    'ref_num',
+    'name',
+    'aadhaar_no',
+    'nsdc_enrollment_no',
+    'status_ops',
+    'status_bank',
+    'ifsc_code',
+    'account_no',
+    'card_number',
+    'by_agent_name',
+    'debit_mandate_amount',
+    'training_center_id',
+    'traning_center_name',
+    'training_partner_name',
+    'date_created',
+    'date_approval'
+    
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$cntColNames = count($config['columnNames']) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+              ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <td><?php echo $item['ref_num'];?></td>
+                        <td><?php echo $item['name'];?></td>
+                        <td><?php echo $item['aadhaar_no'];?></td>
+                        <td><?php echo $item['nsdc_enrollment_no'];?></td>
+                        <td><?php echo $item['status_ops'];?></td>
+                        <td><?php echo $item['status_bank'];?></td>
+                        <td><?php echo ($item['account_no'] == '') ? '' : "BKID000".substr($item['account_no'], 0, 4);?></td>
+                        <td><?php echo Util::maskCard($item['account_no'],4);?></td>
+                        <td><?php echo Util::maskCard($item['card_number'],4);?></td>
+                        <td><?php echo $item['by_agent_name'];?></td>
+                        <td><?php echo $item['debit_mandate_amount'];?></td>
+                        <td><?php echo $item['training_center_id'];?></td>
+                        <td><?php echo $item['traning_center_name'];?></td>
+                        <td><?php echo $item['training_partner_name'];?></td>
+                        <td><?php echo Util::returnDateFormatted($item['date_created'], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo Util::returnDateFormatted($item['date_approval'], "Y-m-d", "d-m-Y", "-");?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } } ?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+            var url = '<?php echo $this->formatURL("/corp_boi_customer/exportcustomerregistration?dur=".$this->formData['dur']."&to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date'].'&product_id='.$this->formData['product_id'].'&bank_unicode='.$this->formData['bank_unicode'].'&aof_ref_num='.$this->formData['ref_num'].'&status='.$this->formData['status'].'&nsdc_enrollment_no='.$this->formData['nsdc_enrollment_no'].'&date_approval='.$this->formData['date_approval']);?>';    
+            $(location).attr('href',url);
+       
+    });
+
+    
+     $('form').submit(function(){
+  
+       var checker_date = $.trim($("#date_approval").val()); 
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       /**** From and To date validation ****/
+      if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+            alert('Please select either duration or from and to date.');
+            $("#dur").focus();
+            return false;
+      } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                    alert('Please specify From date.');
+                    $("#from_date").focus();
+                    return false;
+               }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify To date.');
+                    $("#to_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+         
+     return true; 
+   });    
+});
+</script>

@@ -1,0 +1,76 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Wallet Listing';
+$config['no_add'] = TRUE; 
+	
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Description',
+    'Restriction Type',
+    'Allow Remittance',
+    'Allow MVC',
+    
+);
+$config['columnIndexes'] = array(
+    'name',
+    'description',
+    'txn_restriction_type',
+    'allow_remit',
+    'allow_mvc',
+);
+
+$config['viewLinkColumn'] = 'name';
+
+$config['actions'] = array(
+    'edit' => array(
+        'action' => 'edit',
+        'title' => 'Edit',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/edit.png',
+        'img_alt' => 'edit',
+        'acl_action' => 'edit'
+    ),
+    'bindmcc' => array(
+        'action' => 'bindmcc',
+        'title' => 'Bind MCC',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/pass.png',
+        'img_alt' => 'Bind MCC',
+        'acl_action' => 'bindmcc'
+    )
+);
+
+$config['linkOrder'] = array('edit','bindmcc');
+$config['actionsConditional'] = array('bindmcc');
+$config['showActions'] = TRUE;
+
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'txn_restriction_type',
+        'operator' => '==',
+        'value'     => strtolower(TYPE_MCC)
+    )
+);
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

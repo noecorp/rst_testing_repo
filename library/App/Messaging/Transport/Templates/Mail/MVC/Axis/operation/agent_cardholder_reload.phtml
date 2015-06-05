@@ -1,0 +1,35 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear <?php echo $this->name;?>, </p>
+
+<p>Your request for crediting Rs. <?php echo $this->amount;?> on the Card for mobile number ending <?php echo $this->endChars;?> on <?php echo $this->dateTime;?> could NOT be processed.</p>
+
+<p>The available balance in your account is Rs. <?php echo $this->balance;?></p>
+
+<br><br>
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: partner.support@shmart.co.in</p>
+
+
+<br><br>
+
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo \Util::getEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo \Util::getEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo \Util::getEmailTC(); ?></p>

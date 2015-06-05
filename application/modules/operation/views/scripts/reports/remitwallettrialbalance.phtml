@@ -1,0 +1,585 @@
+<div class="Boldtext">Remittance Wallet Trial Balance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+?>
+<div>
+    <?php echo $this->form; ?>
+</div>
+<div style="clear:both;"></div>
+<?php
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->to_date!='' ){
+$bankUnicodeArr = Util::bankUnicodesArray();     
+?>
+<div class="CSSTableGenerator" >
+                <table >
+                    <tr>
+                        <td colspan = '3'>
+                            VOUCHER PROCESS FOR THE DAY
+                        </td>
+                        <td>-</td><td>
+                            <?php echo $this->on_date;?>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <b> Sr. No. </b>
+                        </td>
+                        <td>
+                            <b> Particulars </b>
+                        </td>
+                        <td>
+                            <b>Composition</b>
+                        </td>
+                        <td>
+                            <b>DR / CR</b>
+                        </td>
+                         <td>
+                             <b>Values in INR</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                         <td>A</td><td>
+                           Previous Day Balance
+                        </td>
+                        <td>
+                         Opening Balance as on previous day
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                         <td>
+                         <?php echo $this->reportdata['opening_bal'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        
+                         <td>B</td><td>
+                          Agent Funds Approved
+                        </td>
+                        <td>
+                         Agent Fund Received and Approved
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                         <td>
+                         <?php echo $this->reportdata['agent_funds_approved'];?>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>C</td><td>
+                        IMPS/NEFT Rejection
+                        </td>
+                        <td>
+                       IMPS/NEFT Rejection Credit Received in Pool 
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                         <td>
+                         <?php echo $this->reportdata['neft_reject'];?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>D</td><td>
+                        Miscellaneous Cr
+                        </td>
+                        <td>
+                        If any
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                         <td>
+                         <?php echo '-';?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E</td><td>
+                            <b>Sub Total (A - D)</b>
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                        
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['sub_totalAD'];?>
+                        </td>
+                    </tr>
+                 
+                    <tr>
+                        <td>F</td><td>
+                       Total Agent Transactions
+                        </td>
+                        <td>
+                        IMPS Transaction Amount for the day
+                        </td>
+                        <td>
+                         DR
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['txn_total'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>H</td><td>
+                            Miscellaneous Dr
+                        </td>
+                        <td>
+                       If any
+                        </td>
+                        <td>
+                       DR
+                        </td>
+                        <td><b>
+                        <?php echo '-';?>
+                            </b></td>
+                    </tr>
+                    <tr>
+                        <td>I</td><td>
+                            <b>Sub Total (F-H)</b>
+                        </td>
+                        <td>
+                        
+                        </td>
+                        <td>
+                       
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['sub_totalFH'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>J</td><td>
+                            <b>Calculated Balance (E + I)</b>
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                      
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['sub_totalEI'];?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>K</td><td>
+                            <b>Current A/C as per Bank Statement</b>
+                        </td>
+                        <td>
+                        Outside system
+                        </td>
+                        <td>
+                        </td>
+                         <td>
+                        <?php echo '-';?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>L</td><td>
+                       Transaction Fee for the month
+                        </td>
+                        <td>
+                        Fee Break-up MTD
+                        </td>
+                        <td>
+                         DR
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['txn_fee'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>M</td><td>
+                          Service Tax for the month
+                        </td>
+                        <td>
+                       Service Tax MTD
+                        </td>
+                        <td>
+                       DR
+                        </td>
+                        <td><b>
+                        <?php echo $this->reportdata['txn_service_tax'];?>
+                            </b></td>
+                    </tr>
+                    <tr>
+                        <td>N</td><td>
+                      Transaction Reversal Fee for the month
+                        </td>
+                        <td>
+                       Reversal Fee Break-up MTD 
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                         <td>
+                        <?php echo  $this->reportdata['txn_reversal_fee'];?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>O</td><td>
+                      Service Tax Reversal for the month
+                        </td>
+                        <td>
+                        Reversal Service Tax MTD
+                        </td>
+                        <td>
+                         CR
+                        </td>
+                        <td>
+                        <?php echo  $this->reportdata['txn_reversal_service_tax'];?>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td>P</td><td>
+                            <b>Sub Total (L-O)</b>
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                       
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['sub_totalLO'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>Q</td><td>
+                        All Refund Amount for the day
+                        </td>
+                        <td>
+                       Refund made to Remitter by Agents
+                        </td>
+                        <td>
+                       CR
+                        </td>
+                         <td>
+                        <?php echo  $this->reportdata['refund_amount'];?>
+                        </td>
+                    </tr>
+                       <tr>
+                        <td>R</td><td>
+                       IMPS/NEFT Rejection + Refund for the day
+                        </td>
+                        <td>
+                       Refund yet to claim by remitter as on date + Refund for the day
+                        </td>
+                        <td>
+                       DR
+                        </td>
+                         <td>
+                        <?php echo  $this->reportdata['refund_yet_to_claim'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>S</td><td>
+                      Unprocessed NEFT transactions for the day
+                        </td>
+                        <td>
+                       After cut-off (Batch not generated). Not applicable for IMPS
+                        </td>
+                        <td>
+                       DR
+                        </td>
+                         <td>
+                        <?php echo  $this->reportdata['unprocessed_txn'];?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>T</td><td>
+                      Miscellaneous Cr/Dr
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                      
+                        </td>
+                         <td>
+                        <?php echo '-';?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>U</td><td>
+                       Calculated balance (K+P+Q+R+S+T)
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                      
+                        </td>
+                         <td>
+                        <?php echo $this->reportdata['sub_totalU'];?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td><td>
+                      Closing Balance as per Balance Sheet Report
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                      
+                        </td>
+                         <td>
+                        <?php  echo $this->reportdata['closing_balance'];?>
+                        </td>
+                    </tr>  
+                  
+                    <tr>
+                        <td>-</td><td>
+                            <b>Difference</b>
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td>
+                       
+                        </td>
+                        <td><b>
+                        <?php echo $this->reportdata['difference'] ;?>
+                            </b></td>
+                    </tr>
+                    
+                </table>
+            </div>
+
+
+
+
+
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php  } ?>
+
+
+<style>
+    .CSSTableGenerator {
+	margin:0px;padding:0px;
+	width:100%;
+	border:1px solid #000000;
+	
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+	
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+	
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+	
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}.CSSTableGenerator table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}.CSSTableGenerator tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.CSSTableGenerator table tr:first-child {
+	background-color: grey;
+}
+.CSSTableGenerator table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}.CSSTableGenerator tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}.CSSTableGenerator tr:hover td{
+	
+}
+.CSSTableGenerator tr:nth-child(odd){ background-color:#ffaa56; }
+.CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+	vertical-align:middle;
+	
+	
+	border:1px solid #000000;
+	border-width:0px 1px 1px 0px;
+	text-align:left;
+	padding:14px;
+	font-size:10px;
+	font-family:Arial;
+	font-weight:normal;
+	color:#000000;
+}.CSSTableGenerator tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}.CSSTableGenerator tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}.CSSTableGenerator tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.CSSTableGenerator tr:first-child td{
+		background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+	background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");	background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+	background-color:#ff7f00;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#ffffff;
+}
+.CSSTableGenerator tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+	background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");	background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+	background-color:#ff7f00;
+}
+.CSSTableGenerator tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.CSSTableGenerator tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
+    </style>
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+            var url = '<?php echo $this->formatURL("/reports/exportremitwallettrialbalance?to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date'].'&product_id='.$this->formData['product_id'].'&bank_unicode='.$this->formData['bank_unicode']);?>';    
+            $(location).attr('href',url);
+       
+    });
+ var product = $("#product").val();
+ if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-bankproduct-id/q/'+$("#bank_unicode").val()+'/pt/remit',
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                            $("#product_id option[value='"+product+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+
+  $("#bank_unicode").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankproduct-id/q/'+$("#bank_unicode").val()+'/pt/remit',
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+     $('form').submit(function(){
+  
+       var bank_unicode = $.trim($("#bank_unicode").val());
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val();
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       var arr_dt = to.split("-");
+       var x = new Date();
+       x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+       var curdate = new Date();
+     
+      /**** From and To date validation ****/
+       $('#bank_unicode').css('background', '#fff');
+       $('#dur').css('background', '#fff');
+       $('#from_date').css('background', '#fff');
+       $('#to_date').css('background', '#fff');
+      
+         if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+              $("#bank_unicode").focus();
+              return false;
+         }else if((from =='' && to =='' ) ){
+                alert('Please select from and to date.');
+                $('#dur').css('background', '#ff0');    
+                $("#dur").focus();
+            return false;
+         } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                alert('Please specify From date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                return false;
+            }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                 alert('Please specify To date.');
+                 $('#to_date').css('background', '#ff0');
+                 $("#to_date").focus();
+                 return false;
+            } else if(diff < 0){
+               alert('From date cannot be greater than To date.');
+                $('#from_date').css('background', '#ff0');
+                 $("#from_date").focus();
+                 return false; 
+            }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $('#to_date').css('background', '#ff0');
+                    $("#to_date").focus();
+                    return false; 
+               }
+            
+            else if(x >= curdate)
+            {
+                alert("Please enter start date less than today's date");
+                $("#date_start").val('');
+                $("#date_start").focus();
+                return false;
+            }
+               
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });   
+});
+</script>

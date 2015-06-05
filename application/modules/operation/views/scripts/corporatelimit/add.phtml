@@ -1,0 +1,70 @@
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       $('.cancel').attr('href','/corporatelimit/limit');
+       $('form').submit(function(){
+       var valyr = parseInt($("#cnt_out_max_txn_yearly").val());
+       
+       var valmnth = parseInt($("#cnt_out_max_txn_monthly").val());
+       var valdly = parseInt($("#cnt_out_max_txn_daily").val());
+     
+       var dly = parseInt($("#limit_out_max_daily").val());
+       var month = parseInt($("#limit_out_max_monthly").val());
+       var yrl = parseInt($("#limit_out_max_yearly").val());
+       var min = parseInt($("#limit_out_min_txn").val());
+       var max = parseInt($("#limit_out_max_txn").val());
+       
+        if ((valmnth.length != 0) && (valdly.length != 0) && (valmnth < valdly)){
+               alert('No. of daily Transactions cannot be more than no. of monthly Transactions.'); 
+               return false;
+        }
+        else if ((valyr.length != 0) && (valdly.length != 0) && (valyr < valdly)){
+               alert('No. of daily Transactions cannot be more than no. of yearly Transactions.'); 
+               return false;
+        }
+        else if ((valyr.length  != 0)  && (valmnth > valyr)  ){
+               alert('No. of monthly Transactions cannot be more than no. of yearly Transactions.');
+                   return false;
+        }
+       else if  (  (month.length != 0) && (month < dly) ){
+                alert('Limit of daily Transactions cannot be more than limit of monthly Transactions.');
+                    return false;
+        }
+        else if  (  (yrl.length != 0) && (yrl < dly) ){
+                alert('Limit of daily Transactions cannot be more than limit of yearly Transactions.');
+                    return false;
+        }
+        else if ( (yrl.length  != 0) && (yrl < month)  ){
+              alert('Limit of monthly Transactions cannot be more than limit of yearly Transactions.');
+                  return false;
+        }
+       else if ( (max.length !=0) && (min.length !=0) && (min > max)  ){
+              
+               alert('Min Transactions limit cannot be more than Max Transactions limit.');
+                   return false;
+        }
+       
+            return true;
+});
+       
+}); 
+
+</script><?php
+/**
+ * Add a new privilege in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Add new Corporate Limit';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

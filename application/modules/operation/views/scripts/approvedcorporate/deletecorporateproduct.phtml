@@ -1,0 +1,46 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        var id = $("#agentId").val();
+        
+    $('.cancel').attr('href',document.referrer);
+    });  
+ </script><?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Delete Agent Product, Product Limit, Commission Plan & fee Plan: '.$this->agentName;
+$config['areYouSureMessage'] = 'Are you sure you want to delete the setup?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Product',
+    'Product Limit',
+    'Commission Plan',
+    'Fee Plan',
+    'Start Date',
+    
+);
+$config['columnIndexes'] = array(
+    'product_name',
+    'product_limit_name',
+    'plan_comm_name',
+    'plan_fee_name',
+    'date_start_formatted',
+    
+);
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

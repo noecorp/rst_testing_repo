@@ -1,0 +1,115 @@
+<?php
+/**
+ * Layout used to display error pages
+ *
+ * @category backoffice
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Bank Portal');
+
+// add generic scripts
+$this->headScript()->appendFile($this->baseUrl() . '/js/jquery.min.js');
+$this->headScript()->appendFile($this->baseUrl() . '/js/login.min.js');
+// add generic CSS files
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/login.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/navigation.css');
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(App_DI_Container::get('ConfigObject')->zfdebug->enabled){
+    $this->headScript()->appendFile($this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+?>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+        <meta http-equiv="content-style-type" content="text/css" /> 
+        <meta http-equiv="content-script-type" content="text/javascript" /> 
+        <noscript><meta http-equiv="refresh" content="1;url=/index/noscript"></noscript>
+        <link href="/css/new/main.css" media="all" rel="stylesheet" type="text/css" />
+        <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+        
+        <?php echo $this->headTitle() . PHP_EOL;?>
+        <?php echo $this->headScript() . PHP_EOL;?>
+        <?php echo $this->headLink() . PHP_EOL;?>
+        
+        <!--[if !IE 7]>
+            <style type="text/css">
+                div.wrapper {display:table;height:100%}
+            </style>
+        <![endif]-->
+        
+        <script type="text/javascript" charset="utf-8"> 
+            //Set focus on username field
+            $(document).ready(function() {
+                $('input#username').focus();
+            });
+        </script> 
+               <script language="javaScript" type="text/javascript">
+        function are_cookies_enabled()
+        {
+                var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+
+                if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
+                { 
+                        document.cookie="testcookie";
+                        cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+                }
+                return (cookieEnabled);
+        }        
+        if(!are_cookies_enabled()) {
+            document.location.href = '/index/nocookie';
+        }
+    </script>        
+    </head>
+<body>
+<div id='home'>
+<div id='left-column'>
+<div class='content'>
+<img alt="Mediassist-logo" src="/images/logo/logo-shmart.png" style="border-color: #000000; border: 2px;" />
+<p class='leading'>
+TranServ was formed with the primary objective to offer end to end Prepaid Program Management Service using Cards and Mobile Technology. 
+<br>
+<br>
+</p>
+</div>
+<div class='footer'>
+<a href="mailto:admin@shmart.in">admin@shmart.in</a>
+&nbsp;&nbsp;&nbsp;&nbsp; Call  (022) 67304948
+</div>
+</div>
+<div id='right-column'>
+<div class='content'>
+<div id='login-box'>
+<div class='vertical-1'>
+                <?php echo $this->flashMessenger();?>
+            <?php echo $this->layout()->content;?>
+
+</div>
+
+</div>
+</div>
+
+<div class='footer'>
+<ul>
+<li>
+<a href="#">About</a>
+</li>
+<li>
+<a href="#">Terms and conditions</a>
+</li>
+<li>
+<a href="#">Privacy</a>
+</li>
+<li>
+<a href="#">Disclaimer</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<div class="Boldtext">Manual Rejection</div>
+
+
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form; ?>
+
+
+<script>
+$(document).ready(function() {
+$('form').submit(function(){
+     var utr = $("#utr").val(); 
+     var txncode = $("#txn_code").val(); 
+     var rejCode = $("#rejection_code").val(); 
+     var rejReason = $("#rejection_remark").val(); 
+     if((utr == '') && (txncode == '') ){
+         alert('Please fill either UTR or Txn Code');
+         return false;
+     }
+     
+    return true;
+    });  
+
+
+
+});
+</script>

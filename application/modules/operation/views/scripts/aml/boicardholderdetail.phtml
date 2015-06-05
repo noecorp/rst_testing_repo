@@ -1,0 +1,165 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+
+// messages
+$config['addMessage'] = 'Boi CardHolder Details';
+
+$config['emptyMessage'] = 'No record(s) found';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Full Name',
+    'Fake Names',
+);
+
+$config['columnIndexes'] = array(
+    'first_name',
+    'full_name',
+    'fake_names',
+);
+
+$config['agentColumnNames'] = array(
+    'Name',
+    'Email',
+    'Registration Date',
+    'Status'
+);
+
+$config['agentColumnIndexes'] = array(
+    'Name',
+    'Card No.',
+    'Member Id',
+    'Mobile No.',
+    'Registration Date',
+    'Status'
+);
+?>
+
+<div class="Boldtext"><?php echo $config['addMessage']; ?></div>
+<div class="filterbox"> 
+    <div style="width:950px;">
+        <a href="<?php echo $this->formatURL('/aml/boicardholders'); ?>" class="ocean" style="float:right;" title="Back">Back</a>
+    </div>
+</div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+        <table width="950" cellspacing='0'>
+            <thead><!-- universal table heading --> 
+                <tr>
+<?php /* * ******** display the column names ********* */ ?>
+<?php foreach ($config['agentColumnIndexes'] as $columnName) : ?>
+                        <th><span><?php echo $columnName; ?></span></th>
+                    <?php endforeach; ?>
+                    <?php /********* finished displaying the column names ********* */ ?>
+
+                </tr> 
+            </thead>
+            <tbody>
+
+            <?php /********** do we have items? ********* */ ?>
+            <?php if (count($this->cardholder)) : ?>
+                    <?php /********* we do! start displaying the items ********* */ ?>
+                    <tr>
+                        <td><?php echo $this->cardholder['name']; ?></td>
+                        <td><?php echo $this->cardholder['card_number']; ?></td>
+                        <td><?php echo $this->cardholder['member_id']; ?></td>
+                        <td><?php echo $this->cardholder['mobile']; ?></td>
+                        <td><?php echo $this->cardholder['date_created']; ?></td>
+                        <td><?php
+                            if ($this->cardholder['is_aml']) {
+                                if ($this->cardholder['status'] == "active") {
+                                    echo '<a href="' . $this->formatURL('/aml/boicardholderdetail?status=inactive&id=' . $this->cardholder['id']) . '" title="Inactive">Inactive</a>';
+                                } else {
+                                    echo '<a href="' . $this->formatURL('/aml/boicardholderdetail?status=active&id=' . $this->cardholder['id']) . '" title="Active">Active</a>';
+                                }
+                            } else {
+                                echo $this->cardholder['status'];
+                            }
+                        ?>
+                        </td>
+                    </tr>
+
+                    <?php /********* finished displaying the items ********* */ ?>
+                <?php else: ?>
+                    <?php /********* we don't have any items ********* */ ?>
+                    <tr>
+                        <td colspan="<?php echo count($config['columnIndexes']) + 3; ?>">
+                            <?php echo $config['emptyMessage']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php /********* finished do we have items? ********* */ ?>
+            </tbody> 
+        </table>
+    </div>
+</div>
+</div>
+<div class="Boldtext">AML Matched records</div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+        <table width="950" cellspacing='0'>
+
+            <thead><!-- universal table heading --> 
+                <tr>
+                    <?php
+                    /********* display the column names ********* */
+                    $cntColNames = 0;
+                    ?>
+                    <?php foreach ($config['columnNames'] as $columnName) : ?>
+                        <th><span><?php echo $columnName; ?></span></th>
+                        <?php
+                        $cntColNames++;
+                    endforeach;
+                    ?>
+                </tr> 
+            </thead>
+            <tbody>
+
+                <?php /*                 * ******** do we have items? ********* */
+                ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /*                     * ******** we do! start displaying the items ********* */ ?>
+                    <?php foreach ($this->paginator as $item) : ?>
+
+                        <tr>
+
+                            <?php /********* displaying the inner columns ********* */
+                            ?>
+                            <td><?php echo $item[$config['columnIndexes'][0]]; ?></td>
+                            <td><?php echo $item[$config['columnIndexes'][1]]; ?></td>
+                            <td style="text-align: left;"><?php echo $this->amlMater->getFakenames($item[$config['columnIndexes'][2]]); ?></td>
+
+                            <?php /********** finished displaying the inner columns ********* */ ?>
+                        </tr>    
+                        <?php endforeach; ?>
+                    <?php /********** finished displaying the items ********* */ ?>
+                <?php else: ?>
+                    <?php /********* we don't have any items ********* */ ?>
+                    <tr>
+                        <td colspan="<?php echo $cntColNames + 2; ?>">
+                            <?php echo $config['emptyMessage']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php /********* finished do we have items? ********* */ ?>
+            </tbody> 
+        </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+<?php if (count($this->paginator) > 0) { ?>
+<div class="pagination">
+<?php if ($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    <?php echo $this->paginator; ?>
+<?php endif; ?>
+</div>
+<?php } ?>

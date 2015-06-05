@@ -1,0 +1,311 @@
+<div class="Boldtext">Remittance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+if($this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Transaction Date',
+    'Super Distributor Code',
+    'Super Distributor Name',
+    'Distributor Code',
+    'Distributor Name',
+    'Agent Code',
+    'Agent Mobile Number',
+    'Agent Email ID',
+    'Agent Name',
+    'Agent City',
+    'Agent Pincode',
+    'Transaction Code',
+    'Transaction Amount',
+    'Customer Mobile Number',
+    'Transaction Reference Number', 
+    'Refund/Reversed Trx Ref Number',
+    'Remitter Name',
+    'Remitter Mobile Number',
+    'Remitter Email',
+    'Remitter Registration Date',
+    'Bene Name',
+    'Bene Bank Name',
+    'Bene IFSC Code', 
+    'Beneficiary Account Number', 
+    'Current Transaction Status',
+    'Reason',
+    'Reason Code'
+);
+
+$config['columnIndexes'] = array(
+    'txn_date',
+    'agent_code',
+    'agent_name',
+    'estab_city',
+    'estab_pincode',
+    'txn_type',
+    'amount',
+    'mobile_number', 
+    'ben_account_number',
+    'txn_code',   
+    'txn_status', 
+    'sup_dist_code',
+    'sup_dist_name',
+    'dist_code',
+    'dist_name',
+    'agent_mobile',
+    'agent_email',
+    'refund_txn_code',
+    'remit_name',
+    'mobile_number',
+    'remitter_email',
+    'remit_regn_date',
+    'bene_name',
+    'bene_bankname',
+    'bene_ifsccode'
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$cntColNames = count($config['columnNames']) - 1 ;
+// render the default listing
+/*echo $this->partial(
+    'partials/report-agent-load-reload.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);*/
+
+
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+               
+                    //foreach($dateArr as $item) : 
+		    $tnxCode = $item['txn_type'];
+                    $item['txn_type'] = isset($TXN_TYPE_LABELS[$tnxCode])?$TXN_TYPE_LABELS[$tnxCode]:''; 
+                ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+			<td><?php echo $item['txn_date'];?></td>
+			<td><?php echo $item['sup_dist_code'];?></td>
+			<td><?php echo $item['sup_dist_name'];?></td>
+			<td><?php echo $item['dist_code'];?></td>
+			<td><?php echo $item['dist_name'];?></td>
+                        <td><?php echo $item['agent_code'];?></td>
+			<td><?php echo $item['agent_mobile'];?></td>
+                        <td><?php echo $item['agent_email'];?></td> 
+			<td><?php echo $item['agent_name'];?></td>
+			<td><?php echo $item['estab_city'];?></td>
+			<td><?php echo $item['estab_pincode'];?></td> 
+                        <td><?php echo $item['txn_type'];?></td>
+                        <td><?php echo Util::numberFormat($item['amount']);?></td>
+                        <td><?php echo $item['mobile_number'];?></td>
+			<td><?php echo $item['txn_code'];?></td>
+			<td><?php echo $item['refund_txn_code'];?></td>
+			<td><?php echo $item['remit_name'];?></td>
+			<td><?php echo $item['mobile_number'];?></td>
+			<td><?php echo $item['remitter_email'];?></td>
+			<td><?php echo $item['remit_regn_date'];?></td>
+			<td><?php echo $item['bene_name'];?></td>
+			<td><?php echo $item['bene_bankname'];?></td>
+			<td><?php echo $item['bene_ifsccode'];?></td> 			
+                        <td><?php echo $item['ben_account_number'];?></td> 
+                        <td><?php echo ucfirst($item['txn_status']);?></td> 
+			<?php $reason = explode(')', $item['final_response']); ?>
+			<td><?php echo ltrim($reason[1]);?></td>
+			<td><?php echo str_replace('(', '', $reason[0]);?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php $datePrev = $item[$config['columnIndexes'][0]];?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+       
+            var url = '<?php echo $this->formatURL("/remit_kotak_reports/exportremittancereport?dur=".$this->formData['dur']."&bank_unicode=".$this->formData['bank_unicode']."&to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date']);?>';    
+            $(location).attr('href',url);
+       
+    });  
+     $("input#from_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter From date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid From date');
+                      this.value = '';
+                      $("#from_date").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+          
+       $("input#to_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter To date not greater than today's date");
+                this.value = '';
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid To date');
+                      this.value = '';
+                      $("#to_date").focus();
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+     $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+      /**** From and To date validation ****/
+      if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+            alert('Please select either duration or from and to date.');
+            $("#dur").focus();
+            return false;
+      } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                    alert('Please specify From date.');
+                    $("#from_date").focus();
+                    return false;
+               }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify To date.');
+                    $("#to_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   }); 
+});
+</script>

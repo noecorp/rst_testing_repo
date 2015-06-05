@@ -1,0 +1,6 @@
+<?php if($this->status == FLAG_SUCCESS){?>
+Congratulations! your registration for <?php echo $this->product_name;?> Service is complete. Contact us at <?php echo $this->call_centre_number;?> or <?php echo $this->customer_support_email;?> for assistance.
+<?php }
+else if ($this->status == FLAG_FAILURE){?>
+Dear Customer, your registration for <?php echo $this->product_name;?> Service is not successful. Please try again or contact us at <?php echo $this->call_centre_number;?> for assistance.
+<?php }

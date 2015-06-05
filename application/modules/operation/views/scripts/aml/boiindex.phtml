@@ -1,0 +1,23 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Boi</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('boiremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/boiremitters");?>' title="Boi AML Remitter">Boi AML Remitter</a>: Show AML Matched Boi Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('boibeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/boibeneficiaries");?>' title="Boi AML Beneficiaries">Boi AML Beneficiaries</a>: Show AML Matched Boi Beneficiaries.</li>
+            <div class="clear"></div> 
+          <?php }          
+           if ($helper->can('boicardholders')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/boicardholders");?>' title="Boi AML Cardholders">Boi AML Card Holders</a>: Show AML Matched Boi Cardholders.</li>
+            <div class="clear"></div> 
+          <?php } ?> 
+    </ul>
+    <div class="clear"></div>
+</div>

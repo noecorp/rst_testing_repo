@@ -1,0 +1,183 @@
+<div class="Boldtext">Download Authorized Applications</div>
+
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Download Authorized Applications';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Start Date',
+    'End Date',
+    'Comments',
+    'Download File',
+    );
+$config['columnIndexes'] = array(
+    'date_start',
+    'date_end',
+    'comment',
+    'download',
+);
+
+$cntColNames = count($config['columnNames']) ;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+<?php echo $this->form; ?> 
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+              ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][0]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][1]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><a href="<?php echo $this->formatURL('/corp_kotak_customer/authorizedapplications?id='.$item['id'].'&type=download');?>">Download</a></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {   
+       $("input#from_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter From date less than today's date"); 
+                $("#from_date").val('').focus();
+                return false;
+            }
+            else{      
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid From date');
+                        $("#from_date").val('').focus();
+                        return false;
+                    }
+                }
+
+
+        }
+        
+    });
+          
+       $("input#to_date").change(function() {
+        if(this.value) {
+            var date_start = this.value; 
+            var arr_dt = date_start.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            if(x > curdate)
+            {
+                alert("Please enter To date less than today's date");
+                $("#to_date").val('').focus(); 
+                return false;
+            }
+            else{
+            
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid To date');
+                        $("#to_date").val('').focus(); 
+                      return false;
+                    }
+                }
+
+
+        }
+        
+    });
+    $("input#sub").click(function() {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var product_id = $('#product_id').val();
+        if(product_id == '') {
+            alert('Please select Product');
+            $("#product_id").focus(); 
+            return false;
+        }
+        if(from_date == '') {
+            alert('Please enter valid From date');
+            $("#from_date").val('').focus(); 
+            return false;
+        }
+        if(to_date == '') {
+            alert('Please enter valid To date');
+            $("#to_date").val('').focus(); 
+            return false;
+        }        
+    });
+});    
+    </script>
+    

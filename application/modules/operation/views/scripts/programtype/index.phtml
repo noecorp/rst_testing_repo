@@ -1,0 +1,47 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'program Type listing';
+$config['addMessage'] = 'Add New Program Type'; 
+$config['emptyMessage'] = 'There is no Program Type at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+     'Name',
+    'Description',
+    'Value',
+    'Added By',
+    'IP',
+    'Created Date'   
+    
+);
+$config['columnIndexes'] = array(
+   'name',
+    'description',
+    'value',
+    'ops_name',
+    'ip',
+    'date_created' 
+    
+);
+//$config['viewLinkColumn'] = 'name';
+$config['showActions'] = false;
+
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

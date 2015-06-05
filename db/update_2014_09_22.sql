@@ -1,0 +1,1 @@
+ALTER TABLE `rat_beneficiaries` ADD `queryrefno` VARCHAR( 20 ) NULL DEFAULT NULL AFTER `bene_code` ;

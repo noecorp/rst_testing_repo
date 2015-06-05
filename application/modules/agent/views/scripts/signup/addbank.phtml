@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+      var ifsc =  $.trim($('#ifsc').val());
+    //$("#name").attr('readOnly', 'readOnly');
+     $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#bank_name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                           
+                            $("#bank_ifsc_code").html("");                           
+                            $("#bank_ifsc_code").append(response);
+                            $("#bank_ifsc_code option[value='"+ifsc+"']").attr("selected", "selected");
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+        $("#bank_name").change(function(){
+            $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#bank_name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            $("#bank_location").val('');  
+                            $("#bank_city").val('');  
+                            $("#bank_area").val(''); 
+                            $("#bank_ifsc_code").html("");                           
+                            $("#bank_ifsc_code").append(response);
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });  
+         $("#bank_ifsc_code").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#bank_ifsc_code").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                            
+                           
+                            $("#bank_location").val(resArr['3']);  
+                            $("#bank_city").val(resArr['1']);  
+                            $("#bank_area").val(resArr['2']);  
+                          
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });  
+    
+    
+   });  
+    
+</script>
+<?php echo Util::getAgentRegistrationAgentTab("bank", $this->agent_id); 
+
+echo $this->form;
+?>

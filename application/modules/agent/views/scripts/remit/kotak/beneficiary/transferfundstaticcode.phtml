@@ -1,0 +1,147 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+$config = array();
+?>
+<div id="msgSubmit" class="msg msg-info">
+    <p>Processing your request, please do not press refresh or back button.</p>
+</div>
+
+<?php
+// messages
+$config['pageTitle'] = 'Transfer Fund';
+
+echo $this->partial(
+        'partials/default-add-edit.phtml', array(
+    'form' => $this->form,
+    'config' => $config
+        )
+);
+
+$session = new Zend_Session_Namespace('App.Agent.Controller');
+?>
+<div class="clearboth"></div>
+<div class="tablebox">
+    <?php if (isset($this->remittanceFee)) { ?>
+        <table style="width: 96%;margin-left: 17px;">
+            <tr>
+                <th style="width:20%">Remittance Amount</th>            
+                <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->remittanceAmount, FLAG_YES); ?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Remittance Fee</th>            
+                <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->remittanceFee, FLAG_YES); ?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Total Amount to be collected from Remitter</th>            
+                <td style="width: 80%" align="left"><?php echo Util::numberFormat(($this->remittanceAmount + $this->remittanceFee), FLAG_YES); ?></td>
+            </tr>  
+
+        </table>
+    <?php } ?>
+
+    <table style="width: 96%;margin-left: 17px;">
+        <tr>
+            <th style="width:20%">Remitter Name</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['remitter_name']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Remitter Mobile</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['remitter_mobile']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Remitter Email</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['remitter_email']; ?></td>
+        </tr>  
+
+    </table>
+
+    <table style="width: 96%;margin-left: 17px;">
+
+        <tr>
+            <th style="width:20%">Beneficiary Name</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['name']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Nick Name</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['nick_name']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Bank Name</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['bank_name']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">IFSC Code</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['ifsc_code']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Account Type</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['bank_account_type']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Account No.</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['bank_account_number']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Branch Name</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['branch_name']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Branch Address</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['branch_address']; ?></td>
+        </tr>  
+        <tr>
+            <th style="width:20%">Branch City</th>            
+            <td style="width: 80%" align="left"><?php echo $this->detail['branch_city']; ?></td>
+        </tr>  
+
+    </table>
+
+</div>
+<div>&nbsp;</div> 
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        $("#msgSubmit").hide();
+        $("#submit_form").click(function() { 
+            if($("#amount").val() == '')  {
+                alert('Please enter valid amount for fund transfer') ;
+                $("#amount").focus();
+                return false;
+            }
+            $("#msgSubmit").show();        
+            $("#is_submit").val('1');
+            $("#submit_form").attr("disabled","disabled");
+            $("form").submit();
+        });
+   
+        $("#btn_auth_code").click(function() { 
+            $("#send_auth_code").val('1'); 
+            $("#is_submit").val('0');
+            $("form").submit();
+        });
+   
+    
+   
+        var fundtransfer_auth = <?php echo isset($session->fundtransfer_auth) ? $session->fundtransfer_auth : 0; ?>;
+       
+        if(fundtransfer_auth!='' && fundtransfer_auth>0){       
+         
+            $("#btn_auth_code").html('Resend Authorization Code');
+        }
+        $('form').submit(function() {
+            if($("#amount").val() == '')  {
+                alert('Please enter valid amount for fund transfer') ;
+                $("#amount").focus();
+                return false;
+            } 
+            return true;
+        });  
+    });      
+</script>
+

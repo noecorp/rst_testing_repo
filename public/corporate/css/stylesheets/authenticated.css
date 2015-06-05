@@ -1,0 +1,1479 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+
+
+ */
+/* line 19, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.f-right {
+  float: right; }
+
+/* line 23, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+html {
+  height: 100%; }
+
+/* line 27, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+body {
+  background: #fcf7f0;
+  position: relative; }
+
+/* line 33, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#wrapper {
+  min-height: 100%;
+  margin-bottom: -145px;
+  position: relative;
+  margin-bottom: 10px;
+  z-index: 3;
+  background: #fcf7f0; }
+
+/* line 42, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+h2 {
+  font-weight: 700;
+  color: #5b5349;
+  font-size: 16px; }
+
+/* line 48, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#header-wrapper {
+  width: 100%;
+  height: 72px;
+  background: #fff; }
+  /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+  #header-wrapper:after {
+    content: "";
+    display: table;
+    clear: both; }
+  /* line 54, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #header-wrapper a {
+    color: #7e776c; }
+  /* line 58, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #header-wrapper #header {
+    width: 940px;
+    margin: 0 auto; }
+    /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+    #header-wrapper #header:after {
+      content: "";
+      display: table;
+      clear: both; }
+    /* line 63, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #header-wrapper #header img {
+      margin-top: 16px;
+      float: left; }
+  /* line 69, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #header-wrapper ul.main-menu {
+    float: left;
+    height: 48px;
+    margin-top: 8px;
+    margin-left: 50px; }
+    /* line 74, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #header-wrapper ul.main-menu li {
+      margin-right: 20px;
+      text-align: center;
+      padding-top: 3px; }
+      /* line 79, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #header-wrapper ul.main-menu li a {
+        display: block;
+        border-radius: 6px;
+        padding: 5px 12px;
+        padding-top: 13px;
+        height: 100%; }
+        /* line 85, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+        #header-wrapper ul.main-menu li a:hover, #header-wrapper ul.main-menu li a.active {
+          color: #00aeef;
+          text-decoration: none; }
+        /* line 89, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+        #header-wrapper ul.main-menu li a i {
+          clear: both;
+          display: block;
+          text-align: center;
+          margin: 0 auto;
+          height: 20px; }
+        /* line 96, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+        #header-wrapper ul.main-menu li a i.icon-vas {
+          margin-top: -3px;
+          height: 23px; }
+  /* line 104, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #header-wrapper ul.side-menu {
+    float: right;
+    margin-top: 10px;
+    padding-left: 18px;
+    height: 54px;
+    border-left: 1px solid #eee4d8; }
+    /* line 110, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #header-wrapper ul.side-menu .active {
+      color: #00aeef; }
+    /* line 113, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #header-wrapper ul.side-menu li {
+      margin-top: 7px;
+      margin-bottom: 3px;
+      clear: both; }
+      /* line 117, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #header-wrapper ul.side-menu li i.icon-settings, #header-wrapper ul.side-menu li i.icon-logout {
+        float: left;
+        margin-right: 6px;
+        width: 15px;
+        margin-bottom: 3px; }
+      /* line 123, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #header-wrapper ul.side-menu li a:hover {
+        text-decoration: none;
+        color: #00aeef; }
+
+/* line 131, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#subheader-wrapper {
+  width: 100%;
+  border-top: 5px solid #fcf7f0;
+  /*border-bottom: 4px solid $dark-orange;*/
+  padding-bottom: 5px;
+  background: #f7a03d;
+  clear: both;
+  float: left;
+  margin-bottom: 50px;
+  margin-top: 5px; }
+  /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+  #subheader-wrapper:after {
+    content: "";
+    display: table;
+    clear: both; }
+  /* line 143, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #subheader-wrapper #subheader {
+    width: 940px;
+    margin: 0 auto; }
+    /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+    #subheader-wrapper #subheader:after {
+      content: "";
+      display: table;
+      clear: both; }
+    /* line 148, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #subheader-wrapper #subheader ul {
+      float: left;
+      overflow: hidden;
+      height: 34px; }
+      /* line 153, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #subheader-wrapper #subheader ul li a {
+        height: 9px;
+        margin-top: -4px;
+        display: inline-block;
+        margin-right: 25px;
+        padding: 12px 10px;
+        padding-top: 17px;
+        color: #fff;
+        text-decoration: none; }
+        /* line 162, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+        #subheader-wrapper #subheader ul li a:hover, #subheader-wrapper #subheader ul li a.active {
+          background: #fff;
+          border-radius: 4px;
+          color: #7e776c; }
+
+/* line 173, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#main {
+  clear: both;
+  background: #fcf7f0;
+  width: 940px;
+  margin: 0 auto;
+  margin-top: 40px; }
+  /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+  #main:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+/* line 182, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.filters {
+  clear: both;
+  float: left;
+  width: 256px; }
+  /* line 187, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filters h2 {
+    margin-bottom: 11px; }
+
+/* line 192, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.filter-body {
+  display: block;
+  padding: 13px 0;
+  background: #fff;
+  width: 255px;
+  border: 1px solid #eee4d8;
+  border-radius: 6px; }
+  /* line 200, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body h3 {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #5b5349; }
+    /* line 210, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body h3.amount {
+      margin-top: 10px; }
+  /* line 215, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body hr {
+    clear: both;
+    float: left;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #eee4d8;
+    margin-top: 18px;
+    margin-bottom: 0px; }
+  /* line 225, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body .filter-content {
+    padding: 0 13px; }
+  /* line 229, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body .control-block {
+    float: left;
+    width: 100px;
+    color: #7e776c; }
+    /* line 235, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block label {
+      font-size: 13px;
+      color: #7e776c; }
+    /* line 240, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block input {
+      float: left;
+      margin-top: 5px;
+      width: 95px;
+      height: 15px; }
+  /* line 248, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body .separator {
+    float: left;
+    margin-top: 22px;
+    margin-left: 10px;
+    margin-right: 10px; }
+  /* line 255, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body .control-block.transaction-filter {
+    width: 100%;
+    padding-top: 18px; }
+    /* line 258, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.transaction-filter input {
+      float: left;
+      width: auto;
+      cursor: pointer; }
+    /* line 263, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.transaction-filter label {
+      float: left;
+      color: #5b5349;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: auto;
+      padding-top: 4px;
+      padding-left: 5px;
+      margin-right: 30px; }
+    /* line 274, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.transaction-filter label:last-child {
+      margin-right: 0px; }
+  /* line 279, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .filter-body .control-block.date-filter {
+    width: 102px; }
+    /* line 285, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.date-filter label {
+      display: block; }
+    /* line 288, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.date-filter input {
+      font-size: 10px;
+      width: 64px;
+      clear: both; }
+    /* line 293, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .filter-body .control-block.date-filter i.icon-calendar {
+      float: left;
+      margin-top: 10px;
+      margin-left: 10px; }
+
+/* line 301, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.table-block {
+  float: left;
+  width: 654px;
+  margin-left: 30px; }
+
+/* line 307, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.statement-options {
+  float: right;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  font-size: 12px; }
+  /* line 313, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statement-options i {
+    float: left;
+    margin-right: 7px; }
+  /* line 318, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statement-options a, .statement-options input[type='submit'] {
+    float: left;
+    line-height: 16px; }
+  /* line 323, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statement-options input[type='submit'].print-link {
+    background: none;
+    color: #f7a03d;
+    padding: 0px;
+    margin-top: 0px; }
+    /* line 328, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statement-options input[type='submit'].print-link:hover {
+      text-decoration: underline; }
+  /* line 333, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statement-options .download-link {
+    margin-right: 25px; }
+
+/* line 339, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#footer-wrapper {
+  background: #fff;
+  width: 100%;
+  height: 43px;
+  border-top: 1px solid #eee4d8;
+  border-bottom: 1px solid #eee4d8;
+  font-size: 11px;
+  margin-top: 10px;
+  overflow: hidden; }
+  /* line 349, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #footer-wrapper #footer {
+    width: 940px;
+    margin: 0 auto;
+    padding: 16px 0;
+    line-height: 17px;
+    color: #ada9a1; }
+    /* line 357, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #footer-wrapper #footer a {
+      color: #ada9a1; }
+      /* line 359, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #footer-wrapper #footer a:hover {
+        color: #e97e04;
+        text-decoration: none; }
+    /* line 365, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #footer-wrapper #footer li {
+      margin-right: 26px; }
+    /* line 369, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #footer-wrapper #footer li:last-child {
+      margin-right: 0px; }
+    /* line 373, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #footer-wrapper #footer ul.left-subfooter {
+      float: left; }
+      /* line 376, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #footer-wrapper #footer ul.left-subfooter li i.icon-shmartpay {
+        margin-top: -2px; }
+    /* line 382, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    #footer-wrapper #footer ul.right-subfooter {
+      float: right; }
+      /* line 384, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      #footer-wrapper #footer ul.right-subfooter li {
+        margin-right: 12px; }
+
+/* line 392, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.rounded-block-wrapper {
+  float: left;
+  margin-bottom: 33px;
+  margin-right: 25px;
+  height: 39px;
+  border-radius: 6px;
+  border: 1px solid #eee4d8;
+  text-align: center;
+  overflow: hidden;
+  width: 235px; }
+
+/* line 404, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.rounded-block-left {
+  padding: 13px 0px;
+  width: 139px;
+  background: red;
+  float: left;
+  background: #eaddcc;
+  color: #5b5349;
+  width: 139px; }
+
+/* line 414, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.rounded-block-right {
+  padding: 13px 0px;
+  height: 100%;
+  width: 96px;
+  float: left;
+  width: 96px;
+  background: #fff;
+  font-size: 14px;
+  color: #7e776c;
+  font-weight: 600; }
+
+/* line 426, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.top-description {
+  display: inline-block;
+  font-size: 12px;
+  color: #5b5349;
+  margin-top: 13px;
+  margin-left: 30px; }
+
+/* line 434, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+table {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #dad1c6;
+  border-radius: 6px; }
+  /* line 440, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  table th, table td {
+    overflow: hidden;
+    padding: 12px 8px;
+    height: 42px -30px; }
+  /* line 446, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  table thead th {
+    background: #eaddcc;
+    color: #5b5349;
+    font-weight: 600;
+    border: 1px solid #dad1c6; }
+  /* line 453, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  table td {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    border: 1px solid #eee4d8; }
+  /* line 460, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  table tr {
+    color: #7e776c;
+    background: #fff; }
+    /* line 463, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    table tr:hover {
+      background: #f7a03d !important;
+      color: #fff; }
+      /* line 466, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      table tr:hover a {
+        color: #fff; }
+
+/* line 480, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+td.number {
+  text-align: right; }
+
+/* line 484, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.table-wrapper {
+  border-radius: 8px;
+  -webkit-background-clip: padding-box;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 100px; }
+
+/* line 492, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.last-signed-in {
+  float: right;
+  font-size: 12px;
+  color: #5b5349;
+  margin-top: -15px; }
+
+/* line 499, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.dashboard {
+  clear: both;
+  margin-left: 0px;
+  width: 594px; }
+  /* line 503, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .dashboard h2 {
+    margin-bottom: 12px; }
+
+/* line 518, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.pending-bills {
+  float: right;
+  width: 289px; }
+  /* line 522, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .pending-bills h2 {
+    margin-bottom: 12px;
+    margin-left: 0px; }
+  /* line 526, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .pending-bills ul {
+    border-radius: 6px;
+    border: 1px solid #eee4d8;
+    width: 289px;
+    background: #fff;
+    text-align: left; }
+    /* line 533, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .pending-bills ul li {
+      width: 259px;
+      padding: 15px;
+      border-bottom: 1px solid #eee4d8; }
+      /* line 537, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li .title {
+        display: inline-block;
+        margin-bottom: 10px; }
+      /* line 543, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li .detail_line {
+        margin-bottom: 15px;
+        color: #7e776c; }
+        /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+        .pending-bills ul li .detail_line:after {
+          content: "";
+          display: table;
+          clear: both; }
+      /* line 549, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li strong {
+        font-weight: 700;
+        font-size: 13px;
+        color: #7e776c; }
+      /* line 555, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li small {
+        font-size: 11px;
+        color: #ada9a1;
+        line-height: 30px; }
+      /* line 561, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li .left-block {
+        float: left;
+        display: inline-block; }
+      /* line 566, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .pending-bills ul li .right-block {
+        float: right;
+        display: inline-block; }
+
+/* line 575, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.bill-payment {
+  margin-left: 0; }
+  /* line 577, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .bill-payment h2 {
+    margin-bottom: 12px; }
+  /* line 581, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .bill-payment .right {
+    float: right; }
+  /* line 585, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .bill-payment td .button {
+    line-height: 10px;
+    margin-top: -4px;
+    margin-bottom: -4px; }
+
+/* line 592, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.all-billers {
+  width: 450px; }
+  /* line 595, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .all-billers .action {
+    width: 175px; }
+
+/* line 600, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.single-biller {
+  width: 550px; }
+  /* line 602, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .single-biller .added-on {
+    color: #7e776c;
+    margin-bottom: 20px;
+    float: left; }
+  /* line 608, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .single-biller .button {
+    margin-top: -12px;
+    margin-left: 5px;
+    float: right; }
+
+/* line 615, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.payment-history {
+  width: 728px; }
+  /* line 617, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .payment-history .description {
+    width: 220px; }
+
+/* line 622, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.clear-both {
+  clear: both; }
+
+/* line 626, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.statements {
+  clear: both;
+  margin-top: 18px;
+  border-radius: 6px;
+  border: 1px solid #eee4d8;
+  background: #fff;
+  width: 309px;
+  float: left; }
+  /* line 635, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statements ul:first-child {
+    float: left;
+    border-bottom: 1px solid #dad1c6;
+    overflow: hidden;
+    height: 45px;
+    width: 100%;
+    border-radius: 6px 6px 0 0; }
+    /* line 642, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statements ul:first-child li {
+      font-weight: 600;
+      width: 103px;
+      font-size: 13px;
+      color: #5b5349;
+      text-align: center; }
+      /* line 648, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .statements ul:first-child li a {
+        width: 100%;
+        float: left;
+        line-height: 50px;
+        color: #5b5349;
+        height: 45px;
+        text-decoration: none; }
+        /* line 655, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+        .statements ul:first-child li a:hover, .statements ul:first-child li a.active {
+          background: #f7a03d;
+          color: #fff; }
+  /* line 663, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .statements .tab-body {
+    float: left;
+    padding: 25px;
+    width: 259px; }
+    /* line 668, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statements .tab-body select {
+      width: 120px;
+      height: 30px;
+      float: left; }
+    /* line 674, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statements .tab-body .second-select {
+      float: right; }
+    /* line 678, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statements .tab-body ul.download-options {
+      margin-top: 25px;
+      clear: both;
+      float: left;
+      border-radius: 6px; }
+      /* line 683, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+      .statements .tab-body ul.download-options li {
+        clear: both;
+        margin-bottom: 10px;
+        color: #e97e04; }
+    /* line 690, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .statements .tab-body .quarterly, .statements .tab-body .yearly {
+      display: none; }
+
+/* line 696, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.add-funds-wrapper {
+  clear: both;
+  margin-top: 50px;
+  border-radius: 6px;
+  border: 1px solid #eee4d8;
+  width: 330px;
+  overflow: hidden; }
+  /* line 704, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper .add-funds-header {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee4d8;
+    font-weight: 600;
+    font-size: 13px;
+    color: #5b5349;
+    background: #eaddcc; }
+  /* line 715, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper .add-funds-body {
+    background: #fff;
+    padding: 20px; }
+  /* line 720, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper .row {
+    float: left;
+    clear: both;
+    margin-bottom: 30px; }
+  /* line 726, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper label {
+    width: 65px;
+    float: left;
+    padding-top: 13px; }
+  /* line 732, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper p {
+    font-size: 12px;
+    color: #ada9a1;
+    text-align: center;
+    margin-bottom: 13px;
+    clear: both; }
+  /* line 740, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .add-funds-wrapper hr {
+    border: 0;
+    border-bottom: 1px solid #eee4d8; }
+
+/* line 746, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.step-bar {
+  float: left;
+  text-align: center;
+  margin: 22px auto;
+  margin-left: 250px; }
+  /* line 752, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .step-bar li {
+    color: #00aeef;
+    font-weight: 600;
+    font-size: 16px; }
+  /* line 758, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .step-bar li.text {
+    padding-top: 3px; }
+  /* line 762, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .step-bar li.line {
+    width: 50px;
+    border: 0;
+    border-bottom: 1px solid #00aeef;
+    padding-top: 13px; }
+  /* line 769, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .step-bar li.step-circle {
+    background: #fff;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-top: -6px;
+    border-radius: 30px;
+    border: 2px solid #00aeef;
+    color: #00aeef; }
+    /* line 780, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .step-bar li.step-circle.complete {
+      background: #00aeef;
+      color: #fff; }
+
+/* line 788, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-1-wrapper {
+  margin: 80px auto;
+  padding: 30px 25px;
+  width: 340px;
+  border-radius: 6px;
+  background: #fff;
+  border: 2px solid #eee4d8;
+  padding-bottom: 10px; }
+  /* line 789, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper h2 {
+    font-weight: 400;
+    font-size: 12px; }
+  /* line 794, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper ul {
+    margin-top: 10px;
+    width: 320px;
+    background: #fcf7f0;
+    border-radius: 6px;
+    padding: 10px;
+    line-height: 18px;
+    margin-bottom: 30px; }
+  /* line 811, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper h3 {
+    font-size: 16px;
+    padding-bottom: 30px; }
+  /* line 816, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper .row {
+    clear: both;
+    margin-bottom: 15px; }
+  /* line 821, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper i {
+    margin-right: 5px; }
+  /* line 825, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper label {
+    float: left;
+    padding-top: 12px;
+    color: #5b5349;
+    width: 120px; }
+  /* line 832, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper label.error {
+    color: red;
+    float: right;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: right; }
+  /* line 840, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-1-wrapper button {
+    margin-top: 15px; }
+
+/* line 845, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-2-wrapper {
+  margin: 0px auto;
+  width: 620px; }
+  /* line 850, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper h3 {
+    font-size: 16px;
+    text-align: left;
+    padding-bottom: 30px;
+    margin-top: 50px; }
+  /* line 857, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper .apply-2-block {
+    padding-top: 40px;
+    padding-bottom: 25px;
+    border-radius: 6px;
+    background: #fff;
+    border: 2px solid #eee4d8;
+    padding-bottom: 40px; }
+    /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+    .apply-2-wrapper .apply-2-block:after {
+      content: "";
+      display: table;
+      clear: both; }
+    /* line 866, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block .col-1, .apply-2-wrapper .apply-2-block .col-2 {
+      width: auto;
+      float: left;
+      height: 124px;
+      padding-left: 40px;
+      padding-right: 40px; }
+    /* line 874, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block .col-1 {
+      border-right: 1px solid #dad1c6;
+      width: auto; }
+    /* line 879, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block .row {
+      clear: both;
+      margin-bottom: 15px; }
+    /* line 884, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block i {
+      margin-right: 5px; }
+    /* line 888, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block label {
+      float: left;
+      padding-top: 12px;
+      color: #5b5349;
+      width: 120px; }
+    /* line 895, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block label.error {
+      clear: both;
+      width: 100%;
+      margin-top: -17px;
+      margin-bottom: 10px;
+      color: red; }
+    /* line 903, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .apply-2-block button {
+      margin-top: 15px; }
+  /* line 908, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper .top-row {
+    font-size: 13px;
+    font-weight: 600; }
+    /* line 912, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-2-wrapper .top-row .badge {
+      margin-right: 15px;
+      margin-top: -5px; }
+  /* line 918, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper p {
+    clear: both;
+    color: #ada9a1;
+    margin-top: 20px;
+    display: block;
+    margin-bottom: 10px; }
+  /* line 926, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper input[type='text'] {
+    margin-bottom: 10px; }
+  /* line 930, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-2-wrapper input {
+    float: left;
+    display: block;
+    clear: both; }
+
+/* line 940, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+h3 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #5b5349; }
+
+/* line 946, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+button.light {
+  background: #a69f93; }
+
+/* line 950, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-3-wrapper {
+  width: 100%;
+  overflow: none;
+  min-height: 700px; }
+  /* line 955, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5b5349;
+    margin-bottom: 33px;
+    margin-top: 15px; }
+  /* line 964, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .first-form .col-1 {
+    float: left;
+    width: 350px; }
+  /* line 969, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .first-form .col-2 {
+    float: right; }
+  /* line 973, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .first-form label {
+    color: #7e776c;
+    width: 100px;
+    float: left;
+    font-size: 13px; }
+  /* line 981, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .second-form {
+    clear: both;
+    float: left;
+    margin-top: 25px;
+    background: #fff;
+    padding: 35px;
+    border-radius: 8px;
+    border: 1px solid #eee4d8; }
+    /* line 990, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-3-wrapper .second-form .col-1, .apply-3-wrapper .second-form .col-2 {
+      float: left;
+      color: #7e776c;
+      width: 323px;
+      margin-right: 80px; }
+    /* line 997, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-3-wrapper .second-form .col-2 {
+      float: right; }
+    /* line 1000, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-3-wrapper .second-form label {
+      float: left;
+      padding-top: 10px;
+      color: #7e776c;
+      width: 111px; }
+    /* line 1007, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-3-wrapper .second-form label.error {
+      color: red;
+      float: right;
+      margin-bottom: 20px;
+      width: 100%;
+      text-align: right; }
+  /* line 1016, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .row {
+    margin-bottom: 12px;
+    float: left; }
+  /* line 1021, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .row.button {
+    margin-top: 0px; }
+  /* line 1025, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-3-wrapper .row.instructional-text {
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+    color: #7e776c;
+    font-size: 11px; }
+
+/* line 1034, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.form {
+  clear: both;
+  float: left;
+  margin-top: 25px;
+  background: #fff;
+  padding: 35px;
+  border-radius: 8px;
+  border: 1px solid #eee4d8; }
+  /* line 1043, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form .col-1, .form .col-2 {
+    float: left;
+    margin-right: 80px; }
+  /* line 1048, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form .col-2 {
+    float: right; }
+  /* line 1051, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form label {
+    float: left;
+    padding-top: 10px;
+    color: #7e776c;
+    width: 111px; }
+  /* line 1058, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form .row {
+    margin-bottom: 12px;
+    clear: both;
+    float: left; }
+  /* line 1064, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form .row.instructional-text {
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+    color: #7e776c;
+    font-size: 11px; }
+
+/* line 1074, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper .row.button {
+  padding-top: 20px; }
+/* line 1078, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper .row {
+  margin-bottom: 20px; }
+/* line 1082, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper input.datepicker {
+  height: 15px;
+  float: left;
+  width: 100px;
+  margin-right: 10px; }
+/* line 1089, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper input[type='file'] {
+  margin-top: 10px; }
+/* line 1093, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper i.icon-calendar {
+  float: left;
+  margin-top: 5px; }
+/* line 1098, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper select {
+  margin-top: 10px;
+  margin-right: 30px; }
+/* line 1103, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper label.error {
+  float: right;
+  clear: both;
+  width: 100%;
+  text-align: right;
+  color: red; }
+/* line 1111, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper small {
+  font-size: 11px;
+  margin-top: -10px;
+  float: left;
+  color: #aaaaaa; }
+/* line 1119, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper .checkbox-accept label.error {
+  float: left;
+  text-align: left;
+  margin-top: -10px;
+  position: relative;
+  z-index: 10; }
+/* line 1129, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-4-wrapper input[type='file'].error {
+  border-radius: 4px; }
+
+/* line 1135, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.apply-5-wrapper {
+  margin: 0px auto;
+  width: 550px;
+  margin-top: 80px; }
+  /* line 1141, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-5-wrapper h3 {
+    font-size: 16px;
+    text-align: left;
+    float: left;
+    line-height: 30px;
+    padding-bottom: 30px; }
+  /* line 1149, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-5-wrapper .apply-5-block {
+    border-radius: 6px;
+    background: #fff;
+    border: 2px solid #eee4d8;
+    padding: 30px; }
+    /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+    .apply-5-wrapper .apply-5-block:after {
+      content: "";
+      display: table;
+      clear: both; }
+    /* line 1156, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-5-wrapper .apply-5-block .row {
+      clear: both;
+      margin-bottom: 15px; }
+    /* line 1161, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-5-wrapper .apply-5-block i {
+      float: left;
+      margin-right: 10px; }
+  /* line 1168, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-5-wrapper .top-row {
+    font-size: 13px;
+    font-weight: 600; }
+    /* line 1172, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .apply-5-wrapper .top-row .badge {
+      margin-right: 15px;
+      margin-top: -5px; }
+  /* line 1178, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .apply-5-wrapper p {
+    clear: both;
+    color: #ada9a1;
+    margin-top: 20px;
+    display: block;
+    line-height: 21px;
+    margin-bottom: 10px; }
+
+/* line 1189, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.row.button {
+  clear: both;
+  margin-top: 0px; }
+
+/* line 1194, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.badge {
+  background: #ffc257;
+  padding: 7px 7px 5px 7px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  float: left;
+  border-radius: 4px; }
+
+/* line 1204, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.badge.success {
+  background: #98c44c; }
+
+/******************************************************/
+/* line 1211, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.download-statements {
+  background: #fff; }
+  /* line 1213, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements i.icon-mediassist, .download-statements i.icon-shmartpay, .download-statements i.icon-ratnakar-bank {
+    margin-top: 25px; }
+  /* line 1217, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements i.icon-shmartpay, .download-statements i.icon-ratnakar-bank {
+    float: right;
+    margin-left: 30px; }
+  /* line 1222, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements #header-wrapper {
+    background: #fcf7f0;
+    border-bottom: 1px solid #eee4d8; }
+  /* line 1227, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements #main {
+    background: none; }
+  /* line 1231, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements .table-block {
+    width: 100%; }
+  /* line 1235, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements th.date {
+    width: 150px; }
+  /* line 1239, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements th.time {
+    width: 100px; }
+  /* line 1243, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements th.credit {
+    width: 80px; }
+  /* line 1247, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements th.debit {
+    width: 80px; }
+  /* line 1251, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements .rounded-block {
+    float: right;
+    margin-bottom: 33px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #eee4d8;
+    width: 279px; }
+    /* line 1259, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-block .row {
+      width: 100%;
+      float: left;
+      border-top: 1px solid #eee4d8; }
+    /* line 1265, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-block .row:first-child {
+      border-top: none; }
+    /* line 1269, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-block .col-1, .download-statements .rounded-block .col-2 {
+      background: #eaddcc;
+      width: 139px;
+      float: left;
+      color: #5b5349;
+      padding: 13px 10px;
+      font-weight: 600; }
+    /* line 1278, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-block .col-2 {
+      width: 100px;
+      color: #7e776c;
+      background: #fff;
+      font-weight: 400; }
+  /* line 1286, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .download-statements .rounded-info-block {
+    float: left;
+    margin-bottom: 33px;
+    border-radius: 6px;
+    border: 1px solid #eee4d8;
+    margin-right: 25px;
+    width: 279px;
+    min-height: 178px; }
+    /* line 1295, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-info-block .title {
+      padding: 16px 10px;
+      margin-bottom: 25px;
+      font-weight: 600;
+      color: #5b5349;
+      background: #eaddcc; }
+    /* line 1303, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-info-block .col-1 {
+      float: left;
+      width: 50px;
+      margin-right: 34px;
+      font-weight: 600; }
+    /* line 1310, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-info-block .col-2 {
+      float: left;
+      width: 160px; }
+    /* line 1315, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+    .download-statements .rounded-info-block .row {
+      width: 100%;
+      clear: both;
+      line-height: 17px;
+      padding: 16px;
+      padding-bottom: 20px;
+      padding-top: 0px;
+      color: #7e776c;
+      float: left; }
+
+/* line 1330, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.settings {
+  width: 375px; }
+  /* line 1333, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings .tab-body {
+    width: 100%; }
+  /* line 1337, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings h2 {
+    margin-top: 10px;
+    margin-bottom: 20px; }
+  /* line 1342, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings #flash-messages #flash-notice {
+    float: left !important;
+    width: 366px !important;
+    margin-top: 16px !important;
+    background: #ff5151 !important;
+    color: #fff !important; }
+  /* line 1350, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings label.error {
+    color: red;
+    margin-right: 65px;
+    float: right;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: right; }
+  /* line 1359, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings .row {
+    width: 100%;
+    margin-bottom: 20px; }
+    /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+    .settings .row:after {
+      content: "";
+      display: table;
+      clear: both; }
+  /* line 1366, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings label {
+    width: 100px;
+    padding-top: 10px; }
+  /* line 1371, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings input[type='text'], .settings input[type='password'] {
+    float: left; }
+  /* line 1376, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings ul.tab-menu li {
+    width: 50%; }
+  /* line 1381, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings .hide-at-start {
+    display: none; }
+  /* line 1385, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .settings p {
+    color: #5b5349;
+    line-height: 21px;
+    text-align: center; }
+
+/* line 1393, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.payments a.button {
+  float: right;
+  margin-top: -30px;
+  margin-bottom: 25px; }
+
+/* line 1400, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+label {
+  color: #5b5349;
+  line-height: 18px;
+  width: 43px;
+  display: inline-block; }
+
+/* line 1408, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+label.double {
+  padding-top: 0px; }
+
+/* line 1412, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+p {
+  line-height: 17px; }
+
+/* line 1416, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+strong {
+  font-weight: 600; }
+
+/* line 1426, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.status_success {
+  color: green; }
+
+/* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+/* line 1436, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.left_block {
+  float: left;
+  clear: both; }
+
+/* line 1441, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.right_block {
+  float: right; }
+
+/* line 1448, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.action_block h2 {
+  margin-bottom: 12px;
+  float: left; }
+/* line 1454, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.action_block .action_block_wrapper {
+  border: 1px solid #dad1c6;
+  border-radius: 6px;
+  width: 300px; }
+/* line 1460, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.action_block .action_header {
+  padding: 12px 8px;
+  background: #eaddcc;
+  color: #5b5349;
+  font-weight: 600; }
+/* line 1467, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.action_block .action_form_container {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px; }
+
+/* line 1476, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.form_group {
+  padding-bottom: 7px;
+  padding-top: 7px; }
+  /* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+  .form_group:after {
+    content: "";
+    display: table;
+    clear: both; }
+  /* line 1481, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .form_group label {
+    padding-right: 5px;
+    cursor: pointer;
+    width: 55px; }
+
+/* line 1494, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.med_width {
+  width: 180px; }
+
+/* line 1499, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #eee4d8;
+  margin: 10px 0; }
+
+/* line 1507, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.action_link {
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #f7a03d;
+  cursor: pointer; }
+
+/* line 1518, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.table-block h2 {
+  float: left; }
+
+/* line 1526, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.emp_action a {
+  margin-right: 5px;
+  margin-left: 5px;
+  color: #7e776c;
+  text-decoration: underline;
+  cursor: pointer; }
+
+/* line 3, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/_clearfix.css.scss */
+#dashboard_page_container:after {
+  content: "";
+  display: table;
+  clear: both; }
+/* line 1539, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#dashboard_page_container .dashboard {
+  width: 100%; }
+
+/* line 1545, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.info_text {
+  text-align: center;
+  font-size: 12px;
+  color: #7e776c;
+  padding: 5px 0; }
+
+/* line 1555, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#add_funds_page_container .action_block_wrapper {
+  width: 400px; }
+  /* line 1558, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #add_funds_page_container .action_block_wrapper label {
+    width: 80px; }
+  /* line 1562, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #add_funds_page_container .action_block_wrapper input[type="text"] {
+    width: 230px; }
+
+/* line 1571, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#settings_page_container .action_header {
+  font-size: 16px;
+  border-bottom: 1px solid #dad1c6; }
+/* line 1576, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#settings_page_container .action_block_wrapper {
+  width: 400px; }
+  /* line 1579, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  #settings_page_container .action_block_wrapper label {
+    width: 150px; }
+
+/* line 1586, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.modal_bg {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-transition: .3s all linear; }
+
+/* line 1600, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.modal_container {
+  display: none;
+  z-index: 1001;
+  width: 300px;
+  height: 365px;
+  position: absolute;
+  top: 50%;
+  margin-top: -200px;
+  left: 50%;
+  margin-left: -150px;
+  background-color: #fcf7f0;
+  border: 3px solid #dad1c6; }
+  /* line 1614, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .modal_container .modal_header {
+    padding: 15px;
+    padding-bottom: 0;
+    position: relative; }
+  /* line 1621, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .modal_container .icon-close {
+    position: absolute;
+    top: 12px;
+    right: 12px; }
+  /* line 1628, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+  .modal_container .modal_body {
+    padding: 15px; }
+
+/* line 1634, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#details_modal {
+  height: 250px;
+  margin-top: -125px;
+  width: 250px;
+  margin-left: -125px; }
+
+/* line 1642, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+.page_bottom {
+  position: fixed;
+  bottom: 0; }
+
+/* line 1648, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/authenticated.css.scss */
+#step_2 {
+  display: none; }

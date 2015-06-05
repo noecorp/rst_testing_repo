@@ -1,0 +1,21 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Kotak Amul</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+              if ($helper->can('search', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/search/');?>" title="Pending Customer List">Pending Customer List</a>: Pending Customer List</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('acceptdocument', 'corp_kotak_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_kotak_customer/acceptdocument/');?>" title="Accept Physical Document">Accept Physical Document</a>: Accept Physical Document</li>
+              <div class="clear"></div>
+             <?php }
+              
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

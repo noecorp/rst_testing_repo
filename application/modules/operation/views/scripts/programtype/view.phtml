@@ -1,0 +1,40 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = sprintf('Detailed view for %s', $this->item['name']);
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Typecode',
+    'Name',
+    'Status',
+    'Date Created',
+    'Is Commission'
+    
+);
+$config['columnIndexes'] = array(
+    'typecode',
+    'name',
+    'status',
+    'date_created',
+    'is_comm'
+    
+);
+
+$config['backlink'] = $this->backlink;
+
+echo $this->partial(
+    'partials/default-view.phtml',
+    array(
+        'config' => $config,
+        'item' => $this->item
+    )
+);

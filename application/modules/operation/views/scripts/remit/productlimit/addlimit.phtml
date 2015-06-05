@@ -1,0 +1,60 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.cancel').attr('href',document.referrer);
+    $('#name').val($('#pname').val());
+  
+    
+     $('form').submit(function(){
+      
+       var val = $("#customer_limit_out_max_txn").val();       
+       var valmnth = $("#customer_limit_out_max_monthly").val();
+      
+       
+       
+       
+         if ((valmnth.length != 0) && (val.length != 0) && (parseInt(val) > parseInt(valmnth))){
+            alert('Maximum amount per transaction cannot be more than amount of monthly transactions.'); 
+               return false;
+        }
+        
+         
+       
+            return true;
+         
+});
+     var options = document.getElementById('currency').options;
+    
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+    
+  options[i].disabled = true;
+}  
+  var cid = $("#currency").val();
+ 
+ $("#currency option[value='"+cid+"']").removeAttr('disabled');
+ 
+
+     
+       
+     
+});      
+  </script>
+<?php
+/**
+ * Add a new privilege in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Add new Product Limit table: '.$this->name.' ('.$this->product_code.')';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

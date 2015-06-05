@@ -1,0 +1,186 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    
+   
+  
+    $("form").submit(function(){
+       
+        if($("#mobile").val() == '')
+        {
+            alert('Please enter valid mobile number');
+            $("#mobile").focus();
+            return false;
+        }
+       
+        return true;
+    });
+});    
+
+function markSuccess(url) {
+    if(confirm('Are you sure you want to mark this transaction as Successful.')) {
+        document.location = url;
+    }
+}
+function markFail(url) {
+    if(confirm('Are you sure you want to mark this transaction as Failed.')) {
+        document.location = url;
+    }    
+}
+  </script><div class="Boldtext">Ratnakar Remitter's Hold Transactions</div>
+<?php 
+//    echo $this->form;
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+$sub = isset($this->sub)?$this->sub:'';
+//if($sub!=''){
+$config = array();
+$url = '/remit_ratnakar_remitter/checkstatus?'.$this->backLink.'&';
+// messages
+$config['pageTitle'] = "Ratnakar Remitter's Hold Transactions";
+$config['emptyMessage'] = 'There is no transactions on hold at this time.';
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Remitter Name' ,  
+    'Remitter Mobile',
+    'Remitter Email',
+    'Beneficiary Name',
+    'Amount',
+    'Fee',
+    'Service Tax',
+    'Sender Msg',
+    'Hold Reason',
+    'Date'
+    );
+$config['columnIndexes'] = array(
+    'r_name',
+    'mobile',
+    'email',
+    'name',
+    'amount',
+    'fee',
+    'service_tax',
+    'sender_msg',
+    'hold_reason',
+    'date_created'
+);
+
+
+
+$helper = $this->listingUtilities($config);
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+
+?>
+<?php if(!empty($this->paginator)):?>
+<!-- div class="Boldtext"><?php $helper->pageTitle();?></div -->
+ <?php endif;?>         
+
+
+<?php if(!empty($this->paginator)):?>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+    
+    
+    
+    
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php
+                foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+                    <th><span>Action</span></th>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                
+               ?>
+                <?php 
+                
+                    //foreach($dateArr as $item) :?>
+            
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]]?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]]?></td>
+                        <td><?php echo Util::returnDateFormatted($item[$config['columnIndexes'][9]], "Y-m-d", "d-m-Y", "-");?></td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                   <?php 
+            if($helper->can('processtransaction', 'remit_ratnakar_remitter')) {
+                $formatUrl = $this->formatURL("/remit_ratnakar_remitter/processtransaction?txn_code=".$item['txn_code'].'&mobile='.$item['mobile']);
+            ?> 
+                <td><a  href="<?php echo $formatUrl;?>"><img src="/images/icons/process.jpg" border="0" alt="Process Transaction" title="Process Transaction"/></a></td>
+    <?php } ?>
+    <?php 
+            if($helper->can('processtransaction', 'remit_ratnakar_remitter')) {
+                $formatUrl = $this->formatURL("/remit_ratnakar_remitter/processtransaction?txn_code=".$item['txn_code'].'&mobile='.$item['mobile'].'&type='.STATUS_SUCCESS);
+            ?> 
+                <td><a  href="#" onclick="javascript:markSuccess('<?php echo $formatUrl;?>');"><img src="/images/icons/approve.png" border="0" alt="Mark Transaction as Successful" title="Mark Transaction as Successful"/></a></td>
+    <?php } ?>
+    <?php 
+            if($helper->can('processtransaction', 'remit_ratnakar_remitter')) {
+                $formatUrl = $this->formatURL("/remit_ratnakar_remitter/processtransaction?txn_code=".$item['txn_code'].'&mobile='.$item['mobile'].'&type='.STATUS_FAILED);
+            ?> 
+                <td><a  href="#" onclick="javascript:markFail('<?php echo $formatUrl;?>');"><img src="/images/icons/reject.png" border="0" alt="Mark Transaction as Failed" title="Mark Transaction as Failed"/></a></td>
+    <?php } ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan= '11'>
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php endif;
+//}
+?>
+
+

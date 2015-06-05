@@ -1,0 +1,94 @@
+<div class="Boldtext"><?php
+echo $this->title;
+?></div>
+<script>
+  $(document).ready(function(){
+     $('form').on('submit', function() {
+     var reg = "/^[1-9]\d*(\.\d+)?$/";
+      var min_amount_alert = $.trim($("#min_amount_alert").val());       
+       if(min_amount_alert == ''){
+           alert("Please enter agent balance alert amount");
+           return false;
+       } 
+        });
+     });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agents';
+$config['addMessage'] = 'Add New Agent Balance Limit'; 
+$config['emptyMessage'] = 'There is no agent balance limit added at this time.';
+$config['addURL'] = '/agents/addagentbalancelimit/';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    
+    'Agent Code',
+    'Agent Name',
+    'Mobile Number',   
+    'Email ID',
+    'Amount Limit (<span class="WebRupee"></span>)',    
+    'Type',    
+    'Parent Agent',    
+    );
+$config['columnIndexes'] = array(
+    'agent_code',
+    'name',
+    'mobile1',    
+    'email',
+    'amount',
+    'type',
+    'parent_agent',
+    
+);
+
+
+$config['showActions'] =FALSE;
+//$config['viewLinkColumn'] = 'name';
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'agentsummary',
+                'linkAction'        => 'view',
+                'linkTitle'         => 'View Agent Details',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'id',
+                'linkQueryStringReqd'=> TRUE,
+                'linkQueryString'     => $this->backLink,
+            )
+        );
+
+//$config['statusLinkColumn'] = 'status';
+$config['showComma'] = array('amount');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+?>
+<?php echo $this->form; ?> 
+<?php if(!empty($this->paginator)):?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+ <?php endif;?>         
+<?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->can('signup', 'agents')):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+
+        
+<?php endif;?> 
+<?php endif;?>  

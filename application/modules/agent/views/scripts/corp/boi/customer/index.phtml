@@ -1,0 +1,21 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">BOI NSDC</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+              if ($helper->can('adddetails', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/adddetails/');?>" title="Add Cardholder">Add Cardholder - Capture Account Opening Form (AOF)</a>: Add Cardholder - Capture Account Opening Form (AOF)</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('opsrejected', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/opsrejected/');?>" title="Rejected Applications">Rejected Applications</a>: Rejected Applications</li>
+              <div class="clear"></div>
+             <?php }
+              
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

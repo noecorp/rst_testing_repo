@@ -1,0 +1,169 @@
+<div class="Boldtext">Bulk Upload of Wallet</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'Bulk Upload of Wallet';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+    $config['columnNames'] = array(
+        'Txn Identifier Type',
+        'Card Number',
+        'Member Id',
+        'Amount',
+        'Currency',
+        'Narration',
+        'Wallet Code',
+        'Txn Number',
+        'Card Type',
+        'Corporate Id',
+        'Mode'
+    );
+    $config['columnIndexes'] = array(
+        'txn_identifier_type',
+        'card_number',
+        'member_id',
+        'amount',
+        'currency',
+        'narration',
+        'wallet_code',
+        'txn_no',
+        'card_type',
+        'corporate_id',
+        'mode'
+    );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+
+<div class="Boldtext">Wallet Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/corp_ratnakar_cardload/corporateload')?>" method = "POST"> 
+         <input type="hidden" id="batch" name="batch" value ="<?php echo $this->batch_name; ?>">
+           <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                    <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>
+
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></td> 
+                     <td><?php echo util::maskCard($item[$config['columnIndexes'][1]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][6]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][8]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][10]]);?></td> 
+             
+                    
+                    
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+<input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Submit" name="submit_success">
+</div>
+</form>
+
+
+<?php
+ }?>
+<script>
+$(document).ready(function() {
+$("#frm1").submit(function(e) {
+    
+           //remit_boi_remitter-neftresponse
+       
+    if(!$('input[type=checkbox]:checked').length) {
+        //stop the form from submitting
+        e.preventDefault();
+        alert("Please select at least one to process.");
+    }
+
+    return true;
+    });  
+$("#selectall").click(function () {
+$('.reqid').attr('checked', this.checked);
+});
+
+// if all checkbox are selected, check the selectall checkbox
+// and viceversa
+$(".reqid").click(function(){
+
+if($(".reqid").length == $(".reqid:checked").length) {
+$("#selectall").attr("checked", "checked");
+} else {
+$("#selectall").removeAttr("checked");
+}
+});
+});
+</script>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="content-style-type" content="text/css" /> 
+    <meta http-equiv="content-script-type" content="text/javascript" /> 
+
+    <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+    <?php echo $this->headLink() . PHP_EOL;?>
+    <?php echo  $this->jQuery()->enable(); ?>
+    <!--[if !IE 7]>
+        <style type="text/css">
+            div.wrapper {display:table;height:100%}
+        </style>
+    <![endif]-->
+    
+      <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <!-- link href="<?php echo $this->baseUrl();?>/css/mystyle_operation.css" rel="stylesheet" type="text/css" / -->
+    <link href="<?php echo $this->baseUrl();?>/css/pagination.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/navigation.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/tables.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/new/m2.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/new/main.css" media="all" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div id='wrapper'>
+<div id='header-wrapper'>
+<div id='header'>
+<img alt="Mediassist-logo" src="/images/logo.png" />
+ <ul class="main-menu">
+<li><a title="Dashboard" href="<?php echo $this->formatURL('/profile/login/');?>"><i class="icon-dashboard"></i>Login</a></li>
+</ul>
+<!-- ul class='side-menu'>
+<li>
+<a href="<?php echo $this->formatURL('/profile/logout/');?>" data-method="delete" rel="nofollow"><i class='icon-logout'></i>
+Logout
+</a></li>
+<li>
+<a href="<?php echo $this->formatURL('/profile/change-password/');?>"><i class='icon-settings'></i>
+Change Password
+</a></li>
+</ul -->
+</div>
+</div>
+<div id='main'>
+                <!-- flash messenger - displays success / fail messages to the user -->
+                <?php echo $this->flashMessenger();?>
+
+                <!-- main content - the content of the view will be rendered here -->
+                <?php echo $this->layout()->content;?>
+
+</div>
+</div>
+<div id='footer-wrapper'>
+<div id='footer'>
+<ul class='left-subfooter'>
+<li>
+<a href="#"><i class='icon-shmartpay'></i>
+</a></li>
+<li>
+<a href="mailto:admin@shmart.in">admin@shmart.in</a>
+</li>
+<li>
+&nbsp;&nbsp;&nbsp;&nbsp; Call  (022) 67304948
+</li>
+</ul>
+<ul class='right-subfooter'>
+<li>
+<a href="#">About</a>
+</li>
+<li>
+<a href="#">Terms and Conditions</a>
+</li>
+<li>
+<a href="#">Privacy</a>
+</li>
+<li>
+<a href="#">Disclaimer</a>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

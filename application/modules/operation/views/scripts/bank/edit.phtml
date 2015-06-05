@@ -1,0 +1,75 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+      var ifsc = $("#ifsc").val();
+    //$("#name").attr('readOnly', 'readOnly');
+     $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                           
+                            $("#ifsc_code").html("");                           
+                            $("#ifsc_code").append(response);
+                            $("#ifsc_code option[value='"+ifsc+"']").attr("selected", "selected");
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+         $("#ifsc_code").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#ifsc_code").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                            
+                           
+                            $("#branch_name").val(resArr['0']);  
+                            $("#city").val(resArr['1']);  
+                            $("#address").val(resArr['2']);  
+                          
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });  
+    
+     var optionsBank = document.getElementById('name').options;
+    
+      for (var i=0, iLen=optionsBank.length; i<iLen; i++) {
+    
+  optionsBank[i].disabled = true;
+}  
+  var bank = $("#name").val();
+ 
+ $("#name option[value='"+bank+"']").removeAttr('disabled');
+ 
+   });  
+    
+</script>
+<?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit bank details: '.$this->item->name ;
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

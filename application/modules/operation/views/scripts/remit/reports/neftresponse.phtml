@@ -1,0 +1,333 @@
+<div class="Boldtext">Remittance Response Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+if($this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+$bank_unicode = $this->bank_unicode;
+$bank = App_DI_Definition_Bank::getInstance(BANK_KOTAK);
+$bankKotakUnicode = $bank->bank->unicode;
+
+$bankRatnakar = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+$bankRatnakarUnicode = $bankRatnakar->bank->unicode;
+
+/**
+ * ****************************** Start code: Getting Ratnakar Bank Unicode *********************
+ */
+//$RatnakarBank = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+//$bankRatnakarUnicode = $RatnakarBank->bank->unicode;
+/**
+ * ****************************** End code: Getting Ratnakar Bank Unicode *********************
+ */
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+
+
+if( ($this->formData['bank_unicode'] == $bankKotakUnicode) ){
+     
+    // column names & indexes
+   $config['columnNames'] = array(
+    'Date',  
+    'Remitter Name',
+    'Remitter Mobile Number',
+    'Bene Account',
+    'Bene Name',
+    'Transaction reference Number',
+    'Amount',
+    'Status',
+    'Remarks',
+   );
+   
+   $config['columnIndexes'] = array(
+       'date_created',
+       'remitter_name',
+       'remitter_mobile_number',       
+       'beneficiary_bank_account_number',
+       'beneficiary_name',
+       'txn_code',
+       'amount',
+       'status',    
+       'remarks',    
+   );
+}elseif( ($this->formData['bank_unicode'] == $bankRatnakarUnicode) ){
+    $config['columnNames'] = array(
+       'Date',  
+       'Batch Name',
+       'Batch Date',
+       'Batch Time',
+       'Returned date',
+       'Remitter Name',
+       'Remitter Mobile Number',
+       'Bene Account',
+       'Bene Name',
+       'Transaction reference Number',
+       'Bank UTR No.',
+       'Amount',
+       'Status',
+       'Remarks',
+       'Manual Remarks',
+       'Rejection Code',
+       'Rejection Remarks'
+      );
+    
+      $config['columnIndexes'] = array(
+        'date_created',
+        'batch_name',
+        'batch_date',
+        '',
+        'returned_date',
+        'remitter_name',
+        'remitter_mobile_number',       
+        'beneficiary_bank_account_number',
+        'beneficiary_name',
+        'txn_code',
+        'utr',
+        'amount',
+        'status',    
+        'remarks',
+        'manual_mapping_remarks',
+        'rejection_code',
+        'rejection_remark'
+          
+      );
+}else{
+                            // column names & indexes
+      $config['columnNames'] = array(
+       'Date',  
+       'Batch Name',
+       'Remitter Name',
+       'Remitter Mobile Number',
+       'Bene Account',
+       'Bene Name',
+       'Transaction reference Number',
+       'Amount',
+       'Status',
+       'Remarks',
+      );
+      
+      $config['columnIndexes'] = array(
+          'date_created',
+          'batch_name',
+          'remitter_name',
+          'remitter_mobile_number',       
+          'beneficiary_bank_account_number',
+          'beneficiary_name',
+          'txn_code',
+          'amount',
+          'status',    
+          'remarks',
+      );
+}
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$cntColNames = count($config['columnNames']) - 1 ;
+
+
+
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+             
+                    //foreach($dateArr as $item) :
+                  
+                ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <?php if($this->formData['bank_unicode'] == $bankRatnakarUnicode){ 
+                            
+                            //explode batch date and time
+                            $batch_datetime =  $item[$config['columnIndexes'][2]];
+                            $batch_datetime_arr = explode(' ', $batch_datetime);
+                            $batch_date = $batch_datetime_arr[0];
+                            $batch_time = $batch_datetime_arr[1];
+                        ?>
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $batch_date;?></td>
+                        <td><?php echo $batch_time;?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][9]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][10]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][11]]);?></td>
+                        <td><?php echo Util::getNeftStatus($item[$config['columnIndexes'][12]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][13]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][14]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][15]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][16]];?></td>
+                        
+                        
+                        <?php }elseif($this->formData['bank_unicode'] == $bankKotakUnicode){
+                              $tnxCode = $item[$config['columnIndexes'][5]];
+                              $item[$config['columnIndexes'][5]] = isset($TXN_TYPE_LABELS[$tnxCode])?$TXN_TYPE_LABELS[$tnxCode]:''; 
+                            ?>
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][6]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <?php }else{?>
+                         <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo Util::numberFormat($item[$config['columnIndexes'][7]]);?></td>
+                        <td><?php echo Util::getNeftStatus($item[$config['columnIndexes'][8]]);?></td>
+                        <td><?php echo $item[$config['columnIndexes'][9]];?></td>
+                        <?php } ?>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        
+            var url = '<?php echo $this->formatURL("/remit_reports/exportneftresponse?dur=".$this->formData['dur']."&bank_unicode=".$this->formData['bank_unicode']."&to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date']);?>';    
+            $(location).attr('href',url);
+       
+    });    
+    
+    $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var bank_unicode = $.trim($("#bank_unicode").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+      /**** From and To date validation ****/
+       $('#bank_unicode').css('background', '#fff');
+       $('#dur').css('background', '#fff');
+       $('#from_date').css('background', '#fff');
+       $('#to_date').css('background', '#fff');
+      
+        if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+              $("#bank_unicode").focus();
+              return false;
+         }else if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+              alert('Please select either duration or from and to date.');
+              $('#dur').css('background', '#ff0');
+              $("#dur").focus();
+            return false;
+         } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                    alert('Please specify From date.');
+                      $('#from_date').css('background', '#ff0');
+                      $("#from_date").focus();
+                    return false;
+         }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify To date.');
+                      $('#to_date').css('background', '#ff0');
+                      $("#to_date").focus();
+                    return false;
+         } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                      $('#from_date').css('background', '#ff0');
+                      $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                      $('#to_date').css('background', '#ff0');
+                      $("#to_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

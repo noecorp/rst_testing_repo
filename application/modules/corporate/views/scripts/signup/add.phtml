@@ -1,0 +1,63 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+   $("#mobile2").keydown(function(event) {
+        
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || (event.keyCode == 65 && event.ctrlKey === true) || (event.keyCode >= 35 && event.keyCode <= 39)) {
+            return;
+        }
+        else {
+        
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+    }); 
+   
+    $('form').submit(function(){
+        var alphaNum = /[^ a-zA-Z0-9]/;
+         var email = $("#email").val();
+        var atpos = email.indexOf("@");
+        var dotpos = email.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos+2 || dotpos+2>=email.length) {
+            alert("Invalid e-mail address");
+             $('#email').focus();
+            return false;
+        }else if($("#title").val() == ''){
+            alert('Please select title');
+            $('#title').focus();
+            return false;
+        }else if($("#std").val().length > 0 && $("#mobile2").val() === ''){
+            alert('Please enter alternate contact number');
+            $('#mobile2').focus();
+            return false;
+        }else if($("#mobile2").val().length > 0 && $("#std").val() === ''){
+            alert('Please enter STD code');
+            $('#std').focus();
+            return false;
+        }else if($.trim($("#first_name").val())=="" ||  alphaNum.test($("#first_name").val())){
+            alert('Please enter first name');
+            $('#first_name').focus();
+            return false;
+        }else if($.trim($("#last_name").val())=="" ||  alphaNum.test($("#last_name").val())){
+            alert('Please enter last name');
+            $('#last_name').focus();
+            return false;
+        }else if($("#mobile1").val().length <=0  || $("#mobile1").val().length >10){
+            alert('invalid Mobile no.');
+            $('#mobile1').focus();
+            return false;
+        }
+        
+        return true;
+    
+    });
+ 
+   });  
+    
+</script><?php 
+echo Util::getCorporateRegistrationAgentTab("basic", $this->agent_id); 
+
+
+
+echo $this->form;
+?>

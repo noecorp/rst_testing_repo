@@ -1,0 +1,29 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Remittance</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+         if ($helper->can('search')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_boi_remitter/search/');?>" title="Search Remitter">Search Remitter</a>: Search remitter details</li>
+              <div class="clear"></div>
+        <?php } 
+        //if ($helper->can('neftpending')) {?>
+<!--              <li class="systemli"><a href="<?php //echo $this->formatURL('/remit_boi_remitter/neftpending/');?>" title="NEFT Instructions">NEFT Instructions</a>: NEFT instructions pending</li>
+              <div class="clear"></div>-->
+        <?php //} 
+        if ($helper->can('neftrequests')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_boi_remitter/neftrequests/');?>" title="NEFT Instruction Batches">NEFT Instruction Batches</a>: NEFT instructions batch files</li>
+              <div class="clear"></div>
+        <?php } 
+        if ($helper->can('neftresponse')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_boi_remitter/neftresponse/');?>" title="NEFT Response">NEFT Response</a>: NEFT response</li>
+              <div class="clear"></div>
+        <?php } ?>
+              
+              
+    </ul>
+    <div class="clear"></div>
+</div>

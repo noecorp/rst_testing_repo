@@ -1,0 +1,219 @@
+<?php
+/**
+ * Layout used to display error pages
+ *
+ * @category backoffice
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Business Partner');
+
+// add generic scripts
+$this->headScript()->appendFile($this->baseUrl() . '/js/jquery.min.js');
+
+// add generic CSS files
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/login.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/authenticated.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/global.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/sprite.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/admin.css');
+//$this->headLink()->appendStylesheet($this->baseUrl() . '/css/reset.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/unauthenticated.css');
+
+$this->headLink()->appendStylesheet($this->baseUrl() . '/css/navigation.css');
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(App_DI_Container::get('ConfigObject')->zfdebug->enabled){
+    $this->headScript()->appendFile($this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+?>
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+      <!-- Always force latest IE rendering engine or request Chrome Frame -->
+      <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+        <!-- Use title if it's in the page YAML frontmatter -->
+        <title>Transerve Corporate Portal</title>
+        
+    
+        <?php echo $this->headTitle() . PHP_EOL;?>
+        <?php echo $this->headScript() . PHP_EOL;?>
+        <?php echo $this->headLink() . PHP_EOL;?>
+        
+        <!--[if !IE 7]>
+            <style type="text/css">
+                div.wrapper {display:table;height:100%}
+            </style>
+        <![endif]-->
+        
+        <script type="text/javascript" charset="utf-8"> 
+            //Set focus on username field
+            $(document).ready(function() {
+                $('input#username').focus();
+            });
+        </script> 
+               <script language="javaScript" type="text/javascript">
+        function are_cookies_enabled()
+        {
+                var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+
+                if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
+                { 
+                        document.cookie="testcookie";
+                        cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+                }
+                return (cookieEnabled);
+        }        
+        if(!are_cookies_enabled()) {
+            document.location.href = '/index/nocookie';
+        }
+    </script>        
+    </head>
+    <body class="index">
+        <div id="home">
+                
+                <div id='left-column'>
+        <div class='content'>
+                <a href="/"><img class="transparent-logo" src="/images/card.png" />
+          </a>
+    
+          <p class='leading'>
+            The Medi Assist Card - a Prepaid Card
+            <br>
+            packed with a range of benefits designed
+            specifically to put a few healthy lines around your brow
+            <br>
+          </p>
+          <p class='features'>
+            <strong>Comprehensive health check up</strong>
+            <br>
+            Get access to specially designed executive health packages
+          </p>
+          <p class='features'>
+            <strong>Savings on healthcare</strong>
+            <br>
+            Get up to 20% discount at Diagnostic centers, Eye clinics, Dental centers at upto 30 locations across India
+          </p>
+          <p class='features'>
+            <strong>Medicines at Office / Home</strong>
+            <sup>*</sup>
+            <br>
+            Order online and get Medicines delivered in 22 cities and also get upto 10% discount<sup>**</sup>
+            on MRP
+          </p>
+          <p class='features'>
+            <strong>Accepted everywhere</strong>
+            <br>
+            Spend at any of the 800,000 Visa Merchants in India
+          </p>
+          <p style='font-size: 10px; line-height: 15px;'>
+            <sup>*</sup>
+            subject to minimum order value
+            <br>
+            <sup>**</sup>
+            discount slabs vary for office delivery and home delivery
+          </p>
+          <a class='view-more' href='#'>view more</a>
+        </div> <!-- end of content class -->
+        <div class='footer'>
+          <a href="mailto:care.rbl@shmart.in">care.rbl@shmart.in</a>
+          &nbsp;&nbsp;&nbsp;&nbsp; Call 1-800-425-9594
+        </div> <!-- end of footer -->
+      </div> <!-- end of left-column -->
+
+
+                <div id='right-column'>
+                    
+                    
+                     
+                    
+                    
+        <div class='content'>
+          <div id='login-box'>
+            <div class='vertical-1'>
+                   <div class="login-title">LOGIN</div>
+                <?php echo $this->flashMessenger();?>
+            <?php echo $this->layout()->content;?>
+                
+            </div> <!-- end vertical-1 -->
+            <div class='vertical-2'>
+              <div class='col-1'>
+                <a class="blue button" style="display: block; width: 110px; margin-top: 10px;" href="admin/index.html">APPLY FOR CARD</a>
+              </div>
+              <div class='col-2'>
+                Apply for your Medi Assist Card in 4 easy steps
+              </div>
+            </div> <!-- end vertical-2 -->
+          </div> <!-- end login box -->
+        </div> <!-- end content -->
+        <div class='sub-footer'>
+          <img style="display: inline-block; margin-left: 20px; margin-bottom: 4px; height: 22px;" src="/images/mediassist-logo2.png" />
+        </div> <!-- end sub footer -->
+        <div class='footer'>
+          <ul>
+            <li>
+              <a href="#">About</a>
+            </li>
+            <li>
+              <a href="#">Sitewide Terms</a>
+            </li>
+            <li>
+              <a href="#">Product Terms</a>
+            </li>
+            <li>
+              <a href="#">Privacy</a>
+            </li>
+          </ul>
+        </div> <!-- end footer -->
+      </div> <!-- end right column -->
+                
+                
+            <div class="clear"></div>
+            
+            <div id="footer">  
+
+            <div class="copyright">
+                <div  class="footer-cc">Customer Care Number: <?php echo AGENT_AUTH_CALL_CENTRE_NUMBER;?></div>
+            <div class="footer-left-box">
+            <div class="footer-box">
+<!--            <div class="text2">Connect with us on</div>-Text 2 END-
+            <div class="facebook">
+                <img src="<?php echo $this->baseUrl();?>/images/icons/facebook.png"  border="0" usemap="#Map10" />
+              <map name="Map10" id="Map10">
+                <area shape="rect" coords="-1,1,35,33" href="https://www.facebook.com/pages/Shmart/582198341805655" target="_blank" />
+              </map>
+            </div>
+            <div class="twitter">
+                <img src="<?php echo $this->baseUrl();?>/images/icons/twitter.png" border="0" usemap="#Map11" />
+              <map name="Map11" id="Map11">
+                <area shape="rect" coords="-3,2,31,36" href="https://twitter.com/ShmartPay" target="_blank" />
+              </map>
+            </div>-->
+            <div class="term"><a href="#">Terms &amp; Conditions</a></div>
+            <div class="clear"></div>
+
+
+
+
+            </div><!---Footer Box END--->
+
+
+            </div>
+            <div class="footer-rights">2013 Shmart!Pay® Prepaid System. Worldwide rights reserved by TranServ Private Limited</div>
+
+            <div class="clear"></div>
+            </div> <!-- copyright ends -->
+             </div>
+ 
+ 
+        </div><!---Wrapper End--->
+           
+                
+                
+    </body>
+</html>

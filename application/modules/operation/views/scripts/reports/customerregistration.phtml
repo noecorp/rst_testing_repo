@@ -1,0 +1,483 @@
+<div class="Boldtext">Customer Registration Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!=''){
+$bankUnicodeArr = Util::bankUnicodesArray();    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+if($this->formData['bank_unicode'] == $bankUnicodeArr['2']){
+// column names & indexes
+$config['columnNames'] = array(
+    'Product Name',
+    'Medi Assist Id',
+    'Partner Ref No.',
+    'Employee Id',
+    'Customer Type',
+    'Card Number',
+    'Card Pack Id',
+    'Title',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Mobile2',
+    'Email',
+    'Landline',
+    'Address Line 1',
+    'Address Line 2',
+    'City',
+    'State',
+    'Country',
+    'Pincode',
+    'Mothers Maiden Name',
+    'Employer Name',
+    'Corporate Id',
+    'Corporate Address Line 1',
+    'Corporate Address Line 2',
+    'State',
+    'Pincode',
+    'Address Proof',
+    'Identity Proof',
+    'Is Card Activated',
+    'Activation Date',
+    'Is Card Dispatch',
+    'Card Dispatch Date',
+    'Wallet Code',
+    'Date',
+    'Status',
+    'Failed Date',
+    'Failed Reason',
+    'Channel'
+    );
+$config['columnIndexes'] = array(
+    'product_name',
+    'medi_assist_id',
+    'partner_ref_no',
+    'employee_id',
+    'customer_type',
+    'card_number',
+    'card_pack_id',
+    'title',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'mobile2',
+    'email',
+    'landline', 	 	
+    'address_line1',
+    'address_line2',
+    'city',
+    'state',
+    'country',
+    'pincode',
+    'mother_maiden_name',
+    'employer_name',
+    'corporate_id',
+    'corp_address_line1', 	 	 	 	
+    'corp_address_line2',
+    'corp_city',
+    'corp_pin',
+    'date_uploaded_a',
+    'date_uploaded_i',
+    'is_card_activated',
+    'activation_date',
+    'is_card_dispatched',
+    'card_dispatch_date',
+    'code',
+    'date_created',
+    'status',
+    'date_failed',
+    'failed_reason',
+    'channel'
+);
+}
+elseif($this->formData['bank_unicode'] == $bankUnicodeArr['1']){
+// column names & indexes
+$config['columnNames'] = array(
+    'Product Name',
+    'NSDC Enrollment No',
+    'Ref No.',
+    'Card Number',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Landline',
+    'Address Line 1',
+    'Address Line 2',
+    'City',
+    'State',
+    'Pincode',
+    'Mothers Maiden Name',
+    'Employer Name',
+    'Corporate Id',
+    'Corporate Address Line 1',
+    'Corporate Address Line 2',
+    'City',
+    'State',
+    'Pincode',
+    'Date',
+    'Status',
+    'Failed Date',
+    'Failed Reason',
+    );
+$config['columnIndexes'] = array(
+    'product_name',
+    'nsdc_enrollment_no',
+    'ref_num',
+    'card_number',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'landline', 	 	
+    'address_line1',
+    'address_line2',
+    'city',
+    'state',
+    'pincode',
+    'mother_maiden_name',
+    'employer_name',
+    'corporate_id',
+    'comm_address_line1', 	 	 	 	
+    'comm_address_line2',
+    'comm_city',
+    'comm_state',
+    'comm_pin',
+    'date_created',
+    'status',
+    'date_failed',
+    'failed_reason',
+    
+);
+}
+else
+{
+    // column names & indexes
+$config['columnNames'] = array(
+    'Product Name',
+    'Member Id',
+    'Employee Id',
+    'Card Number',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Landline',
+    'Address Line 1',
+    'Address Line 2',
+    'State',
+    'Pincode',
+    'Mothers Maiden Name',
+    'Employer Name',
+    'Corporate Id',
+    'Corporate Address Line 1',
+    'Corporate Address Line 2',
+    'State',
+    'Pincode',
+    'Date',
+    'Status',
+    'Failed Date',
+    'Failed Reason',
+    );
+$config['columnIndexes'] = array(
+    'product_name',
+    'member_id',
+    'employee_id',
+    'card_number',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'landline', 	 	
+    'address_line1',
+    'address_line2',
+    'city',
+    'pincode',
+    'mother_maiden_name',
+    'employer_name',
+    'corporate_id',
+    'comm_address_line1', 	 	 	 	
+    'comm_address_line2',
+    'comm_city',
+    'comm_pin',
+    'date_created',
+    'status',
+    'date_failed',
+    'failed_reason',
+    
+);
+}
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$backURL = isset($config['back_url']) ? $config['back_url'] : '' ;
+
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->canAdd()):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+<div class="filterbox">
+
+<div style="width:950px;">
+
+<!--<div class="addnew-comm"><img src="" border="0" usemap="#Map" />
+  <map name="Map" id="Map">
+    <area shape="rect" coords="5,5,216,25" href="<?php echo $href; ?>" />
+  </map>
+</div>-->
+
+    <a href="<?php echo $this->formatURL($href);?>" class="ocean" style="float:right;" title="<?php $helper->addMessage();?>"><?php $helper->addMessage();?></a>
+</div><!--Inner Style Div END-->
+
+
+</div>
+        
+<?php endif;?> 
+<?php endif;?> 
+<?php if($backURL): $href = $backURL;?>
+<div class="filterbox"> 
+
+<div style="width:950px;">
+    <a href="<?php echo $this->formatURL($href);?>" class="ocean" style="float:right;" title="Back">Back</a>
+</div><!--Inner Style Div END-->
+
+</div>
+<?php endif;?> 
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                            <th colspan="2"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+//                            echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                    if($this->formData['bank_unicode'] == $bankUnicodeArr['1']){
+                                    $rctModel = new RctMaster();
+                                    if($index == 'city' || $index == 'comm_city'){
+            $cityName = $rctModel->getCityName($item[$index]);
+                                    echo $cityName;
+                                    
+                                    }else if($index == 'state' || $index == 'comm_state'){
+            $stateName = $rctModel->getStateName($item[$index]);
+            echo $stateName;
+}
+                                    else{
+                                    $helper->displayItem($item, $index);
+                                    } 
+                                    }
+                                    else{
+                                      if($index == 'customer_type' ){
+            $cust = strtoupper($item[$index]);
+                                      echo $cust; }
+                                      else{
+                                     $helper->displayItem($item, $index);    
+                                      }
+                                    }
+                                    ?>
+                                </td>
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                                <!--<td class="tc">-->
+                                    <?php echo $helper->links($item);
+                                        //print_r($item);
+                                    ?>
+                                <!--</td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php $count = $helper->columnCount();
+                        echo $count++;?>">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div> 
+</form>
+<?php 
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+
+
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+
+
+
+<?php } 
+}?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        
+            var url = '<?php echo $this->formatURL("/reports/exportcustomerregistration?dur=".$this->formData['dur']."&to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date'].'&product_id='.$this->formData['product_id'].'&bank_unicode='.$this->formData['bank_unicode']);?>';    
+            $(location).attr('href',url);
+       
+    });
+ var product = $("#product").val();
+ if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-bankproductscommon/q/'+$("#bank_unicode").val()+'/c/1',
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                            $("#product_id option[value='"+product+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+
+  $("#bank_unicode").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/'+$("#bank_unicode").val()+'/c/1',
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html("");                            
+                            $("#product_id").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+     $('form').submit(function(){
+  
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+       /**** From and To date validation ****/
+      if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+            alert('Please select either duration or from and to date.');
+            $("#dur").focus();
+            return false;
+      } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                    alert('Please specify From date.');
+                    $("#from_date").focus();
+                    return false;
+               }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                    alert('Please specify To date.');
+                    $("#to_date").focus();
+                    return false;
+               } else if(diff < 0){
+                  alert('From date cannot be greater than To date.');
+                    $("#from_date").focus();
+                    return false; 
+               }
+               else if(date_range > max_range){
+                  alert('Report can be fetched for a duration not more than '+max_range+' days');
+                    $("#to_date").focus();
+                    return false; 
+               }
+              
+       /**** From and To date validation over ****/
+          
+     return true; 
+   });    
+});
+</script>

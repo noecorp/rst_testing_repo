@@ -1,0 +1,26 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Corporate fund request has been placed and corresponding details have been given below.</p>
+
+<p>Corporate Code : <b><?php echo $this->agent_code; ?></b>.</p>
+<p>Corporate Email : <b><?php echo $this->agent_email; ?></b>.</p>
+<p>Corporate Mobile : <b><?php echo $this->agent_mobile_number; ?></b>.</p>
+<p>Corporate Amount : <b><?php echo $this->amount; ?></b>.</p>
+<p>Corporate Comments: <b><?php echo $this->comments; ?></b>.</p>
+<p>Request Date: <b><?php echo $this->onDate; ?></b>.</p>
+<p>Server: <?php echo $this->serverName; ?></p>
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo $this->impText; ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo $this->disclaimerText; ?></p>

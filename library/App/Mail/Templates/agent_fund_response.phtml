@@ -1,0 +1,40 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<?php
+$responseStatus = isset($this->response_status)?$this->response_status:'';
+if($responseStatus==FLAG_PENDING || $responseStatus==FLAG_DECLINE){ ?>
+    
+<p>Agent fund request has been placed and corresponding details have been given below.</p>
+<p>Agent Code : <b><?php echo $this->agent_code; ?></b>.</p>
+<p>Agent Email : <b><?php echo $this->agent_email; ?></b>.</p>
+<p>Agent Mobile : <b><?php echo $this->agent_mobile_number; ?></b>.</p>
+<p>Agent Amount : <b><?php echo $this->amount; ?></b>.</p>
+<p>Response Date: <b><?php echo $this->transaction_date; ?></b>.</p>
+<p>Current Status: <b><?php echo $this->responseStatus; ?></b>.</p>
+<?php } else { ?>
+<p>Agent has been credited requested amount as details are given below.</p>
+
+<p>Agent Code : <b><?php echo $this->agent_code; ?></b>.</p>
+<p>Agent Email : <b><?php echo $this->agent_email; ?></b>.</p>
+<p>Agent Mobile : <b><?php echo $this->agent_mobile_number; ?></b>.</p>
+<p>Agent Amount : <b><?php echo $this->amount; ?></b>.</p>
+<p>Response Date: <b><?php echo $this->transaction_date; ?></b>.</p>
+<?php } ?>
+<p>Server: <?php echo Util::getServerNameForCronAlert(); ?></p>
+
+<br><br>
+<p>IMPORTANT: Please do not reply to this message or email address.</p>
+
+<p>DISCLAIMER</p>
+
+<p>This communication is confidential and privileged and is directed to and for the use of the addressee only. The recipient if not the addressee should not use this message if erroneously received, and access and use of this e-mail in any manner by anyone other than the addressee is unauthorized. The recipient acknowledges that Transerv may be unable to exercise control or ensure or guarantee the integrity of the text of the email message and the text is not warranted as to completeness and accuracy. Before opening and accessing the attachment, if any, please check and scan for virus.</p>
+
+<p>TERMS AND CONDITIONS</p>
+
+<p>Internet transmission lines are not always encrypted and emails are not always a secure means of transmission. The account holder acknowledges and accepts that internet transmission methods involve security risks including possible risks such as third party interception, unauthorized alteration of data and unauthorized usage. The account holder specifically agrees to exempt TranServ (including, without limitation, its affiliates and its/their directors, employees and agents) from, any and all responsibility/liability arising from such misuse and further agrees to hold TranServ (including, without limitation, its affiliates and its/their directors, employees and agents) free and harmless from all losses, costs, damages, expenses that may be suffered by the account holder due to any errors and delays.</p>

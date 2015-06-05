@@ -1,0 +1,181 @@
+<div class="Boldtext">Fund Transfer</div> 
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$config = array();
+
+$countRefund = isset($this->countRefunds)?$this->countRefunds:'';
+if ($this->showlist){
+    if($this->remitterdetails['profile_photo'] == NULL){
+        $profilePhoto = $this->baseUrl().'/uploads/photo/remitter/agnt-icon-big.gif'; 
+    }  else {
+       $profilePhoto = $this->baseUrl().'/uploads/photo/remitter/'.$this->remitterdetails['profile_photo'];  
+    }
+   
+?>
+<div class="clearboth"></div>
+<div class="tablebox">
+   
+    <table style="width: 96%;align:centre;margin-left:18px;">
+        <tr> <td colspan ="2" style="align:right;"><img src="<?php echo $profilePhoto;?>" width="85"></td></tr>
+            <tr>
+                <th style="width:20%">Name</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterdetails['name'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Mobile</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterdetails['mobile'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Email</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterdetails['email'];?></td>
+            </tr>  
+             
+            <tr>
+                <th style="width:20%">Remittance Done for the Month of <?php echo date('M');?></th>            
+                <td style="width: 80%" align="left"><?php echo $this->remittanceArr['total'];?></td>
+            </tr> 
+    </table>
+   
+</div>
+<div class="clearboth"></div>
+
+<div>&nbsp;</div> 
+<?php
+// messages
+$config['pageTitle'] = 'Beneficiary Listing for: '.$this->remitterdetails['name'];
+$config['addMessage'] = 'Add New Beneficiary'; 
+
+$config['emptyMessage'] = 'There is no beneficiary enrolled at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Nick Name',
+    'Mobile',
+    
+);
+$config['columnIndexes'] = array(
+   'name',
+    'nick_name',
+    'mobile',
+    
+);
+
+
+$config['linkOrder'] = array('transferfund','deactivatebeneficiary');
+
+// render the default listing
+
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+<div class="filterbox" style="width:950px;"> 
+    <a class="ocean" title="<?php echo $config['addMessage'];?>" style="float:right;" href="<?php echo $this->formatURL('/remit_boi_beneficiary/add');?>"><?php echo $config['addMessage'];?></a>
+</div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/
+                 $cntColNames = 0;
+                ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php 
+                $cntColNames++;
+                endforeach;?>
+                 <th colspan ="2" class="last tc"><span><?php echo 'Actions';?></span></th>
+                       
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/
+       ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                ?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                        
+                        $url = '/remit_boi_beneficiary/transferfund?id='.$item['id'];
+                        $urldeactivate = '/remit_boi_beneficiary/deactivatebeneficiary?id='.$item['id'];
+                        $name = $item[$config['columnIndexes'][0]];
+                        ?>
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                       <?php echo  '<td><a href="'. $this->formatURL($url) . '" title="Transfer Fund">' . PHP_EOL . '<img alt="Transfer Fund" src="'.$this->baseUrl().'/images/icons/BAG.png" border="0"></a></td>'; ?>
+                       <td><a url="<?php echo $this->formatURL($urldeactivate) ?>" onclick="javascript:confirmDeactivate('<?php echo $item['id']?>','<?php echo $name;?>');" class ="deactivate"  title="Deactivate" ><?php echo '<img alt="Deactivate" src="'.$this->baseUrl().'/images/icons/blocked.png" border="0"></a></td>'; ?>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+<?php
+}
+
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+
+<?php } 
+
+    $session = new Zend_Session_Namespace('App.Agent.Controller');    
+    if($countRefund>0){
+ ?>
+<div class="filterbox" style="width:950px;"> 
+    <a class="ocean" title="Refund" style="float:right;" href="<?php echo $this->formatURL('/remit_boi_beneficiary/failuretxn');?>">Refund</a>
+</div>
+<?php } ?>
+
+<script type="text/javascript">
+
+    function confirmDeactivate(id, name) {
+        var discardResp = confirm('Are you sure you want to deactivate beneficiary: '+name);
+        var url = $('.deactivate').attr('url');
+       
+        if(discardResp == true){
+            window.location.href= url;
+           return true;
+        }else {
+            return false;
+        }
+    } 
+  
+</script>
+     
+     

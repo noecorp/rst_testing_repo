@@ -1,0 +1,243 @@
+<div class="Boldtext">Wallet Status Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+if($this->sub != ''){
+    
+$config = array();
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+
+// column names & indexes
+   $config['columnNames'] = array(
+        'Txn Identifier Type',
+        'Card Number',
+        'Member Id',
+        'Amount',
+        'Currency',
+        'Narration',
+        'Wallet Code',
+        'Txn Number',
+        'Card Type',
+        'Corporate Id',
+        'Mode',
+        'Txn Reference No.',
+        'Failed Reason',
+        'Status'
+       
+    );
+    $config['columnIndexes'] = array(
+        'txn_identifier_type',
+        'card_number',
+        'member_id',
+        'amount',
+        'currency',
+        'narration',
+        'wallet_code',
+        'txn_no',
+        'card_type',
+        'corporate_id',
+        'mode',
+        'txn_code',
+        'failed_reason',
+        'status'
+    );
+
+
+$config['showActions'] =FALSE;
+$cntColNames = count($config['columnNames']) - 1 ;
+// render the default listing
+
+
+?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+             ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></td> 
+                     <td><?php echo util::maskCard($item[$config['columnIndexes'][1]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][6]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][7]];?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][8]]);?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][9]]);?></td> 
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][10]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][11]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][12]]);?></td> 
+                     <td><?php echo ucfirst($item[$config['columnIndexes'][13]]);?></td> 
+             
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+       
+         var url = '<?php echo $this->formatURL("/corp_kotak_cardload/exportwalletstatus?batch_name=".$this->formData['batch_name']."&purse_master_id=".$this->formData['purse_master_id']);?>';    
+         $(location).attr('href',url);
+       
+    });  
+   
+   var purseId = $("#purse_master_id").val();
+   var batch = $("#batch").val();
+   var productId = $("#product_id").val();
+   var purse = $("#purse").val();
+  
+  
+    
+  ///new//////////////////
+
+if($("#product_id").val() != ''){
+    
+  $.ajax({
+                url: '/ajax/get-purse/q/'+$("#product_id").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#purse_master_id").html("");                            
+                            $("#purse_master_id").append(response);
+                            $("#purse_master_id option[value='"+purse+"']").attr("selected", "selected");
+                        }
+                    }     
+        });
+ }
+ 
+ 
+if($("#batch").val() != ''){
+       
+  $.ajax({
+                url: '/ajax/get-batchnameamul/q/'+$("#purse").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#batch_name").html("");                            
+                            $("#batch_name").append(response);
+                            $("#batch_name option[value='"+batch+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+ $("#product_id").change(function(){
+     
+     
+     
+         $.ajax({
+                url: '/ajax/get-purse/q/'+$("#product_id").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                            $("#purse_master_id").html("");
+                            $("#purse_master_id").append(response);
+                            
+                        }
+                    },
+         
+        });
+  });
+  
+  
+  
+
+ $("#purse_master_id").change(function(){
+         $.ajax({
+                url: '/ajax/get-batchnameamul/q/'+$("#purse_master_id").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#batch_name").html("");
+                            $("#batch_name").append(response);
+                        }
+                    },
+         
+        });
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+    
+});
+</script>

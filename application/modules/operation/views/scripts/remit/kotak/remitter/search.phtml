@@ -1,0 +1,74 @@
+<div class="Boldtext">Search Remitters</div>
+<?php 
+    echo $this->form;
+?>
+
+
+<script>
+  $(document).ready(function(){
+     
+     $("#searchCriteria").change(function(){
+         
+         $("#keyword").val('');
+       });      
+         
+     });
+</script>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$sub = isset($this->sub)?$this->sub:'';
+if($sub!=''){
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Remitters';
+//$config['addMessage'] = 'Add new Agent'; 
+$config['emptyMessage'] = 'There is no remitter added at this time.';
+//$config['addURL'] = '/agents/signup/';
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Remitter Name',
+    'Mobile',
+    'Email',
+    'Address',
+    );
+$config['columnIndexes'] = array(
+    'name',
+    'mobile',
+    'email',
+    'address',
+);
+
+$config['showActions'] = false;
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'remit_kotak_remitter',
+                'linkAction'        => 'beneficiary',
+                'linkTitle'         => 'View Beneficiaries',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'rid',
+                'linkParamValue'    => 'id',
+            )
+        );
+//$config['noteText'] = "Commission plans, once assigned, cannot be modified. In case of a new requirement, a new Commission Plan should be defined";
+
+// render the default listing
+    echo $this->partial(
+        'partials/default-listing.phtml',
+        array(
+            'config' => $config,
+            'paginator' => $this->paginator,
+        )
+    );
+}
+?>

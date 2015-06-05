@@ -1,0 +1,165 @@
+<div class="Boldtext">Download Disbursement TTUM File</div>
+
+<?php 
+
+echo $this->form;
+if($this->records){
+
+$config['pageTitle'] = 'Download Disbursement TTUM File';
+
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+    $config['columnNames'] = array(
+        'TTUM File',
+        //'Wallet File',
+        'Disbursement Number',
+        'Date Process',
+        'Date Created',
+    );
+    $config['columnIndexes'] = array(
+        'file_name',
+        //'wallet_file_name',
+        'disbursement_no',
+        'date_process',
+        'date_created',
+     );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+
+<div class="Boldtext">Disbursement Load File Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+
+
+           <thead><!-- universal table heading --> 
+            <tr>
+               <!-- <th><input type="checkbox" id="selectall"/></th>-->
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : //print_r($item); exit;
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    $fileName = strtoupper($item[$config['columnIndexes'][0]]);
+                    $cardId = $item['id'];
+                    ?>
+                  
+                   <!-- <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>-->
+
+                     <td><?php if(!empty($item['updated_ttum_file_name'])) echo strtoupper($item['updated_ttum_file_name']); else echo strtoupper($item[$config['columnIndexes'][0]]);?></td>
+                     <!--<td><a href="JavaScript:void(0);" onclick="downloadWalletWaFile(<?php echo $cardId; ?>);"><?php echo strtoupper($item[$config['columnIndexes'][1]]);?></a></td> -->
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     
+                      
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+3;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+
+
+<div>&nbsp;</div>
+<?php
+$fileNameArr = explode("_",$fileName);
+//echo "<pre>"; print_r($fileNameArr);
+unset($fileNameArr[0],$fileNameArr[1]);
+$newFileName=implode("_",$fileNameArr);
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+     
+     $("#corp_boi_index-editdisbursemenfile").submit(function(e) {
+          var value = $('#ttum_file_name').val();
+          //if (value.charAt(0)=='0') {
+          //     alert('File name should not start with 0');return false;
+          //}
+          var day = parseInt(value.substr(0, 2));
+          var month = parseInt(value.substr(2, 2));
+          var year = parseInt(value.substr(4, 2));
+          //alert(day+'-'+month+'-'+year);
+          if (day > 31 || day < 1) {
+               alert('Invalid date.');return false;
+          }else if (month > 12 || month < 1) {
+               alert('Invalid date.');return false;
+          }else if (year > 99 || year < 1) {
+               alert('Invalid date.');return false;
+          }
+          var regex = new RegExp(/^\+?[0-9()-]+$/);
+          if(!value.match(regex)) { alert('Only digits allow ');return false;}
+          if ($('#ttum_file_name').val().length != 12) {
+               alert('File name should be a 12 digits number.');return false;
+          }
+          return true;
+     });
+     $("#ttum_file_name").before("<span style='font-size:12px;font-weight:bold;'>TTUM_</span>");
+     $("#ttum_file_name").after("<span style='font-size:12px;font-weight:bold;'>_<?php echo $newFileName;?></span>");
+     $("#ttum_file_name-label").next("dd").css("width", "450px");
+
+
+});     
+</script>

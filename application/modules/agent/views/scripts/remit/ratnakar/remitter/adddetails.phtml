@@ -1,0 +1,792 @@
+
+  <style>
+ .form-name-column, .edit input,select{
+  width: 180px!important;
+ }
+ .form-field-column{
+    margin-left:0px;
+ }
+ #fieldset-remitter,#fieldset-beneficiary{min-height:555px;}
+ .innerbox{ height: 800px;}
+  div#beneFormArea dd,div#beneFormArea dt {
+	 display:none;
+}
+#add_beni {  display:block; }
+
+</style> 
+  <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+  <div class="Boldtext">Enroll Remitter</div> 
+  <span><?php echo $this->msg?></span>
+  
+  <?php echo $this->form; 
+  
+  $user = Zend_Auth::getInstance()->getIdentity();
+  $minAge = $this->minAge;
+  $session = new Zend_Session_Namespace('App.Agent.Controller'); 
+
+  ?>
+
+  
+  <script type="text/javascript">
+  $(window).bind("load", function() {
+        var beni_ifsc_code=$("#beni_ifsc_code").val();
+        if(beni_ifsc_code == null || beni_ifsc_code == ''){
+                $('#beni_name').val(' ').val('');
+                $('#beni_bank_account_number').val(' ').val('');
+
+        }
+  });
+ 
+  $("#add_beni").parent().show();
+    $("#pincode").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+    
+    var remitter_id = '<?php echo $session->remitter_id; ?>';
+    var sendAuthButton = false;  
+	    
+    function sendAuthCode(){
+		if(!remitter_id) {
+	if(!validateRemitterForm()){
+	  return false;
+	}
+	if(!validateBeniForm()){
+	  return false;
+	}
+   	$("#send_auth_code").val('1');
+        sendAuthButton = true;
+        $("#frmAdddetails").submit();   
+		} else {
+			$("#btn_auth_code").addClass('disable');
+			return false;
+		}
+    }
+   
+   
+   function sendvalidateBeneAuthCode() {
+	  if(validateBeniForm()) {
+			var postData = $('#frmAdddetails').serializeArray();
+			var formActionURL = $(this).attr("action");
+			$("#ben_btn_auth_code").val('please wait...');
+			$.ajax({
+					url: '/ajax/get-createbene',
+					type: "POST",
+					data: postData,
+				 }).done(function(res) {
+					var res = $.parseJSON(res);
+					$('.msg').remove();
+					console.log(res);
+					console.log(res.error);
+					if(res.error == 0) {
+						$(".path").after().html('<div class="msg msg-success"><p>'+res.message+'</p></div>');
+						$("#ben_btn_auth_code").val('Send Authorization Code');
+					} else {
+						$(".path").after().html('<div class="msg msg-error"><p>'+res.message+'</p></div>');
+						$("#ben_btn_auth_code").val('Send Authorization Code');
+						$("#ben_btn_auth_code").addClass('disable');
+						
+					}
+				 }).fail(function() {
+					alert("error");
+				 }).always(function() {
+					 $("html, body").animate({ scrollTop: 0 }, "slow");
+			});
+	   } else {
+		   return false;
+	   }
+   }
+   
+   
+   $('#submit_form').click(function(e){ 
+   e.preventDefault();
+	   if(validateBeniForm()) {
+			var postData = $('#frmAdddetails').serializeArray();
+			$("#submit_form").val('please wait...');
+			$.ajax({
+					url: '/ajax/get-validatebene',
+					type: "POST",
+					data: postData,
+				 }).done(function(res) {
+					if(res) {
+						var res = $.parseJSON(res);
+						console.log(res);
+					console.log(res.error);
+						$('.msg').remove();
+						if(res.error == 0) {
+							document.forms["frmAdddetails"].reset();
+							$("#submit_form").val('Save Beneficiary');
+							$("#submit_form").click(function(e){ e.preventDefault(); return; });
+							$(".path").after().html('<div class="msg msg-success"><p>'+res.message+'</p></div>');
+							$("#frmAdddetails")[0].reset();
+							document.getElementById("beni_bank_state").value = "";
+							document.getElementById("beni_branch_city").value = "";
+							document.getElementById("beni_branch_name").value = "";
+							document.getElementById("beni_bank_name").value = "";
+							document.getElementById("name").value = "";
+                                                       // document.getElementById("last_name").value = "";
+                                                        document.getElementById("dob").value = "";
+                                                        document.getElementById("pincode").value = "";
+                                                        document.getElementById("mobile").value = "";
+                                                        document.getElementById("auth_code").value = "";												
+						} else {
+							$("#submit_form").val('Save Beneficiary');
+							$(".path").after().html('<div class="msg msg-error"><p>'+res.message+'</p></div>');
+						}
+					}
+				 }).fail(function() {
+					alert("error");
+				 }).always(function() {
+					 $("html, body").animate({ scrollTop: 0 }, "slow");
+			});
+	   } else {
+		   return false;
+	   }
+   });
+   
+    function addBeni(){
+		if(remitter_id) {
+            $('#beni_name-label').slideToggle();
+            $('#beni_name-label').nextAll('dd,dt').slideToggle();
+            if($('#add_beni').html()=="Add Beneficiary"){
+                    $('#add_beni').html("Hide Beneficiary");
+					var beni_ifsc_code=$("#beni_ifsc_code").val();
+					if(beni_ifsc_code == null || beni_ifsc_code == ''){
+							$('#beni_name').val(' ').val('');
+							$('#beni_bank_account_number').val(' ').val('');
+					}
+            }else{
+                    if($.trim($('#beni_name').val())==""){
+                            $('#add_beni').html("Add Beneficiary");
+                    }else{	
+                            $('#add_beni').html("Show Beneficiary Details");
+                    }	
+            }
+		} else {
+			alert('Please add remitter');
+		}
+    }
+    function validateRemitterForm(){
+            var regex = /^[a-zA-Z\s]+$/;
+            var mob = /^[1-9]{1}[0-9]{9}$/;
+
+            var dob = $.trim($("#dob").val()); 
+            var arr_dt = dob.split("-");
+            var x = new Date();
+            x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+            var curdate = new Date();
+            var one_year=1000*60*60*24*365
+            var age = Math.round((curdate - x)/one_year);
+            var minAge = "<?php echo $minAge;?>";
+
+            /**** date of birth validation ****/
+
+
+            if($.trim($('#mobile').val())==""){
+                    alert("Please enter remitter mobile number");
+                    $('#mobile').focus();
+                    return false;
+            }else if(mob.test($.trim($("#mobile").val())) == false) {
+                    alert("Please enter valid mobile number.");
+                    $('#mobile').focus();
+                    return false;    
+            }else if($.trim($('#name').val())==""){
+                    alert("Please enter remitter name ");
+                    $('#name').focus();
+                    return false;
+            }else if($.trim($("#name").val()).length < 2){
+                    alert("Remitter name must be between 2 to 100 alphabets long");
+                    $('#name').focus();
+                    return false;	
+            }else if(!regex.test($('#name').val())){
+                    alert("Remitter name contains non alphabetic characters");
+                    $('#name').focus();
+                    return false;
+            }else if($("#dob").val()==''){
+                    alert('Please enter Date of birth');
+                    $("#dob").focus();
+                    return false;
+            }else if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                    alert('Invalid Date of Birth');
+                    $("#dob").val('');
+                    $("#dob").focus();
+                    return false;
+            }else if(age < minAge){
+                    alert('Minimum age should be '+minAge+' years');
+                    $("#dob").val('');
+                    $("#dob").focus();
+                    return false;
+            }else if($.trim($('#pincode').val())==""){
+                    alert('Please enter valid pincode');
+                    $("#pincode").focus();
+                    return false;
+            }else if(mob.test($.trim($("#mobile").val())) == false) {
+                    alert("Please enter valid mobile number.");
+                    $('#mobile').focus();
+                    return false;    
+            }else{
+                    return true;
+            }
+				
+    }  
+    
+    function validateBeniForm(){
+            if($('#beni_name-label').is(":visible")){
+
+                    var regex = /^[a-zA-Z\s]+$/;
+                    var beneaccno = /^[0-9]{5,16}$/;
+                    var acountno = $("#beni_bank_account_number").val();
+                    var confacountno = $("#beni_conf_bank_account_number").val();
+
+
+                    if($.trim($('#beni_name').val())==""){
+                            alert("Please Enter Beneficiary Name");
+                            $('#beni_name').focus();
+                            return false;
+                    }else if($.trim($('#beni_name').val()).length < 2){
+                            alert("Beneficiary name should be atleast 2 characters");
+                            $('#beni_name').focus();
+                            return false;
+                    }else if(!regex.test($('#beni_name').val())){
+                            alert("Beneficiary name contains non alphabetic characters");
+                            $('#beni_name').focus();
+                            return false;
+                    }else if($('#beni_bank_account_type').val()==""){
+                            alert("Please Select Account Type");
+                            return false;
+                    }else if($('#beni_bank_account_number').val()==""){
+                            alert("Please Enter Bank Account No. ");
+                            $('#beni_bank_account_number').focus();
+                            return false;
+                    }else if(beneaccno.test($('#beni_bank_account_number').val()) == false){
+                            alert("Invalid Bank Account No.");
+                            $('#beni_bank_account_number').focus();
+                            return false;
+                    }else if($('#beni_conf_bank_account_number').val()==""){
+                            alert("Please Enter Confirm Bank Account No. ");
+                            $('#beni_conf_bank_account_number').focus();
+                            return false;
+                    }else if(acountno != confacountno){
+                            alert('Account No. and Confirm Account No. values do not match');
+                             $('#beni_conf_bank_account_number').focus();
+                             return false;
+                    }else if($.trim($('#beni_ifsc_code').val())==""){
+                            alert("Please Enter IFSC Code");
+                            $('#beni_ifsc_code').focus();
+                            return false;
+                    }else if($('#beni_bank_name').val()==""){
+                            alert("Please Enter Bank Name");
+                            $('#beni_bank_name').focus();
+                            return false;
+                    }else if($('#beni_bank_state').val()==""){
+                            alert("Please Enter Branch State");
+                            return false;
+                    }else if($('#beni_branch_city').val()==""){
+                            alert("Please Enter Branch City");
+                            return false;
+                    }else if($('#beni_branch_name').val()==""){
+   			alert("Please Enter Branch Name");
+   			return false;
+                    }else if($('#beni_branch_address').val()==""){
+                            alert("Please Enter Branch Address");
+                            return false;
+                    }else if($('#beni_branch_address').val().length <= 2){
+                            alert("Address should be more than 3 characters");
+                            $('#beni_branch_address').focus();
+                            return false;
+                    }else{
+                         var ifsccode =  $.trim($('#beni_ifsc_code').val());
+                         $('#beni_ifsc_code').val(ifsccode);
+                            return true;
+                    }
+
+            }else{
+             return true;
+            }
+    }  
+    
+   $(document).ready(function() {
+       
+       
+        //get original values of bank name,state,city in bene form for wrong or empty ifsc code
+        var beni_bank_name_o = $("#beni_bank_name").html();    
+        var beni_bank_state_o = $("#beni_bank_state").html();      
+        var beni_branch_city_o = $("#beni_branch_city").html();
+        var beni_branch_name_o = $("#beni_branch_name").html();    
+        
+        var beneficiary_auth = <?php echo isset($session->remitter_auth)?$session->remitter_auth:0;?>;
+    	agentId = "<?php echo $user->id;?>";
+    	productId = $("#product_id").val();
+    	var beniName = $("#beni_name").val();
+    	if(beniName==""){
+			  $('#beni_name-label').hide();
+			  $('#beni_name-label').nextAll('dd,dt').hide();
+    	}else{
+    		$('#add_beni').html("Hide Beneficiary");
+    	}
+    
+	    
+	    
+	    //alert(productId);
+    	if(productId>0){
+	       // alert(productId+'----'+agentId);
+	        $.ajax({
+	                    url: '/ajax/get-remitter-registration-fee/q/'+productId+'/agent_id/'+agentId,
+	                    success: function(response) {
+	                            //alert(response);
+	                            $("#regn_fee").val(response);  
+	                            $("#regnfee").val(response);  
+	                             console.log(response);
+											}
+	
+	            });
+    	}
+    
+    	$("#product_id").change(function(){
+    	productId = $("#product_id").val();  
+           // alert('ds');
+            $.ajax({
+                url: '/ajax/get-remitter-registration-fee/q/'+$("#product_id").val()+'/agent_id/'+agentId,
+                    success: function(response) {
+                            //alert(response);
+                            $("#regn_fee").val(response);  
+                             $("#regnfee").val(response);  
+                             console.log(response);
+                    }
+      		});
+    	});
+    
+  
+  
+ 
+  
+    
+    
+    // email duplicacy check
+    $("#email").change(function(){
+            //check valid email
+            var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+            if(pattern.test($.trim($("#email").val())) == false) {
+                        alert("Please enter valid email address.");
+                        $('#email').val("");
+                        $('#email').focus();
+                        return false;    
+            }
+        
+            $.ajax({ 
+                url: '/ajax/emaildup/q/'+$("#email").val()+'/tablename/rat_remitters',
+                    success: function(response) {
+                        if(response == 1) {
+                            $(".errors").html(''); 
+                        } else { 
+                            $(".errors").html('');
+                            $("#email").val('');
+	                    $("#email").after('<ul class="errors">'+response+'</div>');
+                        }                      
+                    },
+                    error: function(xhr) {}
+        });
+    });
+    
+    
+    
+     $('#btn_add').click(function(){
+     	  if(remitter_id) { $('#btn_add').attr('disabled', 'disabled'); return false;}      
+      if(!validateRemitterForm()){
+	return false;
+      }
+      if(!validateBeniForm()){
+	return false;
+      }
+
+       //alert('inside');
+       var authCode = "<?php echo $this->remitter_auth;?>";
+       var dob = $.trim($("#dob").val()); 
+       var arr_dt = dob.split("-");
+       var x = new Date();
+       x.setFullYear(arr_dt[2],arr_dt[1]-1,arr_dt[0]);
+       var curdate = new Date();
+       var one_year=1000*60*60*24*365
+       var age = Math.round((curdate - x)/one_year);
+       var minAge = "<?php echo $minAge;?>";
+            
+      //alert(authCode);
+      /**** date of birth validation ****/
+       if(authCode!='') {
+           if($("#dob").val()==''){
+               alert('Please Enter Date of birth');
+               $("#dob").focus();
+               return false;
+           } else if (!dob.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                            alert('Invalid Date of Birth');
+                            $("#dob").val('');
+                            $("#dob").focus();
+                            return false;
+                  }
+              else if(age < minAge)   
+              {
+                alert('Minimum age should be '+minAge+' years');
+                $("#dob").val('');
+                $("#dob").focus();
+                return false;
+              }
+           }
+           
+    if($("#auth_code").val()==''){
+              alert('Please fill Authorization Code.'); 
+              return false; 
+    }
+    $('#is_submit').val('1');
+    $("#frmAdddetails").submit();
+    $('#btn_add').attr('disabled', 'disabled');
+         
+         
+    //return true;
+   });
+   
+       var ifsc = $("#beni_ifsc").val();
+      var bank = $("#beni_bank_name").val(); 
+       if($("#beni_ifsc").val() != ''){
+             $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#beni_ifsc").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                         var resArr = response.split('^');
+                        $("#beni_bank_name").html("<option value='"+resArr['0']+"'>"+resArr['0']+"</option>");    
+                       	$("#beni_bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+                        $("#beni_branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+                        $("#beni_branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");    
+                        $("#beni_branch_address").val(resArr['4']);
+                            
+                        }
+                    }
+         
+        });
+     }
+     if($("#beni_bank_name").val() != ''){
+     $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#beni_bank_name").val()+'/t/neft',
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            
+                            $("#beni_ifsc_code").html("");                           
+                            $("#beni_ifsc_code").append(response);
+                        }
+                    }
+         
+        });
+     }
+       $( "#beni_ifsc_code" ).focusout(function() {
+	  		if(this.value==""){
+                            $("#beni_bank_name").html(beni_bank_name_o);    
+                            $("#beni_bank_state").html(beni_bank_state_o);    
+                            $("#beni_branch_city").html(beni_branch_city_o);
+                            $("#beni_branch_name").html(beni_branch_name_o);    
+                            $("#beni_branch_address").val('');
+                            return false;
+	  		}
+         $.ajax({
+            url: '/ajax/get-bankdetails/q/'+this.value+'/t/neft',
+                success: function(response) {
+                    if(response == 1) {
+                      alert("IFSC Code does not exist");
+                      $("#beni_ifsc_code").val("");
+                      $("#beni_bank_name").html(beni_bank_name_o);    
+                      $("#beni_bank_state").html(beni_bank_state_o);    
+                      $("#beni_branch_city").html(beni_branch_city_o);
+                      $("#beni_branch_name").html(beni_branch_name_o);    
+                      $("#beni_branch_address").val('');
+                    } else {
+                        var resArr = response.split('^');
+                        $("#beni_bank_name").html("<option value='"+resArr['0']+"'>"+resArr['0']+"</option>");    
+                       	$("#beni_bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+                        $("#beni_branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+                        $("#beni_branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");    
+                        $("#beni_branch_address").val(resArr['4']);
+                        
+                    }
+                }
+     
+    		});
+			
+		});
+	
+        
+            // email validation check
+            $("#beni_email").change(function(){
+                    //check valid email
+                    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+                    if(pattern.test($.trim($("#beni_email").val())) == false) {
+                                alert("Please enter valid email address.");
+                                $('#beni_email').val("");
+                                $('#beni_email').focus();
+                                return false;    
+                    }
+            });
+      
+      $("#state-label").css('display', 'none');
+      $("#state").css('display', 'none');
+      $("#city-label").css('display', 'none');
+      $("#city").css('display', 'none');
+}); // clode document ready
+
+
+var city = '<?php echo $this->remitterData["city"];?>';
+var pincode = '<?php echo $this->remitterData["pin"];?>';
+ 
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                           
+                          	  $("#city").html("");
+                            
+                            $("#city").append(response);
+                             $("#city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+$("#city").change(function(){
+          $.ajax({
+              url: '/ajax/get-pincode/q/'+$("#city").val(),
+                  success: function(response) {
+                      if(response == 1) {                            
+                      } else {                            
+                      		$('#pincode').replaceWith('<select name="pincode" id="pincode" style="background:#FFFF99">');
+                          $("#pincode").html("");                            
+                          $("#pincode").append(response);
+                           console.log(response);                            
+                      }
+                  }     
+      });
+  });   
+   $("#pincode").blur(function() {
+	  		if(this.value==""){
+	  			$("#city").html("<option value=''>Select City</option>");    
+	  			$("#state").find('option[value=""]').attr("selected",true); 
+	  			/*$("#state").prop("disabled", false); 
+          $("#city").prop("disabled", false); */
+	  			return false;
+	  		}
+         $.ajax({
+            url: '/ajax/get-statecity/q/'+this.value,
+                success: function(response) {
+                    if(response == 1) {
+                      
+                      if($('#pincode').val().length < 6){
+                          alert("Invalid Pincode");
+                      }else{
+                          alert("Pincode does not exist");
+                      }
+                      
+                      $("#state").find('option[value=""]').attr("selected",true); 
+                      $("#city").html("<option value=''>Select City</option>"); 
+                      $("#pincode").val("");  
+                    } else {
+                        var resArr = response.split('^');
+                        $("#state").find('option[value="'+resArr['0']+'"]').attr("selected",true); 
+                       	$("#city").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+                       	/*$("#state").attr("disabled","disabled");
+                       	$("#city").attr("disabled","disabled");*/
+                    }
+                }
+     
+    		});
+			
+		});
+     
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#city").html("");
+                            $("#city").append(response);
+                            console.log(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+    
+  
+   
+  
+ <?php
+    $session = new Zend_Session_Namespace('App.Agent.Controller');    
+ ?>
+     var remitter_auth = <?php echo isset($session->remitter_auth)?$session->remitter_auth:0;?>;
+     var validated_remitter_auth = <?php echo isset($session->validated_remitter_auth)?$session->validated_remitter_auth:0;?>    
+
+     //alert(cardholder_auth);
+     
+     if(remitter_auth!='' && remitter_auth>0){       
+         //$("#btn_auth_code").attr("disabled","disabled");
+         $("#btn_auth_code").html('Resend Authorization Code');
+         //$('#btn_auth_code').after("<a id='resend_auth' href=''> Resend Auth Code</a>").show('slow');
+         //$('#resend_auth_code').val('resend');
+         $("#mobile").attr("readonly","readonly");
+         
+     }   
+     
+     if(validated_remitter_auth==1){
+         $("#mobile").attr("readonly","readonly");
+     }
+     		 $("#beni_bank_name").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-universalbanks/q/'+$("#beni_bank_name").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                           
+			    
+			    if (response.indexOf('^') === -1) {beni_bank_state
+			      $("#beni_bank_state").html("");
+			      $("#beni_bank_state").append(response);
+			      $("#beni_branch_city").html("");
+			      $("#beni_branch_name").html("");    
+			      $("#beni_branch_address").val('');
+			      $("#beni_ifsc_code").val("");  
+			       
+			    }else{
+			      var resArr = response.split('^');
+			      $('#beni_bank_name option:contains("'+resArr['0']+'")').prop('selected', true);
+			      $("#beni_bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+			      $("#beni_branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+			      $("#beni_branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");
+			      $("#beni_branch_address").val(resArr['4']);
+			      $("#beni_ifsc_code").val(resArr['5']);  
+			    }
+                        
+                        }
+                    },
+         
+        });
+    }); 
+		$("#beni_bank_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-cities/q/'+$("#beni_bank_name").val()+'/r/'+this.value,
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#beni_branch_city").html("");
+                            $("#beni_branch_city").append(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+    $("#beni_branch_city").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-branches/q/'+$("#beni_bank_name").val()+'/i/'+this.value,
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#beni_branch_name").html("");
+                            $("#beni_branch_name").append(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+     $("#beni_branch_name").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-branchadd/q/'+$("#beni_bank_name").val()+'/i/'+this.value+'/t/neft',
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                           var resArr = response.split('^');
+	                          $("#beni_branch_address").val(resArr['0']);
+	                          $("#beni_ifsc_code").val(resArr['1']);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+    
+    
+    
+     $("#search_remitter").click(function(){
+       
+      var mob = /^[1-9]{1}[0-9]{9}$/;
+       //alert('Gaurav');   
+       var mobile = $.trim($("#mobile").val());
+        if(mobile == ''){
+            alert('Plese enter remitter mobile number');
+             $('#mobile').focus();
+            return false;
+        }else if(mob.test($.trim(mobile)) == false) {
+                    alert("Please enter valid mobile number.");
+                    $('#mobile').select();
+                    return false;    
+            }else{
+                $("#search_remitter").text('Please wait...');
+                $.ajax({
+                url: '/ajax/get-remitterinfo/q/'+mobile,
+                    success: function(response) {
+                        // alert(response);
+                        if(response == 'false') {
+                         $("#search_remitter").text('Search Remitter');   
+                         alert('Mobile number is already registered.');
+                         $('#mobile').select();
+                         return false;
+                        } else {
+                          $("#search_remitter").text('Search Remitter');
+                          alert('Congratulation! you can proceed with the registration.');
+                           return true;
+                          
+                        }
+                          
+                         
+                    },
+                    
+                    
+         
+        });
+        
+            }
+    });
+     
+  </script>
+
+
+

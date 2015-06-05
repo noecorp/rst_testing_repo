@@ -1,0 +1,101 @@
+<script type="text/javascript">
+$(document).ready(function() {
+$("#name").attr('readOnly', 'readOnly');
+$("#ecs_corp_id").attr('readOnly', 'readOnly');
+ 
+ var city = $("#city_name").val();
+ var pincode = $("#pin").val();
+ 
+
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#city").html("");
+                            
+                            $("#city").append(response);
+                             $("#city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+
+ //if($("#city").val() != ''){
+    
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                            $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ //}
+ 
+  $("#city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#pincode").html("");                            
+                            $("#pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                           
+                            $("#city").html("");
+                            $("#city").append(response);
+                            console.log(response);
+                           
+                        }
+                    },
+         
+        });
+    }); 
+    
+   
+
+});    
+</script>
+<?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit Corporate details: '.$this->item->name ;
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

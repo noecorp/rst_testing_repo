@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+$config = array();
+
+// messages
+if (isset($this->bankName)) {
+    $config['pageTitle'] = 'Bank Name: ' . $this->bankName;
+} else {
+    $config['pageTitle'] = 'Product Listing';
+}
+//echo '<pre>'; 
+////var_dump($this->paginator);
+//foreach ($this->paginator as $key) {
+//    print_r($key);
+//}
+//echo '</pre>';
+$config['no_add'] = TRUE; 
+$config['emptyMessage'] = 'There is no product registered at this time.';
+//if($this->bid == 0){
+//    $config['addURL'] = '/product/add/';
+//    $editAction = '/product/edit?';
+//}
+//else {
+//    $config['addURL'] = '/product/add?bid='.$this->bid;
+//    $editAction = '/product/edit?urlbid='.$this->bid.'&';
+//}
+if ($this->bid > 0) {
+
+    $config['addURL'] = '/product/add?bid=' . $this->bid;
+    $editAction = 'edit/urlbid/' . $this->bid . '/';
+} else {
+    $editAction = 'edit';
+}
+// column names & indexes
+$config['columnNames'] = array(
+    'Program Type',
+    'Bank Name',
+    'Currency',
+    'Name',
+    'Description',
+    'Number of Limit Tables'
+);
+$config['columnIndexes'] = array(
+    'program_type',
+    'bank_name',
+    'currency',
+    'name',
+    'description',
+    'count'
+);
+$config['linkCol'] = array(
+    array(
+        'linkColName' => 'count',
+        'linkController' => 'product',
+        'linkAction' => 'limit',
+        'linkTitle' => 'Product Limits',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'pid',
+    ),
+    array(
+        'linkColName' => 'name',
+        'linkController' => 'product',
+         'linkAction' => 'view',
+        'linkTitle' => 'Product Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'pid',
+    )
+);
+
+$config['defaultNullPlaceholder'] = 'Add Limit';
+
+$config['actions'] = array(
+    'edit' => array(
+        'action' => $editAction,
+        'title' => 'Edit',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/edit.png',
+        //'link_class'    => 'btn',
+        'img_alt' => 'edit',
+        'acl_action' => 'edit'
+    //'extra_param'  => TRUE,
+    )
+);
+
+$config['linkOrder'] = array('edit');
+
+// render the default listing
+echo $this->partial(
+        'partials/default-listing.phtml', array(
+    'config' => $config,
+    'paginator' => $this->paginator,
+        )
+);

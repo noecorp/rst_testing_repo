@@ -1,0 +1,56 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Approve Cardholder: '.$this->item->first_name." ".$this->item->last_name;
+$config['areYouSureMessage'] = 'Are you sure you want to approve this cardholder?';
+
+
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Member Id',
+    'Name',
+    'Card Number',
+    'Name on Card',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Submission Date -Maker',
+    'Submission Date -Checker',
+    
+   );
+$config['columnIndexes'] = array(
+    'member_id',
+    'name',
+    'card_number',
+    'name_on_card',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'employer_name',
+    'date_created',
+    'date_approval',
+   );
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);
+
+?>
+
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL('/corp_kotak_cardholder/approvalpending'); ?>">← Back</a></div>

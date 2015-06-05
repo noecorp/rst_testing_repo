@@ -1,0 +1,20 @@
+<Limit GET POST>
+ order deny,allow
+ allow from all
+# deny from all
+# allow from 122.169.98.96
+# allow from 122.160.80.129
+# allow from 182.72.6.26
+# allow from 182.68.31.237
+# allow from 59.179.147.177
+# allow from 123.252.216.215
+</Limit>
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

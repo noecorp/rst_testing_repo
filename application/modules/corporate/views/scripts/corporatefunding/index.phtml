@@ -1,0 +1,22 @@
+<?php
+$helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">My Funding</div>
+
+<div class="innerbox">
+    <ul class="systemul">
+        <?php if ($helper->can('requestfund', 'corporatefunding')) { ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/requestfund'); ?>" title="Request Fund">Request Fund</a>: Request Fund</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('fundrequest', 'corporatefunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/fundrequest'); ?>" title="My Fund Requests">My Fund Requests</a>: My Fund Requests</li>
+            <div class="clear"></div>
+        <?php }
+        ?>
+
+    </ul>
+<div class="clearfix"></div>
+</div>

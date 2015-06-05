@@ -1,0 +1,32 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Delete Agent';
+$config['areYouSureMessage'] = 'Are you sure you want to delete this agent?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'UserName',
+    'Status',
+   );
+$config['columnIndexes'] = array(
+    'username',
+    'status',
+   );
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

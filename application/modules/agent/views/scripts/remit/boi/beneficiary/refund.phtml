@@ -1,0 +1,85 @@
+<?php
+/**
+ * Refund Remittance
+ */
+echo $this->form;
+$remitRequestId = isset($this->remitRequestId)?$this->remitRequestId:'';
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+$refundableAmount= isset($this->refundable_amount)?Util::numberFormat($this->refundable_amount):'';
+$beneficiaryName = isset($this->remitRequestDetail[0]['beneficiary_name'])?$this->remitRequestDetail[0]['beneficiary_name']:'';
+$dateCreated = isset($this->remitRequestDetail[0]['date_created'])?$this->remitRequestDetail[0]['date_created']:'';
+if($dateCreated!='')
+    $dateCreated = Util::returnDateFormatted($dateCreated);
+
+if($refundableAmount!=''){
+    
+$config = array();
+//$duration = $this->from.' - '.$this->to;
+
+$config['pageTitle'] = 'Refund for '.$this->remitterDetail['name'];
+
+$config['emptyMessage'] = 'No record found.';
+$config['addMessage'] = 'Back'; 
+$srcLink='';
+
+$config['addURL'] = $srcLink;
+
+$config['showActions'] = false;
+
+$config['no_add'] = true;
+$helper = $this->listingUtilities($config);
+?>
+<div class="Boldtext"><?php echo $this->pageTitle;?></div> 
+<div class="clearboth"></div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'> 
+        <thead><!-- universal table heading --> 
+            <tr>
+               <th><span>Refundable Amount:  </span></th>
+                <td colspan="3" align="left"><?php echo $refundableAmount;?><br/>
+               </td>
+           </tr> 
+
+           <tr>
+               <th><span>Beneficiary Name:  </span></th>
+                <td colspan="2" align="left"><?php echo $beneficiaryName;?><br/>
+               </td>
+           </tr>                     
+
+           <tr>
+               <th><span>Date of Remittance:  </span></th>
+                <td colspan="1" align="left"><?php echo $dateCreated;?><br/>
+               </td>
+           </tr> 
+
+       </thead>
+            </table>
+        </div>
+</div>
+   
+
+<?php   
+}
+?>
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_auth_code").click(function(){
+        
+            var url = '<?php echo $this->formatURL("/remit_boi_beneficiary/failuretxn?rrid=".$remitRequestId);?>';    
+            $(location).attr('href',url);
+       
+    });     
+});
+
+$("#btn_refund").click(function() { 
+         if($("#auth_code").val() == '')  {
+            alert('Please enter auth code') ;
+            $("#auth_code").focus();
+            return false;
+       }
+        $("#is_submit").val('1');
+        $("#btn_refund").attr("disabled","disabled");
+        $("form").submit();
+   });
+</script>

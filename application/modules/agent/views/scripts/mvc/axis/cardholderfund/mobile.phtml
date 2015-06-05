@@ -1,0 +1,29 @@
+  <?php echo Util::getCardholderFundLoadTab("mobile"); ?> 
+  <div class="Boldtext">Mobile Detail</div> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form;  
+  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+  ?>
+  
+  
+  <script type="text/javascript">
+      
+   function sendAuthCode(){
+        $("#send_auth_code").val('1');
+        $("#frmFund").submit();       
+   }
+      
+   
+
+    
+    
+ <?php
+    $session = new Zend_Session_Namespace('App.Agent.Controller');    
+ ?>
+     var ch_fund_load_auth = <?php echo isset($session->ch_fund_load_auth)?$session->ch_fund_load_auth:0;?>;
+     //alert(cardholder_auth);
+     
+     if(ch_fund_load_auth!='' && ch_fund_load_auth>0){       
+         $("#btn_auth_code").attr("disabled","disabled");
+     }         
+  </script>

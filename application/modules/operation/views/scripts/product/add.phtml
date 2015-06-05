@@ -1,0 +1,60 @@
+<?php
+/**
+ * Add a new privilege in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Add new product';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+?>
+<div class="clear"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+   
+    var url = $(location).attr('href');
+    // get value of bid from url
+    //var bid = url.split('=');
+    var bid = '<?php echo $this->bid ?>';
+     
+    
+    //var bank = Number($("#bid").val()); 
+    var bank = Number($("#bid").val()); 
+    //alert(bank);
+    //alert(bid['1']);
+    //if ( bid['1'] > 0){
+    if ( bid > 0){
+        //$('.cancel').attr('href','/product/index?bid='+ bid['1']);
+        $('.cancel').attr('href',document.referrer);
+    
+    $("#bank_id option[value='"+bid+"']").attr("selected", "selected");
+                          
+    var options = document.getElementById('bank_id').options;
+    
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+    
+  options[i].disabled = true;
+}  
+ 
+ 
+ $("#bank_id option[value='"+bid+"']").removeAttr('disabled');
+ }
+ else
+ {
+//     $('.cancel').attr('href','/product/index'); 
+        $('.cancel').attr('href',document.referrer);
+ }
+     
+});      
+  </script>

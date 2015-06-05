@@ -1,0 +1,137 @@
+<?php
+/**
+ * Default layout, used to render most parts of the application
+ *
+ * @category Operation
+ * @package backoffice_layouts
+ * @copyright company
+ */
+
+// configure the title
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Shmart!Pay - Business Corporate');
+
+
+//Add the ZFDebug Toolbar only if enabled in app.ini
+if(Zend_Controller_Front::getInstance()->hasPlugin('ZFDebug_Controller_Plugin_Debug')){
+    $this->headScript()->offsetSetFile(2, $this->baseUrl() . '/js/zfdebug.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/css/zfdebug.css');
+}
+
+$user = Zend_Auth::getInstance()->getIdentity();
+$lastLogin = $user->last_login;
+$lastLogin = Util::returnDateFormatted($lastLogin, "Y-m-d", "d-m-Y", "-");
+$logoBank = $user->logo_bank;
+//echo $user->logo_bank;//;print_r($logoBank); //exit;
+
+//echo "<pre>";print_r($user);
+$bodyClass = Zend_Registry::get('controllerName') . Zend_Registry::get('actionName');
+
+$this->AutoloadResources();
+$bankRatnakar = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+$bankRatnakarUnicode = $bankRatnakar->bank->unicode;
+$bankKotak = App_DI_Definition_Bank::getInstance(BANK_KOTAK);
+$bankKotakUnicode = $bankKotak->bank->unicode;
+//echo $user->bank_unicode."=>".$bankKotakUnicode;
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head> 
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="content-style-type" content="text/css" /> 
+    <meta http-equiv="content-script-type" content="text/javascript" /> 
+
+    <!-- link rel="shortcut icon" type="image/ico" href="<?php echo $this->baseUrl();?>/images/favicon.png" / -->
+
+    <?php echo $this->headTitle() . PHP_EOL;?>
+    <?php echo $this->headLink() . PHP_EOL;?>
+    <?php echo  $this->jQuery()->enable(); ?>
+    <!--[if !IE 7]>
+        <style type="text/css">
+            div.wrapper {display:table;height:100%}
+        </style>
+    <![endif]-->
+    
+      <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+   <!-- <link href="<?php echo $this->baseUrl();?>/css/mystyle_operation.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/pagination.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/navigation.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/tables.css" rel="stylesheet" type="text/css" />-->
+    <link href="<?php echo $this->baseUrl();?>/css/stylesheets/admin.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl();?>/css/stylesheets/navigation.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="<?php echo $bodyClass;?>">
+
+	<div class='modal_bg'></div>
+  <div id='header-wrapper'>
+     <div class="loginname">Hello <?php echo ucfirst($user->first_name).' '.ucfirst($user->last_name); ?> (<?php echo $user->corporate_code;?>)</div>
+     <div id='header'>
+	
+       	  <img src="/images/new/logo-shmart.png" style="margin-left:-151px;"/>	
+			    <?php echo $this->renderMenu();?>
+			    <?php if($this->IsLogin()) {?>   
+		        	<ul class='side-menu'>
+		          <li><a href="<?php echo $this->formatURL('/profile/logout/');?>"  data-method="delete" rel="nofollow"><i class='icon-logout'></i>Log Out</a></li>
+		          <li><a class="" href="<?php echo $this->formatURL('/setting/index/');?>"><i class='icon-settings'></i>Settings</a></li>
+		        </ul>
+					<?php } ?>
+			</div><!---end header--->
+	 		<div class='sub_menu clearfix'><?php echo $this->renderSubMenu();?></div>
+			
+   </div><!---end header-wrapper---> 
+	 <div id='main'>
+		 <div class="content_container">
+		   
+	   <!-- flash messenger - displays success / fail messages to the user -->
+     <?php echo $this->flashMessenger();?>
+
+     <!-- main content - the content of the view will be rendered here -->
+     <?php echo $this->layout()->content;?>
+	 	</div><!---end content_container --->
+	 </div><!---end main --->
+	 
+	 <div id='footer-wrapper'>
+      <div id='footer'>
+        <ul class='left-subfooter'>
+          <?php if(!empty($logoBank)) { ?>
+	  <li>
+            <!--<img style="height: 20px; margin-left: -10px; margin-top: -4px;" src="/images/new/mediassist-logo3.png" />-->
+	    <img style="height: 20px; margin-left: -10px; margin-top: -4px;" src="<?php echo $this->baseUrl();?>/images/logo/<?php echo $logoBank;?>"/>
+          </li>
+	  <?php } ?>
+          <li>
+	    <?php if($user->bank_unicode==$bankKotakUnicode){?><a href="mailto:<?php echo KOTAK_CORPORATE_EMAIL;?>"><?php echo KOTAK_CORPORATE_EMAIL;?></a>
+	    <?php } else {?>
+	    <a href="mailto:care.rbl@shmart.in">care.rbl@shmart.in</a><?php } ?>
+	    
+          </li>
+          <li>
+	    <?php if($user->bank_unicode==$bankKotakUnicode){
+		echo "Call ".KOTAK_CALL_CORPORATE_CENTRE_NUMBER;
+	     }elseif($user->bank_unicode==$bankRatnakarUnicode){
+		echo "Call 022 6730 4948";
+	     }else { echo "Call 1-800-425-9594";} ?>
+            
+          </li>
+        </ul>
+        <ul class='right-subfooter'>
+          <li>
+            <a href="<?php echo $this->formatURL('/profile/index/');?>">Home</a>
+          </li>
+          <li>
+            <a href="<?php echo $this->formatURL('/profile/webterm/');?>">Website Terms</a>
+          </li>
+          <li>
+            <a href="<?php echo $this->formatURL('/profile/privacy/');?>">Privacy</a>
+          </li>
+         
+        </ul>
+      </div><!---end footer--->
+    </div><!---end footer-wrapper--->
+		<?php //echo $this->headScript() . PHP_EOL;?>
+</body> 
+</html>

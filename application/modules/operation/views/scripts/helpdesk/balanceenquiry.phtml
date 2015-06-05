@@ -1,0 +1,74 @@
+<div class="Boldtext">Balance Enquiry</div> 
+  <span><?php 
+  $balInfo = isset($this->info->balanceInquiryList)?$this->info->balanceInquiryList:'';
+  
+  echo $this->msg?></span>
+  <?php echo $this->form; 
+  
+  $resCardnumber = isset($balInfo->cardnumber)?$balInfo->cardnumber:'';
+  if($resCardnumber!=''){
+     
+      $balInfo->responseCode = isset($this->info->responseCode)?$this->info->responseCode:'-';
+      $balInfo->mobile = isset($this->info->mobile)?$this->info->mobile:'-';
+  
+      $config = array();
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Response Code',
+        'Mobile Number',
+        'CRN',
+        'CRN Type',
+        'Currency Code',
+        'Available Balance',
+        'Ledger Balance',
+        'Available Cash',
+        'Available Credit',
+        'Cash Limit',
+        'Last Statement Amount',
+        'Minimum Statement Due',
+        'Activation Date',
+        'Activation Flag',
+        'Loyalty Opening Balance',
+        'Loyalty Earned',
+        'Loyalty Redeemed',
+        'Loyalty Balance',
+        'Product Sub Type',
+        'Product Type',
+        'Program Description',
+        'Status',
+    );
+    $config['columnIndexes'] = array(
+        'responseCode',
+        'mobile',
+        'cardnumber',
+        'cardtype',
+        'currencycode',
+        'availablebalance',
+        'ledgerbalance',
+        'availablecash',
+        'availablecredit',
+        'cashlimit',
+        'laststatementamount',
+        'minstatementdue',
+        'activationdate',
+        'activationflag',
+        'loyaltyopeningbalance',
+        'loyaltyearned',
+        'loyaltyredeemed',
+        'loyaltybalance',
+        'productsubtype',
+        'producttype',
+        'programdesc',
+        'status',
+    );
+
+   
+    echo $this->partial(
+        'partials/default-helpdesk-listing.phtml',
+        array(
+            'config' => $config,
+            'info' => $balInfo
+        )
+    );
+  } 
+

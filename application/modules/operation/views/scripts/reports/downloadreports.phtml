@@ -1,0 +1,136 @@
+<div class="Boldtext"><?= $this->heading ?></div>
+<?php
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit) ? $this->btnSubmit : '';
+
+if ($frmSubmit) {
+    $config = array();
+    // messages
+    $config['pageTitle'] = $this->pageTitle;
+    $config['emptyMessage'] = 'No record found.';
+    // column names
+    $config['columnNames'] = array(
+        'File Name',
+        'Action',
+    );
+    $config['actions'] = array();
+    $cntColNames = count($config['columnNames']) - 1;
+    ?>
+    <div class="Boldtext"><?php echo $config['pageTitle']; ?></div>
+    <div style="clear:both;"></div>
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0' >
+                <thead> 
+                    <tr>
+                        <?php
+                        foreach ($config['columnNames'] as $columnName) :
+                            echo '<th><span>' . $columnName . '</span></th>';
+                        endforeach;
+                        ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $report_name = $this->formData['report_name'];
+                    $from_dt = $this->formData['from_date'];
+                    $from_date = Util::returnDateFormatted($from_dt, "d-m-Y", "Y-m-d", "-");
+
+                    switch ($report_name) {
+                        case AGENT_BALANCE_SHEET_REPORT:
+                            $dir = UPLOAD_PATH_AGENT_BALANCE_SHEET_REPORTS;
+                            break;
+                        case AGENT_VIRTUAL_BALANCE_SHEET_REPORT:
+                            $dir = UPLOAD_PATH_AGENT_VIRTUAL_BALANCE_SHEET_REPORT;
+                            break;
+                        case WALLET_BALANCE_SHEET_REPORT:
+                            $dir = UPLOAD_PATH_WALLET_BALANCE_REPORTS;
+                            break;
+                    }
+
+                    $detailssArr = array_diff(scandir($dir), array('..', '.'));
+                    $detailsArr = array();
+                    foreach ($detailssArr as $val) {
+                        if (strpos($val, $from_date)) {
+                            array_push($detailsArr, $val);
+                        }
+                    }
+                    if (count($detailsArr) != ''):
+                        $i = 0;
+                        foreach ($detailsArr as $item):
+                            echo '<tr><td>' . $item . '</td>';
+                            echo '<td><a href="javaScript:void(0);" onclick="downloadreportFile(';
+                            ?>'<?= $item ?>' <?php
+                            echo ');" title="Download File"><img src="' . $this->baseUrl() . '/images/icons/download_icon.png" alt="Download file"/></a></td>';
+                            echo '</tr>';
+
+                            $i++;
+                            if ($i > 29) {
+                                break;
+                            }
+                        endforeach;
+                    else:
+                        echo '<tr><td colspan="' . ($cntColNames + 1) . '">' . $config['emptyMessage'] . '</td></tr>';
+                    endif;
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>&nbsp;</div>
+<?php } ?> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input#from_date").change(function () {
+            if (this.value) {
+                var date_start = this.value;
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x > curdate)
+                {
+                    alert("Please enter date not greater than today's date");
+                    this.value = '';
+                    return false;
+                }
+                else {
+                    if (date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        return true;
+                    } else {
+                        alert('Please enter valid From date');
+                        this.value = '';
+                        $("#from_date").focus();
+                        return false;
+                    }
+                }
+            }
+        });
+
+        $('form').submit(function () {
+
+            var from = $.trim($("#from_date").val());
+            var from_dt = from.split("-");
+
+            /**** date validation ****/
+            if (from == '' || from == '00-00-0000')
+            {
+                alert('Please specify date.');
+                $("#from_date").focus();
+                return false;
+            }
+
+            /**** date validation over ****/
+            return true;
+        });
+
+
+    });
+
+    function downloadreportFile(file_name) {
+        var url = '<?php echo $this->formatURL("/reports/downloadreports?report_name=" . $this->formData['report_name'] . "&from_date=" . $this->formData['from_date']); ?>';
+        url = url + "&type=downloadreports&file_name=" + file_name;
+        //alert(url);
+        $(location).attr('href', url)
+    }
+</script>

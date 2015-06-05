@@ -1,0 +1,28 @@
+ <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+ <div class="Boldtext">Edit Cardholder</div> 
+  <span><?php echo $this->msg?></span>
+  <?php 
+  echo $this->form;  
+  ?>
+  
+  
+  <script type="text/javascript">
+   
+    $('form').submit(function(){
+       var dob = $.trim($("#date_of_birth").val()); 
+      
+      /**** date of birth validation ****/
+       if(dob=='') {
+                    alert('Please specify date of birth');
+                    $("#date_of_birth").focus();
+                    return false;
+                   } 
+          /**** date of birth validation over ****/
+          
+          
+          
+    return true;
+         
+   });
+    
+  </script>

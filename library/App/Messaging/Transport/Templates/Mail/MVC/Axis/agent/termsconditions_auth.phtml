@@ -1,0 +1,32 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear <?php echo ucfirst($this->cardholder_name); ?>,</p>
+
+<p>The Terms and Conditions for <?php echo $this->product_name; ?> is attached with this email.</p>
+
+<p>Please provide the Authorization Code <b><?php echo $this->termsconditions_auth; ?></b> as a confirmation of your agreement to abide by the Terms and Conditions of <?php echo $this->product_name; ?>. This code has also been sent to the mobile number provided by you in your application form. We will not be able to process your application without this code.</p>
+
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: care@shmart.co.in</p>
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo \Util::getagentEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo \Util::getaltEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo \Util::getaltEmailTC(); ?></p>

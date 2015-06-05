@@ -1,0 +1,55 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear <?php echo ucfirst($this->agent_name); ?>,</p>
+
+<?php 
+$responseStatus = isset($this->response_status)?$this->response_status:'';
+if($responseStatus==FLAG_PENDING || $responseStatus==FLAG_DECLINE){
+?>
+ 
+<p>Your request for loading balance in your account could not be processed.</p>
+
+<p>The available balance in your account is <?php echo $this->new_balance; ?></p> </p>
+
+<p>To know more about this, please visit the fund request section of your Shmart! Business Partner account.</p>
+
+
+<?php    
+} else { ?>
+
+<p>Your account has been loaded with Rs. <?php echo $this->amount; ?> on  <?php echo $this->on_date; ?></p>
+
+
+
+<p>The available balance in your account is Rs. <?php echo $this->new_balance; ?></p>
+
+<p>Please contact us in IMMEDIATELY in case this amount has been erroneously credited to your account.</p>
+
+<?php } ?>
+
+
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: partner.support@shmart.co.in</p>
+
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo Util::getEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo Util::getEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo Util::getEmailTC(); ?></p>

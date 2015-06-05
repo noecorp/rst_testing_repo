@@ -1,0 +1,90 @@
+<?php
+$config = $this->config;
+?>
+<div class="Boldtext"><?php echo $config['pageTitle']; ?></div>
+<?php
+if (!empty($this->msg)) {
+    ?>
+    <div class="msg msg-error"><p><?php echo $this->msg ?></p></div>
+    <?php
+}
+?>
+
+<dl class="innerbox form">
+    <dt>
+    <?php
+    $countStatement = count($this->paginator);
+
+    if ($countStatement) :
+        ?>
+        <form name ="frm1" id ="frm1" action ="<?php echo $config['formAction'] ?>" method = "POST"> 
+        <?php endif; ?>
+        <div class="tablebox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+                <table width="900" cellspacing='0'>
+
+                    <thead><!-- universal table heading --> 
+                        <tr>
+                            <th></th>
+                            <?php /*                             * ******** display the column names ********* */ ?>
+                            <?php foreach ($config['columnNames'] as $columnName) : ?>
+                                <th><span><?php echo $columnName; ?></span></th>
+                            <?php endforeach; ?>
+                            <?php /*                             * ******** finished displaying the column names ********* */ ?>
+                        </tr> 
+                    </thead>
+                    <tbody>
+
+                        <?php /*                         * ******** do we have items? ********* */ ?>
+                        <?php
+                        $cntColNames = count($config['columnNames']);
+                        if ($countStatement) :
+                            ?>
+                        <input type="hidden" name="corporate_funding_id" value="<?php echo $this->corporate_funding_id; ?>"/> 
+
+                        <?php /*                         * ******** we do! start displaying the items ********* */ ?>
+                        <?php
+                        foreach ($this->paginator as $item) :
+                            $info = Util::toArray($item);
+                            ?>
+                            <tr>
+                                <td><input type="radio" name="statement_id" value="<?php echo $info['id']; ?>"/></td>
+                                <?php
+                                foreach ($config['columnIndexes'] as $confColName) {
+                                    ?>
+                                    <td><?php echo $info[$confColName]; ?></td>
+                                    <?php
+                                }
+                                /*
+                                 * ******** finished displaying the inner columns ********* */
+                                ?>
+                            </tr>    
+                        <?php endforeach; ?>
+                        <?php /*                         * ******** finished displaying the items ********* */ ?>
+                    <?php else: ?>
+                        <?php /*                         * ******** we don't have any items ********* */ ?>
+                        <tr>
+                            <td colspan="<?php echo $cntColNames + 2; ?>">
+                                <?php echo $config['emptyMessage']; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php /*                     * ******** finished do we have items? ********* */ ?>
+                    </tbody> 
+                </table>
+            </div>
+        </div>
+        <div>&nbsp;</div>
+
+        <dd class="form-field-column edit" style="float: left; clear: both;">
+            <?php if ($countStatement) : ?>
+                <input id="process_settlement" class="tangerine" type="submit" title="Process Settlement" value="Process Settlement" name="submit">
+                <span>or</span>
+            <?php endif; ?>
+            <a  class="cancel" href="<?php echo $this->formatURL('/corporatefunding/pendingfundrequest') ?>">Cancel</a> 
+        </dd>
+        <?php if ($countStatement) : ?>
+        </form>
+    <?php endif; ?>
+    </dt>
+</dl>

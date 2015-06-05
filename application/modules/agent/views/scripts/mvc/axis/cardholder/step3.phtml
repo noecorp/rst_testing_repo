@@ -1,0 +1,38 @@
+<?php echo Util::getCardholderSignupTab("step3"); ?> 
+<div class="Boldtext">Step3 Details</div> 
+<?php echo $this->form; 
+    $session = new Zend_Session_Namespace('App.Agent.Controller');       
+    $cardholderStep3 = isset($session->cardholder_step3)?$session->cardholder_step3:''; 
+?>
+<style>    
+    dt#terms_conditions_text-label{clear:both;}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    /* temporarily commented for revert
+    var errorExists = "<?php echo isset($this->errorExists)?$this->errorExists:'';?>";    
+    var cardholderStep3 = "<?php echo $cardholderStep3;?>";
+    if(errorExists || !cardholderStep3){
+        $("#btn_next").attr("disabled","disabled");
+    }
+    
+    $("#btn_discard").click(function(){
+        discardResp = confirm('Are you sure you want to discard this customer enrollment form?');
+
+        if(discardResp==true){
+           return true;
+        }else {
+            return false;
+        }
+     });*/
+     
+ var termscondition_auth = '<?php echo $this->termscondition_auth;?>';
+ //alert(termscondition_auth);
+ if(termscondition_auth !='' && termscondition_auth > 0){
+     
+     $("#btnTC").prop('value','Resend Authorization Code');
+ }
+}); 
+ 
+ </script>

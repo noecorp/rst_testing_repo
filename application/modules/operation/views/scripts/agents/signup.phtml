@@ -1,0 +1,16 @@
+<?php
+/**
+ * View for the Agent Phone verification action in Agentsignup controllers index action
+ *
+ * @category operation
+ * @package operation_views
+  * @copyright Transerv
+ */
+?>
+<div class="Boldtext">Agent Signup, mobile verification</div>
+<?php if (isset($this->error)):?>
+    <div class="msg msg-error">
+        <p><?php echo '<strong>Oops!</strong><br />Phone number alreay registered';?></p>
+    </div>
+<?php endif;?>
+<?php echo $this->form;?>

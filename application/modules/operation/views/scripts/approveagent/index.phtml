@@ -1,0 +1,84 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Approval Pending Agents Listing';
+
+$config['emptyMessage'] = 'There is no pending approval agent list at this time.';
+
+$config['no_add']=1;  //to not have add button
+// column names & indexes
+$config['columnNames'] = array(
+    
+    'Name',
+    'Email',
+    'Agent Code',
+    'Mobile No.',
+    'Registration Date',
+   // 'Status'
+
+);
+$config['columnIndexes'] = array(
+    
+    'name',    
+    'email',
+    'agent_code',
+    'mobile1',
+    'reg_datetime',
+   // 'status'
+    
+);
+
+// Approve actions
+$config['actions'] = array(
+    /*'details'    =>  array(
+        'action'        => '../agentsummary/agentdetails',
+        'title'         => 'Details',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    ),
+    'upload_docs'    =>  array(
+        'action'        => '../system/addocs',
+        'title'         => 'Upload Docs',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    ),*/
+    'approve'    =>  array(
+        'action'        => 'approve',
+        'title'         => 'Approve',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/approve.png',
+        //'link_class'    => 'btn1',
+        'img_alt'       => 'approve',
+    ),
+    'reject'    =>  array(
+        'action'        => 'reject',
+        'title'         => 'Reject',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/reject.png',
+        //'link_class'    => 'btn',
+        'img_alt'       => 'reject',
+    ),
+    
+);
+
+$config['viewLinkColumn'] = 'name';
+$config['linkOrder'] = array('approve','reject');
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

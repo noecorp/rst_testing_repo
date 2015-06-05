@@ -1,0 +1,329 @@
+<div class="Boldtext">Remittance Transaction Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title) ? $this->title : '';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+$bankUnicodeArr = Util::bankUnicodesArray();
+
+// column names & indexes
+$config['columnNames'] = array(
+    'File Name',
+    'Bank Name',
+    'Product Name',
+    'Date Start',
+    'Date End',
+    'Mobile No',
+    'Txn No',
+    'Status'
+);
+
+?>
+
+<?php if (count($this->recordexistpaginator)) : ?>
+<div class="Boldtext">Result matching our search criteria</div>
+<div class="tablebox">
+    <div class="clear"></div>
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->recordexistpaginator as $item) : 
+                $datePrev = '';?>
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                        $formatUrlFile = $this->formatURL("/filedownload/index?file=".$item['file_name']."&path=remit_report_file");
+                    ?>
+
+                        <td>
+                            <?php if($item['status'] == STATUS_ACTIVE) { ?>
+                                <a href = "<?php echo $formatUrlFile; ?>" title = "Download File"><?php echo $item['file_name'];?></a></td>
+                            <?php } else { ?>
+                                <?php echo $item['file_name'];?>
+                            <?php } ?>
+                        <?php
+                            $params = explode('&', $item['params']);
+                            
+                            $bankUnicode = explode('=', $params[0]);
+                            $dateFrom = explode('=', $params[1]);
+                            $dateTo = explode('=', $params[2]);
+                            $mobile = explode('=', $params[3]);
+                            $txnno = explode('=', $params[4]);
+			    $productId = explode('=', $params[5]);
+                            
+                            switch ($bankUnicode[1]) {
+                                case $bankUnicodeArr['3']:
+                                    $code = '-';
+                                    $name = KOTAK_BANK;
+                                    break;
+                                case $bankUnicodeArr['2']:
+                                    $code = '-';
+                                    $name = RATNAKAR_BANK_NAME;
+                                    break;
+                                case $bankUnicodeArr['1']:
+                                    $code = BOI_NSDC_PRODUCT_CODE;
+                                    $name = BANK_OF_INDIA;
+                                    break;
+                            }
+                        ?>
+                        <td><?php echo $name;?></td> 
+			<td><?php
+			$prdObj = new Products();
+			foreach ($prdObj->getProductDD($productId[1]) as $product){
+			    echo $product;
+			} ?></td>
+                        <td><?php echo Util::returnDateFormatted($dateFrom[1], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo Util::returnDateFormatted($dateTo[1], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $mobile[1];?></td>
+                        <td><?php echo $txnno[1];?></td>
+                        <td><?php echo ucfirst($item['status']);?></td>
+                      
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+<div>&nbsp;</div>
+</div>
+<?php endif;?>
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+<div class="tablebox">
+    <div class="clear"></div>
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+          
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                        $formatUrlFile = $this->formatURL("/filedownload/index?file=".$item['file_name']."&path=remit_report_file");
+                    ?>
+
+                        <td>
+                            <?php if($item['status'] == STATUS_ACTIVE) { ?>
+                                <a href = "<?php echo $formatUrlFile; ?>" title = "Download File"><?php echo $item['file_name'];?></a></td>
+                            <?php } else { ?>
+                                <?php echo $item['file_name'];?>
+                            <?php } ?>
+                        <?php
+                            $params = explode('&', $item['params']);
+                            
+                            $bankUnicode = explode('=', $params[0]);
+                            $dateFrom = explode('=', $params[1]);
+                            $dateTo = explode('=', $params[2]);
+                            $mobile = explode('=', $params[3]);
+                            $txnno = explode('=', $params[4]);
+			    $productId = explode('=', $params[5]);
+                            switch ($bankUnicode[1]) {
+                                case $bankUnicodeArr['3']:
+                                    $code = '-';
+                                    $name = KOTAK_BANK;
+                                    break;
+                                case $bankUnicodeArr['2']:
+                                    $code = '-';
+                                    $name = RATNAKAR_BANK_NAME;
+                                    break;
+                                case $bankUnicodeArr['1']:
+                                    $code = BOI_NSDC_PRODUCT_CODE;
+                                    $name = BANK_OF_INDIA;
+                                    break;
+                            }
+                        ?>
+                        <td><?php echo $name;?></td>
+			<td><?php
+			$prdObj = new Products();
+			foreach ($prdObj->getProductDD($productId[1]) as $product){
+			    echo $product;
+			} ?></td> 
+                        <td><?php echo Util::returnDateFormatted($dateFrom[1], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo Util::returnDateFormatted($dateTo[1], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $mobile[1];?></td>
+                        <td><?php echo $txnno[1];?></td>
+                        <td><?php echo ucfirst($item['status']);?></td>
+                      
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="7">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+  $('#advance').click(function(){ window.location.href = "<?php echo $this->formatURL('/remit_reports/searchremit')?>"});
+  
+     var product = $("#product").val();  
+    if($("#bank_unicode").val() != ''){
+     $.ajax({
+            url: '/ajax/get-productslistbyprogram/q/'+$("#bank_unicode").val(),
+            success: function(response) {
+                if(response == 1) {                            
+                } else {                            
+                    $("#product_id").html("");                            
+                    $("#product_id").append(response);
+                    $("#product_id option[value='"+product+"']").attr("selected", "selected");
+                     console.log(response);                            
+                }
+            }     
+        });
+    }
+
+    $("#bank_unicode").change(function(){
+        $.ajax({
+            url: '/ajax/get-productslistbyprogram/q/'+$("#bank_unicode").val(),
+                success: function(response) {
+                    if(response == 1) {                            
+                    } else {                            
+                        $("#product_id").html("");                            
+                        $("#product_id").append(response);
+                         console.log(response);                            
+                }
+            }    
+        });
+    });
+  
+     $('form').submit(function(){
+       var bank_unicode = $("#bank_unicode").val();
+       var from = $.trim($("#from_date").val()); 
+       var to = $.trim($("#to_date").val()); 
+       var duration = $("#dur").val(); 
+       var from_dt = from.split("-");
+       var to_dt = to.split("-");
+       var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+       var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+       var diff = y - x;
+       var one_day=1000*60*60*24;
+       var date_range = diff/one_day;
+       var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+
+       
+       /**** From and To date validation ****/
+       $('#bank_unicode').css('background', '#fff');
+       $('#dur').css('background', '#fff');
+       $('#from_date').css('background', '#fff');
+       $('#to_date').css('background', '#fff');
+      if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+              $("#bank_unicode").focus();
+              return false;
+         }else if((duration=='' && (from=='' && to=='') ) || (duration!='' && (from!='' || to!='') )){
+                alert('Please select either duration or from and to date.');
+                $('#dur').css('background', '#ff0');    
+                $("#dur").focus();
+            return false;
+         } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                alert('Please specify From date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                return false;
+            }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                 alert('Please specify To date.');
+                 $('#to_date').css('background', '#ff0');
+                 $("#to_date").focus();
+                 return false;
+            } else if(diff < 0){
+               alert('From date cannot be greater than To date.');
+                $('#from_date').css('background', '#ff0');
+                 $("#from_date").focus();
+                 return false; 
+            }
+            else if(date_range > max_range){
+               alert('Report can be fetched for a duration not more than '+max_range+' days');
+                 $('#to_date').css('background', '#ff0');
+                 $("#to_date").focus();
+                 return false; 
+            }
+            
+       /**** From and To date validation over ****/
+          
+     return true; 
+   }); 
+   
+   $('input#mobile_no').keydown(function(event) {
+        // Allow special chars + arrows 
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 
+            || event.keyCode == 27 || event.keyCode == 13 
+            || (event.keyCode == 65 && event.ctrlKey === true) 
+            || (event.keyCode >= 35 && event.keyCode <= 39)){
+                return;
+        }else {
+            // If it's not a number stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+    });
+});
+</script>

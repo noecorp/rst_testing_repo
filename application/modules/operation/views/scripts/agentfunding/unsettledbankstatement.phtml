@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Displays all pending agent request
+ * @copyright company
+ */
+//Util::pr($this->paginator,1);
+$config = array();
+
+$config['formAction'] = '';
+// messages
+$config['pageTitle'] = 'Unsettled Bank Statement';
+$config['emptyMessage'] = 'There is no unsettled bank statementsat available.';
+
+$config['no_add'] = TRUE;
+ $config['showActions'] = false;
+// column names & indexes
+
+$config['columnNames'] = array(
+    'Journal/Cheque No',
+    'Description',
+    'Amount',
+    'Date',
+);
+
+$config['columnIndexes'] = array(
+    'funding_no',
+    'description',
+    'amount',
+    'txn_date'
+);
+
+
+
+echo $this->partial(
+        'partials/default-listing.phtml', array(
+    'config' => $config,
+    'paginator' => $this->bankStatements,
+        )
+);
+if(count($this->bankStatements)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }  ?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+            var url = '<?php echo $this->formatURL("/agentfunding/exportunsettledbankstatement");?>';    
+            $(location).attr('href',url);
+       
+    });
+    
+       
+});
+</script>

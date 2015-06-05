@@ -1,0 +1,39 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+   $("#mobile2").keydown(function(event) {
+        
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || (event.keyCode == 65 && event.ctrlKey === true) || (event.keyCode >= 35 && event.keyCode <= 39)) {
+            return;
+        }
+        else {
+        
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+    }); 
+   
+   $('form').submit(function(){
+       if($("#std").val().length > 0 && $("#mobile2").val() === ''){
+        
+           alert('Please enter alternate contact number');
+       return false;
+       }
+      if($("#mobile2").val().length > 0 && $("#std").val() === ''){
+        
+           alert('Please enter STD code');
+       return false;
+       }
+       return true;
+   
+  });
+ 
+   });  
+    
+</script><?php 
+echo Util::getAgentRegistrationAgentTab("basic", $this->agent_id); 
+
+
+
+echo $this->form;
+?>

@@ -1,0 +1,29 @@
+<?php //
+
+
+$config = array();
+$config['pageTitle'] = 'Agent Fund Transfer';
+$config['areYouSureMessage'] = 'Are you sure you want to transfer the fund?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Corporate Name',
+    'Transfer Amount',
+    'My Balance after Transfer',
+    'Linked Agent Balance after Transfer',
+);
+$config['columnIndexes'] = array(
+    'name',
+    'txn_amount',
+    'my_balance',
+    'txn_corporate_balance'
+);
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->items
+    )
+);
+

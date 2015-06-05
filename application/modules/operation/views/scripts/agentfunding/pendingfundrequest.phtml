@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * Displays all pending agent request
+ * @copyright company
+ */
+//Util::pr($this->paginator,1);
+
+$config = array();
+// messages
+$config['pageTitle'] = 'Pending Requests';
+$config['emptyMessage'] = 'There is no pending requests at this time.';
+
+$config['no_add'] = TRUE;
+// column names & indexes
+$config['columnNames'] = array(
+    'Bank Name',
+    'Product Name',
+    'Agent Code',
+    'Agent Name',
+    'Amount',
+    'Fund Transfer Type',
+    'Journal/Cheque No.',
+    'Request Date'
+    
+);
+$config['columnIndexes'] = array(
+    'bank_name',
+    'product_name',
+    'agent_code',
+    'agent_name',
+    'amount',
+    'transfer_type_name',
+    'funding_no',
+    'date_request'
+);
+
+$config['linkCol'] = array(
+    array(
+        'linkColName' => 'agent_name',
+        'linkController' => 'agentsummary',
+        'linkAction' => 'view',
+        'linkTitle' => 'View Agent Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'id',
+        'linkParamValue' => 'agent_id',
+    ),
+);
+
+$config['actions'] = array(
+        'confirmbeforesettlement' => array(
+        'action' => 'confirmbeforesettlement',
+        'title' => 'Approve',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/approve.png',
+        'img_alt' => 'Approve',
+    ),
+   
+    'confirmbeforerejectfundrequest' => array(
+        'action' => 'confirmbeforerejectfundrequest',
+        'title' => 'Reject',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_url' => '/images/icons/reject.png',
+        'img_alt' => 'Reject',
+    ),
+);
+$config['linkOrder'] = array('confirmbeforesettlement', 'confirmbeforerejectfundrequest');
+
+echo $this->partial(
+        'partials/default-listing.phtml', array(
+    'config' => $config,
+    'paginator' => $this->paginator,
+        )
+);
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }  ?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        
+            var url = '<?php echo $this->formatURL("/agentfunding/exportpendingfundrequest");?>';    
+            $(location).attr('href',url);
+       
+    });
+    
+       
+});
+</script>

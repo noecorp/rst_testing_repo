@@ -1,0 +1,40 @@
+<?php
+/**
+ * Delete a hospital with its tids 
+ *
+ */
+
+ 
+$config = array();
+$config['pageTitle'] = sprintf('Delete "%s"?', $this->hospitalInfo[0]->name);
+$config['areYouSureMessage'] = sprintf('Are you sure you want to delete hospital "%s"?', $this->hospitalInfo[0]->name);
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Hospital Id',
+    'Terminal Id',
+    'Hospital Name',
+    'Hospital Address',
+    'City Name',
+    'State Name',
+    'Pincode'
+);
+
+$config['columnIndexes'] = array(
+    'hospital_id_code',
+    'terminal_id_code',
+    'name',       
+    'address',
+    'city',
+    'state',
+    'pincode'
+);
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->hospitalInfo[0]
+    )
+);

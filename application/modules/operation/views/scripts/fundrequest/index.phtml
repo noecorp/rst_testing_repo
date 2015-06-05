@@ -1,0 +1,82 @@
+ <?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agent Funds Requested';
+$config['emptyMessage'] = 'No fund request found.';
+$config['no_add']=1;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Agent Name',
+    'Agent Code',
+    'Agent Mobile',
+    'Request Status',
+    'Amount (<span class="WebRupee"></span>)',
+    'Comments',   
+    'Request Date',   
+);
+
+$config['columnIndexes'] = array(
+    'name',
+    'agent_code',
+    'mobile1',
+    'request_status',
+    'amt',
+    'comments',
+    'datetime_request'    
+);
+
+$config['showActions'] =TRUE;
+
+//$config['actions'] = array('response'=>
+//    array(
+//        'action'        => 'response',
+//        'title'         => 'Response',
+//        'parameter'     => TRUE,
+//        'icon'          => TRUE,
+//        'img_url'       => '/images/icons/response.png',
+//        //'link_class'    => 'btn',
+//        'img_alt'       => 'Response',
+//    ) ,
+//        'addresponse'=>    array(
+//        'action'        => 'addresponse',
+//        'title'         => 'Add Response',
+//        'parameter'     => TRUE,
+//        'icon'          => TRUE,
+//        'img_url'       => '/images/icons/add-response.png',
+//        //'link_class'    => 'btn1',
+//        'img_alt'       => 'Add Response',
+//    ) , 
+//    
+//);
+
+//$config['actionsConditional'] = array('addresponse');
+//$config['linkOrder'] = array('addresponse', 'response');
+$config['showComma'] = array('amt');
+//$config['conditionArr'] = array(
+//    0     =>  array(
+//        'param'     => 'request_status',
+//        'operator' => 'in_array',
+//        'value'     => array(STATUS_APPROVE,FLAG_DECLINE)
+//    )
+//);
+
+// render the default listing
+echo $this->partial(
+    'partials/fund-request-list.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+//echo "<pre>";print_r($this->paginator);exit;

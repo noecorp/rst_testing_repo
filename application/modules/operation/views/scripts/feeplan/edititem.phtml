@@ -1,0 +1,71 @@
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+        $('.cancel').attr('href',document.referrer);
+         $("input#txn_flat").blur(function() {
+        if(this.value) {
+            
+            $("#txn_pcnt").attr('disabled', 'disabled'); 
+            $("#txn_min").attr('disabled', 'disabled'); 
+            $("#txn_max").attr('disabled', 'disabled'); 
+            
+        }
+         var val = this.value;
+         if(val.length == 0) {
+             $("#txn_pcnt").removeAttr("disabled");
+             $("#txn_min").removeAttr("disabled");
+             $("#txn_max").removeAttr("disabled"); 
+         }
+        
+    });
+    $("input#txn_pcnt").blur(function() {
+        if(this.value) {
+           
+            $("#txn_flat").attr('disabled', 'disabled'); 
+        }
+            var val = this.value;
+         if(val.length == 0) {
+            $("#txn_flat").removeAttr("disabled"); 
+             
+         }
+
+        });
+      
+      
+      
+      
+           
+      var options = document.getElementById('typecode').options;
+    
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+    
+  options[i].disabled = true;
+}          
+   var code = $("#code").val();
+ 
+ $("#typecode option[value='"+code+"']").removeAttr('disabled');
+}); 
+
+</script>
+<?php
+/**
+ * Add a new Agent Fee in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright Transerv
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit Transaction Type in Fee Plan: '.$this->name;
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+
+
+?>

@@ -1,0 +1,179 @@
+<div class="Boldtext">NSDC Wallet/Card load Status</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'Disbursement Wallet Card Load Status';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+    $config['columnNames'] = array(
+        'Txn Indentifier type',
+        'Member Id',
+        'Card Number',
+        'Amount',
+        'Currency',
+        'Narration',
+        'Wallet Code',
+        'Customer Account number',
+        'Mode',
+        'Txn Reference No.',
+        'File Status',
+        'Failed Reason',
+        'Txn/load Date',
+        'File Name',
+        'Cust ID',
+        'Aadhaar Number',
+        'Disbursement Number'
+        
+    );
+    $config['columnIndexes'] = array(
+        'txn_identifier_type',
+        'member_id',
+        'card_number',
+        'amount',
+        'currency',
+        'narration',
+        'wallet_code',
+        'account_number',
+        'mode',
+        'txn_code',
+        'load_status',
+        'load_failed_reason',
+        'date_load',
+        'load_batch_name',
+        'cust_id',
+        'aadhar_no',
+        'disbursement_number'
+    );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+$globalBuckets = Zend_Registry::get("BOI_NSDC_DISBURSEMENT_BUCKETS");
+ ?>
+
+<div class="Boldtext">NSDC Wallet/Card load Status</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+
+
+           <thead><!-- universal table heading --> 
+            <tr>
+               <!-- <th><input type="checkbox" id="selectall"/></th>-->
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : //print_r($item); exit;
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['id'];
+                    ?>
+                  
+                   <!-- <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>-->
+
+                     <td><?php echo strtoupper($item[$config['columnIndexes'][0]]);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                     <td><?php echo Util::maskCard($item[$config['columnIndexes'][2]],4);?></td>
+                     <td><?php echo $item[$config['columnIndexes'][3]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                     <td><?php echo Util::maskCard($item[$config['columnIndexes'][7]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][8]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][9]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][10]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][11]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][12]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][13]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][14]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][15]];?></td>
+                     <td><?php echo $item[$config['columnIndexes'][16]];?></td>
+                     
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+
+
+<div>&nbsp;</div>
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } ?>
+    
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+    $("#btn_exportcsv").click(function(){
+            var url = '<?php echo $this->formatURL("/corp_boi_index/exportdisbursementcardloadreport?disbursement_number=".$this->formData['disbursement_number']."&account_number=".$this->formData['account_number']."&aadhar_no=".$this->formData['aadhar_no']."&from_date=".$this->formData['from_date']."&to_date=".$this->formData['to_date']);?>';    
+            $(location).attr('href',url);
+    });
+    $("#disbursement_number").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+    $("#bucket").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+});
+
+
+</script>

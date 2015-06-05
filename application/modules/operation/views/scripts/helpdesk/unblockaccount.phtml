@@ -1,0 +1,26 @@
+<div class="Boldtext">UnBlock Account</div> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form; 
+  $resMsg = isset($this->info['ResponseMessage'])?$this->info['ResponseMessage']:'';
+  if($resMsg!=''){
+      $config = array();
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Response Code',
+        'Response Message',
+        'CRN',
+    );
+    $config['columnIndexes'] = array(
+        'ResponseCode',
+        'ResponseMessage',
+        'crn',
+    );
+
+    echo $this->partial(
+        'partials/default-helpdesk-listing.phtml',
+        array(
+            'config' => $config,
+            'info' => $this->info
+        )
+    );
+  } 

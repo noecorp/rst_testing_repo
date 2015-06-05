@@ -1,0 +1,182 @@
+<?php
+/**
+ * View that defines the default listing UI 
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+$helper = $this->listingUtilities($this->config);
+$addURL = isset($this->config['addURL']) ? $this->config['addURL'] : '' ;
+$addImg = isset($this->config['addImg']) ? $this->config['addImg'] : '' ;
+$addbutton = isset($this->config['no_add']) ? $this->config['no_add'] : '' ;
+$noteText = isset($this->config['noteText']) ? $this->config['noteText'] : '' ;
+$agentInfo = isset($this->config['agentInfo'])?$this->config['agentInfo']:'';
+$reqDate = isset($agentInfo->datetime_request)?$agentInfo->datetime_request:'';
+if($reqDate!=''){
+    $reqDate = explode(' ', $reqDate);
+    $reqDate = Util::returnDateFormatted($reqDate[0], "Y-m-d", "d-m-Y", "-");
+}
+
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+        
+<?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->canAdd()):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+<div class="filterbox">
+
+<div style="width:950px;">
+
+    <a class="ocean" href="<?php echo $this->formatURL($href);?>" style="float:right;"><?php $helper->addMessage();?></a>
+   </div><!--Inner Style Div END-->
+
+
+</div>
+        
+<?php endif;?> 
+<?php endif;?>            
+
+
+    
+        <div class="tablebox">
+           
+             <table width="100%" cellspacing='0'>
+                
+              
+
+
+
+
+<thead><!-- universal table heading --> 
+    
+    <tr>
+                <th style="width:20%"><?php echo 'Agent Name: ';?></th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->agent_name)?$agentInfo->agent_name:'';?></td>
+            </tr> 
+                     
+            <tr>
+                <th style="width:20%">Amount Requested (<span class="WebRupee"></span>):</th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->amt)?Util::numberFormat($agentInfo->amt):'';?></td>
+            </tr> 
+            
+            <tr>
+                <th style="width:20%">Request Date:</th>            
+                <td style="width: 80%" align="left"><?php echo $reqDate; ?></td>
+            </tr> 
+                  
+             <tr>
+                <th style="width:20%">Agent Code:</th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->agent_code)?$agentInfo->agent_code:'';?></td>
+            </tr> 
+            
+            <tr>
+                <th style="width:20%">Mobile Number:</th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->mobile1)?$agentInfo->mobile1:'';?></td>
+            </tr> 
+            
+             <tr>
+                <th style="width:20%">Agent Email: </th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->email)?$agentInfo->email:'';?></td>
+            </tr> 
+                  
+             <tr>
+                <th style="width:20%">Fund Transfer Type: </th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->fund_transfer_type)?$agentInfo->fund_transfer_type:'';?></td>
+            </tr>                       
+                    
+            <tr>
+                <th style="width:20%">Agent Comments: </th>            
+                <td style="width: 80%" align="left"><?php echo isset($agentInfo->comments)?$agentInfo->comments:'';?></td>
+            </tr>                       
+                                           
+                    
+                               
+                    
+             
+                  
+                  
+                    
+                </thead>
+             </table>
+                 <table width="100%" cellspacing='0'>
+                
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th class="last tc"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+                    
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                    
+                                        $helper->displayItem($item, $index);
+                                    
+                                    ?>
+                                </td>
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!--<td style="margin:0; padding:0;">
+                                    <div class="iconbox">-->
+                                    <?php echo $helper->links($item);
+                                    ?>
+                                    <!--</div>
+                                </td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php $helper->columnCount();?>" class="emptyMessage">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+        
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php if(isset($noteText) && $noteText != '') {
+    ?>
+    <div class="note"><b>*Note: </b><?php echo $noteText;?></div>
+<?php } ?>

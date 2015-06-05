@@ -1,0 +1,44 @@
+ <?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agent Fund Request Response';
+$config['addMessage'] = 'Send Fund Request'; 
+$config['emptyMessage'] = 'No fund request found';
+$config['addURL'] = '/fundrequest/send';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Comments',
+    'Response Status',
+    'Response Date',   
+);
+
+$config['columnIndexes'] = array(
+    'comments',
+    'response_status',
+    'datetime_response'    
+);
+
+$config['showActions'] = false;
+
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+//echo "<pre>";print_r($this->paginator);exit;

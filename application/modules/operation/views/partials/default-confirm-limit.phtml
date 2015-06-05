@@ -1,0 +1,38 @@
+<?php
+/**
+ * View for the default deleting UI
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+
+$helper = $this->listingUtilities($this->config);
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+<div class="reportbox">
+   <div class="confirm"><?php $helper->areYouSureMessage();?></div>
+     <div>
+           
+             <table width="95%" cellspacing='0' align="center">
+        <?php //$helper->getColumnNamesAndValues($this->item)
+        foreach($this->item as $columnName => $columnValue) : ?>  
+            <tr>
+                <th style="width: 20%"><?php echo isset($this->config['columnNames'][$columnName]) ? $this->config['columnNames'][$columnName] : $columnName; 
+                //$helper->displayItem($columnName);?></th>
+                <td style="width: 80%" align="left"><?php 
+                if(in_array($columnName,$this->config['showComma'])){
+                    echo Util::numberFormat($columnValue);
+                }
+                else {
+                    $helper->displayItem($columnValue);
+                }
+                ?></td>
+            </tr>
+        <?php endforeach;?>
+    </table>
+    <?php echo $this->form;?>
+</div>
+</div>

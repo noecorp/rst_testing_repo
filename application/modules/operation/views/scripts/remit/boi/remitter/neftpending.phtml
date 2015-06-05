@@ -1,0 +1,155 @@
+<div class="Boldtext">NEFT Instructions Pending</div>
+<?php
+/**
+ * Manages the NEFT instruction list
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'NEFT Pending List';
+
+$config = array();
+
+// messages
+$config['pageTitle'] = $this->title;
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+        'Date',
+        'Remitter Name',
+        'Beneficiary Name',
+        'Beneficiary Account Number',
+        'Transaction Reference Number',
+        'Amount',
+        'Product',
+        'Bank',
+    );
+
+$config['columnIndexes'] = array(
+    'date_created',
+    'rem_name',
+    'ben_name',
+    'ben_account_number',
+    'txn_code',
+    'amount',
+    'ecs_product_code',
+    'bank_name',
+);
+
+$config['actions'] = array();
+$cntColNames = count($config['columnNames']) - 1 ;
+
+?>
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/remit_boi_remitter/neftpending')?>" method = "POST">  
+        <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+        
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                ?>
+               
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ 
+                    $remidArr = Util::toArray($item);
+                    $remId = $remidArr['rmid'];
+                    ?>
+                        <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $remId; ?>"/></td>
+                        <td><?php echo Util::returnDateFormatted($remidArr[$config['columnIndexes'][0]], "Y-m-d", "d-m-Y", "-");?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo Util::numberFormat($remidArr[$config['columnIndexes'][5]]);?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $remidArr[$config['columnIndexes'][7]];?></td>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+2;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div>
+<div style="float: left; clear: both;margin-left: 20px;padding-bottom: 10px;">
+<input id="process_instructions" class="tangerine" type="submit" title="Process Instructions" value="Process Instructions" name="submit">
+</div>
+</form>
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+
+?>
+
+
+
+<script>
+$(document).ready(function() {
+$("#frm1").submit(function(e) {
+       
+    if(!$('input[type=checkbox]:checked').length) {
+        //stop the form from submitting
+        e.preventDefault();
+        alert("Please select at least one to process.");
+    }
+
+    return true;
+    });  
+$("#selectall").click(function () {
+$('.reqid').attr('checked', this.checked);
+});
+
+// if all checkbox are selected, check the selectall checkbox
+// and viceversa
+$(".reqid").click(function(){
+
+if($(".reqid").length == $(".reqid:checked").length) {
+$("#selectall").attr("checked", "checked");
+} else {
+$("#selectall").removeAttr("checked");
+}
+
+});
+});
+</script>

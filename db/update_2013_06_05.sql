@@ -1,0 +1,1 @@
+UPDATE t_products SET name = UPPER(name), description = UPPER(description);

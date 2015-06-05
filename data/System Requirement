@@ -1,0 +1,9 @@
+1. PHP
+2. Mysql
+3. PHP Extenstion
+3.1 Mysqli
+3.2 OpenSSL
+3.3 Mcrypt
+
+
+sudo apt-get install php5-mcrypt

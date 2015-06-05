@@ -1,0 +1,67 @@
+<?php
+/**
+ * Displays all the Remitter's beneficiaries
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+//echo $this->form;
+$config = array();
+//if ($this->showlist){
+?>
+<div class="clearboth"></div>
+<div class="tablebox">
+   
+    <table style="width: 96%;align:centre;margin-left:18px;">
+        
+            <tr>
+                <th style="width:20%">Name</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterInfo['name'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Mobile</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterInfo['mobile'];?></td>
+            </tr>  
+            <tr>
+                <th style="width:20%">Email</th>            
+                <td style="width: 80%" align="left"><?php echo $this->remitterInfo['email'];?></td>
+            </tr>  
+             
+    </table>
+   
+</div>
+<div>&nbsp;</div> 
+<?php
+// messages
+$config['pageTitle'] = 'Beneficiary Listing for: '.$this->remitterInfo['name'];
+$config['emptyMessage'] = 'There is no beneficiary enrolled at this time.';
+$config['showActions'] = false;
+$config['no_add'] = true;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Nick Name',
+    'Mobile',
+    
+);
+$config['columnIndexes'] = array(
+    'name',
+    'nick_name',
+    'mobile',
+    
+);
+
+
+//$config['linkOrder'] = array('tranferfund');
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+//}

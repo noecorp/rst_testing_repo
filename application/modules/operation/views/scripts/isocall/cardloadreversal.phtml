@@ -1,0 +1,49 @@
+  <h1>Card Load</h1>
+ 
+<?php
+
+if(isset($this->Error)) {
+    print 'Error : ' .$this->Error;
+    print '<br /> <br />';
+}
+
+if(isset($this->fulliso)) {
+    $iso8583 = new App_ISO_ISO8583();
+    $iso8583->addISOwithHeader($this->fulliso); 
+    print '<h2>LOAD TRANSACTION</h2>';
+    //print '<pre>';
+    print 'MTI :'. $iso8583->getMTI() . '<br />';
+    print 'Bitmap :'. $iso8583->getBitmap() . '<br />';
+    print '<pre>';
+    print_r($iso8583->getData());
+    print '</pre>';
+    print 'ISO :' .$this->fulliso . '<br />';
+    print '<BR /><BR /><br />';
+}
+
+if(isset($this->response)) {
+    print '<h2>REVERSAL TRANSACTION</h2>';
+    print 'Response : ' . $this->response . '<br />';
+    $iso8583 = new App_ISO_ISO8583();
+    $iso8583->addISOwithHeader($this->response); 
+    //print '<pre>';
+    print 'MTI :'. $iso8583->getMTI() . '<br />';
+    print 'Bitmap :'. $iso8583->getBitmap() . '<br />';
+    print '<pre>';
+    print_r($iso8583->getData());
+    print '</pre>';
+    print 'ISO : ' . $this->response . '<br />';
+}
+ ?>
+  <form name="frm" action="" method="POST">
+      <table>
+         <tr>
+              <td>Full ISO Request (Load) :</td>
+              <td><input type="text" name="fulliso" value="<?php echo $this->fulliso ?>" style ="width: 400px;"/></td>
+          </tr>
+          <tr>
+              <td colspan="2" ><input type="submit" value="Reverse Load" /></td>
+          </tr>
+      </table>
+          
+  </form>

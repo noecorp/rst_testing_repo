@@ -1,0 +1,1 @@
+ALTER TABLE `t_agent_details` ADD `profile_photo` VARCHAR( 100 ) NULL AFTER `afn`;

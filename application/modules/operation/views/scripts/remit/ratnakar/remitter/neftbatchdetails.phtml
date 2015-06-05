@@ -1,0 +1,60 @@
+<?php
+/**
+ * Manages the NEFT instruction list
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+
+
+if($this->batchName!=''){
+$batchName = isset($this->formData['batch_name'])?$this->formData['batch_name']:"";
+$config = array();
+$config['no_add'] = 1;
+$config['showActions'] =FALSE;
+
+// messages
+$config['pageTitle'] = $this->title.': '.$this->batchName;
+$config['emptyMessage'] = 'No record found.';
+
+
+// column names & indexes
+$config['columnNames'] = array(
+       // 'Batch Name',    
+        'Amount',
+        'IFSC Code',
+        'Name',
+        'Bank Account Type',
+        'Address',
+        'Email',
+        'Mobile',
+        'Transaction Reference Number',
+        'Sender Message',
+    );
+
+$config['columnIndexes'] = array(
+    //'batch_name',
+    'amount',
+    'ifsc_code',
+    'name',
+    'bank_account_type',
+    'address_line1',
+    'email',
+    'mobile',
+    'txn_code',
+    'sender_msg',
+);
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>
+<div class="back"><a class="alt" href="<?php echo $this->formatURL($this->backlink);?>">← Back</a></div>
+<?php }
+?>

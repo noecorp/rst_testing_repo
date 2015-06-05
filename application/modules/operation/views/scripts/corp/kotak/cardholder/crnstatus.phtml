@@ -1,0 +1,92 @@
+<div class="Boldtext">CRN Status Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+$config = array();
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+if($this->sub == 1){
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Card Pack Id',
+    'Member Id',
+    'Status',
+    'File Name',
+    'Uploaded On',
+    );
+$config['columnIndexes'] = array(
+    'card_number',
+    'card_pack_id',
+    'member_id',
+    'status',
+    'file',
+    'date_created',
+);
+
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+}
+?>
+
+<?php if(count($this->paginator)>0) { ?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } ?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+     $('form').submit(function(){
+  
+       var product_id = $("#product_id").val();
+       var crn_status = $.trim($("#crn_status").val()); 
+       var crn = $.trim($("#crn").val()); 
+       var card_pack_id = $.trim($("#card_pack_id").val()); 
+       var file = $("#file").val(); 
+       
+       //check for empty product field
+       if(product_id==''){
+            alert('Please select product');
+            $("#product_id").focus();
+            return false;
+       }
+       //check for empty form
+       if((crn_status=='' && crn=='' && card_pack_id=='' && file =='')){
+            alert('Please enter atleast one value');
+            $("#crn").focus();
+            return false;
+      } 
+              
+      return true; 
+   }); 
+   
+    $("#btn_exportcsv").click(function(){
+        var url = '<?php echo $this->formatURL("/corp_kotak_cardholder/exportcrnstatus?product_id=".$this->formData['product_id']."&crn_status=".$this->formData['crn_status']."&crn=".$this->formData['crn']."&card_pack_id=".$this->formData['card_pack_id']."&file=".$this->formData['file']);?>';
+        
+        $(location).attr('href',url);
+    });  
+
+});
+</script>

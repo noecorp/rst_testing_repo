@@ -1,0 +1,45 @@
+  <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form;  
+   $user = Zend_Auth::getInstance()->getIdentity();
+   $productId = $this->product_id;
+   //echo $productId.'---'; exit;
+    //  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+  ?>
+  
+  <script type="text/javascript">
+
+$(document).ready(function() {
+    agentId = "<?php echo $user->id;?>";
+    productId = <?php echo $productId;?>;  
+    //alert(productId);
+    if(productId>0){
+        $.ajax({
+                    url: '/ajax/get-remitter-registration-fee/q/'+productId+'/agent_id/'+agentId,
+                        success: function(response) {
+                                //alert(response);
+                                $("#regn_fee").val(response);  
+                                 console.log(response);
+
+                        }
+
+            });
+    }
+    
+    $("#product_id").change(function(){
+    productId = $("#product_id").val();  
+           // alert('ds');
+            $.ajax({
+                url: '/ajax/get-remitter-registration-fee/q/'+$("#product_id").val()+'/agent_id/'+agentId,
+                    success: function(response) {
+                            //alert(response);
+                            $("#regn_fee").val(response);  
+                             console.log(response);
+                       
+                    }
+         
+        });
+    });
+ });
+ 
+    </script>

@@ -1,0 +1,132 @@
+<div class="Boldtext">BOI NSDC RBI Reporting</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+
+if($frmSubmit){
+   
+
+?>
+<style>
+.rbiReport{
+    border-top: 1px solid #3c3c3c; border-bottom: 1px solid #3c3c3c; border-left: 1px solid #3c3c3c; border-right: 1px solid #3c3c3c;
+}
+    
+</style>
+<div class="Boldtext"><?php echo $this->pageTitle;?></div>
+<div style="clear:both;"></div>
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+<table cellspacing="0" border="0">
+	<colgroup width="294"></colgroup>
+	<colgroup width="112"></colgroup>
+	<colgroup width="111"></colgroup>
+	<colgroup width="80"></colgroup>
+	<colgroup width="107"></colgroup>
+	<colgroup width="88"></colgroup>
+	<colgroup width="98"></colgroup>
+	<colgroup width="64"></colgroup>
+	<colgroup width="111"></colgroup>
+	<colgroup width="54"></colgroup>
+	<colgroup width="101"></colgroup>
+	<colgroup width="90"></colgroup>
+	<colgroup width="70"></colgroup>
+	<colgroup width="87"></colgroup>
+	<colgroup width="97"></colgroup>
+	<colgroup width="88"></colgroup>
+	<colgroup width="73"></colgroup>
+	<colgroup width="138"></colgroup>
+	
+		<tr><td class="rbiReport" colspan=18 height="28" align="left" valign=middle><b>Name of the Entity/Bank: Bank of India - BIN  </b></td>
+		</tr>
+		<tr>
+		<td class="rbiReport" rowspan=2 height="183" align="center" valign=middle bgcolor="#FFFFFF">Instrument Type</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Outstansding <br>balance in Escrow A/c</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Number of Pre Paid Instruments Issued<br>with reloadable function (Amount in `)</td>
+		<td class="rbiReport" colspan=2 align="center" valign=middle bgcolor="#FFFFFF">Pre Paid Instruments loading/ Unloading transactions Details</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Number of <br>Retailer / Co- branded Pre Paid Card<br>Issued</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Denomination of Pre Paid Instruments<br> issued during the month </td>
+		<td class="rbiReport" colspan=2 align="center" valign=middle bgcolor="#FFFFFF">Pre Paid Instruments<br> issued during the month </td>
+		<td class="rbiReport" colspan=2 align="center" valign=middle bgcolor="#FFFFFF">Total Number<br>of Payment Transactions <br>(in Actuals)</td>
+		<td class="rbiReport" colspan=2 align="center" valign=middle bgcolor="#FFFFFF">Total Value <br>of  Payment Transactions<br>( In `)</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Number of Pre Paid Card Terminals</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Number of Loading /Unloading Terminals</td>
+		<td class="rbiReport" rowspan=2 align="center" valign=middle bgcolor="#FFFFFF">Number of Pre Paid Card Payment Terminals</td>
+		<td class="rbiReport" colspan=2 align="center" valign=middle bgcolor="#FFFFFF">Pre Paid Instruments<br>Outstanding </td>
+		</tr>
+	<tr>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Number</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Amount</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Number</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Amount</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">using<br>card</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">using other storages</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF"><br>card</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">using other storages</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Number</td>
+		<td class="rbiReport" align="center" valign=middle bgcolor="#FFFFFF">Amount</td>
+	</tr>
+	<tr>
+		<td class="rbiReport" height="20" align="left" valign=middle><b><?php echo $this->reportData['instrument_type'] ;?></b></td>
+		<td class="rbiReport" align="center" sdval="11847.34" sdnum="1033;0;0.00"><b><?php echo $this->reportData['outstansding_balance_in_escrow'];?></b></td>
+		<td class="rbiReport" align="center" sdval="0" sdnum="1033;"><b><?php echo $this->reportData['instruments_issued_with_reloadable'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="2" sdnum="1033;"><b><?php echo $this->reportData['loading_unloading_transactions_details_count'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="800" sdnum="1033;0;0.00"><b><?php echo $this->reportData['loading_unloading_transactions_details_amt'];?></b></td>
+		<td class="rbiReport" align="justify"><b><?php echo $this->reportData['number_of_retailer'];?></b></td>
+		<td class="rbiReport" align="justify"><b><?php echo $this->reportData['denomination_of_pre_paid'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="0" sdnum="1033;"><b><?php echo $this->reportData['pre_paid_instruments_issued_count'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="800" sdnum="1033;0;0.00"><b><?php echo $this->reportData['pre_paid_instruments_issued_amt'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="6" sdnum="1033;"><b><?php echo $this->reportData['total_number_of_payment_transactions_card'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF"><b><?php echo $this->reportData['total_number_of_payment_transactions_storage'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF" sdval="614.48" sdnum="1033;"><b><?php echo $this->reportData['total_number_of_value_transactions_card'];?></b></td>
+		<td class="rbiReport" align="center" bgcolor="#FFFFFF"><b><?php echo $this->reportData['total_number_of_value_transactions_storage'];?></b></td>
+		<td class="rbiReport" align="justify"><b><?php echo $this->reportData['number_of_pre_paid_card_terminals'];?></b></td>
+		<td class="rbiReport" align="justify"><b><?php echo $this->reportData['number_of_loading_unloading_terminals'];?></b></td>
+		<td class="rbiReport" align="justify"><b><?php echo $this->reportData['number_of_pre_paid_card_payment_terminals'];?></b></td>
+		<td style="border-bottom: 1px solid #3c3c3c; border-left: 1px solid #3c3c3c; border-right: 1px solid #3c3c3c" align="center" bgcolor="#FFFFFF" sdval="10" sdnum="1033;"><b><?php echo $this->reportData['pre_paid_instruments_outstanding_number'];?></b></td>
+		<td class="rbiReport" align="center" sdval="11847.34" sdnum="1033;0;0.00"><b><?php echo $this->reportData['pre_paid_instruments_outstanding_amount'];?></b></td>
+	</tr>
+    </table>
+ </div>
+</div>
+<div>&nbsp;</div>
+<?php if($this->showExport){?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php
+    }
+} ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    
+    var d = new Date();
+    var n = d.getMonth() + 1;
+    var y = d.getFullYear();
+    //alert(n+" "+y);
+     $("form").submit(function(){ 
+	if($('#month').val() > n && $('#year').val() >= y ) {
+	    alert("Selected month & year greater than today's date");
+	    return false;
+	}
+	return true;
+    });
+    $("#btn_exportcsv").click(function(){
+        
+       
+            var url = '<?php echo $this->formatURL("/corp_boi_reports/exportrbi?to_date=".$this->formData['to_date']."&from_date=".$this->formData['from_date']."&product_id=".$this->formData['product_id']);?>';    
+            $(location).attr('href',url);
+       
+    });  
+    
+   
+});
+</script>

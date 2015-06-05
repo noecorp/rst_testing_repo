@@ -1,0 +1,85 @@
+<?php
+echo Util::getAgentEditTab("identification", $this->agent_id); 
+$config = array();
+$config['pageTitle'] = 'Edit Agent Identification details';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+?>
+
+<script type="text/javascript">
+jQuery.validator.setDefaults({
+	debug: true,
+	success: "valid"
+});;
+</script>
+
+  <script>
+  $(document).ready(function(){
+      
+      /*$("#system-editidentification").validate({
+         
+            rules: {
+                Identification_number: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 8
+                }
+            }
+        });*/
+      
+     $("#Identification_type").change(function(){
+         
+     
+     var type = $("#Identification_type").val();
+     
+     if(type == 'Passport'){     
+        $("#Identification_number").rules("remove");
+        $("#Identification_number").rules("add", {
+            required: true,
+            minlength: 8,
+            maxlength: 8,
+            messages: {
+                required: "Passport number is required.",
+                minlength: jQuery.format("At least {0} characters are necessary"),
+                maxlength: jQuery.format("Not more than {0} characters are allowed")
+                }
+           });
+       }
+    else if(type == 'UID'){     
+        $("#Identification_number").rules("remove");
+        $("#Identification_number").rules("add", {
+            required: true,
+            minlength: 12,
+            maxlength: 12,
+            messages: {
+                required: "UID number is required.",
+                minlength: jQuery.format("At least {0} characters are necessary"),
+                maxlength: jQuery.format("Not more than {0} characters are allowed")
+                }
+           });
+        
+     }
+     else if(type == 'Licence'){     
+         $("#Identification_number").rules("remove");
+        $("#Identification_number").rules("add", {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            messages: {
+                required: "Licence number is required.",
+                minlength: jQuery.format("At least {0} characters are necessary"),
+                maxlength: jQuery.format("Not more than {0} characters are allowed")
+                }
+           });
+       
+     }
+     
+     });
+  });
+  </script>

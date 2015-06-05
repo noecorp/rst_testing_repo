@@ -1,0 +1,86 @@
+<div class="Boldtext"><?php echo $this->heading; ?></div>
+<div class="innerbox">
+    <div class="formrow-view">
+        <div class="form-name-column-view">Agent Code:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->agent_code ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">Agent Name:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->agent_name ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">Request Date:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->format_date_request ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">Current Virtual Limit:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= '<span class="WebRupee"></span>' . Util::numberFormat($this->virtualFundData->amount) ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">National UTR No.:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->utr ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">Request Status:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->status ?></div>
+        </div>
+    </div>
+    <div class="formrow-view">
+        <div class="form-name-column-view">Comments:</div>
+        <div class="form-field-column-view">
+            <div id="inner" style="font-size:13px; font-weight:normal;"><?= $this->virtualFundData->comments ?></div>
+        </div>
+    </div>
+    <?php echo $this->form; ?>
+    <div class="clear"></div>
+</div><!---Inner-box End---> 
+
+<style>
+    .innerboxForm {
+        background: none repeat scroll 0 0 #eaebec;
+        margin: -10px 20px 30px;
+        padding: 10px; 
+    }
+    dl.innerboxForm dt {
+        clear: both;
+        float: left;
+    }
+    .form-name-column-view { 
+        padding: 13px 13px 13px 40px;
+    }
+    dt#csrfhash-label{
+        display: none;
+    } 
+    .form-field-column-view{  
+        width: 400px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#form-reject-fund-request').submit(function () {  
+            if (confirm('Are you sure to Reject this virtual Fund Request?')) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        $('#form-approve-fund-request').submit(function () {
+            if (confirm('Are you sure to Approve this virtual Fund Request?')) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    });
+</script>

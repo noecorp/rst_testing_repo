@@ -1,0 +1,93 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Product: '.$this->name.' ('.$this->product_code.')';
+$config['addMessage'] = 'Add New Product Limit'; 
+$config['emptyMessage'] = 'There is no Product limit at this time.';
+if(isset($this->pid))
+    $config['addURL'] = '/remit_productlimit/addlimit?pid='.$this->pid;
+else
+    $config['addURL'] = '/remit_productlimit/addlimit';   
+$config['addParams'] = array(
+    'controller' => 'remit_productlimit',
+    'action'    => 'addlimit'
+);
+// column names & indexes
+$config['columnNames'] = array(
+    'Product Limit Code',
+    'Product Limit Name',    
+    'Currency',
+    'Remitter Max Amount per Txn (<span class="WebRupee"></span>)',
+    'Remitter Max Amount per Month (<span class="WebRupee"></span>)',
+);
+
+$config['columnIndexes'] = array(
+    'product_limit_code',
+    'name',   
+    'currency',
+    'customer_limit_out_max_txn',
+    'customer_limit_out_max_monthly',
+);
+
+// Approve actions
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => 'editlimit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+       // 'link_class'    => 'btn',
+        'img_alt'       => 'edit',
+        'acl_action'     => 'editlimit',
+    ),
+       'delete'    =>  array(
+        'action'        => 'deletelimit',
+        'title'         => 'Delete',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/del.png',
+       // 'link_class'    => 'btn1',
+        'img_alt'       => 'delete',
+        'acl_action'     => 'deletelimit',
+    )
+    );
+$config['actionsConditional'] = array('edit','delete');
+$config['linkOrder'] = array('edit', 'delete');
+$config['showComma'] = array('limit_out_first_load',
+                             'limit_out_min_txn',
+                             'limit_out_max_txn',
+                             'limit_out_max_daily',
+                             'limit_out_max_monthly',
+                             'limit_out_max_yearly');
+
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'id',
+        'operator' => 'in_array',
+        'value'     => $this->bindProducts
+    )
+);
+$config['noteText'] = 'Product Limits Tables, once assigned, cannot be deleted / modified. In case of a new requirement, a new Limit Table should be defined.';
+
+
+//$config['showActions'] = TRUE;
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing-conditional-add.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>

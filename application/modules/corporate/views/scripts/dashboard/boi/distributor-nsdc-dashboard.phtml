@@ -1,0 +1,80 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+if(empty($this->agentInfo['middle_name'])) {
+    $name = strtoupper($this->agentInfo['first_name'] . ' ' . $this->agentInfo['last_name']);
+} else {
+    $name = strtoupper($this->agentInfo['first_name'] . ' ' . $this->agentInfo['middle_name'] . ' '. $this->agentInfo['last_name']);    
+}
+ $helper = $this->listingUtilities(array());
+    ?>
+
+
+<!--First Row-->
+<div class="today_date"><?php echo Util::getFormattedDate('F d, Y');?></div>
+<div style ="clear:both;"></div>
+<div class="grid-heading">General Updates</div>
+
+<div class="grid3col">
+  <div class="column first">
+       <div class="column-heading">Name of Training Partner</div>
+     <?php echo $this->agentInfo['institution_name'] ?>
+      
+  </div>
+  <div class="column">
+      <div class="column-heading">Authorized Personnel Name</div>
+    <?php echo $name; ?>
+
+  </div>
+  <div class="column last">
+      <div class="column-heading">Authorized Personnel Email ID</div>
+  <?php echo $this->agentInfo['email'];?>
+      
+  </div>
+  <div class="column first">
+      <div class="column-heading">Authorized Personnel Mobile Number</div>
+  <?php echo $this->agentInfo['mobile1'];?>
+      
+  </div>   
+    <div class="column ">
+      <div class="column-heading">Total Number of Linked Training Centers</div>
+  <?php echo $this->trainingCenterCount;?>
+      
+  </div>
+    <div class="column last">
+       <div class="column-heading">Total Number of Applications<br /> for the month </div>
+  <?php echo $this->custInfo;?>
+      
+  </div>
+</div>    
+
+<div style ="clear:both;"></div>
+<div class="grid-heading-remit">Bank Details 
+    <?php /* if ($helper->can('sendotp', 'profile')) {?><span class="dashnav" style="float: right;"><a href="<?php echo $this->formatURL('/profile/sendotp');?>" title="Edit Bank Details">Edit Bank Details</a></span><?php } */?>
+</div>
+<div class="grid3col">
+
+<div class="column">
+      <div class="column-heading">Name of Bank</div>
+    <?php echo $this->agentInfo['bank_name']; ?>
+
+  </div>
+  <div class="column last">
+      <div class="column-heading">IFSC</div>
+  <?php echo $this->agentInfo['bank_ifsc_code'];?>
+      
+  </div>
+      <div class="column first">
+      <div class="column-heading">Account Number</div>
+  <?php echo Util::maskCard($this->agentInfo['bank_account_number'],4,0);?>
+      
+  </div>
+</div>    
+

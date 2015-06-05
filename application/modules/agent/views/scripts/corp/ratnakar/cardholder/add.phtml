@@ -1,0 +1,63 @@
+ <?php //echo Util::getCardholderSignupTab("step1"); ?> 
+ <div class="Boldtext">Add Cardholder</div> 
+  <span><?php echo $this->msg?></span>
+  <?php 
+  echo $this->form;  
+  ?>
+  
+  
+  <script type="text/javascript">
+    var sendAuthButton = false;  
+   function sendAuthCode(){
+        $("#send_auth_code").val('1');
+         sendAuthButton = true;
+        $("#frmAdd").submit();   
+   }
+      
+   
+    $('form').submit(function(){
+       var dob = $.trim($("#date_of_birth").val()); 
+      
+      /**** date of birth validation ****/
+       if(dob!='') {
+            
+         } else if(!sendAuthButton) {
+                    alert('Please specify date of birth');
+                    $("#date_of_birth").focus();
+                    return false;
+               } 
+          /**** date of birth validation over ****/
+          
+          
+          
+    return true;
+         
+});
+    
+    
+ <?php
+    $session = new Zend_Session_Namespace('App.Agent.Controller');    
+ ?>
+     var cardholder_auth = <?php echo isset($session->corp_cardholder_auth)?$session->corp_cardholder_auth:0;?>;
+     var validated_cardholder_auth = <?php echo isset($session->corp_validated_cardholder_auth)?$session->corp_validated_cardholder_auth:0;?>    
+
+//     alert(cardholder_auth);
+//     alert(validated_cardholder_auth);
+     
+     if(cardholder_auth!='' && cardholder_auth>0){       
+         //$("#btn_auth_code").attr("disabled","disabled");
+         $("#btn_auth_code").html('Resend Authorization Code');
+         //$('#btn_auth_code').after("<a id='resend_auth' href=''> Resend Auth Code</a>").show('slow');
+         //$('#resend_auth_code').val('resend');
+         
+
+     }   
+     
+     if(validated_cardholder_auth==1){
+         $("#mobile_number").attr("readonly","readonly");
+     }
+    
+     
+     
+     
+  </script>

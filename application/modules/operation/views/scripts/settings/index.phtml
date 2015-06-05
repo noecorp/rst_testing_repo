@@ -1,0 +1,42 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Settings</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+        if ($helper->can('index', 'programtype')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/programtype/index');?>" title="Program Type">Program Type</a>: Program Type Details</li>
+              <div class="clear"></div>
+             <?php }
+         if ($helper->can('index', 'transaction')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/transaction/index');?>" title="Transaction Type">Transaction Type</a>: Transaction Type Details</li>
+              <div class="clear"></div>
+             <?php }
+         if ($helper->can('index', 'fundtransfertype')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/fundtransfertype/index');?>" title="Fund Transfer Type">Fund Transfer Type</a>: Fund Transfer Type Details</li>
+             <div class="clear"></div>
+          <?php }
+           if ($helper->can('index', 'agentsetting')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/agentsetting/index');?>" title="Agent Setting">Agent Fund Setting</a>: Agent Fund Setting Details</li>
+             <div class="clear"></div>
+          <?php }
+          if ($helper->can('addagentcity', 'settings')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/settings/addagentcity');?>" title="Add Agent City">Add Agent City</a>: Add Agent City</li>
+             <div class="clear"></div>
+          <?php }
+          if ($helper->can('addcustomercity', 'settings')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/settings/addcustomercity');?>" title="Add Customer City">Add Customer City</a>: Add Customer City</li>
+             <div class="clear"></div>
+          <?php }
+	  if ($helper->can('manageifsc', 'settings')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/settings/manageifsc');?>" title="Manage IFSC Code">Manage IFSC Code</a>: Manage IFSC Code</li>
+             <div class="clear"></div>
+          <?php }
+          
+          
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

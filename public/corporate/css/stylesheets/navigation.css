@@ -1,0 +1,96 @@
+/* line 7, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+.sub_menu {
+  background: #f7a03d; }
+  /* line 10, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+  .sub_menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: white; }
+    /* line 15, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+    .sub_menu li:hover {
+      background-color: #f9b86e; }
+.sub_menu li a{
+  color: #FFFFFF !important; }
+/* line 23, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+.sub_menu > ul {
+  display: block;
+  float: none;
+  width: 940px;
+  margin: 0 auto;
+  overflow: hidden; }
+
+/* line 33, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+.third_menu {
+  display: inline-block;
+  margin: 20px; }
+  /* line 36, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+  .third_menu ul {
+    float: none; }
+  /* line 39, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+  .third_menu li {
+    display: block;
+    float: none;
+    background-color: #eaddcc;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e3d1ba;
+    color: #5b5349; }
+    /* line 47, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+    .third_menu li:hover {
+      background-color: #f1e9de; }
+
+/* line 55, /home/arihant/projects/transerv_corporate_portal/source/stylesheets/navigation.scss */
+.content_container {
+  width: 940px;
+  margin: 0 auto;
+  float: none;
+  display: block; }
+
+ul.subnav li {
+  /*font: bold 12px/18px sans-serif;*/
+  display: inline-block;
+  margin-right: -4px;
+  position: relative;
+  padding: 9px 0px;
+  background: #E0E7ED;
+  cursor: pointer;
+ 
+}
+ul.subnav li:hover{ background: #555; color: #fff; }
+ul.subnav li a { color:#000; text-decoration:none;  padding: 15px; }
+ul.subnav li a:hover{ color:#fff;  }
+
+ul.subnav li ul {
+  padding: 0;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transiton: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -ms-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  -transition: opacity 0.2s;
+}
+ul.subnav li ul.subnav  li { 
+  background: #555; 
+  display: block; 
+  color: #fff;
+}
+ul.subnav li ul.subnav li a:hover { background: #666; }
+ul.subnav li:hover ul.subnav {
+  display: block;
+  visibility: visible;
+}
+ul.subnav li.selected{ 
+    background: #555; 
+    color: #fff; 
+}
+ul.subnav li.selected a{ 
+    color: #fff; 
+}

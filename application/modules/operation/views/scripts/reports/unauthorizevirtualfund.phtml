@@ -1,0 +1,117 @@
+<div class="Boldtext"><?= $this->heading ?></div>
+<?= $this->form ?>
+<?php
+if ($this->from != '' && $this->to != '') {
+    $config = array();
+    $duration = $this->from . ' - ' . $this->to;
+    $config['pageTitle'] = isset($this->title) ? $this->title : ''; //'Cardholder Activations Report for period '.$duration;
+    $config['emptyMessage'] = 'No record found.';
+    $config['no_add'] = 1;
+    $config['showActions'] = false;
+
+    // column names & indexes
+    $config['columnNames'] = array(
+        'Request Date',
+        'Agent Code',
+        'Agent Name',
+        'Agent Virtual Funding Amount ( <span class="WebRupee"></span>)',
+        'UTR No.',
+        'Opening Balance (for the day)',
+        'Closing Balance (for the day)',
+        'Status'
+    );
+
+    $config['columnIndexes'] = array(
+        'req_datetime',
+        'agent_code',
+        'agent_name',
+        'txn_amount',
+        'utr',
+        'agent_opening_balance',
+        'agent_closing_balance',
+        'status' 
+    );
+  
+    $config['showActions'] = FALSE;
+    $config['duration'] = $this->formData['dur'];
+    $config['showComma'] = array('txn_amount');
+    // render the default listing
+    echo $this->partial('partials/default-listing.phtml', array(
+        'config' => $config,
+        'paginator' => $this->paginator)
+    );
+
+    if (count($this->paginator) > 0) {
+        echo '<div class="show-xls">'
+        . '<input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">'
+        . '</div>';
+    }
+}
+?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function JsdateReturn(Inputdate) {
+            var date = Inputdate.substring(0, 2);
+            var month = Inputdate.substring(3, 5);
+            var year = Inputdate.substring(6, 10);
+            var inputdate = new Date(year, month - 1, date);
+            return inputdate;
+        }
+        $("#btn_exportcsv").click(function () {
+            var dur = '<?php echo $this->formData['dur']; ?>';
+            var url = '<?php echo $this->formatURL("/reports/exportunauthorizevirtualfund?dur=" . $this->formData['dur'] . "&to_date=" . $this->formData['to_date'] . "&from_date=" . $this->formData['from_date']); ?>';
+            $(location).attr('href', url);
+        });
+        $('#from_date,#to_date,#dur').change(function () {
+            var duration = $("#dur").val();
+            var from_date = $("#from_date").val();
+            var to_date = $("#to_date").val();
+            if ((duration == '') && (from_date != '' || to_date != '')) {
+                $('#from_date,#to_date').css('background', '#fff');
+                var inputdate = JsdateReturn(this.value);
+                var today = new Date(<?= date("Y") ?>,<?= date("m") - 1 ?>,<?= date("d") ?>);
+                if (inputdate > today) {
+                    if (this.id == 'from_date') {
+                        alert("From date cannot be greater than todate.");
+                    } else if (this.id == 'to_date') {
+                        alert("To date cannot be greater than todate.");
+                    }
+                    $("#" + this.id).val('').css('background', '#ff0');
+                    return false;
+                }
+                if ((from_date != '') && (to_date != '')) {
+                    var from_date = JsdateReturn(from_date);
+                    var to_date = JsdateReturn(to_date);
+                    var diff = to_date - from_date;
+                    var one_day = 1000 * 60 * 60 * 24;
+                    var date_range = diff / one_day;
+                    var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+                    if (to_date < from_date) {
+                        alert("From date cannot be greater than to date.");
+                        $("#to_date").val('').css('background', '#ff0');
+                        return false;
+                    } else if (date_range > max_range) {
+                        alert('Report can be fetched for a duration not more than ' + max_range + ' days');
+                        $("#to_date").val('').css('background', '#ff0');
+                        return false;
+                    }
+                }
+            } else if ((duration != '') && (from_date != '' || to_date != '')) {
+                alert('Please select either duration or from and to date.');
+                $("#" + this.id).val('');
+                $("#dur").focus();
+                return false;
+            }
+        });
+        $('form#reports-unauthorizevirtualfund').submit(function () {
+            var from = $.trim($("#from_date").val());
+            var to = $.trim($("#to_date").val());
+            var duration = $("#dur").val();
+            if ((duration == '' && (from == '' && to == '')) || (duration != '' && (from != '' || to != ''))) {
+                alert('Please select either duration or from and to date.');
+                return false;
+            }
+            return true;
+        });
+    });
+</script>

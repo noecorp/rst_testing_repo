@@ -1,0 +1,180 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+$config['pageTitle'] = sprintf('Detailed view for %s', $this->item['first_name']);
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'CRN',
+    'Card Number',
+    'Card Pack Id',
+    'AFN',
+    'Member Id',
+    'Employee Id',
+    'First Name',
+    'Middle Name',
+    'Last Name',
+    'Name on Card',
+    'Gender',
+    'Date of Birth',
+    'Aadhar No',
+    'Mobile',
+    'Email',
+    'Landline',
+    'Address 1',
+    'Address 2',
+    'City',
+    'State',
+    'Pincode',
+    'Mother Maiden Name',
+    'Employer Name',
+    'Corporate Id',
+    'Communication Address 1',
+    'Communication Address 2',
+    'Communication City',
+    'Communication State',
+    'Communication Pincode',
+    'Id Proof Type',
+    'Id Proof Number',
+    'Address Proof Type',
+    'Address Proof Number',
+    'Society Id',
+    'Society Name',
+    'Nominee Name',
+    'Nominee Relationship',
+    'Date Created',
+    'Place Application',
+    'Date Activation',
+    'Customer Status', 
+    'Failed Reason',
+    'Date Failed',
+);
+$config['columnIndexes'] = array(
+    'crn',
+    'card_number',
+    'card_pack_id',
+    'afn',
+    'member_id',
+    'employee_id',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'name_on_card',
+    'gender',
+    'date_of_birth',
+    'aadhaar_no',
+    'mobile',
+    'email',
+    'landline',
+    'address_line1',
+    'address_line2',
+    'city',
+    'state',
+    'pincode',
+    'mother_maiden_name',
+    'employer_name',
+    'corporate_id',
+    'comm_address_line1',
+    'comm_address_line2',
+    'comm_city',
+    'comm_pin',
+    'comm_state',
+    'id_proof_type',
+    'id_proof_number',
+    'address_proof_type',
+    'address_proof_number',
+    'society_id',
+    'society_name',
+    'nominee_name',
+    'nominee_relationship',
+    'date_created',
+    'place_application',
+    'date_activation',
+    'status',
+    'failed_reason',
+    'date_failed',
+   
+);
+
+//$config['backlink'] = $this->backlink;
+$config['back_url'] = $this->backlink;
+echo $this->partial(
+        'partials/default-view.phtml', array(
+    'config' => $config,
+    'item' => $this->item
+        )
+);
+       
+//card holder purses cofig var
+$cardholderPursesCofig['pageTitle'] = $this->item['first_name'] . ' ' . $this->item['middle_name'] . ' ' . $this->item['last_name'] . "'s Purses";
+$cardholderPursesCofig['no_add'] = true;
+$cardholderPursesCofig['showActions'] = FALSE;
+
+if (empty($this->cardholderPurses)) {
+    echo '<div class="norecord">There is no purse available for this Customer!</div>';
+} else {
+
+    // column names & indexes
+    $cardholderPursesCofig['columnNames'] = array(
+        'Name',
+        'Description',
+        'Amount'
+    );
+    $cardholderPursesCofig['columnIndexes'] = array(
+        'name',
+        'description',
+        'amount'
+    );
+
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $cardholderPursesCofig,
+        'paginator' => $this->cardholderPurses,
+            )
+    );
+}
+// echo '<div class="comments">Comments</div>';
+echo '<div class="Boldtext"><a name="user-comment">'.$this->item["first_name"] . ' ' . $this->item["middle_name"] . ' ' . $this->item["last_name"] . '\'s Comments</a></div>';
+//card holder purses cofig var
+//$cardholderStatusCofig['pageTitle'] = $this->item['first_name'] . ' ' . $this->item['middle_name'] . ' ' . $this->item['last_name'] . "'s Comments";
+$cardholderStatusCofig['no_add'] = true;
+$cardholderStatusCofig['showActions'] = FALSE;
+
+if (empty($this->cardholderStatus)) {
+    echo '<div class="norecord">There is no status available for this Customer!</div>';
+} else {
+
+    // column names & indexes
+    $cardholderStatusCofig['columnNames'] = array(
+        'Date',
+        'By Type',
+        'Maker',
+        'Checker',
+        'Comment',
+    );
+    $cardholderStatusCofig['columnIndexes'] = array(
+        'date_created',
+        'by_type',
+        'm_name',
+        'c_name',
+        'comments',
+    );
+
+    // render the default listing
+    echo $this->partial(
+            'partials/default-listing.phtml', array(
+        'config' => $cardholderStatusCofig,
+        'paginator' => $this->cardholderStatus,
+            )
+    );
+}
+?>

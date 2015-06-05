@@ -1,0 +1,212 @@
+<div class="Boldtext">Upload Settlement Response</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'Response Settlement';
+$config['no_add'] = TRUE;
+$totalrecords = $this->totalrecords;
+// column names & indexes
+/*
+ * Getting passed values
+ */
+$successInsertedRecords = $this->successInsertedRecords;
+$duplicaterecords = $this->duplicaterecords;
+$failedInsertedRecords = $this->failedInsertedRecords;
+$invalidrows = $this->invalidrows;
+$notranCode = $this->notranCode;
+$errorMsg = $this->errorMsg;
+$recordsummary = '';   
+							
+
+$config['columnNames'] = array(
+    'Seq No.',
+    'Transaction Ref',
+    'Amount (Rs.)',
+    'Amount',
+    'Value Date',
+    'Batch ID',   
+    'Sending Branch',
+    'Sender A/c Type',
+    'Sender A/c No',
+    'Sender A/c Name',
+    'Benf. Branch',
+    'Benf A/c Type',
+    'Benf. A/c No',   
+    'Benf. A/c Name',   
+    'Txn. Status',
+    'Originator of Remittance',
+    'Sender To Receiver Information',
+   
+);
+       
+     
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+
+
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+<?php /********** Successfully Inserted Items **********/ ?>
+
+<?php 
+if($successInsertedRecords > 0){
+     $recordsummary.= "<span style='padding:2px 10px;'>Successfully Inserted records: <strong>".$successInsertedRecords." </strong></span>,";
+}
+?>
+<?php /********** Duplicate  Items **********/ ?>
+
+<?php 
+if(count($duplicaterecords) > 0){
+     $recordsummary.= "<span style='padding:2px 10px;'>Duplicate Records: ".count($duplicaterecords)."<span>,";
+}
+?> 
+
+<?php 
+if(count($failedInsertedRecords) > 0){
+     $recordsummary.= "<span style='padding:2px 10px;'>Failed Inserted Records: ".count($failedInsertedRecords)."<span>,";
+}
+?> 
+<?php 
+
+if(count($notranCode) > 0){
+     $recordsummary.= "<span style='padding:2px 10px;'>No Transaction code Records: ".count($notranCode)."<span>,";
+}
+
+?>
+
+ 
+<?php
+if($totalrecords >0){
+        ?>
+    <div class="innerbox">
+        <?php echo "<h2>Total records : ".$totalrecords."</h2>";?>
+    </div>
+ 
+    <?php
+    }
+  ?>
+<?php
+if($recordsummary !=''){
+    $recordsummary = rtrim($recordsummary,",");
+        ?>
+ <div class="clear"></div>
+    <div class="innerbox">
+        <?php echo $recordsummary;?>
+    </div>
+    <?php
+    }
+  ?>
+  <?php
+if(count($errorMsg)>0){
+    ?>
+ <div class="clear"></div>
+   
+       <div style="background-color:#F7819F; padding:5px; margin:0px 30px 0px 20px;">
+            <?php
+           foreach($errorMsg as $emsg){
+               echo "<span>".$emsg."<span>";
+               }
+               ?>
+       </div>
+   
+    <?php
+    
+    }
+  ?>
+<?php /********** do we have failed items? **********/ ?>
+<?php if (count($this->failedInsertedRecords)) : ?>
+<div class="Boldtext">Failed Settlement Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+           <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+            <?php /********** we do! start displaying the items **********/ ?>
+                <?php
+                foreach($failedInsertedRecords as $value){
+                    ?>
+                    <tr>
+                      <?php
+                      foreach($value as $records) {
+                         
+                      ?>
+                        <td>
+                        <?php  
+                        if($records == ''){
+                           echo "&nbsp;";
+                          }else{
+                            echo $records;  
+                          }  ?>
+                        </td>
+                        <?php
+                      }
+                      ?>
+                    </tr>
+                <?php
+                    }
+                 ?>
+            <?php /********** finished displaying the items **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+<?php endif;?>
+<?php /********** finished do we have items? **********/ ?>
+
+
+
+<?php
+ }?>
+<script>
+$(document).ready(function() {
+    
+$("#corp_ratnakar_cardload-settlementresponse").submit(function(e) {
+     var fileName = $('input[type="file"]').val();
+     var extension = fileName.split('.').pop().toUpperCase();
+       $('#input_date').css('background', '#fff');
+       $('#keyword').css('background', '#fff');
+      
+       if( (fileName == '') || (fileName == '0') ){
+             alert("Please upload response file.");
+              $('#doc_path').css('background', '#ff0'); // will change the background to red
+              $("#doc_path").focus();
+              return false;
+         }else if(extension!="CSV"){
+             alert("Please upload correct file.\nonly .csv file is acceptable.");
+              $('#doc_path').css('background', '#ff0'); // will change the background to red
+              $("#doc_path").focus();
+            return false;
+         } 
+       return true;
+           //remit_boi_remitter-neftresponse
+
+    });
+});
+</script>

@@ -1,0 +1,160 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+ 
+ var city = $("#city").val();
+ var pincode = $("#pin").val();
+
+ if($("#city").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+city,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#res_pincode").html("");                            
+                            $("#res_pincode").append(response);
+                            $("#res_pincode option[value='"+pincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+ if($("#res_state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#res_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#res_city").html("");
+                            
+                            $("#res_city").append(response);
+                             $("#res_city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+  $("#res_city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#res_city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#res_pincode").html("");                            
+                            $("#res_pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });      
+  $("#res_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#res_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            //$("#res_state-element ul.errors").html('');
+                        } else {
+                            //console.log($("#res_city").html());
+                            //alert("populating response");
+                            //alert(response);
+                            $("#res_city").html("");
+                            //$("#res_city").append('<option value=Achalpur>Achalpur</option>');
+                            $("#res_city").append(response);
+                           // document.getElementById("res_city").innerhtml = '<option="Achalpur">Achalpur</option>';
+                            console.log(response);
+                            //console.log(response);
+//                            $.each(response, function (value) {
+//                                //alert(key+ " : " + value);
+//                                console.log(value);
+////                                $('#res_city').append(
+////                                    $("<option></option>")
+////                                      .attr("value", value)
+////                                      .text(value)
+////                                );
+//                            });
+                        }
+                    },
+         
+        });
+    }); 
+    
+ var escity = $("#es_city").val();
+ var espincode = $("#estab_pin").val();
+ 
+ if($("#es_city").val() != ''){
+  $.ajax({
+                url: '/ajax/get-pincode/q/'+escity,
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#estab_pincode").html("");                            
+                            $("#estab_pincode").append(response);
+                            $("#estab_pincode option[value='"+espincode+"']").attr("selected", "selected");
+                             console.log(response);                            
+                        }
+                    }     
+        });
+ }
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#estab_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#estab_city").html("");
+                            
+                            $("#estab_city").append(response);
+                             $("#estab_city option[value='"+escity+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+        
+  $("#estab_city").change(function(){
+            $.ajax({
+                url: '/ajax/get-pincode/q/'+$("#estab_city").val(),
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#estab_pincode").html("");                            
+                            $("#estab_pincode").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    });            
+  $("#estab_state").change(function(){
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#estab_state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                           
+                            $("#estab_city").html("");                           
+                            $("#estab_city").append(response);
+                            console.log(response);
+                            
+                        }
+                    }
+         
+        });
+    });      
+
+});      
+</script>
+
+<?php echo Util::getAgentRegistrationTab("address",$this->agent_id); 
+
+echo $this->form;
+?>

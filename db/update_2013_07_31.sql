@@ -1,0 +1,2 @@
+SET @flag_id := (SELECT id FROM t_flags WHERE name = 'operation-approvedagent');
+INSERT INTO `t_privileges` (`id`, `name`, `flag_id`, `description`) VALUES (NULL, 'resendauthemailverificationemail', @flag_id, 'Resend Auth Email');

@@ -1,0 +1,1 @@
+UPDATE t_operation_users SET last_password_update = '0000-00-00 00:00:00' WHERE id IN (104, 105, 106, 107, 108, 111, 112, 113, 114, 115, 116);

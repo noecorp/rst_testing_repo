@@ -1,0 +1,73 @@
+  <?php echo Util::getCardholderSignupTab("index"); ?> 
+  <div class="Boldtext">Load Balance</div> 
+  <span><?=$this->msg?></span>
+  <div class="tablebox">
+       <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+            <thead><!-- universal table heading --> 
+                    <tr>
+                        
+                    </tr> 
+                </thead> 
+                <tbody>
+                    <tr>
+  <th style="width:20%">Agent Product Load Limit: </th>
+  <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->product_first_load_limit);?></td>
+  </tr>
+  <?php 
+  if(isset($this->agentLimit) && $this->agentLimit['agent_limit_id'] > 0) {?>
+   <tr>
+  <th style="width:20%">Your Minimum Transaction Amount: </th>
+  <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->agentLimit['limit_out_min_txn']);?></td> 
+   </tr>
+   <tr>
+  <th style="width:20%">Your Maximum Transaction Amount: </th>
+  <td style="width: 80%" align="left"><?php echo Util::numberFormat($this->agentLimit['limit_out_max_txn']);?></td>
+   </tr>
+  <?php } ?>
+  </tbody>
+            </table>
+       </div>
+  </div>
+  
+  <?php echo $this->form; ?> 
+  
+  <script type="text/javascript">
+   
+    $(document).ready(function() {
+      $('form').submit(function(){
+          if($("#amount").val()===''){ 
+              alert("Please enter load amount");
+              return false;
+          }
+          else{
+                
+          $(".tablebox").before('<div class="msg msg-success"><p>Please wait your transaction is under process</p></div>');
+          $("#btn_amount").attr('disabled', 'disabled');
+          $('.msg-error').hide();
+
+          return true;
+        }
+  });
+  
+   $("#btn_amount").click(function(){
+   
+        if($("#amount").val()===''){ 
+              alert("Please enter load amount");
+              return false;
+        }
+          
+        discardResp = confirm('Are you sure you want to submit this customer enrollment form?');
+
+        if(discardResp==true){
+           return true;
+        }else {
+            return false;
+        }
+     });
+     
+     
+   
+  });
+     
+</script>     

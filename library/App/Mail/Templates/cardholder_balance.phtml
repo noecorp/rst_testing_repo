@@ -1,0 +1,36 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear <?php echo ucfirst($this->cardholder_name); ?>,</p>
+
+<p>Congratulations, your <?php echo $this->product_name; ?> Account is active! </p>
+
+<p>Here's what you can do with your <?php echo $this->product_name; ?>.</p>
+<ul>
+ <li>Reload your account at your convenience.</li>
+ <li>Generate Visa Card numbers through your Mobile Application or IVR.</li>
+ <li>Use the card to purchase at various websites while enjoying various discounts and offers.</li>
+</ul>
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: care@shmart.co.in</p>
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo Util::getagentEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo Util::getaltEmailDisclaimer(); ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo Util::getaltEmailTC(); ?></p>

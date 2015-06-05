@@ -1,0 +1,378 @@
+<?php
+
+class FundRequest extends BaseUser
+{
+    /**
+     * Column for the primary key
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_primary = 'id';
+    
+    /**
+     * Holds the table's name
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_name = DbTable::TABLE_AGENT_FUND_REQUEST;
+    
+    private $_msg;
+    
+    /**
+     * Holds the associated model class
+     * 
+     * @var string
+     * @access protected
+     */
+    //protected $_rowClass = 'App_Table_CardholderUser';
+       
+    public function chkAgentMinMaxLoad($param){
+            $agBalValid = new Validator_AgentBalance();
+            $param['section_id'] = AGENT_SECTION_SETTING_ID;
+            $param['amount'] = $param['amt'];
+            $minmax = $agBalValid->chkAgentMaxMinLoad($param , $returnValues = TRUE);
+
+            if ($param['amt'] < $minmax['minValue'] || $param['amt'] > $minmax['maxValue'])
+            {
+                $agentsModel = new Agents();
+                $row = $agentsModel->findById($param['agent_id']);
+                $mailArray = array(
+                    'email' =>$row['email'],
+                    'name' =>ucfirst($row['first_name']).' '.ucfirst($row['last_name']),
+                    'min' =>$minmax['minValue'],
+                    'max' =>$minmax['maxValue'],
+                    'amt' => $param['amt']
+                    );
+                $m = new App\Messaging\MVC\Axis\Agent();
+                $m->agentMinMaxLoad($mailArray);
+               return $minmax;
+            }
+          else { 
+              return FALSE;
+          }
+   
+    }
+    public function addFundRequest($param){
+  
+ 
+   
+        try
+        {
+           $validFundAmount = true;//
+           
+           if($validFundAmount){
+               $this->save($param);
+           }
+           return true;
+               
+        } catch (Exception $e) {
+            App_Logger::log($e->getMessage(), Zend_Log::ERR);
+            throw new Exception($e->getMessage());
+            return false;
+        }
+    }   
+    
+    
+    public function getAgentFundRequests($agentId='',  $page = 1, $paginate = NULL){ 
+        
+        $select =   $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(DbTable::TABLE_AGENT_FUND_REQUEST.' as afr',array('afr.*','afr.amt',"DATE_FORMAT(afr.datetime_request, '%d-%m-%Y %h:%i:%s') as datetime_request"));
+        $select->joinLeft(DbTable::TABLE_AGENTS.' as a',"afr.agent_id=a.id", array('a.agent_code', 'concat(a.first_name," ",a.last_name) as name', 'a.mobile1'));
+        
+            if($agentId>0){                                                           
+               $select->where('afr.agent_id=?',$agentId);
+            }      
+            
+        $select->order('afr.datetime_request DESC');
+        //echo $select->__toString();exit;        
+        
+        return $this->_paginate($select, $page, $paginate);       
+        
+    }
+    
+     public function getAgentFundResponse($requestId, $page = 1, $paginate = NULL){
+          if($requestId<1)
+            throw new Exception('No agent request id received.');
+          
+                    $select =  $this->select()       
+                    ->setIntegrityCheck(false)
+                    ->from(DbTable::TABLE_AGENT_FUND_RESPONSE.' as afr',array('afr.*',"DATE_FORMAT(afr.datetime_response, '%d-%m-%Y %h:%i:%s') as datetime_response"))        
+                    ->joinLeft(DbTable::TABLE_OPERATION_USERS.' as ou',"afr.by_ops_id	=ou.id",array('username'))
+                    ->joinLeft(DbTable::TABLE_AGENT_FUND_REQUEST.' as afrt',"afr.agent_fund_request_id = afrt.id",array('amt', 'agent_id','request_status'))
+                    ->joinLeft(DbTable::TABLE_AGENTS.' as a',"afrt.agent_id = a.id", array('concat(a.first_name," ",a.last_name) as agent_name'))
+                    ->where('agent_fund_request_id=?',$requestId)
+                    ->order('datetime_response DESC');        
+        
+        //echo $select->__toString();exit;        
+        $reqInfo = $this->getFundRequestInfo($requestId);        
+        $request_status = isset($reqInfo->request_status)?$reqInfo->request_status:'';
+        
+        $session = new Zend_Session_Namespace('App.Operation.Controller'); 
+        $session->request_status = $request_status;        
+                    
+        return $this->_paginate($select, $page, $paginate);       
+     }
+    
+    
+      public function getFundRequestInfo($requestId){        
+          if($requestId<1)
+               throw new Exception('No agent request id received.');
+                      
+            $select =  $this->select()       
+            ->setIntegrityCheck(false)
+            ->from(DbTable::TABLE_AGENT_FUND_REQUEST.' as afr')        
+            ->joinLeft(DbTable::TABLE_AGENTS.' as a',"afr.agent_id = a.id", array('concat(a.first_name," ",a.last_name) as agent_name', 'email', 'agent_code', 'mobile1'))     
+            ->joinLeft(DbTable::TABLE_FUND_TRANSFER_TYPE.' as ftt',"afr.fund_transfer_type_id = ftt.id", array('name as fund_transfer_type'))     
+            ->where('afr.id=?',$requestId);
+            //->limit('1');
+
+        //echo $select->__toString();exit;        
+        
+        return $this->fetchRow($select);     
+    }
+    
+    
+    public function updateFundRequest($param){
+        
+        //$formData['agent_fund_request_id']
+        $reqInfo = $this->getFundRequestInfo($param['agent_fund_request_id']);
+        $agentbalance = new AgentBalance();
+        $agentSetting = new AgentSetting();
+        $agentMaxBalance = $agentSetting->agentMaxBalanceValue();
+        $agentInfo = new AgentBalance(); 
+        // getting agent current balance
+        $agentBal = $agentInfo->getAgentActiveBalance($reqInfo->agent_id);
+                                
+                                
+                          
+        $tnxData = array(
+                            'ops_id'=>$param['by_ops_id'],
+                            'agent_id'=>$reqInfo->agent_id,
+                            'amount'=>$param['amt'],
+                            'txn_type'=>TXNTYPE_AGENT_FUND_LOAD,
+                            'agent_fund_request_id'=>$param['agent_fund_request_id'],
+            
+                        );
+      
+        if($param['response_status']==TXN_APPROVE_STATUS){ // getting update the transaction in corresponding db tables.
+           
+            $updatedBal = $param['amt'] + $agentBal;
+           if ( $agentMaxBalance > $updatedBal){
+            try{
+                $objBaseTxn = new BaseTxn();
+                $opsAgentTxn = $objBaseTxn->opsToAgent($tnxData);
+            }catch (Exception $e) {
+                App_Logger::log($e->getMessage(), Zend_Log::ERR);
+                throw new Exception($e->getMessage());
+                return false;
+            }
+            }
+            else
+            {
+               throw new Exception('Load amount exceeds agent maximum balance allowed');
+                return false; 
+            }
+        }
+        
+        // getting update in resopnse and request table of fund.
+        $respData = array('agent_fund_request_id'=>$param['agent_fund_request_id'],
+                          'comments'=>$param['rescomments'],
+                          'response_status' => $param['response_status'],
+                          'by_ops_id' => $param['by_ops_id'],
+                         );
+
+        $reqData = array('id'=>$param['agent_fund_request_id'], 'request_status'=>$param['response_status']);
+
+        $insert = $this->_db->insert(DbTable::TABLE_AGENT_FUND_RESPONSE, $respData);
+        $update = $this->_db->update(DbTable::TABLE_AGENT_FUND_REQUEST, $reqData, "id=".$reqData['id']);
+        
+        // After sucessfull update ,fetching the new balance
+        //$agentInfo = new AgentBalance(); // getting agent latest balance
+        $agentBal = $agentInfo->getAgentActiveBalance($reqInfo->agent_id);
+        
+        $reqData = $this->getFundRequestInfo($param['agent_fund_request_id']);
+        $opr = Zend_Auth::getInstance()->getIdentity();
+        if($param['response_status'] == TXN_APPROVE_STATUS){ 
+            $emailSub = 'Balance loaded in your Account';}
+        else if($param['response_status'] == TXN_DECLINE_STATUS){
+            $emailSub = 'Balance NOT loaded in your Account';
+        }
+        $agentEmail = array(
+                             'email_subject'=>$emailSub,
+                             'agent_name'=>$reqInfo['agent_name'],
+                             'agent_email'=>$reqInfo['email'],
+                             'amount'=>$reqInfo['amt'],
+                             'transaction_date'=>date('d-m-Y'),
+                             'new_balance'=>$agentBal,
+                             'agent_code'=>$reqInfo['agent_code'],
+                             'mobile1'=>$reqInfo['mobile1'],
+                             'comments'=>$param['rescomments'],
+                             'operation_name'=> $opr->firstname.''.$opr->lastname,
+                             'response_status'=>$param['response_status']
+                           );
+               try{
+
+                    $m = new App\Messaging\MVC\Axis\Operation();
+                    $m->agentBalance($agentEmail);
+                    $m->agentFundResponse($agentEmail);
+
+               } catch (Exception $e ) { 
+                           App_Logger::log($e->getMessage(), Zend_Log::ERR);
+                           $e->getMessage();
+               }
+                    
+        return true;
+        
+    }
+    
+    
+    
+     public function getRptAgentFundRequests($param, $page = 1, $paginate = NULL){ 
+         
+        $select = $this->sqlRptAgentFundRequests($param);
+        //echo $select->__toString();//exit;                
+        return $this->_paginate($select, $page, $paginate);     
+    }
+    
+    /* sqlRptAgentFundRequests function will return query for Agent Fund Requests report 
+     * it will accept the duration as in param array
+     */
+    
+    public function sqlRptAgentFundRequests($param){
+         $agentId = isset($param['agent_id'])?$param['agent_id']:'';
+         //$agentIdCond = 0;
+        
+        $select =   $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(DbTable::TABLE_TXN_AGENT.' as ta', array('ta.amount as txn_amount', "DATE_FORMAT(ta.date_created, '%d-%m-%Y %h:%i:%s') as txn_datetime"));
+        $select->joinLeft(DbTable::TABLE_AGENT_FUND_REQUEST.' as afr', "ta.agent_fund_request_id=afr.id", array('afr.comments'));
+        $select->joinLeft(DbTable::TABLE_AGENTS.' as a', "ta.agent_id=a.id", array('a.agent_code', 'concat(a.first_name," ",a.last_name) as agent_name'));
+        $select->joinLeft(DbTable::TABLE_AGENT_CLOSING_BALANCE.' as acb', "ta.agent_id=acb.agent_id AND DATE_FORMAT(ta.date_created, '%Y-%m-%d')=acb.date", array('acb.closing_balance as agent_closing_balance'));
+        $select->joinLeft(DbTable::TABLE_AGENT_CLOSING_BALANCE.' as acb2', "ta.agent_id=acb2.agent_id AND DATE_SUB(DATE_FORMAT(ta.date_created, '%Y-%m-%d'), INTERVAL 1 DAY)=acb2.date", array('acb2.closing_balance as agent_opening_balance'));
+        
+        if($agentId>0){                                                           
+           $select->where('ta.agent_id=?',$agentId);
+        }    
+        
+        //$select->where('ta.agent_fund_request_id>?', $agentIdCond);
+        $select->where('ta.mode=?',TXN_MODE_CR);
+        $select->where('ta.txn_type=?',TXNTYPE_AGENT_FUND_LOAD);
+        $select->where('ta.txn_status=?',FLAG_SUCCESS);
+        $select->where('ta.date_created>=?',$param['from']); 
+        $select->where('ta.date_created<=?',$param['to']); 
+        //$select->where('acb.date_created<=?',$param['to']); 
+            
+        $select->order('agent_name ASC');
+        $select->order('ta.date_created ASC');
+        //echo $select; exit;
+                
+        return $select;
+    }
+    
+     /* exportRptAgentFundRequests function will query the Agent Fund Requests report data 
+     *  for export to csv purpose
+     */
+    
+    public function exportRptAgentFundRequests($param){
+        
+        $select = $this->sqlRptAgentFundRequests($param);        
+        
+        return  $this->_db->fetchAll($select);                      
+    }
+    
+     /* exportRptAgentWiseFundRequests function will query the Agent Wise Fund Requests report data 
+     *  for export to csv purpose
+     */
+    public function exportRptAgentWiseFundRequests($param){
+        
+        $select = $this->sqlRptAgentFundRequests($param);        
+        
+        return  $this->_db->fetchAll($select);                      
+    }
+    
+    
+    /*  getTotalAgentFundAmount function will query to get agent total agent funding amount of fund requests aproved by ops 
+     *  it will expect agent code and transaction date
+     */
+    
+    public function getTotalAgentFund($param){
+        $agentId = isset($param['agent_id'])?$param['agent_id']:'';
+        $fromDate = isset($param['from'])?$param['from']:'';
+        $toDate = isset($param['to'])?$param['to']:'';
+        
+        if($agentId>0 && $fromDate!='' && $toDate!=''){                                                           
+            
+            $select =  $this->_db->select() ;
+            //$select->setIntegrityCheck(false);
+            $select->from(DbTable::TABLE_TXN_AGENT.' as ta', array('sum(ta.amount) as total_agent_funding_amount'));
+            $select->where('ta.agent_id=?',$agentId);
+            $select->where('ta.mode=?',TXN_MODE_CR);
+            $select->where('ta.txn_type=?',TXNTYPE_AGENT_FUND_LOAD);
+            $select->where('ta.txn_status=?',FLAG_SUCCESS);
+            $select->where('ta.date_created>=?',$fromDate); 
+            $select->where('ta.date_created<=?',$toDate); 
+            //echo $select; exit;
+
+            return $this->_db->fetchRow($select);
+       } else return '';
+    }
+    
+    
+    /* pendingAgentFundRequests function will return query for Agent Pending Fund Requests report 
+     * it will accept the duration as in param array
+     */
+    
+    public function pendingAgentFundRequests($param, $page = 1, $paginate = NULL){
+         $agentId = isset($param['agent_id'])?$param['agent_id']:'';
+         //$agentIdCond = 0;
+        
+        $select =   $this->select();
+        $select->setIntegrityCheck(false); 	
+        $select->from(DbTable::TABLE_AGENT_FUND_REQUEST.' as afr',array('afr.id','afr.agent_id','afr.amt','afr.fund_transfer_type_id','afr.comments','afr.request_status','DATE(afr.datetime_request) as datetime_request','sum(afr.amt) as total_agent_pending_funding_amount' ));
+        $select->joinLeft(DbTable::TABLE_FUND_TRANSFER_TYPE.' as fr', "afr.fund_transfer_type_id=fr.id", array('fr.name as fund_name'));
+        $select->joinLeft(DbTable::TABLE_AGENTS.' as a', "afr.agent_id=a.id", array('a.agent_code', 'concat(a.first_name," ",a.last_name) as agent_name'));
+        $select->joinLeft(DbTable::TABLE_BIND_AGENT_PRODUCT_COMMISSION.' as bind', "afr.agent_id = bind.agent_id", array('bind.product_id'));
+        $select->joinLeft(DbTable::TABLE_PRODUCTS.' as p', "bind.product_id = p.id", array('p.bank_id'));
+        $select->joinLeft(DbTable::TABLE_BANK.' as b', "p.bank_id= b.id", array('b.name as bank_name'));
+        
+        if($agentId > 0){                                                           
+           $select->where('afr.agent_id=?',$agentId);
+        }    
+        
+        $select->where('afr.request_status =?',FLAG_PENDING);
+        $select->where('afr.datetime_request >=?',$param['from']); 
+        $select->where('afr.datetime_request <=?',$param['to']); 
+            
+        $select->order('agent_name ASC');
+        $select->order('afr.datetime_request ASC');
+       // echo $select; exit;
+                
+        return $this->_paginate($select, $page, $paginate);  
+    }
+    
+     /* totalpendingAgentFundRequests function will return query for the SUM of Agent Pending Fund Requests report 
+     * it will accept the duration as in param array
+     */
+    
+    public function totalpendingAgentFundRequests($param, $page = 1, $paginate = NULL){
+         $agentId = isset($param['agent_id'])?$param['agent_id']:'';
+         //$agentIdCond = 0;
+        
+        $select =   $this->select();
+        $select->from(DbTable::TABLE_AGENT_FUND_REQUEST.' as afr',array('afr.id','afr.agent_id','afr.amt','afr.fund_transfer_type_id','afr.comments','afr.request_status','DATE(afr.datetime_request) as datetime_request','sum(afr.amt) as total_agent_pending_funding_amount' ));
+        if($agentId > 0){                                                           
+           $select->where('afr.agent_id=?',$agentId);
+        }    
+        
+        $select->where('afr.request_status =?',FLAG_PENDING);
+        $select->where('afr.datetime_request >=?',$param['from']); 
+        $select->where('afr.datetime_request <=?',$param['to']); 
+        $select->group('DATE(datetime_request)')    ;
+//        echo $select;
+                
+        return $this->_db->fetchRow($select);
+    }
+}

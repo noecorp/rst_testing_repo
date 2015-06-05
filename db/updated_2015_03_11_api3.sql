@@ -1,0 +1,2 @@
+ALTER TABLE `rat_corp_load_request` ADD `reversal_by` INT UNSIGNED NOT NULL AFTER `original_transaction_id` ;
+ALTER TABLE `rat_corp_load_request` ADD `date_reversal` DATETIME NOT NULL AFTER `date_expiry` ;

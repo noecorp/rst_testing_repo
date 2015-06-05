@@ -1,0 +1,49 @@
+<?php
+$helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Agent Funding</div>
+
+<div class="innerbox">
+    <ul>
+        <?php if ($helper->can('uploadbankstatement', 'agentfunding')) { ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/uploadbankstatement'); ?>" title="Upload Bank Statement">Upload Bank Statement</a>: Upload Bank Statement Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('uploadkotakbanktatement', 'agentfunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/uploadkotakbanktatement'); ?>" title="Upload Kotak/ Ratnakar/ ICICI Bank Statement">Upload Kotak/ Ratnakar/ ICICI Bank Statement</a>: Upload Kotak/ Ratnakar/ ICICI Bank Statement Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('pendingfundrequest', 'agentfunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/pendingfundrequest'); ?>" title="Pending Fund Requests">Pending Fund Requests</a>: Pending Fund Request Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('virtualfundrequests', 'agentfunding')) {
+                echo '<li class="systemli">'
+                . '<a href="' . $this->formatURL('/agentfunding/virtualfundrequests') . '" '
+                . 'title="Pending Virtual Fund Request">Pending Virtual Fund Request'
+                . '</a>: Pending Fund Request Details For Virtual Balance '
+                . '</li><div class="clear"></div>';
+            }
+
+        if ($helper->can('unsettledbankstatement', 'agentfunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/unsettledbankstatement'); ?>" title="Unsettled Bank Statements">Unsettled Bank Statements</a>: Unsettled Bank Statement Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('settledfundrequest', 'agentfunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/agentfunding/settledfundrequest'); ?>" title="Settled Fund Requests">Settled Fund Requests</a>: Settled Fund Request Details</li>
+            <div class="clear"></div>
+<?php }
+?>
+
+
+    </ul>
+
+</div>

@@ -1,0 +1,216 @@
+<div class="Boldtext"><?php echo $this->heading ?></div>
+<?php echo $this->form; ?>
+<?php
+$config = array();
+$duration = $this->from . ' - ' . $this->to;
+$productId = isset($this->formData['product_id']) ? $this->formData['product_id'] : '';
+// messages
+$config['pageTitle'] = isset($this->title) ? $this->title : '';
+$config['emptyMessage'] = 'No record found.';
+$config['no_add'] = 1;
+$config['showActions'] = false;
+
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+$bankBoi = App_DI_Definition_Bank::getInstance(BANK_BOI);
+$bankBoiUnicode = $bankBoi->bank->unicode;
+$RatnakarBank = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+$bankRatnakarUnicode = $RatnakarBank->bank->unicode;
+if ($this->sub) {
+
+// column names & indexes
+    $config['columnNames'] = array(
+	'Bank name',
+	'Product name',
+	'Agent Code',
+	'Sender name',
+	'Sender Mobile number',
+	'Receiver Name',
+	'Receiver Mobile number',
+	'Transaction date',
+	'Transaction amount',
+	'Transaction reference number',
+	'Transaction type',
+	'Transaction status'
+    );
+
+    $config['columnIndexes'] = array(
+	'bank_name',
+	'product_name',
+	'agent_code',
+	'sender_name',
+	'sender_mobile',
+	'receiver_name',
+	'recieve_mobile',
+	'date_created',
+	'amount',
+	'txnrefnum',
+	'txn_type',
+	'status',
+    );
+    $config['showActions'] = FALSE;
+    $config['duration'] = $this->formData['dur'];
+    $cntColNames = count($config['columnNames']) - 1;
+    ?>
+
+    <div class="Boldtext"><?php echo $config['pageTitle']; ?></div>
+    <div style="clear:both;"></div>
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+	    <table width="950" cellspacing='0'>
+		<thead><!-- universal table heading --> 
+		    <tr>
+			    <?php foreach ($config['columnNames'] as $columnName) : ?>
+				<th><span><?php echo $columnName; ?></span></th>
+			    <?php endforeach; ?> 
+		    </tr> 
+		</thead>
+		<tbody><?php
+			if (count($this->paginator)) :
+			    foreach ($this->paginator as $item) :
+				?>
+			    <tr>
+				<td><?php echo $item['bank_name']; ?></td>
+				<td><?php echo $item['product_name']; ?></td>
+				<td><?php echo $item['agent_code']; ?></td>
+				<td><?php echo $item['sender_name']; ?></td>
+				<td><?php echo $item['sender_mobile']; ?></td>
+				<td><?php echo $item['receiver_name']; ?></td>
+				<td><?php echo $item['recieve_mobile']; ?></td>
+				<td><?php echo $item['date_created']; ?></td>
+				<td><?php echo Util::numberFormat($item['amount']); ?></td>
+				<td><?php echo $item['txnrefnum']; ?></td>
+				<td><?php echo $item['txn_type']; ?></td> 
+				<td><?php echo ($item['status'] == STATUS_IN_PROCESS) ? 'In Process' : ucfirst($item['status']); ?></td>
+			    </tr>
+				<?php
+			    endforeach;
+			else:
+			    ?> 
+			    <tr>
+				<td colspan="<?php echo $cntColNames + 1; ?>">
+				    <?php echo $config['emptyMessage']; ?>
+				</td>
+			    </tr>
+			<?php endif; ?>
+		</tbody> 
+	    </table>
+        </div>
+    </div>
+    <div>&nbsp;</div> 
+    <?php if (count($this->paginator) > 0) { ?>
+	<div class="pagination">
+	    <?php if ($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+		<?php echo $this->paginator; ?>
+	    <?php endif; ?>
+	</div>
+    <?php } if (count($this->paginator) > 0) {
+	?>
+	<div class="show-xls"> 
+	    <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+	</div>
+	<?php
+    }
+}
+?>
+<script type="text/javascript">
+    $(document).ready(function () {
+	function JsdateReturn(Inputdate) {
+	    var date = Inputdate.substring(0, 2);
+	    var month = Inputdate.substring(3, 5);
+	    var year = Inputdate.substring(6, 10);
+	    var inputdate = new Date(year, month - 1, date);
+	    return inputdate;
+	}
+	var product = $("#product").val();
+	$("#btn_exportcsv").click(function () {
+	    var url = '<?php echo $this->formatURL("/reports/exportwwftexceptions?duration=" . $this->formData['duration'] . "&product_id=" . $productId . "&bank_unicode=" . $this->formData['bank_unicode'] . "&to_date=" . $this->formData['to_date'] . "&from_date=" . $this->formData['from_date']); ?>';
+	    $(location).attr('href', url);
+	});
+	if ($("#bank_unicode").val() != '') {
+	    $.ajax({
+		url: '/ajax/get-bankproductslist/q/' + $("#bank_unicode").val() + '/p/1',
+		success: function (response) {
+		    if (response == 1) {
+		    } else {
+			$("#product_id").html("").append(response);
+			$("#product_id option[value='" + product + "']").attr("selected", "selected");
+			console.log(response);
+		    }
+		}
+	    });
+	}
+	$("#bank_unicode").change(function () {
+	    $.ajax({
+		url: '/ajax/get-bankproductslist/q/' + $("#bank_unicode").val() + '/p/1',
+		success: function (response) {
+		    if (response == 1) {
+		    } else {
+			$("#product_id").html("").append(response);
+			console.log(response);
+		    }
+		}
+	    });
+	});
+	$('#from_date,#to_date,#duration').change(function () {
+	    var duration = $("#duration").val();
+	    var from_date = $("#from_date").val();
+	    var to_date = $("#to_date").val();
+	    $('#from_date,#to_date').css('background', '#fff');
+	    if ((duration == '') && (from_date != '' || to_date != '')) {
+		var inputdate = JsdateReturn(this.value);
+		var today = new Date(<?= date("Y") ?>,<?= date("m") - 1 ?>,<?= date("d") ?>);
+		if (inputdate > today) {
+		    if (this.id == 'from_date') {
+			alert("From date cannot be greater than todate.");
+		    } else if (this.id == 'to_date') {
+			alert("To date cannot be greater than todate.");
+		    }
+		    $("#" + this.id).val('').css('background', '#ff0');
+		    return false;
+		}
+		if ((from_date != '') && (to_date != '')) {
+		    var from_date = JsdateReturn(from_date);
+		    var to_date = JsdateReturn(to_date);
+		    var diff = to_date - from_date;
+		    var one_day = 1000 * 60 * 60 * 24;
+		    var date_range = diff / one_day;
+		    var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+		    if (to_date < from_date) {
+			alert("From date cannot be greater than to date.");
+			$("#to_date").val('').css('background', '#ff0');
+			return false;
+		    } else if (date_range > max_range) {
+			alert('Report can be fetched for a duration not more than ' + max_range + ' days');
+			$("#to_date").val('').css('background', '#ff0');
+			return false;
+		    }
+		}
+	    } else if ((duration != '') && (from_date != '' || to_date != '')) {
+		alert('Please select either duration or from and to date.');
+		$("#" + this.id).val('');
+		$("#duration").select();
+		return false;
+	    }
+	});
+	$('form').submit(function () {
+	    var from = $.trim($("#from_date").val());
+	    var to = $.trim($("#to_date").val());
+	    var duration = $("#duration").val();
+	    var bank_unicode = $.trim($("#bank_unicode").val());
+	    $('#bank_unicode').css('background', '#fff');
+	    if ((bank_unicode == '') || (bank_unicode == '0')) {
+		alert("Please select bank name.");
+		$('#bank_unicode').css('background', '#ff0');
+		$("#bank_unicode").focus();
+		return false;
+	    } else if ((duration == '' && (from == '' && to == '')) || (duration != '' && (from != '' || to != ''))) {
+		alert('Please select either duration or from and to date.');
+		return false;
+	    } else if ((duration == '') && (from == '' || to == '')) {
+		alert('Please select from and to date.');
+		return false;
+	    }
+	    return true;
+	});
+    });
+</script>

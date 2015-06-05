@@ -1,0 +1,216 @@
+<div class="Boldtext">Cardholder Search</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+?>
+
+<?php
+if($this->submit_form!=''){
+    
+$config = array();
+$config['addMessage'] = 'Add New Cardholder'; 
+// messages
+$config['pageTitle'] = 'Cardholder Search';
+$config['emptyMessage'] = 'No record found.';
+//$config['no_add']=1;
+$config['showActions'] = true;
+//$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+
+// creating delete link 
+$queryString = 'medi_assist_id='.$this->formData['medi_assist_id'].'&employer_name='.$this->formData['employer_name'];
+$queryString .= '&card_number='.$this->formData['card_number'].'&mobile='.$this->formData['mobile'].'&email='.$this->formData['email'];
+$queryString .= '&aadhaar_no='.$this->formData['aadhaar_no'].'&pan='.$this->formData['pan'].'&employee_id='.$this->formData['employee_id'];
+$queryString .= '&submit_form=Search Cardholder'.'&csrfhash='.$this->formData['csrfhash'].'&formName='.$this->formData['formName'];
+$activeAction = '/corp_ratnakar_cardholder/active?'.$queryString;
+$inactiveAction = '/corp_ratnakar_cardholder/inactive?'.$queryString;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Medi Assist Id',
+    'Employee Id',
+    'Cardholder Name',
+    'Gender',
+    'Aadhaar Number',
+    'PAN',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Actions',
+);
+
+$config['columnIndexes'] = array(
+    'card_number',
+    'medi_assist_id',
+    'employee_id',       
+    'cardholder_name',
+    'gender',
+    'aadhaar_no',
+    'pan',
+    'mobile',
+    'email',
+    'employer_name',
+);
+
+$config['actions'] = array(
+        'active'    =>  array(
+        'action'        => $activeAction,
+        'title'         => 'Active Cardholder',
+        'parameter'     => TRUE,
+        //'icon'          => TRUE,
+        //'img_url'       => '/images/icons/edit.png',
+        'img_alt'       => 'Active Cardholder',
+    ),
+      'inactive'    =>  array(
+        'action'        => $inactiveAction,
+        'title'         => 'Inactive Cardholder',
+        'parameter'     => TRUE,
+        //'icon'          => TRUE,
+        //'img_url'       => '/images/icons/del2.png',
+        'img_alt'       => 'Inactive Cardholder',
+      ),
+    );
+
+//$config['actionsConditional'] = array('active','inactive');
+//$config['linkOrder'] = array('active', 'inactive');
+//
+//$config['conditionArr'] = array(
+//    0     =>  array(
+//        'param'     => 'cardholder_status',
+//        'operator' => 'in_array',
+//        'value'     => array('0'=>STATUS_ACTIVE)
+//    ),
+//    1     =>  array(
+//        'param'     => 'cardholder_status',
+//        'operator' => 'in_array',
+//        'value'     => array('0'=>STATUS_INACTIVE)
+//    )
+//);
+
+// $config['linkOrder'] = array('edit', 'delete');
+
+$cntColNames = count($config['columnNames']) - 1 ;
+// render the default listing
+//echo $this->partial(
+//    'partials/default-listing.phtml',
+//    array(
+//        'config' => $config,
+//        'paginator' => $this->paginator,
+//    )
+//);
+?>
+
+
+<div class="Boldtext"><?php echo $config['pageTitle'];?></div>
+
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+                        <td><?php echo $item[$config['columnIndexes'][0]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][1]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][2]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][3]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][4]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][5]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][6]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][7]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][8]];?></td>
+                        <td><?php echo $item[$config['columnIndexes'][9]];?></td>
+                        <td>
+                            <?php 
+                                    if($item['cardholder_status']==STATUS_ACTIVE){
+                                        $inactiveAction .= "&id=".$item['id'];
+                                     ?><a href="<?php echo $this->formatURL($inactiveAction);?>" title="Inactive Cardholder">Inactive Cardholder</a> <?php
+                                    } else if($item['cardholder_status']==STATUS_INACTIVE){
+                                        $activeAction .= "&id=".$item['id'];
+                                     ?><a href="<?php echo $this->formatURL($activeAction);?>" title="Active Cardholder">Active Cardholder</a> <?php  
+                                    }
+                            ?>
+                        </td>
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php $datePrev = $item[$config['columnIndexes'][0]];?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div>&nbsp;</div> 
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#submit_form").click(function(){
+        var medi_assist_id = $.trim($("#medi_assist_id").val());
+        var employer_name = $.trim($("#employer_name").val());
+        var employee_id = $.trim($("#employee_id").val());
+        var card_number = $.trim($("#card_number").val());
+        var mobile = $.trim($("#mobile").val());
+        var email = $("#email").val();
+        var aadhaar_no = $("#aadhaar_no").val();
+        var pan = $("#pan").val();
+      //alert('sdfas');
+        if(medi_assist_id=='' && employer_name=='' && employee_id=='' && card_number=='' && mobile=='' && email=='' && aadhaar_no=='' && pan==''){
+            alert('Please select any option for cardholder search');
+            return false;
+        } 
+    });     
+
+});     
+
+</script>

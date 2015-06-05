@@ -1,0 +1,95 @@
+<?php
+if ($this->detailPage == FLAG_NO) {
+
+    $config = array();
+// messages
+    $config['pageTitle'] = $this->heading;
+    $config['emptyMessage'] = 'There is no pending virtual requests at this time.';
+
+    $config['no_add'] = TRUE;
+    $config['showActions'] = false;
+// column names & indexes
+    $config['columnNames'] = array(
+        'Request Date',
+        'UTR No.',
+        'Amount',
+        'Status',
+    );
+    $config['columnIndexes'] = array(
+        'format_date_request',
+        'utr',
+        'amount',
+        'status',
+    );
+
+    $config['linkCol'] = array(
+        array(
+            'linkColName' => 'format_date_request',
+            'linkController' => 'agentfunding',
+            'linkAction' => 'virtualfundrequest',
+            'linkTitle' => 'View Details',
+            'linkParamReqd' => TRUE,
+            'linkParamName' => 'id',
+            'linkParamValue' => 'id',
+        ),
+    );
+
+    echo $this->partial('partials/default-listing.phtml', array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+            )
+    );
+} else if ($this->detailPage == FLAG_YES) {
+    echo '<div class="Boldtext">' . $this->heading . '</div>';
+    ?>
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+        <table cellspacing="0" width="950"> 
+            <tbody> 
+                <tr>
+                    <th width="200">Request Status :</th>
+                    <td style="text-align: left"><?= ucfirst($this->agentFunding->status) ?></td>
+                </tr>
+                <tr>
+                    <th width="200">Agent Name :</th>
+                    <td style="text-align: left"><?= $this->agentFunding->agent_name ?></td>
+                </tr>
+                <tr>
+                    <th width="200">Request Date: </th>
+                    <td style="text-align: left"><?= $this->agentFunding->format_date_request ?></td>
+                </tr>
+                <tr>
+                    <th width="200">Amount: </th>
+                    <td style="text-align: left"><?= '<span class="WebRupee"></span>' . $this->agentFunding->amount ?></td>
+                </tr>
+                <tr>
+                    <th width="200">UTR No: </th>
+                    <td style="text-align: left"><?= $this->agentFunding->utr ?></td>
+                </tr>
+                <tr>
+                    <th width="200">Comment: </th>
+                    <td style="text-align: left"><?= $this->agentFunding->comments ?></td>
+                </tr>
+                <?php if ($this->agentFunding->status == STATUS_APPROVED) { ?>
+                    <tr>
+                        <th width="200">Approve Date: </th>
+                        <td style="text-align: left"><?= $this->agentFunding->format_date_funded ?></td>
+                    </tr>
+                    <?php /*    <tr>
+                      <th width="200">Transaction Ref Number: </th>
+                      <td style="text-align: left"><?= $this->agentFunding->txn_code ?></td>
+                      </tr> */ ?>
+                <?php } if ($this->agentFunding->status != STATUS_PENDING) { ?>
+                    <tr>
+                        <th width="200">Remarks: </th>
+                        <td style="text-align: left"><?= $this->agentFunding->remarks ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody> 
+        </table>
+    </div>
+    <div class="clear"></div>
+    <a class="alt" href="<?php echo $this->backlink; ?>">← Back</a>
+<?php } ?>
+
+
+

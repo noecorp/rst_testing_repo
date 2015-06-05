@@ -1,0 +1,109 @@
+<?php
+/**
+ * 
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Agent Remapping: '.$this->item->name;
+$config['areYouSureMessage'] = 'Are you sure you want to Remap this agent?';
+
+// column names & indexes
+if($this->item->user_type == SUB_AGENT_DB_VALUE){
+$config['columnNames'] = array(
+    'Agent Code',
+    'Agent Name',
+    'Agent Type',
+    'Super Distributor',
+    'Distributor'
+   );
+$config['columnIndexes'] = array(
+    'agent_code',
+    'name',
+    'user_type',
+    'super_info',
+    'dist_info'
+   );
+} else {
+    $config['columnNames'] = array(
+    'Agent Code',
+    'Agent Name',
+    'Agent Type',
+    'Super Distributor'
+   );
+$config['columnIndexes'] = array(
+    'agent_code',
+    'name',
+    'user_type',
+    'super_info'
+   );
+}
+
+$helper = $this->listingUtilities($config);
+?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<div class="innerbox">
+    <div class="confirm"><?php $helper->areYouSureMessage();?></div>
+    
+        <?php foreach($helper->getColumnNamesAndValues($this->item) as $columnName => $columnValue) : ?>  
+            <div class="formrow-view">
+                <div class="form-name-column-view"><?php $helper->displayItem($columnName);?></div>
+                <div class="form-field-column-view">
+                <div id="inner"><span style="font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:normal;">
+                    <?php 
+                        if($columnName == 'Agent Type'){
+                            $helper->displayItem($this->agentUser->getUserTypeinHRF($this->item->id));
+                        } else {
+                            $helper->displayItem($columnValue);
+                        } ?>
+                    </span></div>
+                </div>
+            </div>
+        <?php endforeach;?>
+    <div class="clear"></div>
+    <?php echo $this->form;?>
+    
+<div class="clear"></div>
+</div><!---Inner-box End--->
+<script type="text/javascript">
+$(document).ready(function() {
+    <?php if($this->item->user_type == SUB_AGENT_DB_VALUE) { ?>
+    var pid = '<?php echo $this->productid; ?>';
+    $("#super_agent").change(function(){
+        $.ajax({
+            url: '/ajax/get-distributoragentdd/q/'+$("#super_agent").val()+'/p/'+pid,
+                success: function(response) {
+                    if(response == 1) {                            
+                    } else {                            
+                        $("#distributor_agent").html("");                            
+                        $("#distributor_agent").append(response);
+                         console.log(response);                            
+                    }
+                }
+        });
+    });
+    <?php } ?>
+        
+    $('form').submit(function(){
+        if($("#super_agent").val() == ''){
+            alert('Please select Super Agent');
+            $("#super_agent").focus();
+            return false;
+        } 
+        
+        <?php if($this->item->user_type == SUB_AGENT_DB_VALUE) { ?>
+        if($("#distributor_agent").val() == ''){
+            alert('Please select Distributor Agent');
+            $("#distributor_agent").focus();
+            return false;
+        }
+        <?php } ?>
+            
+        return true;
+    });
+});
+</script>

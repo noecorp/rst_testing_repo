@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * Displays a product purse detail 
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$productPursesConfig = array();
+$productPursesConfig['pageTitle'] = 'Purse details for : ' .$this->item->code;
+$productPursesConfig['no_add'] = true;
+
+
+    // column names & indexes
+    $productPursesConfig['columnNames'] = array(
+        'Code',
+        'Name',
+        'Description',
+        'Max Balance',
+        'Virtual',
+        'Load Channel',
+        'Load Validity Day',
+        'Load Validity Hour',
+        'Load Validity Minute',
+        'Minimum Value per Load',
+        'Maximum Value per Load',
+        'Max no. of Loads per Day',
+        'Max Load Amount per Day',
+        'Max no. of Loads per Month',
+        'Max Load Amount per Month',
+        'Max no. of Loads per Year',
+        'Max Load Amount per Year',
+        'Restriction Type',
+        'Upload List',
+        'Minimum Value of Txn',
+        'Maximum Value of Txn',
+        'Max no. of Txns per Day',
+        'Max Txn Amount per Day',
+        'Max no. of Txns per Month',
+        'Max Txn Amount per Month',
+        'Max no. of Txns per Year',
+        'Max Txn Amount per Year',
+        'Treatment of Debit API (Credited To)',
+        'Priority',
+        'Start Date',
+    );
+    $productPursesConfig['columnIndexes'] = array(
+        'code',
+        'name',
+        'description',
+        'max_balance',
+        'is_virtual',
+        'load_channel',
+        'load_validity_day',
+        'load_validity_hr',
+        'load_validity_min',
+        'load_min',
+        'load_max',
+        'load_max_cnt_daily',
+        'load_max_val_daily',
+        'load_max_cnt_monthly',
+        'load_max_val_monthly',
+        'load_max_cnt_yearly',
+        'load_max_val_yearly',
+        'txn_restriction_type',
+        'txn_upload_list',
+        'txn_min',
+        'txn_max',
+        'txn_max_cnt_daily',
+        'txn_max_val_daily',
+        'txn_max_cnt_monthly',
+        'txn_max_val_monthly',
+        'txn_max_cnt_yearly',
+        'txn_max_val_yearly',
+        'debit_api_cr',
+        'priority',
+        'date_start',
+        );
+        
+ 
+    // render the default listing
+    echo $this->partial(
+            'partials/default-view.phtml', array(
+        'config' => $productPursesConfig,
+        'item' => $this->item,
+            )
+    );
+
+              

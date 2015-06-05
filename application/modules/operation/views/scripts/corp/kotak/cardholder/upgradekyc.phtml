@@ -1,0 +1,70 @@
+  <div class="Boldtext">KYC Upgradation</div> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form; 
+  
+  $ifscCode = isset($this->remitterData['ifsc_code'])?$this->remitterData['ifsc_code']:'';
+  $user = Zend_Auth::getInstance()->getIdentity();
+  $minAge = $this->minAge;
+//  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+//  $cardholderStep1 = isset($session->cardholder_step1)?$session->cardholder_step1:'';
+  ?>
+  
+  
+  <script type="text/javascript">
+$(document).ready(function() {
+       
+ var member_id = $("#member_id").val();
+
+   
+
+//    
+// if($("#member_id").val() != ''){
+//         $.ajax({
+//                url: '/ajax/get-customerbymemberid/p/'+$("#member_id").val()+'/q/'+$("#product_id").val(),
+//                    success: function(response) {
+//                        if(response == 1) {
+//                         
+//                        } else {
+//                           var resArr = response.split('^');
+//                            var idProofType = resArr['0'];
+//                            var addProofType = resArr['2'];
+//                            $("#id_proof_type option[value='"+idProofType+"']").attr("selected", "selected");
+//                            $("#id_proof_number").val(resArr['1']);  
+//                            
+//                            $("#address_proof_type option[value='"+addProofType+"']").attr("selected", "selected");
+//                            $("#address_proof_number").val(resArr['3']);  
+//                            
+//
+//                        }
+//                    },
+//         
+//        });
+//}  
+//
+//   $("#member_id").change(function(){
+//    
+//            $.ajax({
+//                url:  '/ajax/get-customerbymemberid/p/'+$("#member_id").val()+'/q/'+$("#product_id").val(),
+//                    success: function(response) {
+//                        if(response == 1) {
+//                        } else {
+//                            var resArr = response.split('^');
+//                            var idProofType = resArr['0'];
+//                            var addProofType = resArr['2']; 
+//                            $("#id_proof_type option[value='"+idProofType+"']").attr("selected", "selected");
+//                            $("#id_proof_number").val(resArr['1']);  
+//                            
+//                            $("#address_proof_type option[value='"+resArr['2']+"']").attr("selected", "selected");
+//                            $("#address_proof_number").val(resArr['3']);  
+//                            
+//                        
+//                        }
+//                    },
+//         
+//        });
+//    }); 
+ 
+ 
+ });
+     
+  </script>

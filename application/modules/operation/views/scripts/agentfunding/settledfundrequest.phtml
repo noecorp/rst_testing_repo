@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Displays all pending agent request
+ * @copyright company
+ */
+//Util::pr($this->paginator,1);
+$config = array();
+
+$config['formAction'] = '';
+// messages
+$config['pageTitle'] = 'Settled Fund Requests';
+$config['emptyMessage'] = 'There is no Settled bank statementsat available.';
+
+$config['no_add'] = TRUE;
+$config['showActions'] = false;
+// column names & indexes
+
+$config['columnNames'] = array(
+    'Agent Code',
+    'Agent Name',
+    'Fund Transfer Type',
+    'Journal/Cheque No.',
+    'Amount',
+    'Details',
+    'Settled By',
+    'Settlement Remarks',
+    'Request Date',
+    'Settlement Date',
+    'Status',
+    'Product Name',
+    'Bank Name'
+);
+
+$config['columnIndexes'] = array(
+    'agent_code',
+    'agent_name',
+    'transfer_type_name',
+    'funding_no',
+    'amount',
+    'funding_details',
+    'settlement_by',
+    'settlement_remarks',
+    'date_request',
+    'settlement_date',
+    'agent_funding_status',
+    'product_name',
+    'bank_name'
+);
+
+
+$config['linkCol'] = array(
+    array(
+        'linkColName' => 'agent_name',
+        'linkController' => 'agentsummary',
+        'linkAction' => 'view',
+        'linkTitle' => 'View Agent Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'id',
+        'linkParamValue' => 'agent_id',
+    ),
+);
+echo $this->partial(
+        'partials/default-listing.phtml', array(
+    'config' => $config,
+    'paginator' => $this->agentFunding,
+        )
+);
+if(count($this->agentFunding)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php }  ?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        
+            var url = '<?php echo $this->formatURL("/agentfunding/exportsettledfundrequest");?>';    
+            $(location).attr('href',url);
+       
+    });
+    
+       
+});
+</script>

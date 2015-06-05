@@ -1,0 +1,51 @@
+<?php
+/**
+ * Assign the fund to agent
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Agent Load Fund';
+?>
+
+   
+   
+<div class="finalaction">
+
+<?php
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+?> 
+     <table>
+        
+            <tr>
+                <th style="width: 25%"><?php echo 'Agent Name:';?></th>            
+                <td><?php echo $this->agentDetails['first_name'].' '.$this->agentDetails['last_name'];?></td>
+            </tr> 
+            
+             <tr>
+                <th style="width: 25%"><?php echo 'Mobile:';?></th>            
+                <td><?php echo $this->agentDetails['mobile1'];?></td>
+            </tr>
+            
+             <tr>
+                <th style="width: 25%"><?php echo 'Email:';?></th>            
+                <td><?php echo $this->agentDetails['email'];?></td>
+            </tr>
+            
+            <tr>
+                <th style="width: 25%"><?php echo 'Last Amount Balance:';?></th>            
+                <td><?php echo Util::numberFormat($this->agentDetails['amount']);?></td>
+            </tr> 
+             
+    </table>
+</div>

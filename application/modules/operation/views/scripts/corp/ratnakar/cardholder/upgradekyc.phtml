@@ -1,0 +1,12 @@
+  <div class="Boldtext">KYC Upgradation</div> 
+  <span><?php echo $this->msg?></span>
+  <?php echo $this->form; 
+  
+  $ifscCode = isset($this->remitterData['ifsc_code'])?$this->remitterData['ifsc_code']:'';
+  $user = Zend_Auth::getInstance()->getIdentity();
+  $minAge = $this->minAge;
+//  $session = new Zend_Session_Namespace('App.Agent.Controller');  
+//  $cardholderStep1 = isset($session->cardholder_step1)?$session->cardholder_step1:'';
+  ?>
+  
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL('/corp_ratnakar_cardholder/upgradekycsearch'); ?>">← Back</a></div>

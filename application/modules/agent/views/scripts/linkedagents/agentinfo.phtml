@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Displays Sub agent details
+ * @copyright company
+ */
+//Util::pr($this->paginator,1);
+
+
+
+$config = array();
+// messages
+$config['pageTitle'] = 'Assigned Products';
+$config['emptyMessage'] = 'There is no product assigned at this time.';
+
+$config['no_add'] = TRUE;
+$config['showActions'] = false;
+
+// column names & indexes
+
+$config['columnNames'] = array(
+    'Product Name',    
+);
+
+$config['columnIndexes'] = array(
+    'product_name',    
+);
+
+
+
+?>
+<div class="Boldtext">Partner Details</div>
+ 
+<div class="filterbox">
+<div style="width:950px;">
+    <a class="ocean" href="<?php echo $this->formatURL('/linkedagents/assignproduct/agentid/'.$this->agentId.'/');?>" style="float:right;" title="Add New Product">Add New Product</a>
+</div>
+</div>
+ 
+<?php 
+if(!empty($this->agentInfo)) {
+?>
+<dl class="innerbox form">
+<dt id="dur-label"><label for="dur" class="form-name-column required">Name: </label></dt>
+<dd class="form-field-column edit"><?php echo ucfirst($this->agentInfo['first_name']) . ' ' . ucfirst($this->agentInfo['last_name']) ;?></dd>
+<dt id="dur-label"><label for="dur" class="form-name-column required">Email: </label></dt>
+<dd class="form-field-column edit"><?php echo $this->agentInfo['email'];?></dd>
+<dt id="dur-label"><label for="dur" class="form-name-column required">Mobile: </label></dt>
+<dd class="form-field-column edit"><?php echo $this->agentInfo['mobile1'];?></dd>
+<dt id="dur-label"><label for="dur" class="form-name-column required">Status: </label></dt>
+<dd class="form-field-column edit"><?php echo strtoupper($this->agentInfo['enroll_status']);?></dd>
+</dl>
+
+<?php
+}
+echo $this->partial(
+        'partials/default-listing.phtml', array(
+    'config' => $config,
+    'paginator' => $this->paginator,
+        )
+);

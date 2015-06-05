@@ -1,0 +1,434 @@
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<style type="text/css">
+input[type="radio"] {
+	width:auto !important;
+}
+</style>
+<?php 
+
+$config = array();
+$config['pageTitle'] = 'Add Beneficiary for: '.$this->remitter_name;
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+
+
+
+$session = new Zend_Session_Namespace('App.Agent.Controller'); 
+
+$bankList = new BanksIFSC();
+$bankListOptions = $bankList->getBank();
+array_shift($bankListOptions);
+
+
+?>
+
+<script type="text/javascript">
+$(window).bind("load", function() {
+        var beni_ifsc_code=$("#ifsc_code").val();
+        if(beni_ifsc_code == null || beni_ifsc_code == ''){
+                $('#name').val(' ').val('');
+                $('#bank_account_number').val(' ').val('');
+		setTimeout(function(){
+			 $('#name').val(' ').val('');
+                $('#bank_account_number').val(' ').val('');
+
+		},100);
+        }
+});
+ 
+
+  $(document).ready(function() {
+      
+    //get original values of bank name,state,city in bene form for wrong or empty ifsc code
+      var beni_bank_name_o = '<option label="Select Bank Name" value="">Select Bank Name</option>';
+      var beni_bank_state_o = $("#bank_state").html();      
+      var beni_branch_city_o = $("#branch_city").html();
+      var beni_branch_name_o = $("#branch_name").html();  
+      
+      var beneficiary_auth = <?php echo isset($session->beneficiary_auth)?$session->beneficiary_auth:0;?>;
+      var ifsc = $("#ifsc").val();
+      var bank = $("#bank_name").val(); 
+       if($("#ifsc").val() != ''){
+             $.ajax({
+                url: '/ajax/get-bankdetails/q/'+$("#ifsc").val()+'/t/neft',
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            var resArr = response.split('^');
+                         var resArr = response.split('^');
+                        $("#bank_name").html("<option value='"+resArr['0']+"'>"+resArr['0']+"</option>");    
+                       	$("#bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+                        $("#branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+                        $("#branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");    
+                        $("#branch_address").val(resArr['4']);
+                            
+                        }
+                    }
+         
+        });
+     }
+     if($("#bank_name").val() != ''){
+     $.ajax({
+                url: '/ajax/get-ifsc/q/'+$("#bank_name").val()+'/t/neft',
+                    success: function(response) {
+                        if(response == 1) {
+                          
+                        } else {
+                            
+                            $("#ifsc_code").html("");                           
+                            $("#ifsc_code").append(response);
+                            
+                            if(beneficiary_auth!='' && beneficiary_auth>0){  
+                            var optionsIfsc = document.getElementById('ifsc_code').options;
+                        
+                            for (var i=0, iLen=optionsIfsc.length; i<iLen; i++) {
+                              optionsIfsc[i].disabled = true;}
+                           
+                            $("#ifsc_code option[value='"+ifsc+"']").removeAttr('disabled');
+                            }
+                             $("#ifsc_code option[value='"+ifsc+"']").attr("selected", "selected");
+                            
+                        }
+                    }
+         
+        });
+     }
+   
+    var sendAuthButton = false;
+    $('form').submit(function() {
+     var acountno = $("#bank_account_number").val();
+     var confacountno = $("#conf_bank_account_number").val();
+
+    	if(!validateBeniForm()){
+                return false;
+        }else if(acountno != confacountno){
+            alert('Account No. and confirm Account No. values do not match');
+            return false;
+        }
+        else {
+            if(sendAuthButton == false){
+            $('#is_submit').val('1'); 
+            $('#submit_form').attr('disabled', 'disabled'); 
+            }
+            return true;
+        }
+
+    }); 
+    
+    
+    
+   $("#btn_auth_code").click(function() { 
+        $("#send_auth_code").val('1');
+        //$('#auth_code').attr('required',false);
+        sendAuthButton = true; 
+        $("form").submit();
+   });
+     
+ 
+     if(beneficiary_auth!='' && beneficiary_auth>0){       
+         
+         $("#btn_auth_code").html('Resend Beneficiary Authorization Code');
+         $("#name").attr('readOnly', 'readOnly');
+         $("#branch_name").attr('readOnly', 'readOnly');
+         $("#bank_account_number").attr('readOnly', 'readOnly');
+         $("#conf_bank_account_number").attr('readOnly', 'readOnly');
+         var optionsBank = document.getElementById('bank_name').options;
+        for (var i=0, iLen=optionsBank.length; i<iLen; i++) {
+         optionsBank[i].disabled = true;
+            }  
+       $("#bank_name option[value='"+bank+"']").removeAttr('disabled');
+       } 
+       $( "#ifsc_code" ).focusout(function() {
+	  		if(this.value==""){
+                                $("#bank_name").html(beni_bank_name_o);    
+                                $("#bank_state").html(beni_bank_state_o);    
+                                $("#branch_city").html(beni_branch_city_o);
+                                $("#branch_name").html(beni_branch_name_o);    
+                                $("#branch_address").val('');
+	  			return false;
+	  		}
+         $.ajax({
+            url: '/ajax/get-bankdetails/q/'+this.value+'/t/neft',
+                success: function(response) {
+                    if(response == 1) {
+                        alert("IFSC Code does not exist");
+                        $("#bank_name").html(beni_bank_name_o);    
+                        $("#bank_state").html(beni_bank_state_o);    
+                        $("#branch_city").html(beni_branch_city_o);
+                        $("#branch_name").html(beni_branch_name_o);    
+                        $("#branch_address").val('');
+                        $("#ifsc_code").val("");  
+                    } else {
+                        var resArr = response.split('^');
+                        $("#bank_name").html("<option value='"+resArr['0']+"'>"+resArr['0']+"</option>");    
+                       	$("#bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+                        $("#branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+                        $("#branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");    
+                        $("#branch_address").val(resArr['4']);
+                        
+                    }
+                }
+     
+    		});
+			
+		});
+			 $("#bank_name").change(function(){
+    
+	      $.ajax({
+		  url: '/ajax/get-universalbanks/q/'+$("#bank_name").val(),
+		      success: function(response) {
+			  if(response == 1) {
+			  } else {
+			  
+			    if (response.indexOf('^') === -1) {
+			      $("#bank_state").html("");
+			      $("#bank_state").append(response);
+			      $("#branch_city").html(beni_branch_city_o);
+			      $("#branch_name").html(beni_branch_name_o);    
+			      $("#branch_address").val('');
+			      $("#ifsc_code").val("");  
+			       
+			    }else{
+			      var resArr = response.split('^');
+			      $('#bank_name option:contains("'+resArr['0']+'")').prop('selected', true);
+			      $("#bank_state").html("<option value='"+resArr['1']+"'>"+resArr['1']+"</option>");    
+			      $("#branch_city").html("<option value='"+resArr['2']+"'>"+resArr['2']+"</option>");    
+			      $("#branch_name").html("<option value='"+resArr['3']+"'>"+resArr['3']+"</option>");
+			      $("#branch_address").val(resArr['4']);
+			      $("#ifsc_code").val(resArr['5']);  
+			    }
+			  }
+		      },
+	   
+		  });
+	    }); 
+		$("#bank_state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-cities/q/'+$("#bank_name").val()+'/r/'+this.value,
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#branch_city").html("");
+                            $("#branch_city").append(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+    $("#branch_city").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-branches/q/'+$("#bank_name").val()+'/i/'+this.value,
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                            $("#branch_name").html("");
+                            $("#branch_name").append(response);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+     $("#branch_name").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-branchadd/q/'+$("#bank_name").val()+'/i/'+this.value+'/t/neft',
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                        
+                           var resArr = response.split('^');
+	                          $("#branch_address").val(resArr['0']);
+	                          $("#ifsc_code").val(resArr['1']);
+                        
+                        }
+                    },
+         
+        });
+    }); 
+    
+	
+    $('#submit_form').click(function(){
+            if($("#auth_code").val()==''){
+              alert('Please fill Authorization Code.'); 
+              return false; 
+            }
+    });
+    
+    // email validation check
+    $("#email").change(function(){
+            //check valid email
+            var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+            if(pattern.test($.trim($("#email").val())) == false) {
+                        alert("Please enter valid email address.");
+                        $('#email').val("");
+                        $('#email').focus();
+                        return false;    
+            }
+    });
+			
+       
+});  
+
+function validateBeniForm(){
+	
+			var regex = /^[a-zA-Z\s]+$/;
+                        var beneaccno = /^[0-9]{5,16}$/;
+                        var acountno = $("#bank_account_number").val();
+			var confacountno = $("#conf_bank_account_number").val();
+			
+			
+		if($.trim($('#name').val())==""){                            
+   			alert("Please Enter Beneficiary Name");
+   			$('#name').focus();
+   			return false;
+   		}else if($.trim($("#name").val()).length < 2){
+   			alert("Beneficiary name should be atleast 2 characters");
+   			$('#name').focus();
+   			return false;
+   		}else if(!regex.test($('#name').val())){
+   			alert("Beneficiary name contains non alphabetic characters");
+   			$('#name').focus();
+   			return false;
+   		}else if($('#bank_account_type').val()==""){
+   			alert("Please Select Account Type");
+                        $('#bank_account_type').focus();
+   			return false;
+   		}else if($('#bank_account_number').val()==""){
+   			alert("Please Enter Bank Account No. ");
+                         $('#bank_account_number').focus();
+   			return false;
+                }else if($('#bank_account_number').val() < 1){
+   			alert("Invalid Bank Account No.");
+                        $('#bank_account_number').focus();
+   			return false;
+                }else if(beneaccno.test($('#bank_account_number').val()) == false){
+                            alert("Invalid Bank Account No.");
+                            $('#bank_account_number').focus();
+                            return false;
+                }else if($('#conf_bank_account_number').val()==""){
+   			alert("Please Enter Confirm Bank Account No. ");
+                        $('#conf_bank_account_number').focus();
+   			return false;
+   		}else if(acountno != confacountno){
+			    alert('Account No. and confirm Account No. values do not match');
+                             $('#conf_bank_account_number').focus();
+			    return false;
+		}else if($.trim($('#ifsc_code').val())==""){
+   			alert("Please Enter IFSC Code");
+   			$('#ifsc_code').focus();
+   			return false;
+   		}else if($('#bank_name').val()==""){
+   			alert("Please Enter Bank Name");
+   			$('#bank_name').focus();
+   			return false;
+   		}else if($('#bank_state').val()==""){
+   			alert("Please Enter Branch State");
+   			return false;
+   		}else if($('#branch_city').val()==""){
+   			alert("Please Enter Branch City");
+   			return false;
+                }else if($('#branch_name').val()==""){
+   			alert("Please Enter Branch Name");
+   			return false;
+                }else if($('#branch_address').val()==""){
+   			alert("Please Enter Branch Address");
+   			return false;
+   		}else if($('#branch_address').val().length <= 2){
+                    alert("Address should be more than 3 characters");
+                    $('#branch_address').focus();
+                    return false;
+   		}else{
+                   var ifsccode =  $.trim($('#ifsc_code').val());
+                   $('#ifsc_code').val(ifsccode);
+				return true;
+			}
+}  
+
+$(document).ready(function() {
+	var enableTransfer = <?php echo isset($session->enableTransfer)?$session->enableTransfer:0;?>;
+	if(!enableTransfer) {
+		$("#transfer_amount").prop('disabled', true);
+		$("input[name=transfer_falg]").prop('disabled', true);
+		$("#submit_ammount").prop('disabled', true);
+	} else {
+		$('#btn_auth_code,#submit_form').prop('disabled', true);
+	}
+	
+    $('#submit_ammount').click(function(e){ 
+	   e.preventDefault();
+		var transfer_amount = $("#transfer_amount").val();
+		var name = $("#name").val();
+		var transfer_falg = $("input[name=transfer_falg]:checked").val();
+		var $valid = true;
+		if(transfer_amount == '')  {
+			alert('Please enter valid amount for fund transfer') ;
+			$("#transfer_amount").focus();
+			$valid = false;
+		} else{
+			
+			var isnum = /^\d+$/.test(transfer_amount);
+			if(!isnum)
+			{
+				alert('Please enter valid amount') ;
+				$("#transfer_amount").focus();
+				$valid = false;
+			}
+		}
+		flag=2;
+		if(transfer_falg == '') {
+			alert('Please select fund transfer method') ;
+			$("#transfer_falg-NEFT").focus();
+				$valid = false;
+		} else if(transfer_falg == 'NEFT'){
+				$valid = true;
+				flag=3;
+		} else if(transfer_falg == 'IMPS') {
+				$valid = true;
+				flag=2;
+		} else {
+				alert('Please select fund transfer method') ;
+				$("#transfer_falg-NEFT").focus();
+				$valid = false;
+		}
+		if($valid) {
+			var confirmTransfer = confirm('Are you sure you want to transfer Rs.'+transfer_amount+' to beneficiary: '+name); 
+			if(confirmTransfer == true){
+				//$( "#transfer_"+rowid ).slideDown( "slow", function() {
+				$(this).html('<img src="/images/ajax-loader.gif">');
+				//$( "#transfer_"+rowid ).show();
+				//}).delay(200).fadeIn(300);;
+					
+				active = false;
+				$.ajax({
+					//url: '/ajax/get-fundtransfer/flag/'+flag+'/aid/'+agentId+'/bid/'+rowid+'/amount/'+$('#amount_'+rowid).val(),
+					url:'/ajax/get-fundtransfer/flag/'+flag+'/amount/'+transfer_amount,
+					success: function(response) {
+							active = true;
+							$(response).insertAfter('#submit_ammount');
+							 setTimeout(function () {
+								$(".msg,.msg-success").fadeOut();
+							}, 4000);
+					}
+				});
+			}			  
+		}
+	   
+		
+	   
+	});
+});
+</script>
+

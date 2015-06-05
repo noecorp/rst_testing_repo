@@ -1,0 +1,167 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Reject Customer: '.$this->item->first_name.' '.$this->item->last_name;
+$config['areYouSureMessage'] = 'Are you sure you want to reject this customer?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Linked Branch SOL ID',
+    'Title',
+    'First Name',
+    'Middle Name',
+    'Surname',
+    'Aadhaar Number',
+    'Aadhaar Enrollment ID',
+    'NSDC Enrollment No',
+    'Debit Mandate Amount',
+    'Training Center ID',
+    'Training Center Name',
+    'Training Partner Name',
+    'PAN',
+    'Sex',
+    'Date of Birth',
+    'Marital Status',
+    'Occupation',
+    'Permanent Address Line 1',
+    'Permanent Address Line 2',
+    'State',
+    'City',
+    'Pincode',
+    'Correspondence Address Line 1',
+    'Correspondence Address Line 2',
+    'Correspondence State',
+    'Correspondence City',
+    'Correspondence Pincode',
+    'Landline',
+    'Mobile',
+    'Email',
+    'Nominee Name',
+    'Nominee Relationship',
+    'Nominee DOB',
+    'Nominee Address Line 1',
+    'Nominee Address Line 2',
+    'Nominee City',
+    'Nominee Minor Guardian',
+    'Nominee Minor Guardian Relationship',
+    'AOF REF No.',
+    'Date Created',
+    'Date Activation',
+    'Customer Status', 
+    'Failed Reason',
+    'Date Failed',
+   
+);
+$config['columnIndexes'] = array(
+    'sol_id',
+    'title',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'aadhaar_no',
+    'uid_no',
+    'nsdc_enrollment_no',
+    'debit_mandate_amount',
+    'training_center_id',
+    'traning_center_name',
+    'training_partner_name',
+    'pan',
+    'gender',
+    'date_of_birth',
+    'marital_status',
+    'occupation',
+    'address_line1',
+    'address_line2',
+    'state',
+    'city',
+    'pincode',
+    'comm_address_line1',
+    'comm_address_line2',
+    'comm_state',
+    'comm_city',
+    'comm_pin',
+    'landline',
+    'mobile',
+    'email',
+    'nominee_name',
+    'nominee_relationship',
+    'nominee_dob',
+    'nominee_add_line1',
+    'nominee_add_line2',
+    'nominee_city_cd',
+    'minor_guardian_name',
+    'nominee_minor_guradian_cd',
+    'ref_num',
+    'date_created',
+    'date_activation',
+    'status',
+    'failed_reason',
+    'date_failed',
+);
+
+
+$helper = $this->listingUtilities($config);
+//print_r($this->item);
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<div class="innerbox">
+<div class="confirm"><?php $helper->areYouSureMessage();?></div>
+
+<?php $indexes = array_combine($helper->getColumnNames(), $helper->getColumnIndexes()) ?>
+       
+
+ <?php foreach($helper->getColumnNamesAndValues($this->item) as $columnName => $columnValue) : ?>
+
+<div class="formrow-view">
+  <div class="form-name-column-view"><?php echo $columnName;?>:</div>
+  <div class="form-field-column-view">
+  <div id="inner"><span style="font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:normal;">
+          <?php 
+          $rctModel = new RctMaster();
+         if($indexes[$columnName] == 'city' || $indexes[$columnName] == 'comm_city' || $indexes[$columnName] == 'nominee_city_cd'){
+            $cityName = $rctModel->getCityName($columnValue);
+             $helper->displayItem( $cityName, $indexes[$columnName]);
+         }
+         elseif($indexes[$columnName] == 'state' || $indexes[$columnName] == 'comm_state'){
+             $stateName = $rctModel->getStateName($columnValue);
+             $helper->displayItem($stateName, $indexes[$columnName]);
+         } 
+          elseif($indexes[$columnName] == 'occupation'){
+             $stateName = $rctModel->getOccupationName($columnValue);
+             $helper->displayItem($stateName, $indexes[$columnName]);
+         } 
+         elseif($indexes[$columnName] == 'nominee_relationship'){
+             $relName = $rctModel->getRelationName($columnValue);
+             $helper->displayItem($relName, $indexes[$columnName]);
+         } 
+         elseif($indexes[$columnName] == 'nominee_minor_guradian_cd'){
+             $relName = $rctModel->getRelationName($columnValue);
+             $helper->displayItem($relName, $indexes[$columnName]);
+         }
+         else{
+          $helper->displayItem($columnValue, $indexes[$columnName]);
+          
+         }
+          ?>
+      </span>
+   
+    </div>
+  </div>
+</div>
+
+ <?php endforeach;?>
+
+
+
+<div class="clear"></div>
+<?php echo $this->form;?>

@@ -1,0 +1,236 @@
+<div class="Boldtext">Pending Cardholder Applications</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Pending Cardholder Applications';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found';
+if($this->sub == 1){
+// column names & indexes
+$config['columnNames'] = array(
+    'Member Id',
+    'Name',
+    'Card Number',
+    'Name on Card',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Employer Name',
+    'Submission Date -Maker',
+    'Submission Date -Checker',
+     );
+$config['columnIndexes'] = array(
+    'member_id',
+    'name',
+    'card_number',
+    'name_on_card',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'employer_name',
+    'date_created',
+    'date_approval',
+    );
+$config['viewLinkColumn'] = 'name';
+$cntColNames = count($config['columnNames']) ;
+$config['actions'] = array(
+        'approve'    =>  array(
+        'action'        => 'approve',
+        'acl_action'        => 'approve',
+        'title'         => 'Approve Cardholder',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/approve.png',
+        'img_alt'       => 'Approve Cardholder',
+      ),
+        'reject'    =>  array(
+        'action'        => 'reject',
+        'acl_action'        => 'reject',
+        'title'         => 'Reject Cardholder',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/reject.png',
+        'img_alt'       => 'Reject Cardholder',
+      ),
+    );
+
+$config['showActions'] = true;
+$config['linkOrder'] = array('approve','reject');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+
+?>
+
+ 
+<div class="tablebox" style="clear:both;">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm3" id ="frm3" action ="<?php echo $this->formatURL('/corp_kotak_cardholder/bulkapprove')?>" method = "POST"> 
+        <thead><!-- universal table heading --> 
+            <tr>
+                 <th> <?php if (count($this->paginator)){ ?><input type="checkbox" id="selectall"/> <?php } ?></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                    
+                <?php endforeach;?>
+                  <th><span>Actions</span></th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+           <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+             
+
+                            <?php  /********** displaying the inner columns **********/
+
+                            $cardId = $item['id'];
+                            ?>
+
+                                <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>"/></td>
+                                <td><?php echo $item['member_id'];?></td> 
+                                <td>
+                                    <?php if ($helper->can('view')) {?>
+                                   <a href="<?php echo $this->formatURL('/corp_kotak_cardholder/view?id='.$cardId.'&viewc=approvalpending&sub=1&product_id='.$this->formData['product_id']);?>" title="View Details">
+                                   <?php echo strtoupper($item['name']);?>
+                                   </a>
+                                    <?php } else { echo strtoupper($item['name']); }?>
+                                </td> 
+                                <td><?php echo util::maskCard($item['card_number']);?></td> 
+                                <td><?php echo ucfirst($item['name_on_card']);?></td> 
+                                <td><?php echo Util::returnDateFormatted($item['date_of_birth'], "Y-m-d", "d-m-Y", "-");?></td>
+                                <td><?php echo $item['mobile'];?></td> 
+                                <td><?php echo $item['email'];?></td> 
+                                <td><?php echo ucfirst($item['employer_name']);?></td> 
+                                <td><?php echo Util::returnDateFormatted($item['date_created'], "Y-m-d", "d-m-Y", "-");?></td>
+                                <td><?php echo Util::returnDateFormatted($item['date_approval'], "Y-m-d", "d-m-Y", "-");?></td>
+
+                                <td><?php if ($helper->can('approve')) {?>
+                                   <a href="<?php echo $this->formatURL('/corp_kotak_cardholder/approve?id='.$cardId.'&sub=1');?>" title="Approve Cardholder">
+                                   <?php echo 'Approve';?>
+                                   </a>
+                                    <?php } if ($helper->can('reject')) {?>
+                                   <a href="<?php echo $this->formatURL('/corp_kotak_cardholder/reject?id='.$cardId.'&sub=1');?>" title="Reject Cardholder">
+                                   <?php echo '| Reject';?>
+                                   </a>
+                                    <?php }?></td>
+                                <?php /********** finished displaying the inner columns **********/ ?>
+                                <?php //if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                                    <!--<td style="margin:0; padding:0;">
+                                        <div class="iconbox">-->
+                                
+                                        <?php 
+//                                        echo "<pre>";print_r($config['actions']);
+                                        //echo "<pre>";print_r($item);
+                                         //echo $helper->links($item);
+                                        ?>
+                                
+                                        <!--</div>
+                                    </td> -->
+                                <?php //endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+    <input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Approve" name="submit_success">
+
+</div>
+    
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php } 
+        if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } ?>
+<script>
+$(document).ready(function() {
+    
+    $("#btn_exportcsv").click(function(){
+          var url = '<?php echo $this->formatURL("/corp_kotak_cardholder/exportapprovalpending?product_id=".$this->formData['product_id']."&enroll_date=".$this->formData['enroll_date']);?>';    
+          $(location).attr('href',url);
+    });
+     
+    $("#frm3").submit(function(e) {
+        
+            
+            if(!$('input[type=checkbox]:checked').length) {
+                //stop the form from submitting
+                e.preventDefault();
+                alert("Please select at least one to process.");
+            }
+            else if(confirm('Are you sure you want to approve selected cardholders?'))
+            {
+                return true;
+            }else{
+                return false;
+            }
+    });     
+    $("#selectall").click(function () {
+    $('.reqid').attr('checked', this.checked);
+    });
+
+    // if all checkbox are selected, check the selectall checkbox
+    // and viceversa
+    $(".reqid").click(function(){
+
+    if($(".reqid").length == $(".reqid:checked").length) {
+    $("#selectall").attr("checked", "checked");
+    } else {
+    $("#selectall").removeAttr("checked");
+    }
+    });
+    
+    $('#corp_kotak_cardholder-approvalpending').submit(function(){
+  
+       var product_name = $.trim($("#product_id").val());
+       var to = $.trim($("#enroll_date").val()); 
+       
+       if(product_name == '')
+       {
+           alert('Please specify Product name.');
+           return false;
+       }
+              
+     return true; 
+   });    
+});
+</script>
+
+ 

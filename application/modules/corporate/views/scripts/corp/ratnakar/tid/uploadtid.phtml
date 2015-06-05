@@ -1,0 +1,59 @@
+<div class="Boldtext">Upload TID File</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+?>
+
+<div class="Boldtext">Success Records: <?php echo $this->successrecords; ?> &nbsp; Failed Records: <?php echo $this->failedrecords; ?></div>
+<?php } ?>
+<script>
+$(document).ready(function() {
+     $("#frm1").submit(function(e) {
+           //remit_boi_remitter-neftresponse
+          if(!$('input[type=checkbox]:checked').length) {
+               //stop the form from submitting
+               e.preventDefault();
+               alert("Please select at least one to process.");
+               return false;
+          }
+
+          return true;
+     });  
+     $("#selectall").click(function () {
+          $('.reqid').attr('checked', this.checked);
+     });
+
+     // if all checkbox are selected, check the selectall checkbox
+     // and viceversa
+     $(".reqid").click(function(){
+     
+          if($(".reqid").length == $(".reqid:checked").length) {
+               $("#selectall").attr("checked", "checked");
+          } else {
+               $("#selectall").removeAttr("checked");
+          }
+     });
+     
+        
+    $('form').submit(function(){
+        var doc_path = $.trim($("#doc_path").val());
+        var batch = $.trim($("#batch").val());
+        if( ( (doc_path == '') || (doc_path.length < 1) ) && batch == '' ){
+           alert('Please upload document file.'); 
+           $("#doc_path").focus();
+           return false;
+        }else if( (doc_path != '') || (doc_path.length > 0) ){
+            var extension = doc_path.split('.').pop().toUpperCase();
+            if (extension!="TXT"){
+                alert('Invalid file extension of Document File.\n Please upload only .txt file.');
+                $('#doc_path').focus(); 
+                return false;
+            }    
+        } 
+        return true;
+         
+    });
+    
+});
+</script>

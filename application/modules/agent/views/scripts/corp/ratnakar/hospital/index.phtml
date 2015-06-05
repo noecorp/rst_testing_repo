@@ -1,0 +1,21 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Hospital</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+        
+        if ($helper->can('search','corp_ratnakar_hospital')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_hospital/search/');?>" title="Search Hospital">Search Hospital</a>: Details of Hospital</li>
+             <div class="clear"></div>
+             <?php } if ($helper->can('add','corp_ratnakar_hospital')) { ?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/corp_ratnakar_hospital/add/');?>" title="Add Hospital">Add Hospital</a>: Add Hospital with Terminals</li>
+             <div class="clear"></div>
+          <?php }
+                 
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

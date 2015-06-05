@@ -1,0 +1,120 @@
+<div class="Boldtext">Approval Pending Corporate Search</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Approval Pending Corporate Listing';
+
+$config['emptyMessage'] = 'There is no pending approval Corporate list at this time.';
+
+$config['no_add']=1;  //to not have add button
+// column names & indexes
+$config['columnNames'] = array(
+    
+    'First Name',
+    'Last Name',
+    'Email',
+    'Corporate Code',
+    'Mobile No.',
+    'Registration Date',
+    'City',
+    'State',
+    'District'
+
+);
+$config['columnIndexes'] = array(
+    
+    'first_name',
+    'last_name',
+    'email',
+    'corporate_code',
+    'mobile',
+    'reg_datetime',
+    'estab_city',
+    'estab_state',
+    'estab_district'
+);
+
+// Approve actions
+$config['actions'] = array(
+    /*'details'    =>  array(
+        'action'        => '../agentsummary/agentdetails',
+        'title'         => 'Details',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    ),
+    'upload_docs'    =>  array(
+        'action'        => '../system/addocs',
+        'title'         => 'Upload Docs',
+        'parameter'     => TRUE,
+        'icon'          => FALSE,
+    ),*/
+    'approve'    =>  array(
+        'action'        => 'approve',
+        'title'         => 'Approve',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/approve.png',
+        //'link_class'    => 'btn1',
+        'img_alt'       => 'approve',
+    ),
+    'reject'    =>  array(
+        'action'        => 'reject',
+        'title'         => 'Reject',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/reject.png',
+        //'link_class'    => 'btn',
+        'img_alt'       => 'reject',
+    ),
+    
+);
+
+$config['viewLinkColumn'] = 'name';
+$config['showActions'] = TRUE;
+
+
+$config['linkOrder'] = array('approve','reject');
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>
+<script type="text/javascript">
+    $(document).ready(function(){     
+        $("#searchCriteria").change(function(){
+            $("#keyword").val('');
+        });
+    });
+    
+    $('form').submit(function(){
+        var search_criteria = $("#searchCriteria").val(); 
+        var keyword = $("#keyword").val(); 
+        
+        if(search_criteria == '')
+        {
+            alert('Please select search criteria');
+            return false;
+        }
+        else if(keyword == '')
+        {
+            alert('Please provide search value');
+            $("#keyword").focus();
+            return false;
+        }
+        return true;
+    });
+</script>

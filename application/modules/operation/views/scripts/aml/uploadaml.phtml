@@ -1,0 +1,153 @@
+<div class="Boldtext">Bulk AML Upload</div>
+<?php 
+
+echo $this->form;
+if($this->records){
+$config['pageTitle'] = 'Bulk AML Upload';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+// column names & indexes
+$config['columnNames'] = array(
+    'Card Number',
+    'Card Pack ID',
+    'Member Id',
+    'Status',
+   );
+$config['columnIndexes'] = array(
+    'card_number',
+    'card_pack_id',
+    'member_id',
+    'status',
+    
+    );
+
+
+
+
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($config['columnNames']) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+//echo "<pre>";print_r($this->paginator);exit;
+ ?>
+
+<div class="Boldtext">Cardholder Details</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+       <form name ="frm1" id ="frm1" action ="<?php $this->formatURL('/corp_ratnakar_cardholders/uploadcrn')?>" method = "POST"> 
+         <input type="hidden" id="batch" name="batch" value ="<?php echo $this->batch; ?>">
+           <thead><!-- universal table heading --> 
+            <tr>
+                <th><input type="checkbox" id="selectall"/></th>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                 
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+               ?>
+                
+                <tr>
+
+                    <?php  /********** displaying the inner columns **********/
+                    
+                    $cardId = $item['master_id'];
+                    if($item[$config['columnIndexes'][3]] == STATUS_DUPLICATE) { 
+?>
+                    <td><input type="checkbox" class="reqid_dis" name="reqid_dis[]" value="" disabled="disabled" /></td>
+<?php
+                    } else {
+?>
+                    <td><input type="checkbox" class="reqid" name="reqid[]" value="<?php echo $cardId; ?>" /></td>
+<?php                    
+                    }
+                    ?>
+                  
+                    
+
+                     <td><?php echo util::maskCard($item[$config['columnIndexes'][0]],4);?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][1]];?></td> 
+                     <td><?php echo $item[$config['columnIndexes'][2]];?></td> 
+                     <td><?php if($item[$config['columnIndexes'][3]] == STATUS_DUPLICATE) { echo 'Duplicate';} else {echo 'Not in use';}?></td> 
+                   
+                    
+                    
+                        
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                   <?php echo $config['emptyMessage'];?>
+                </td>
+
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+<input id="upload_cardholder" class="tangerine" type="submit" title="Submit" value="Submit" name="submit_success">
+</div>
+</form>
+
+
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+	$("#aml-uploadaml").submit(function(){
+			if($("#doc_path").val()==""){
+				alert("Please select File.");
+				return false;
+			}
+//			if($("#url").val() &&  $("#doc_path").val()){
+//				alert("Please select ither URL or File.");
+//				return false;
+//			}
+			return true;
+	});
+	
+});
+</script>

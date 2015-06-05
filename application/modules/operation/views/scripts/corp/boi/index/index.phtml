@@ -1,0 +1,108 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">BOI NSDC</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+             if ($helper->can('customerlist', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/customerlist/');?>" title="Search Customers">Search Customers</a>: Search Customers</li>
+              <div class="clear"></div>
+             <?php }
+               if ($helper->can('search', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/search/');?>" title="Pending Customer Applications">Pending Customer Applications</a>: Pending Customer Applications</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('bankpending', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/bankpending/');?>" title="Bank Pending Applications">Bank Pending Applications</a>: Bank Pending Applications</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('bankstatus', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/bankstatus/');?>" title="Bank Status Applications">Bank Status Applications</a>: Bank Status Applications</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploadcrn', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/uploadcrn/');?>" title="Upload CRN">Upload CRN</a>: Bulk CRN Upload</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('crnstatus', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/crnstatus/');?>" title="CRN Status Report">CRN Status Report</a>: CRN Status Report</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('outputfile', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/outputfile/');?>" title="Application Output File">Application Output File</a>: Application Output File</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('uploaddeliveryflag', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/uploaddeliveryflag/');?>" title="Upload Account Activation File">Upload Account Activation File</a>: Upload Account Activation File</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('deliverystatus', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/deliverystatus/');?>" title="Account Activation File Report">Account Activation File Report</a>: Account Activation File Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('accountload', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/accountload/');?>" title="Wallet Load">Wallet Load</a>: Bulk Upload of Wallet Load</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('load', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/load/');?>" title="Card Load">Card Load</a>: Bulk Upload of Card Load</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('walletstatus', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/walletstatus/');?>" title="Wallet Status">Wallet Status</a>: Wallet Status Report</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('customerregistration', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/customerregistration/');?>" title="Application Status Report">Application Status Report</a>: Application Status Report</li>
+              <div class="clear"></div>
+             <?php } 
+             if ($helper->can('cardmapping', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/cardmapping/');?>" title="Upload Card Mapping File">Upload Card Mapping File</a>: Upload Card Mapping File</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('cardmappingstatus', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/cardmappingstatus/');?>" title="Card Mapping File Report">Card Mapping File Report</a>: Card Mapping File Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('cuttofffile', 'corp_boi_customer')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_customer/cuttofffile/');?>" title="TTUM File Generation">TTUM File Generation</a>: TTUM File Generation</li>
+              <div class="clear"></div>
+             <?php }
+            
+              if ($helper->can('paymentstatus', 'corp_boi_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/paymentstatus/');?>" title="Payment Status Report">Payment Status Report</a>: Payment Status Report</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('disbursementload', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/disbursementload/');?>" title="Upload Disbursement File">Upload Disbursement File</a>: Upload Disbursement File: </li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('disbursementreport', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/disbursementreport/');?>" title="Search Disbursement Details">Search Disbursement Details</a>: Search Disbursement Details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('disbursemenfile', 'corp_boi_index')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_index/disbursemenfile/');?>" title="Download Disbursement TTUM File">Download Disbursement TTUM File</a>: Download Disbursement TTUM File</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('rbi', 'corp_boi_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/rbi/');?>" title="RBI Report">RBI Report</a>: RBI Report</li>
+              <div class="clear"></div>
+             <?php } 
+            
+             if ($helper->can('tpmisreport', 'corp_boi_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/tpmisreport/');?>" title="TP MIS Report">TP MIS Report</a>: TP MIS Report</li>
+              <div class="clear"></div>
+             <?php } 
+             
+             if ($helper->can('tpmisgenericreport', 'corp_boi_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/corp_boi_reports/tpmisgenericreport/');?>" title="TP MIS Generic Report">TP MIS Generic Report</a>: TP MIS Generic Report</li>
+              <div class="clear"></div>
+             <?php } 
+             
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

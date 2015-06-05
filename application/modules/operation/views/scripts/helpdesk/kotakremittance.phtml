@@ -1,0 +1,57 @@
+<div class="Boldtext">Kotak Remittance</div> 
+<?php
+echo $this->form;
+
+if (!empty($this->paginator)) {
+
+    $config = array();
+
+    // messages
+    $config['pageTitle'] = 'Transactions';
+    $config['no_add'] = TRUE;
+    $config['showActions'] = FALSE;
+    $config['emptyMessage'] = 'There is no transaction associate with this phone number.';
+
+    $config['linkCol'] = array(
+        array(
+            'linkColName' => 'status',
+            'linkController' => 'helpdesk',
+            'linkTitle' => 'Transaction Details',
+            'linkAction' => 'txninfo',
+            'linkParamReqd' => TRUE,
+            'linkParamName' => 'txn_code',
+            'linkParamValue' => 'txn_code',
+        )
+    );
+
+    $config['columnNames'] = array(
+        'Transaction Date',        
+        'Transaction Reference No.',
+        'Remitter Name',
+        'Remitter Mobile Number',
+        'Beneficary Name',
+        //'Sender Message',
+        'Status'
+    );
+    $config['columnIndexes'] = array(
+        'date_created',        
+        'txn_code',
+        'name',
+        'mobile',
+        'beneficiary_name',
+        //'sender_msg',
+        'status',
+    );
+
+    
+
+    
+    
+    
+    echo $this->partial(
+        'partials/default-listing.phtml', array(
+        'config' => $config,
+        'paginator' => $this->paginator
+            )
+    );
+}

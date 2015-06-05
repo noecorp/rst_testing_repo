@@ -1,0 +1,398 @@
+<div class="Boldtext">Agent Wise Remittance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+$agentName = isset($this->agentInfo->name)?$this->agentInfo->name:'';
+$bankBoi = App_DI_Definition_Bank::getInstance(BANK_BOI);
+$bankBoiUnicode = $bankBoi->bank->unicode;
+$RatnakarBank = App_DI_Definition_Bank::getInstance(BANK_RATNAKAR);
+$bankRatnakarUnicode = $RatnakarBank->bank->unicode;
+if($agentName!='' && $this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Agent Wise Load/Reload Report for '.$this->agent_name.' for period '.$duration;
+
+$config['emptyMessage'] = 'No record found.';
+$config['addMessage'] = 'Back'; 
+$srcLink='';
+
+if($this->src=='alr'){
+    $srcLink = '/remit_reports/agentwiseremittancereport?sub=sub&dur='.$this->callingRprtDur;
+}
+
+$config['addURL'] = $srcLink;
+if($this->callingRprtDur=='' || $srcLink==''){
+    $config['no_add']=1;
+}
+
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'Transaction Narration',
+    'Transaction Amount',        
+   // 'Customer Name',
+    'Mobile Number',
+    'Transaction Ref Number',   
+    //'Bank Name' 
+    'Super Distributor Code',
+    'Super Distributor Name',
+    'Distributor Code',
+    'Distributor Name',
+    
+    'UTR No.',
+    
+    'Remitter Name',
+    'Remitter Mobile No',
+    'Remitter Email',
+    'Remitter Registration Date',
+    'Bene Name',
+    'Bene Bank Name',
+    'Bene IFSC Code',
+    
+    
+    'Current Transaction Status',
+    'Response file – Returned date',
+    'Rejection code', 
+    'Rejection remarks',
+    'Commission Plan',
+    'Transaction Fee',
+    'Transaction Service Tax',
+    'Commission Amount'
+    
+);
+
+$config['columnIndexes'] = array(
+    'txn_date',
+    'txn_type', 
+    'amount',
+      
+    //'crn',
+   // 'cardholder_name',
+    'mobile_number',
+    'txn_code',    
+   // 'bank_name'
+    'agent_bank_account_number',
+    'agent_ifsc_code',
+    'sup_dist_code',
+    'sup_dist_name',
+    'dist_code',
+    'dist_name',
+    
+    'utr',
+    
+    'remit_name',
+    'mobile_number',
+    'remitter_email',
+    'remit_regn_date',
+    'bene_name',
+    'bene_bankname',
+    'bene_ifsccode',
+    
+    
+    'txn_status',
+    'returned_date',
+    'rejection_code',
+    'rejection_remark',
+    'plan_commission_name',
+    'transaction_fee',
+    'transaction_service_tax',
+    'commission_amount'
+    
+    
+);
+if( ($this->formData['bank_unicode'] == $bankBoiUnicode) || ($this->formData['bank_unicode'] == $bankRatnakarUnicode) ){
+    array_push($config['columnNames'], 'Batch Name');
+    array_push($config['columnIndexes'], 'batch_name');
+    
+    array_push($config['columnNames'], 'Batch Date');
+    array_push($config['columnIndexes'], 'batch_date');
+    
+    array_push($config['columnNames'], 'Batch Time');
+    array_push($config['columnIndexes'], 'batch_time');
+   
+}
+$config['actions'] = array();
+$config['showComma'] = array('amount');
+//$agentName = $this->agentInfo->agent_name;
+$agentEmail= $this->agentInfo->email;
+$agentCode = $this->agentInfo->agent_code;
+$agentMobile = $this->agentInfo->mobile1;
+$agentCity = $this->agentInfo->estab_city;
+$agentPincode = $this->agentInfo->estab_pincode;
+$agentsavingaccnum = $this->agentInfo->bank_account_number;
+$agentifsccode = $this->agentInfo->bank_ifsc_code;
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+$status = Zend_Registry::get("REMIT_STATUS");
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$noteText = isset($config['noteText']) ? $config['noteText'] : '' ;
+$cntColNames = count($config['columnNames']) - 1;
+
+
+?>
+
+<div class="Boldtext"><?php echo $helper->pageTitle();;?></div>
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'> 
+        <thead><!-- universal table heading --> 
+            <tr>
+               <th><span>Agent Name:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentName;?><br/>
+               </td>
+           </tr> 
+
+           <tr>
+               <th><span>Agent Email:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentEmail;?><br/>
+               </td>
+           </tr>                     
+
+           <tr>
+               <th><span>Agent Code:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentCode;?><br/>
+               </td>
+           </tr> 
+           <tr>
+               <th><span>Agent Mobile Number:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentMobile;?><br/>
+               </td>
+           </tr> 
+           <tr>
+               <th><span>Agent City:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentCity;?><br/>
+               </td>
+           </tr> 
+
+           <tr>
+               <th><span>Agent Pin Code:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentPincode;?><br/>
+               </td>
+           </tr>
+           <tr>
+               <th><span>Agent Saving Account Number:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentsavingaccnum;?><br/>
+               </td>
+           </tr>
+           <tr>
+               <th><span>Agent IFSC Code:  </span></th>
+                <td colspan="<?php echo $cntColNames;?>" align="left"><?php echo $agentifsccode;?><br/>
+               </td>
+           </tr>
+           <tr>
+                <td colspan="<?php echo $cntColNames+1;?>" align="left">&nbsp;</td>
+            </tr>
+
+       </thead>
+
+
+       
+        <tbody>
+
+       <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : 
+                $datePrev = '';?>
+                <?php 
+                   $tnxCode = $item['txn_type'];
+                   $item['txn_type'] = isset($TXN_TYPE_LABELS[$tnxCode])?$TXN_TYPE_LABELS[$tnxCode]:''; 
+                ?>
+                <tr>
+
+                    <?php /********** displaying the inner columns **********/ ?>
+
+                        <td><?php echo $item['txn_date'];?></td>
+                        <td><?php echo $item['txn_type'];?></td>
+                        <td><?php echo Util::numberFormat($item['amount']);?></td>
+                        <td><?php echo $item['mobile_number'];?></td>
+                        <td><?php echo $item['txn_code'];?></td>
+                        
+                        <td><?php echo $item['sup_dist_code'];?></td>
+                        <td><?php echo $item['sup_dist_name'];?></td>
+                        <td><?php echo $item['dist_code'];?></td>
+                        <td><?php echo $item['dist_name'];?></td>
+                        
+                        <td><?php echo $item['utr'];?></td>
+                        
+                        <td><?php echo $item['remit_name'];?></td>
+                        <td><?php echo $item['mobile_number'];?></td>
+                        <td><?php echo $item['remitter_email'];?></td>
+                        <td><?php echo $item['remit_regn_date'];?></td>
+                        <td><?php echo $item['bene_name'];?></td>
+                        <td><?php echo $item['bene_bankname'];?></td>
+                        <td><?php echo $item['bene_ifsccode'];?></td>
+                        
+                        <td><?php echo $status[$item['txn_status']];?></td>
+                        <td><?php echo $item['returned_date'];?></td>
+                        <td><?php echo $item['rejection_code'];?></td>
+                        <td><?php echo $item['rejection_remark'];?></td>
+                        
+                        <td><?php echo $item['plan_commission_name'];?></td>
+                        <td><?php echo $item['transaction_fee'];?></td>
+                        <td><?php echo $item['transaction_service_tax'];?></td>
+                        <td><?php echo $item['commission_amount'];?></td>
+                        <?php if( ($this->formData['bank_unicode'] == $bankBoiUnicode) || ($this->formData['bank_unicode'] == $bankRatnakarUnicode) ){
+                            
+                            //explode batch date and time
+                            $batch_datetime =  $item['batch_date'];
+                            $batch_datetime_arr = explode(' ', $batch_datetime);
+                            $batch_date = $batch_datetime_arr[0];
+                            $batch_time = $batch_datetime_arr[1];
+                            
+                            ?>
+                        <td><?php echo $item['batch_name'];?></td>
+                        <td><?php echo $batch_date;?></td>
+                        <td><?php echo $batch_time;?></td>
+                        <?php } ?>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    
+                </tr>    
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+            </table>
+        </div>
+</div> 
+</form>
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } 
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } }?>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        var agentId = '<?php echo $this->formData['id'];?>';
+        if(dur==''){
+            alert('Please specify duration');
+        }else if(agentId==''){
+            alert('Please specify agent name');
+        }
+        else{
+            var url = '<?php echo $this->formatURL("/remit_reports/exportagentwiseremittancereport?dur=".$this->formData['dur']."&id=".$this->formData['id']."&bank_unicode=".$this->formData['bank_unicode']);?>';    
+            $(location).attr('href',url);
+       }
+    });     
+    
+    
+ var agent_id = $("#agent_id").val();
+
+ if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-programagentsdropdown/q/'+$("#bank_unicode").val()+'/pt/remit/p/digi',
+                    success: function(response) {
+                        if(response === 1) {                            
+                        } else {                            
+                            $("#id").html('');                            
+                            $("#id").append(response);
+                            if(agent_id != ''){
+                            $("#id option[value='"+agent_id+"']").attr("selected", "selected");
+                            }
+                        }
+                    }     
+        });
+ }
+ 
+  $("#bank_unicode").change(function(){
+        var bank_unicode = $.trim($("#bank_unicode").val());
+            $.ajax({
+               url: '/ajax/get-programagentsdropdown/q/'+$("#bank_unicode").val()+'/pt/remit/p/digi',
+               success: function(response) {
+                        if(response === 1) {                            
+                        } else {                            
+                            $("#id").html(response);                            
+                          //  $("#id").append(response);
+                        }
+                    }     
+        });
+    }); 
+    
+        $('form').submit(function(){
+             var bank_unicode = $.trim($("#bank_unicode").val());
+             var id = $.trim($("#id").val());
+             var dur = $.trim($("#dur").val());
+             
+            $('#bank_unicode').css('background', '#fff');
+            $('#id').css('background', '#fff');
+            $('#dur').css('background', '#fff');
+            
+            if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+              $("#bank_unicode").focus();
+              return false;
+            }else if( (id == '') || (id == '0') ){
+             alert("Please select agent name.");
+              $('#id').css('background', '#ff0'); // will change the background to red
+              $("#id").focus();
+              return false;
+            }else if( (dur == '') || (dur == '0') ){
+                   alert('Please select duration.');
+                   $('#dur').css('background', '#ff0');    
+                   $("#dur").focus();
+               return false;
+            }
+          
+         return true;   
+        });    
+
+});
+</script>

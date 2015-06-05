@@ -1,0 +1,59 @@
+<?php
+/**
+ * View for the login action
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+?>
+<div class="toplogbg">
+                <div class="confirm-details"></div>
+            </div>
+        <div class="middlebg">
+
+            <div>
+                
+                <?php 
+            if (isset($this->errType)){
+                switch($this->errType){
+                    case 'incorrectuser':
+                        $errMsg = '<strong>Oops!</strong><br />Invalid Username or Password.';
+                        break;
+                    case 'incorrectpass':
+                        $errMsg = '<strong>Oops!</strong><br />Invalid Username or Password. You have '.$this->num.' login attempts remaining.';
+                        break;
+                    case 'locked':
+                        $errMsg = '<strong>Oops!</strong><br />Your Account is Locked. Please contact the Operation Help Center.';
+                        break;
+                    case 'inactive':
+                        $errMsg = '<strong>Oops!</strong><br />Your Account is Inactive. Please contact the Operation Help Center.';
+                        break;
+                    
+                }
+                ?>
+                <div class="error">
+                <p><?php  echo $errMsg; ?></p>
+            </div>       
+         <?php       
+            }
+        ?>
+
+        <div class="agentbox">
+
+            <div  style="font-family:Arial, Helvetica, sans-serif; font-size:14px; margin-top:99px; font-weight:bold; text-align:center;">OPERATIONS LOGIN</div>
+
+            </div>
+        <?php echo $this->form;?>
+          <div class="div3">
+             <div class="link2"><a href="<?php echo $this->formatURL('/profile/forgot-password/');?>">Forgot your password?</a></div>
+ 
+        </div>
+
+
+</div>
+                <div class="clear"></div>
+            </div>
+    
+

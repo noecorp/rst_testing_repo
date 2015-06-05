@@ -1,0 +1,238 @@
+<div class="Boldtext">Agent Remittance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Agents';
+
+$config['emptyMessage'] = 'There are no transactions for this agent.';
+
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Agent Name',
+    'Email ID',
+    'Agent Code',
+    'Mobile Number', 
+    'Registration Date',
+    'Agent Limit',
+    'Transaction Count in a Month',  
+    'Transaction Volume in a Month',
+    'Approval Status',
+    );
+$config['columnIndexes'] = array(
+    'name',
+    'email',
+    'agent_code',
+    'mobile1',
+    'regdate',
+    'agent_limit',
+    'count',
+    'total',
+    'status',
+    
+);
+
+
+$config['showActions'] =FALSE;
+//$config['viewLinkColumn'] = 'name';
+$config['linkCol'] = array(
+            array(
+                'linkColName'       => 'name',
+                'linkController'    => 'agentsummary',
+                'linkAction'        => 'view',
+                'linkTitle'         => 'View Agent Details',
+                'linkParamReqd'     => TRUE,
+                'linkParamName'     => 'id',
+                'linkQueryStringReqd'=> TRUE,
+                'linkQueryString'     => $this->backLink,
+            )
+        );
+
+//$config['statusLinkColumn'] = 'status';
+$config['showComma'] = array('amount');
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+?>
+<?php echo $this->form; ?> 
+<?php if(!empty($this->paginator)):?>
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+ <?php endif;?>  
+
+<?php if(!empty($this->paginator)):?>
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+     <div class="tablebox">
+         <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="1600" cellspacing='0'> 
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        
+                    </tr> 
+                </thead>
+                <tbody>
+           <?php /********** do we have items? **********/ ?>
+                    
+
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : 
+                      ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                   
+                                    if($index == 'regdate') {
+                                        
+                                        $date = new DateTime($item['regdate']);
+                                        //echo $date->format('d.m.Y'); // 31.07.2012
+                                        echo $date->format('jS F Y');
+                                    }  else {
+                                    $helper->displayItem($item, $index);
+                                    }
+                                   // $helper->displayItem($item, $index);
+                                    ?>
+                                </td>
+                                
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                          
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php echo $helper->columnCount(FALSE)+2;?>" class="emptyMessage">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+         </div>
+        </div>
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+    
+</div>
+    <?php if (count($this->paginator) > 0): ?>
+    <div class="show-xls"> 
+      <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+    </div>
+    <?php endif;?>
+<?php endif;?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+       
+            var url = '<?php echo $this->formatURL("/reports/exportagentremittance?bank_unicode=".$this->formData['bank_unicode']."&product_id=".$this->formData['product_id']."&searchCriteria=".$this->formData['searchCriteria'].'&keyword='.$this->formData['keyword'].'&sub=1');?>';    
+            $(location).attr('href',url);
+       
+    });
+   var product = $.trim($("#product").val());
+        
+  if($("#bank_unicode").val() != ''){
+  $.ajax({
+                url: '/ajax/get-bankproductsprogramcommon/q/'+$("#bank_unicode").val()+'/pt/remit',
+                    success: function(response) {
+                        if(response === 1) {                            
+                        } else {                            
+                            $("#product_id").html('');                            
+                            $("#product_id").append(response);
+                            if(product != ''){
+                            $("#product_id option[value='"+product+"']").attr("selected", "selected");
+                            }
+                        }
+                    }     
+        });
+ }
+ 
+ 
+  $("#bank_unicode").change(function(){
+            $.ajax({
+                url: '/ajax/get-bankproductsprogramcommon/q/'+$("#bank_unicode").val()+'/pt/remit',
+                    success: function(response) {
+                        if(response == 1) {                            
+                        } else {                            
+                            $("#product_id").html('');                            
+                            $("#product_id").append(response);
+                             console.log(response);                            
+                        }
+                    }     
+        });
+    }); 
+    
+     $("#searchCriteria").change(function(){
+         $("#keyword").val('');
+       });      
+         
+         
+     $('form').submit(function(){
+         
+         var bank_unicode = $.trim($("#bank_unicode").val());
+         var product_id = $.trim($("#product_id").val());
+         var searchCriteria = $.trim($("#searchCriteria").val());
+         var keyword = $.trim($("#keyword").val());
+         $('#bank_unicode').css('background', '#fff');
+         $('#product_id').css('background', '#fff');
+         $('#searchCriteria').css('background', '#fff');
+         $('#keyword').css('background', '#fff');
+        if( (bank_unicode == '') || (bank_unicode == '0') ){
+             alert("Please select bank name.");
+              $('#bank_unicode').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if( (product_id == '') || (product_id == '0') ){
+             alert("Please select bank's product name.");
+              $('#product_id').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(searchCriteria == ''){
+             alert("Please select your's search criteria.");
+              $('#searchCriteria').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(keyword == ''){
+             alert("Please fill the search value.");
+              $('#keyword').css('background', '#ff0'); // will change the background to red
+             return false;
+         }else if(keyword.length < 2){
+             alert("Please fill atleast two character value.");
+              $('#keyword').css('background', '#ff0'); // will change the background to red
+             return false;
+         }
+      
+          
+     return true; 
+   });    
+});
+</script>

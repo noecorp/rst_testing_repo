@@ -1,0 +1,138 @@
+<?php
+/**
+ * View that defines the default listing UI 
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+$helper = $this->listingUtilities($this->config);
+$addURL = isset($this->config['addURL']) ? $this->config['addURL'] : '' ;
+$addbutton = isset($this->config['no_add']) ? $this->config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+    <?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->canAdd()):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+<div class="filterbox">
+
+<div style="width:950px;">
+
+<!--<div class="addnew-comm"><img src="" border="0" usemap="#Map" />
+  <map name="Map" id="Map">
+    <area shape="rect" coords="5,5,216,25" href="<?php//echo $href; ?>" />
+  </map>
+</div>-->
+
+    <a class="ocean" href="<?php echo $this->formatURL($href);?>" style="float:right;"><?php $helper->addMessage();?></a>
+</div><!--Inner Style Div END-->
+
+
+</div>
+        
+<?php endif;?> 
+<?php endif;?> 
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+   <div class="tablebox">
+            <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th class="last tc"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                    $item->comments =Util::limitText($item->comments, 25);
+                                    
+                                    $helper->displayItem($item, $index);?>
+                                </td>
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!--<td class="tc">-->
+                                    <?php //echo $helper->links($item);
+                                    //echo $item['request_status'].'===';
+                                    
+                                        
+                                        if($helper->can('addresponse', 'fundrequest'))
+                                        {
+                                            if($item['request_status'] == STATUS_PENDING ){
+                                                $addresponseurl = $this->formatURL('/fundrequest/addresponse?id='.$item['id']);
+                                                $addresponselink = '<td><a href="'. $addresponseurl . '" title="Add Response">' . PHP_EOL . '<img alt="Add Response" src="'.$this->baseUrl().'/images/icons/add-response.png" border="0"></a></td>';
+                                            }
+                                            else
+                                            {
+                                                $addresponselink = '<td><img src="' . $this->_baseUrl . $disabled_icons['add_response']['img_url'] . '" alt="' . $disabled_icons['add_response']['alt'] . '" border="0"/>&nbsp;</td>';
+                                            }
+                                        } else {
+                                                $addresponselink = '<td>-</td>';
+                                        }
+                                    
+                                     if($helper->can('response', 'fundrequest'))
+                                        {
+                                            $responseurl = $this->formatURL('/fundrequest/response?id='.$item['id']);
+                                            $responselink = '<td><a href="'. $responseurl . '" title="Response">' . PHP_EOL . '<img alt="Response" src="'.$this->baseUrl().'/images/icons/response.png" border="0"></a></td>';
+                                        } else {
+                                                $responselink = '<td>-</td>';
+                                        }
+                                        
+                                    echo $addresponselink.$responselink; 
+                                    ?>
+                                <!--</td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php $helper->columnCount();?>" class="emptyMessage">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div> 
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,35 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Kotak</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+           if ($helper->can('kotakremitters')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakremitters");?>' title="Kotak AML Remitter">Kotak AML Remitter</a>: Show AML Matched Kotak Remitters.</li>
+            <div class="clear"></div> 
+           <?php }          
+           if ($helper->can('kotakbeneficiaries')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakbeneficiaries");?>' title="Kotak AML Beneficiaries">Kotak AML Beneficiaries</a>: Show AML Matched Kotak Beneficiaries.</li>
+            <div class="clear"></div> 
+          <?php }          
+           if ($helper->can('kotakcardholders')) {?>
+            <li class="systemli"><a href='<?php echo $this->formatURL("/aml/kotakcardholders");?>' title="Kotak AML kotakcardholders">Kotak AML Kotak Card Holders</a>: Show AML Matched Kotak Cardholders.</li>
+            <div class="clear"></div> 
+          <?php }          
+           //if ($helper->can('kotakduplicateremitters')) {?>
+<!--            <li class="systemli"><a href='< ?php echo $this->formatURL("/aml/kotakduplicateremitters");?>' title="Kotak AML kotakcardholders">Kotak Duplicate Remitters</a>: Show Kotak Duplicate Remitters.</li>-->
+            <div class="clear"></div> 
+          <?php //}          
+           //if ($helper->can('kotakduplicatebeneficiary')) {?>
+<!--            <li class="systemli"><a href='< ?php echo $this->formatURL("/aml/kotakduplicatebeneficiary");?>' title="Kotak AML kotakcardholders">Kotak Duplicate Beneficiary</a>: Show Kotak Duplicate Beneficiary.</li>-->
+            <div class="clear"></div> 
+         <?php //}          
+           //if ($helper->can('kotakduplicatecardholder')) {?>
+<!--            <li class="systemli"><a href='< ?php echo $this->formatURL("/aml/kotakduplicatecardholder");?>' title="Kotak AML kotakcardholders">Kotak Duplicate CardHolders</a>: Show Kotak Duplicate CardHolders.</li>-->
+            <div class="clear"></div> 
+          <?php // } ?> 
+    </ul>
+    <div class="clear"></div>
+</div>

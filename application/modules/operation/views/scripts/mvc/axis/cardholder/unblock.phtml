@@ -1,0 +1,43 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Unblock Cardholder';
+$config['areYouSureMessage'] = 'Are you sure you want to unblock cardholder?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'CRN',
+   );
+$config['columnIndexes'] = array(
+    'name',
+    'crn',
+   );
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);
+?>
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+       
+       var url = '<?php echo $this->queryString;?>';
+       $('.cancel').attr('href',url);
+        
+       
+}); 
+
+</script>

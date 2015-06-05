@@ -1,0 +1,85 @@
+<div class="Boldtext">Card Activation Report</div>
+
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'Cardholder Name',
+    'CRN',
+    'Mobile Number',
+    'Agent Code',
+    'Agent Name',
+    'Agent City', 
+    //'Agent Pin Code',  
+    'Bank Name',
+    //'Address',
+    
+      
+);
+
+$config['columnIndexes'] = array(
+    'date_created',
+    'cardholder_name',
+    'crn',
+    'mobile_number',
+    'agent_code',
+    'agent_name',
+    'agent_city',
+    'bank_name',  
+    //'address_line1', 
+    //'agent_pincode',         
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+
+// render the default listing
+echo $this->partial(
+    'partials/report-cardholder-activations.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+
+}
+
+//echo "<pre>";print_r($this->paginator);exit;
+?>
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        if(dur==''){
+            alert('Please specify duration');
+        }
+        else{
+             var url = '<?php echo $this->formatURL("/mvc_axis_reports/exportcardholderactivations?dur=".$this->formData['dur']);?>';    
+            $(location).attr('href',url);
+       }
+    });     
+});
+</script>

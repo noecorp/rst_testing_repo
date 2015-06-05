@@ -1,0 +1,185 @@
+<div class="Boldtext">Load/Reload Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$frmSubmit = isset($this->btnSubmit)?$this->btnSubmit:'';
+$agentName = isset($this->agentInfo->name)?$this->agentInfo->name:'';
+
+if($agentName!='' && $this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Agent Wise Load/Reload Report for '.$this->agent_name.' for period '.$duration;
+
+$config['emptyMessage'] = 'No record found.';
+$config['addMessage'] = 'Back'; 
+$srcLink='';
+
+if($this->src=='alr'){
+    $srcLink = '/mvc_axis_reports/agentloadreload?sub=sub&dur='.$this->callingRprtDur;
+}
+
+$config['addURL'] = $srcLink;
+if($this->callingRprtDur=='' || $srcLink==''){
+    $config['no_add']=1;
+}
+
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Date',
+    'Transaction Code',
+    'Load/ Reload Amount',
+    'Customer Mobile Number',   
+    'Customer Name',   
+    'Product Code',   
+    'Transaction Ref Number',   
+);
+
+$config['columnIndexes'] = array(
+    'date_created',
+    'txn_type',
+    'amount',  
+    'mobile_number',
+    'cardholder_name',
+    'ecs_product_code', 
+    'txn_code',
+ );
+
+$config['actions'] = array();
+$config['showComma'] = array('amount');
+
+$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$noteText = isset($config['noteText']) ? $config['noteText'] : '' ;
+$cntColNames = count($config['columnNames']) - 1;
+
+
+?>
+
+<div class="Boldtext"><?php echo $helper->pageTitle();;?></div>
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'> 
+    
+
+
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                
+                <th><span>Agent Name</span></th>
+                <th><span>Agent Code</span></th>
+                <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                <?php /********** finished displaying the column names **********/ ?>
+                <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                    <th class="last tc"><span><?php echo 'Actions';?></span></th>
+                <?php endif; ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php foreach($this->paginator as $item) : ?>
+                <?php $helper->data = $item; ?>
+                <tr>
+                    <!--<td class="tc">
+                        <input type="checkbox" name="checkall" value="true" />
+                    </td>--> 
+                   
+                   <td><?php echo $this->agentInfo->name; ?></td>
+                   <td><?php echo $this->agentInfo->agent_code; ?></td>
+                    <?php /********** displaying the inner columns **********/ ?>
+                    <?php 
+                    //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                    $item->txn_type = isset($TXN_TYPE_LABELS[$item->txn_type])?$TXN_TYPE_LABELS[$item->txn_type]:''; 
+                    ?>
+                    <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                        <td>
+                            <?php  
+                            
+                              
+               
+                   $helper->displayItem($item, $index);
+                
+
+                            ?>
+                        </td>
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the inner columns **********/ ?>
+                    <?php if(!isset($config['showActions']) || (isset($config['showActions']) && $config['showActions'])) : ?>
+                        <td class="tc">
+                            <?php echo $helper->links($item);
+
+                            ?>
+                        </td> 
+                    <?php endif; ?>
+                </tr>    
+            <?php endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $helper->columnCount(False)+3;?>">
+                    <?php $helper->emptyMessage();?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+</div> 
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php   
+}
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } ?>
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        var agentId = '<?php echo $this->formData['id'];?>';
+        if(dur==''){
+            alert('Please specify duration');
+        }else if(agentId==''){
+            alert('Please specify agent name');
+        }
+        else{
+            var url = '/mvc_axis_reports/exportagentwiseload?dur='+dur+'&id='+agentId;    
+            $(location).attr('href',url);
+       }
+    });     
+});
+</script>

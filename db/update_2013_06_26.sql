@@ -1,0 +1,1 @@
+ALTER TABLE `t_log_login` ADD `portal` ENUM( 'operation', 'agent' ) NOT NULL FIRST;

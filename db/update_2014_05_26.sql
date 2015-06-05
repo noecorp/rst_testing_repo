@@ -1,0 +1,1 @@
+INSERT INTO `t_cron` (`id`, `name`, `description`, `file_name`, `status`) VALUES ('32', 'Happy Transaction Intimation', 'Happy Transaction Intimation', 'TransactionIntimationHappay.php', 'active');

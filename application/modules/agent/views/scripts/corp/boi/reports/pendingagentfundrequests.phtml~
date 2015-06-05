@@ -1,0 +1,79 @@
+<div class="Boldtext">Agent Fund Request Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->from!='' && $this->to!=''){
+    
+$config = array();
+$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+'Agent Name',
+'Agent code',
+'Agent for which Bank (Bank Name)',
+'Transaction Date',
+'Fund transfer Type',
+'Amount',
+'Remarks'
+);
+
+$config['columnIndexes'] = array(
+    'agent_name',
+    'agent_code',
+    'bank_name',
+    'datetime_request',
+    'fund_name',
+    'amt',
+    'comments',
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+$config['showComma'] = array('txn_amount','agent_closing_balance','agent_opening_balance');
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } } ?>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#btn_exportcsv").click(function(){
+        var dur = '<?php echo $this->formData['dur'];?>';
+        if(dur==''){
+            alert('Please specify duration');
+        } else {
+             var url = '<?php echo $this->formatURL("/reports/exportpendingagentfundrequests?dur=".$this->formData['dur']);?>';    
+            $(location).attr('href',url);
+       }
+    });     
+});
+</script>

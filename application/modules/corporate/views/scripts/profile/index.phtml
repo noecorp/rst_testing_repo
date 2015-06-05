@@ -1,0 +1,44 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+
+$corporateBal = isset($this->corporateStats['corporateBal'])?$this->corporateStats['corporateBal']:0;
+$employeesEnrolled = isset($this->corporateStats['employeesEnrolled'])?$this->corporateStats['employeesEnrolled']:0;
+$employeesActive = isset($this->corporateStats['employeesActive'])?$this->corporateStats['employeesActive']:0;
+$totalloadamount = isset($this->corporateStats['totalloadamount'])?$this->corporateStats['totalloadamount']:0;
+
+
+?>
+<!--First Row-->
+
+<div class="today_date"><?php echo Util::getFormattedDate('F d, Y');?></div>
+<div class="Boldtext">Dashboard</div>
+<div style ="clear:both;"></div>
+<div class='rounded-block-wrapper'>
+        <div class='rounded-block-left'>
+          Current Balance (
+          <i class='icon-rupee'></i>
+          )
+        </div>
+        <div class='rounded-block-right'><?php echo $corporateBal;?></div>
+</div>
+<div class='rounded-block-wrapper'>
+        <div class='rounded-block-left'>Employees enrolled</div>
+        <div class='rounded-block-right'><?php echo $employeesEnrolled;?></div>
+</div>
+<div class='rounded-block-wrapper'>
+        <div class='rounded-block-left'>Employees activated</div>
+        <div class='rounded-block-right'><?php echo $employeesActive;?></div>
+</div>
+<div style ="clear:both;"></div>
+<div class='rounded-block-wrapper'>
+        <div class='rounded-block-left'>Load in this month</div>
+        <div class='rounded-block-right'><?php echo Util::numberFormat($totalloadamount);?></div>
+</div>

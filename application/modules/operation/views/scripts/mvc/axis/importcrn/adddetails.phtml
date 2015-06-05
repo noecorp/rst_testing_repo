@@ -1,0 +1,14 @@
+<?php 
+//echo $this->form;
+$config = array();
+$config['pageTitle'] = 'Import CRN';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);
+
+?>

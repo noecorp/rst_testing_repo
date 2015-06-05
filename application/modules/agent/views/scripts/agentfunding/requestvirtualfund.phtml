@@ -1,0 +1,45 @@
+<div class="Boldtext"><?= $this->heading ?></div> 
+<span><?php echo $this->msg ?></span>
+<?php echo $this->form; ?>
+
+<script>
+    $(document).ready(function () {
+        $('#amount').keyup(function () {
+            var amount = $('#amount').val();
+            if (amount.match(/[^0-9.]/g)) {
+                this.value = amount.replace(/[^0-9.]/g, '');
+            }
+        });
+
+        $('form').submit(function () {
+            var amount = $.trim($("#amount").val());
+            var utr = $.trim($("#utr").val());
+            var comments = $("#comments").val();
+
+            if (amount == '') {
+                alert('Please provide amount');
+                $("#amount").focus();
+                return false;
+            }if (amount < 1) {
+                alert('Please provide valid amount');
+                $("#amount").focus();
+                return false;
+            } else if (utr == '') {
+                alert('Please provide UTR No');
+                $("#utr").focus();
+                return false;
+            } else if (comments == '') {
+                alert('Please provide comments');
+                $("#comments").focus();
+                return false;
+            } else {
+                var t = confirm('Are you sure you want to transfer the amount?');
+                if (t == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    });
+</script>

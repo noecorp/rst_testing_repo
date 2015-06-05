@@ -1,0 +1,91 @@
+<?php
+
+class Corp_Ratnakar_WalletStatusForm extends App_Operation_Form
+{
+    
+    public function init()
+    { 
+        $this->_cancelLink = false;
+        
+        $durationArr = Util::getDuration();
+        $purseList = new MasterPurse();
+        
+        $product = App_DI_Definition_BankProduct::getInstance(BANK_RATNAKAR_CORP);
+        $productCode = $product->product->unicode;
+        
+        $productModel = new Products();
+        $productDetailsArr = $productModel->getProductInfoByUnicode($productCode);
+        
+        
+        $purseListOptions = $purseList->getPurseList($productDetailsArr->id);
+        
+        $purse = new Zend_Form_Element_Select('purse_master_id');
+        $purse->setOptions(
+            array(
+                'label'      => 'Wallet *',
+                'required'   => TRUE,
+                'filters'    => array(
+                                    'StringTrim',
+                                    'StripTags',
+                                ),
+                'validators' => array(
+                                    'NotEmpty',
+                                ),
+                'style' => 'width:210px;',
+                'maxlength' => '100',
+                 'multioptions'    => $purseListOptions,         
+            )
+        );
+        $this->addElement($purse);
+       
+        $batch = new Zend_Form_Element_Select('batch_name');
+        $batch->setOptions(
+            array(
+                'label'      => 'Batch Name *',
+               
+                'required'   => true,
+                'filters'    => array(
+                                    'StringTrim',
+                                    'StripTags',
+                                ),
+                'validators' => array(
+                                    'NotEmpty'
+                                ),
+                'multioptions'    => array('' =>'Select Batch Name'),
+                'style' => 'width:210px;',
+            )
+        );
+        $batch->setRegisterInArrayValidator(false);
+        $this->addElement($batch);    
+        
+       
+        
+        $submit = new Zend_Form_Element_Submit('sub');
+        $submit->setOptions(
+            array(
+                'label'      => 'Submit',
+                'required' => false,
+                'ignore'   => true,
+                'title'       => 'Submit',
+                'class'     => 'tangerine',
+            )
+        );
+        $this->addElement($submit); 
+        
+        $this->setElementDecorators(array(
+                    'viewHelper',
+                    'Errors',
+                    array(array('data'=>'HtmlTag'),array('tag'=>'dd','class'=>'form-field-column edit')),
+                    array('Label',array('tag'=>'dt','class'=>'form-name-column')),
+        ));
+        $this->setDecorators(array(
+            'FormElements',
+            array(array('Value'=>'HtmlTag'), array('tag'=>'dl','class'=>'innerbox form')),
+            array('Description', array('placement' => 'prepend')),
+            'Form'
+        ));
+    }
+     
+  
+}
+?>

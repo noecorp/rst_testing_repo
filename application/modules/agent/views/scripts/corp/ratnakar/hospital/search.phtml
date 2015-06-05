@@ -1,0 +1,147 @@
+<div class="Boldtext">Hospital Search</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+?>
+
+<?php
+if($this->submit_form!=''){
+    
+$config = array();
+$config['addMessage'] = 'Add New Hospital'; 
+// messages
+$config['pageTitle'] = 'Hospital Search';
+$config['emptyMessage'] = 'No record found.';
+//$config['no_add']=1;
+$config['showActions'] = true;
+//$TXN_TYPE_LABELS = Zend_Registry::get("TXN_TYPE_LABELS");
+
+// creating delete link 
+$deleteAction = 'delete?hospital_id_code='.$this->formData['hospital_id_code'].'&terminal_id_code='.$this->formData['terminal_id_code'];
+$deleteAction .= '&hospital_name='.$this->formData['hospital_name'].'&pin_code='.$this->formData['pin_code'].'&state='.$this->formData['state'];
+$deleteAction .= '&city='.$this->formData['city'].'&csrfhash='.$this->formData['csrfhash'].'&formName='.$this->formData['formName'].'&';
+// Edit Link = 
+$edit = 'edit?'.$this->backLink.'&';
+// column names & indexes
+$config['columnNames'] = array(
+    'Hospital Id',
+    'Terminal Id',
+    'Hospital Name',
+    'Hospital Address',
+    'City Name',
+    'State Name',
+    'Pincode'
+);
+
+$config['columnIndexes'] = array(
+    'hospital_id_code',
+    'terminal_id_code',
+    'name',       
+    'address',
+    'city',
+    'state',
+    'pincode'
+);
+
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => $edit,
+        'title'         => 'Edit Hospital',
+//        'parameter'     => FALSE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+        'img_alt'       => 'Edit Hospital',
+    ),
+      'delete'    =>  array(
+        'action'        => $deleteAction,
+        'title'         => 'Delete Hospital',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/del2.png',
+        'img_alt'       => 'Delete Hospital',
+      ),
+    );
+
+$config['linkOrder'] = array('edit', 'delete');
+
+$cntColNames = count($config['columnNames']) - 1 ;
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+}
+?>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {    
+    $("#submit_form").click(function(){
+        var hospital_id_code = $.trim($("#hospital_id_code").val());
+        var terminal_id_code = $.trim($("#terminal_id_code").val());
+        var hospital_name = $.trim($("#hospital_name").val());
+        var pin_code = $.trim($("#pin_code").val());
+        var state = $("#state").val();
+        var city = $("#city").val();
+      //alert('sdfas');
+        if(hospital_id_code=='' && terminal_id_code=='' && hospital_name=='' && pin_code=='' && state=='' && city==''){
+            alert('Please select any option for hospital search');
+            return false;
+        } 
+    });     
+
+
+
+ var city = "<?php echo $this->city;?>";
+ //alert($("#state").val());
+ if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            //alert(response);
+                            //$("#city").html("");
+                            //$("#city").append(response);
+                            $("#city option[value='"+city+"']").attr("selected", "selected");
+                            //console.log(response);
+                        }
+                    },
+         
+        });
+}  
+       
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                            //$("#res_state-element ul.errors").html('');
+                        } else {
+                            $("#city").html("");
+                            //$("#res_city").append('<option value=Achalpur>Achalpur</option>');
+                            $("#city").append(response);
+                           // document.getElementById("res_city").innerhtml = '<option="Achalpur">Achalpur</option>';
+                            console.log(response);
+                        }
+                    },
+        });
+    }); 
+
+});     
+
+</script>

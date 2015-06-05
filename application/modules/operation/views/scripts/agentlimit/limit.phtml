@@ -1,0 +1,98 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+							
+
+// messages
+$config['pageTitle'] = 'Agent Limit Listing';
+$config['addMessage'] = 'Add New Agent Limit';
+$config['emptyMessage'] = 'There is no agent limit at this time.';
+//$config['addURL'] = 'addagentlimit';
+// column names & indexes
+$config['columnNames'] = array(
+    //'id',
+    'Agent Limit Name',
+    'Currency',
+    'Min Amount per Trxn (<span class="WebRupee"></span>)',
+    'Max Amount per Trxn (<span class="WebRupee"></span>)',
+    'Max no. of Txns per Day',
+    'Max Amount per Day (<span class="WebRupee"></span>)',
+    'Max no. of Txns per Month',
+    'Max Amount per Month (<span class="WebRupee"></span>)',
+    'Max no. of Txns per Year',  
+    'Max Amount per Year (<span class="WebRupee"></span>)',
+    
+
+);
+$config['columnIndexes'] = array(
+    //'id',
+    'name',
+    'currency',
+    'limit_out_min_txn',
+    'limit_out_max_txn',
+    'cnt_out_max_txn_daily',
+    'limit_out_max_daily',
+    'cnt_out_max_txn_monthly',
+    'limit_out_max_monthly',
+    'cnt_out_max_txn_yearly',   
+    'limit_out_max_yearly',
+   
+    
+);
+
+$config['actions'] = array(
+        'edit'    =>  array(
+        'action'        => 'editagentlimit',
+        'acl_action'        => 'editagentlimit',
+        'title'         => 'Edit',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/edit.png',
+       // 'link_class'    => 'btn',
+        'img_alt'       => 'edit',
+    ),
+       'delete'    =>  array(
+        'action'        => 'deleteagentlimit',
+        'acl_action'        => 'deleteagentlimit',
+        'title'         => 'Delete',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/del.png',
+       // 'link_class'    => 'btn1',
+        'img_alt'       => 'delete',
+    )
+    );
+
+$config['actionsConditional'] = array('edit','delete');
+$config['linkOrder'] = array('edit', 'delete');
+$config['showComma'] = array('limit_out_min_txn',
+                             'limit_out_max_txn',
+                             'limit_out_max_daily',
+                             'limit_out_max_monthly',
+                             'limit_out_max_yearly');
+
+
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'id',
+        'operator' => 'in_array',
+        'value'     => $this->bindAgentlimit
+    )
+);
+$config['noteText'] = 'Agent Limits Tables, once assigned, cannot be deleted / modified. In case of a new requirement, a new Limit Table should be defined. <br/>Loads include CardLoad & Card ReLoad';
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+?>

@@ -1,0 +1,23 @@
+ CREATE  TABLE  `shmart`.`kotak_beneficiaries` (  `id` int( 11  )  unsigned NOT  NULL  AUTO_INCREMENT ,
+ `remitter_id` int( 11  )  unsigned NOT  NULL ,
+ `name` varchar( 100  )  NOT  NULL ,
+ `nick_name` varchar( 100  )  DEFAULT NULL ,
+ `ifsc_code` varchar( 20  )  DEFAULT NULL ,
+ `bank_account_number` varchar( 35  )  DEFAULT NULL ,
+ `bank_name` varchar( 100  )  DEFAULT NULL ,
+ `branch_name` varchar( 100  )  DEFAULT NULL ,
+ `branch_city` varchar( 50  )  DEFAULT NULL ,
+ `branch_address` varchar( 250  )  DEFAULT NULL ,
+ `bank_account_type` varchar( 35  )  DEFAULT NULL ,
+ `address_line1` varchar( 100  )  DEFAULT NULL ,
+ `address_line2` varchar( 255  )  NOT  NULL ,
+ `mobile` varchar( 15  )  NOT  NULL DEFAULT  '0',
+ `email` varchar( 50  )  DEFAULT NULL ,
+ `by_agent_id` int( 11  )  unsigned NOT  NULL ,
+ `by_ops_id` int( 11  ) unsigned  DEFAULT NULL ,
+ `date_created` datetime NOT  NULL ,
+ `date_modified` timestamp NOT  NULL DEFAULT  '0000-00-00 00:00:00' ON  UPDATE  CURRENT_TIMESTAMP ,
+ `status` enum(  'active',  'inactive'  )  NOT  NULL DEFAULT  'active',
+ PRIMARY  KEY (  `id`  )  ) ENGINE  = InnoDB  DEFAULT CHARSET  = latin1;
+
+ALTER TABLE `t_change_status_log` ADD `kotak_beneficiary_id` INT( 11 ) UNSIGNED NOT NULL AFTER `beneficiary_id`;

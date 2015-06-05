@@ -1,0 +1,105 @@
+<?php 
+    $helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Reports</div>
+
+<div class="innerbox">
+    <ul>
+        <?php
+             
+             if ($helper->can('agenttransaction', 'reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentsummary/');?>" title="Agent Transaction Summary Report">Agent Transaction Summary Report</a>: Agent transactions summary details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('agentloadreload', 'mvc_axis_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/agentloadreload/');?>" title="Agent Load Reload Report">Agent Load Reload Report</a>: Agent load and reload details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('agentwiseload', 'mvc_axis_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/agentwiseload/');?>" title="Agent Wise Load Report">Agent Wise Load Report</a>: Agent wise load and reload details</li>
+             <div class="clear"></div>
+             <?php }
+             if ($helper->can('remittancereport', 'remit_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/remittancereport/');?>" title="Remittance Transaction Report">Remittance Transaction Report</a>: Agent remittance transaction details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('agentwiseremittancereport', 'remit_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/agentwiseremittancereport/');?>" title="Agent Wise Remittance Report">Agent Wise Remittance Report</a>: Agent wise remittance details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('cardholderactivations', 'mvc_axis_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/cardholderactivations/');?>" title="Card Activation Report">Card Activation Report</a>: Cardholders enrolled over a period</li>
+             <div class="clear"></div>
+            <?php }
+             
+           if ($helper->can('agentfundrequests')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentfundrequests/');?>" title="Agent Authorized Funding Report">Agent Authorized Funding Report</a>: Details of funds loaded into agent account over a period</li>
+              <div class="clear"></div>
+          <?php }
+          
+           if ($helper->can('agentwisefundrequests')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentwisefundrequests/');?>" title="Agent Wise Funding">Agent Wise Funding</a>: Agent wise details of funds loaded into agent account over a period</li>
+             <div class="clear"></div>
+          <?php }
+          if ($helper->can('pendingagentfundrequests')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/pendingagentfundrequests/');?>" title="Agent Unuthorized Funding Report">Agent Unuthorized Funding Report</a>: Details of funds requested by agent not approved by Ops over a period</li>
+              <div class="clear"></div>
+          <?php }
+          if ($helper->can('agentcommissionsummary', 'reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentcommissionsummary/');?>" title="Agent Commission Summary Report">Agent Commission Summary Report</a>: Agent commission summary details</li>
+              <div class="clear"></div>
+             <?php }
+              if ($helper->can('loadreloadcomm' ,'mvc_axis_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/loadreloadcomm/');?>" title="Load/Reload Commission Report">Load/Reload Commission Report</a>: Details of load/reload commission earned by agent over a period</li>
+             <div class="clear"></div>
+        <?php }
+           if ($helper->can('agentwiseloadreloadcomm','mvc_axis_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/mvc_axis_reports/agentwiseloadreloadcomm/');?>" title="Agent Wise Load/Realod Commission Report">Agent Wise Load/Reload Commission Report</a>: Agent wise details of load/reload commission earned by agent over a period</li>
+             <div class="clear"></div>
+          <?php }     
+            if ($helper->can('remittancecommission','remit_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/remittancecommission/');?>" title="Remittance Commission Report">Remittance Commission Report</a>: Details of remittance commission earned by agent over a period</li>
+             <div class="clear"></div>
+        <?php }
+           if ($helper->can('agentwiseremittancecommission','remit_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/agentwiseremittancecommission/');?>" title="Agent Wise Remittance Commission Report">Agent Wise Remittance Commission Report</a>: Agent wise details of remittance commission earned by agent over a period</li>
+             <div class="clear"></div>
+          <?php }   
+           if ($helper->can('agentactivation')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentactivation/');?>" title="Agent Activation Report">Agent Activation Report</a>: Agent details on a particular date</li>
+             <div class="clear"></div>
+          <?php }    
+          
+           if ($helper->can('agentbalancesheet')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentbalancesheet/');?>" title="Agent Balance Sheet Report">Agent Balance Sheet Report</a>: Agent balance sheet details report</li>
+          <?php } 
+          
+          if ($helper->can('feereport')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/feereport/');?>" title="Fee Report">Fee Report</a>: Details of fee charged over a period</li>
+             <div class="clear"></div>
+          <?php }
+         if ($helper->can('agentwisefeereport')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/reports/agentwisefeereport/');?>" title="Agent Wise Fee Report">Agent Wise Fee Report</a>: Agent wise details of fee charged over a period</li>
+             <div class="clear"></div>
+          <?php }
+          
+          if ($helper->can('remitterregn','remit_reports')) {?>
+             <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/remitterregn/');?>" title="Remitter Registration Report">Remitter Registration Report</a>: Remitters registered over a period</li>
+             <div class="clear"></div>
+          <?php }
+          if ($helper->can('remittertransaction', 'remit_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/remittertransaction/');?>" title="Remitter Transactions Report">Remitter Transactions Report</a>: Remitter transactions details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('remittancerefund', 'remit_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/remittancerefund/');?>" title="RProduct Wise Refund Report">Product Wise Refund Report</a>: Product wise refund details</li>
+              <div class="clear"></div>
+             <?php }
+             if ($helper->can('neftresponse', 'remit_reports')) {?>
+              <li class="systemli"><a href="<?php echo $this->formatURL('/remit_reports/neftresponse/');?>" title="NEFT Response Report">NEFT Response Report</a>: NEFT Response details over a period</li>
+              <div class="clear"></div>
+             <?php }
+          ?>
+    </ul>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,104 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+
+$config = array();
+$id = $this->item['cid'];
+switch ($this->cardholderStatus) {
+            case STATUS_UNBLOCKED:
+                $formatUrl = $this->formatURL("/mvc_axis_cardholder/deactivate?id=".$id);
+                $statusaction ="<a href='".$formatUrl."'>Block Cardholder</a>";
+                break;
+            case STATUS_BLOCKED:
+                $formatUrl = $this->formatURL("/mvc_axis_cardholder/activate?id=".$id);
+                $statusaction ="<a href='".$formatUrl."'>Unblock Cardholder</a>";
+                break;
+            /*case "locked":
+               $statusaction ="<a href='/agentsummary/unlock?id=$id'>Unlock Agent</a>";
+                break;*/
+}
+$name = ucfirst($this->item['first_name'])." ".ucfirst($this->item['last_name']);
+$config['pageTitle'] = sprintf('Detailed view for %s (%s)', $name ,$statusaction);
+
+// column names & indexes
+$config['columnNames'] = array(
+    'CRN',
+    'Email',
+    'Title',
+    'Name',    
+    'Phone Number',    
+    'Date Of Birth',
+    'Gender',
+    'MVC Type',
+    'Address 1',
+    'Address 2',
+    'City',
+    'State',
+    'Country',
+    'Pincode',
+    'Landline Number',
+    'Educational Qualification',
+    'Mother Maiden Name',
+    'Family Members',
+    'ECS Ref. No.',
+    'Shmart Rewards',
+    'Already Bank Account',
+    'Vehicle Type',
+    'Product Aknowledgement',
+    'Shmart Rewards Aknowledgement',
+    'Created Date',
+    'Approval Operation Id',
+    'Approval Date',
+    'Status'
+    
+);
+$config['columnIndexes'] = array(
+    'crn',
+    'email',
+    'title',
+    'name',        
+    'mobile',    
+    'date_of_birth',
+    'gender',
+    'customer_mvc_type',
+    'address_line1',
+    'address_line2',
+    'city',
+    'state',
+    'country',
+    'pincode',
+    'alternate_contact_number',
+    'educational_qualifications',
+    'mother_maiden_name',
+    'family_members',
+    'ecs_ref_no',
+    'shmart_rewards',
+    'already_bank_account',
+    'vehicle_type',
+    'products_acknowledgement',
+    'rewards_acknowledgement',   
+    'date_created',   
+    'approval_ops_id',  
+    'approval_datetime',   
+    'status'    
+);
+
+$config['backlink'] = $this->backlink;
+$config['detailsarray'] = $this->detailsarray;
+$config['opsname'] = $this->opsName;
+echo $this->partial(
+    'partials/default-cardholder-detail-view.phtml',
+    array(
+        'config' => $config,
+        'item' => $this->item
+    )
+);
+print '<script type="text/javascript">
+var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1", {defaultTab:0});
+</script>';

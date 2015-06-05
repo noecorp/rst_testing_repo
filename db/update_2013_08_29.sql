@@ -1,0 +1,1 @@
+ALTER TABLE `rat_corp_insurance_claim`  DROP `txn_type`;

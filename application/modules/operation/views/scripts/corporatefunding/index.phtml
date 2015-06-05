@@ -1,0 +1,36 @@
+<?php
+$helper = $this->listingUtilities(array());
+?>
+<div class="Boldtext">Corporate Funding</div>
+
+<div class="innerbox">
+    <ul>
+        <?php if ($helper->can('uploadbankstatement', 'corporatefunding')) { ?>
+            <!--<li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/uploadbankstatement'); ?>" title="Upload Bank Statement">Upload Bank Statement</a>: Upload Bank Statement Details</li>
+            <div class="clear"></div>-->
+        <?php
+        }
+        if ($helper->can('pendingfundrequest', 'corporatefunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/pendingfundrequest'); ?>" title="Pending Fund Requests">Pending Fund Requests</a>: Pending Fund Request Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+
+        if ($helper->can('unsettledbankstatement', 'corporatefunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/unsettledbankstatement'); ?>" title="Unsettled Bank Statements">Unsettled Bank Statements</a>: Unsettled Bank Statement Details</li>
+            <div class="clear"></div>
+        <?php
+        }
+        if ($helper->can('settledfundrequest', 'corporatefunding')) {
+            ?>
+            <li class="systemli"><a href="<?php echo $this->formatURL('/corporatefunding/settledfundrequest'); ?>" title="Settled Fund Requests">Settled Fund Requests</a>: Settled Fund Request Details</li>
+            <div class="clear"></div>
+<?php }
+?>
+
+
+    </ul>
+
+</div>

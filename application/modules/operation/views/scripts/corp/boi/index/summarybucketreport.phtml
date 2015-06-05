@@ -1,0 +1,135 @@
+<div class="Boldtext">Disbursement Report - Summary Report - Bucket</div>
+<?php 
+echo $this->form;
+if($this->records){ 
+//array_pop($this->globalBuckets);
+//unset($this->globalBuckets['9']);
+$globalBuckets = $this->globalBuckets;
+//print_r($globalBuckets); exit;
+$config['pageTitle'] = 'Search Disbursement Details';
+$config['no_add'] = TRUE;
+$itemPerPage = $this->items_per_page;
+//echo "<pre>";print_r($this->globalBuckets);
+// render the default listing
+
+
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+    
+// messages
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+
+$cntColNames = count($this->globalBuckets) - 1 ;
+$helper = $this->listingUtilities(array());
+// render the default listing
+
+
+ ?>
+<style>
+table tr td:first-child {
+    padding: 10px;
+}    
+</style>
+<div class="Boldtext">Detail Summary Report - Bucket</div>
+<div class="tablebox">
+     <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'>
+          <thead><!-- universal table heading --> 
+            <tr>
+                <th colspan=2 height="62" align="left" valign=middle >Bucket Type</th>
+                <?php foreach($globalBuckets as $key => $val){ ?>
+                    <th align="left" valign=middle><?php echo $val;?></th>
+		<?php } ?>
+		<th align="left" valign=middle>Total</th>
+            </tr> 
+          </thead>
+          <tbody>
+          
+         
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+            <?php 
+            foreach($this->paginator as $item) : //echo "<br>"; print_r($pagekey); //exit;
+               ?>
+                
+               <tr>
+                    <td rowspan=2 height="34" align="left" valign=middle >Disbursement No-<?php echo $item['disbursement_number']; ?></td>
+                    <td align="left" valign=middle>Count</td>
+                     <?php foreach($globalBuckets as $key => $val){ 
+                         if(isset($item[$key])) { ?>
+                              <td align="left" valign=middle><?php echo $item[$key]['count'];?></td>
+                         <?php } else {?>
+                               <td align="left" valign=middle>0</td>         
+                         <?php } ?>
+                         
+                    <?php } ?>
+                    <td align="left" valign=middle><?php echo $item['totalCnt'];?></td>
+               </tr>
+               <tr>
+                    <td align="left" valign=middle style="border-left: 1px solid #E0E0E0;">Amount</td>
+                     <?php foreach($globalBuckets as $key => $val){ 
+                         if(isset($item[$key])) { ?> 
+                              <td  align="left" valign=middle><?php echo Util::numberFormat($item[$key]['amount']);?></td>
+                         <?php } else {?>
+                              <td align="left" valign=middle>0</td>         
+                         <?php } ?>
+                         
+                    <?php } ?>
+                         <td  align="left" valign=middle><?php echo Util::numberFormat($item['totalAmt']);?></td>
+               </tr>
+            <?php 
+                //endforeach;
+            endforeach;?>
+            <?php /********** finished displaying the items **********/ ?>
+                
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+   </div>
+<div>&nbsp;</div>
+</div>
+
+
+<div>&nbsp;</div>
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } ?>
+    
+<?php
+
+if(count($this->paginator)>0){?>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php } }?>
+<script>
+$(document).ready(function() {
+    $("#btn_exportcsv").click(function(){
+            var url = '<?php echo $this->formatURL("/corp_boi_index/exportsummarybucketreport?disbursement_number=".$this->formData['disbursement_number']."&bucket=".implode(",",$this->formData['bucket'])."&account_number=".$this->formData['account_number']."&aadhar_no=".$this->formData['aadhar_no']);?>';    
+            $(location).attr('href',url);
+    });
+    $("#disbursement_number").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+    //$("#bucket").after("<br/><span style='font-size:10px;font-weight:normal;'>*Separated by a comma (,)</span>");
+});
+</script>

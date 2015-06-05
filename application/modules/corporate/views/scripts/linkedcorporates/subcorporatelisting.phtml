@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * Displays all sub agents
+ * @copyright company
+ */
+//Util::pr($this->paginator,1);
+
+$config = array();
+// messages
+$config['pageTitle'] = $this->title;
+$config['emptyMessage'] = 'There is no '.$this->userType.' found.';
+
+$config['no_add'] = TRUE;
+$config['showActions'] = TRUE;
+// column names & indexes
+
+$config['columnNames'] = array(
+    'Code',    
+    'First Name',
+    'Last Name',
+    'Balance',
+    'Mobile',
+    'Email',
+    'Status',
+
+);
+
+$config['columnIndexes'] = array(
+    'corporate_code',    
+    'first_name',
+    'last_name',
+    'amount',
+    'mobile',
+    'email',
+    'enroll_status',
+    
+);
+
+
+$config['linkCol'] = array(
+    array(
+        'linkColName' => 'enroll_status',
+        'linkController' => 'linkedcorporates',
+        'linkAction' => 'corporateinfo',
+        'linkTitle' => 'View Details',
+        'linkParamReqd' => TRUE,
+        'linkParamName' => 'id',
+        'linkParamValue' => 'id',
+    ),
+);
+
+$config['actions'] = array(
+    'fundtrfr' => array(
+        'action' => 'fundtrfr',
+        'title' => 'Fund Transfer',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_class' => FALSE,
+        'img_url' => '/images/icons/BAG.png',
+        //'link_class'    => 'btn',
+        'img_alt' => 'Fund Transfer',
+        'acl_action' => 'Fund Transfer'
+    //'extra_param'  => TRUE,
+    ),
+    'retrievefund' => array(
+        'action' => 'retrievefund',
+        'title' => 'Fund Reversal',
+        'parameter' => TRUE,
+        'icon' => TRUE,
+        'img_class' => FALSE,
+        'img_url' => '/images/icons/icon-refund.jpg',
+        //'link_class'    => 'btn',
+        'img_alt' => 'Fund Reversal',
+        'acl_action' => 'Fund Reversal'
+    //'extra_param'  => TRUE,
+    ),
+    
+    );
+$config['actionsConditional'] = array('edit','delete');
+$config['conditionArr'] = array(
+    0     =>  array(
+        'param'     => 'status',
+        'operator' => '==',
+        'value'     => 'unblocked'
+    )
+);
+
+//echo $this->partial(
+//        'partials/default-listing.phtml', array(
+//    'config' => $config,
+//    'paginator' => $this->paginator,
+//        )
+//);
+
+
+
+$helper = $this->listingUtilities($config);
+ $user = Zend_Auth::getInstance()->getIdentity();
+$agentModel = new AgentUser();
+$agentProduct = $agentModel->getAgentBinding($user->id);
+$product = App_DI_Definition_BankProduct::getInstance(BANK_BOI_NDSC);
+$productUnicode = $product->product->unicode;
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$backURL = isset($config['back_url']) ? $config['back_url'] : '' ;
+
+?>
+
+<div class="Boldtext"><?php $helper->pageTitle();?></div>
+
+<?php if(!$addbutton):?>
+    <?php if($helper->canShowAddButton() && $helper->canAdd()):?>
+        <?php if(isset($addURL) && $addURL !='') {
+                    $href = $addURL;
+                } else {
+                    $href = $helper->addUrl(FALSE);
+                }?> 
+<div class="filterbox">
+
+<div style="width:950px;">
+
+
+    <a href="<?php echo $this->formatURL($href);?>" class="ocean" style="float:right;" title="<?php $helper->addMessage();?>"><?php $helper->addMessage();?></a>
+</div><!--Inner Style Div END-->
+
+
+</div>
+        
+<?php endif;?> 
+<?php endif;?> 
+<?php if($backURL): $href = $backURL;?>
+<div class="filterbox"> 
+
+<div style="width:950px;">
+    <a href="<?php echo $this->formatURL($href);?>" class="ocean" style="float:right;" title="Back">Back</a>
+</div><!--Inner Style Div END-->
+
+</div>
+<?php endif;?> 
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+    <div class="tablebox">
+        <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+            <table width="950" cellspacing='0'>
+                <thead><!-- universal table heading --> 
+                    <tr>
+                        <?php /********** display the column names **********/ ?>
+                        <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                            <th><span><?php echo $columnName;?></span></th>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the column names **********/ ?>
+                        <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <th colspan="2"><span><?php echo 'Actions';?></span></th>
+                        <?php endif; ?>
+                    </tr> 
+                </thead>
+                <tbody>
+
+                <?php /********** do we have items? **********/ ?>
+                <?php if (count($this->paginator)) : ?>
+                    <?php /********** we do! start displaying the items **********/ ?>
+                    <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                        if($index == 'enroll_status' && in_array($item['status'], array(STATUS_BLOCKED,STATUS_LOCKED)) ) {
+                                            //echo $item['status'];
+                                            $helper->displayItem($item, 'status');
+                                        } else {
+                                            $helper->displayItem($item, $index);
+                                        }
+                                    ?>
+                                </td>
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!--<td class="tc">-->
+                                    <?php 
+                                    //if($productUnicode != $agentProduct['product_unicode'] ) {
+                                    if($item['status'] == STATUS_UNBLOCKED && $item['enroll_status'] == STATUS_APPROVED) {
+                                        echo $helper->links($item);
+                                    }
+                                    //}
+                                        //print_r($item);
+                                    ?>
+                                <!--</td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the items **********/ ?>
+                <?php else:?>
+                    <?php /********** we don't have any items **********/ ?>
+                    <tr>
+                        <td colspan="<?php $count = $helper->columnCount();
+                        echo $count++;?>">
+                            <?php $helper->emptyMessage();?>
+                        </td>
+                    </tr>
+                <?php endif;?>
+                <?php /********** finished do we have items? **********/ ?>
+                </tbody> 
+            </table>
+        </div>
+    </div> 
+</form>
+<div id ="pagination-box">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>

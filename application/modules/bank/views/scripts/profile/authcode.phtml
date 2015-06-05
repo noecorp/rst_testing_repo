@@ -1,0 +1,86 @@
+<?php
+/**
+ * View for the login action
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+?>
+
+            <div>
+        <?php if (isset($this->resent)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Authcode resent sucessfully';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->notresent)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br /> Authcode could not be resent';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->error)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Invalid authorization code. You have '.$this->num.' login attempts remaining.';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->empty)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Authorization code';?></p>
+            </div>
+        <?php endif;?>
+        <?php if (isset($this->inactive)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Your Account is inactive. Please contact the Agent Help Center.';?></p>
+            </div>
+        <?php endif;?>
+       <?php if (isset($this->locked)):?>
+            <div class="error">
+                <p><?php echo '<strong>Oops!</strong><br />Your Account is locked. Please contact the Agent Help Center.';?></p>
+            </div>
+        <?php endif;?>
+<div class="login-title" style="padding-bottom: 20px;padding-top: 20px;">Authorization Code</div>                
+
+        <?php echo $this->form;?>
+             
+    
+    </div>
+                <div class="clear"></div>
+<div class="link"><a href="<?php echo $this->formatURL('/profile/resend-authcode/');?>">Resend Authorization Code</a></div>                
+<script type="text/javascript">
+$(document).ready(function() {
+    
+  $("#resend").click(function(){
+     
+         document.getElementById('resend').style.cursor = 'wait';
+         document.getElementById('submit').style.cursor = 'wait';
+         document.body.style.cursor = 'wait';
+            $.ajax({
+                url: '/ajax/resend-authcode',
+                    success: function(response) {
+                        if(response == 1) {
+                            
+                        } else {
+                            
+                            alert('Auth code Resent!');
+                              document.getElementById('resend').style.cursor = 'default';
+                              document.getElementById('submit').style.cursor = 'default';
+                              document.body.style.cursor = 'default';
+                     
+                        }
+                    }
+         
+        });
+    });   
+    
+    
+    
+    
+    
+     
+});      
+  </script>
+
+
+

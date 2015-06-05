@@ -1,0 +1,79 @@
+<?php
+/**
+ * Holds the default paginator view
+ *
+ *
+ * @category backoffice
+ * @package backoffice_paginators
+ * @copyright company
+ */
+
+$par = Zend_Controller_Front::getInstance()->getRequest()->getParams();
+$new_array = array();
+foreach($par as $key=>$val) {
+	if($key!='page' && $key!='a' && $key!='csrfhash' ) {
+		$new_array[$key] = $val;
+	}
+}
+
+?>
+
+<?php if ($this->pageCount): ?>
+    <ul class="pagination paginationA paginationA01">
+        <li>
+        <!-- Range page link -->
+       
+                   
+         <a class="first" href="#">Page <?php echo $this->current;?> of <?php echo $this->pageCount;?></a>
+        </li>
+        
+        
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+        
+        <!-- First page link -->
+        <li>
+             <a class="previous" href="<?php echo Util::formatURLforPaginator($this->url(array_merge($new_array,array('page' => 1)))); ?>"> First</a>
+         </li>
+        
+           <li>  
+            <a class="previous" href="<?php echo Util::formatURLforPaginator($this->url(array_merge($new_array,array('page' => $this->previous)))); ?>"> Previous</a>
+            </li>
+
+        <?php  endif; ?>
+        
+        
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <li>
+            <?php if ($page != $this->current): ?>
+                <a href="<?php echo Util::formatURLforPaginator($this->url(array_merge($new_array,array('page' => $page)))); ?>"><?php echo $page; ?></a>
+            <?php else: ?>
+                <span class="current"><?php echo $page; ?></span>
+            <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        
+        <!-- Next page link -->
+        
+        <?php if (isset($this->next)): ?>
+        <li>
+            <a class="text" href="<?php echo Util::formatURLforPaginator($this->url(array_merge($new_array,array('page' => $this->next)))); ?>">Next </a>
+        </li>
+        
+        <li>
+            <a class="text" href="<?php echo Util::formatURLforPaginator($this->url(array_merge($new_array,array('page' => $this->pageCount)))); ?>"> Last </a>
+        </li>
+        <?php  endif; ?>
+     
+        
+    
+    <?php if (isset($this->showXls) && $this->showXls == 1): ?>
+    <li id ="xls-button" style="float:right;">
+         <input id="btn_exportcsv" src="images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+        
+    </li>
+    <?php  endif; ?>
+    </ul>
+
+<?php endif; ?>

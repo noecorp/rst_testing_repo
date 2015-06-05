@@ -1,0 +1,7 @@
+<?php 
+$helper = $this->listingUtilities(array());
+ echo "Congratulations! Agent registered successfully.";
+ if ($helper->can('approveagent')) {?>
+    To approve the agent, <a href="<?php echo $this->formatURL('/approveagent/index/');?>" title="Approval Pending Agents Listing">click here</a>
+             <?php }
+?>

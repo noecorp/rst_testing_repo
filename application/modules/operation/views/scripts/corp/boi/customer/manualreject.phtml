@@ -1,0 +1,112 @@
+<?php
+/**
+ * Delete a product
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Reject Customer: '.$this->item->first_name.' '.$this->item->last_name;
+$config['areYouSureMessage'] = 'Are you sure you want to reject this customer?';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Linked Branch SOL ID',
+    'Title',
+    'First Name',
+    'Middle Name',
+    'Surname',
+    'Aadhaar Number',
+    'Aadhaar Enrollment ID',
+    'NSDC Enrollment No',
+    'Debit Mandate Amount',
+    'Training Center ID',
+    'Training Center Name',
+    'Training Partner Name',
+    'PAN',
+    'Sex',
+    'Date of Birth',
+    'Marital Status',
+    'Occupation',
+    'Permanent Address Line 1',
+    'Permanent Address Line 2',
+    'State',
+    'City',
+    'Pincode',
+    'Correspondence Address Line 1',
+    'Correspondence Address Line 2',
+    'Correspondence State',
+    'Correspondence City',
+    'Correspondence Pincode',
+    'Landline',
+    'Mobile',
+    'Email',
+    'Nominee Name',
+    'Nominee Relationship',
+    'Nominee DOB',
+    'Nominee Address Line 1',
+    'Nominee Address Line 2',
+    'Nominee City',
+    'Nominee Minor Guardian',
+    'AOF REF No.',
+    'Date Created',
+    'Date Activation',
+    'Customer Status', 
+    'Failed Reason',
+    'Date Failed',
+   
+);
+$config['columnIndexes'] = array(
+    'sol_id',
+    'title',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'aadhaar_no',
+    'uid_no',
+    'nsdc_enrollment_no',
+    'debit_mandate_amount',
+    'training_center_id',
+    'traning_center_name',
+    'training_partner_name',
+    'pan',
+    'gender',
+    'date_of_birth',
+    'marital_status',
+    'occupation',
+    'address_line1',
+    'address_line2',
+    'state',
+    'city',
+    'pincode',
+    'comm_address_line1',
+    'comm_address_line2',
+    'comm_state',
+    'comm_city',
+    'comm_pin',
+    'landline',
+    'mobile',
+    'email',
+    'nominee_name',
+    'nominee_relationship',
+    'nominee_dob',
+    'nominee_add_line1',
+    'nominee_add_line2',
+    'nominee_city_cd',
+    'nominee_minor_guradian_cd',
+    'ref_num',
+    'date_created',
+);
+
+
+echo $this->partial(
+    'partials/default-delete.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config,
+        'item' => $this->item
+    )
+);

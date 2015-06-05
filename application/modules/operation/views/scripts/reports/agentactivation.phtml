@@ -1,0 +1,160 @@
+<div class="Boldtext">Agent Activation Report</div>
+ <?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+//$duration = isset($this->duration)?$this->duration:'';
+
+if($this->state!=''){
+    
+$config = array();
+//$duration = $this->from.' - '.$this->to;
+
+// messages
+$config['pageTitle'] = isset($this->title)?$this->title:'';//'Cardholder Activations Report for period '.$duration;
+$config['emptyMessage'] = 'No record found.';
+$config['no_add']=1;
+$config['showActions'] = false;
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Agent Name',
+    'Agent Code',
+    'Agent Email',
+    'Agent Mobile',   
+    'Agent Address',   
+    'Agent City',   
+    'Current Agent Limit',   
+    'Current Status',
+    'Application Date',
+    'Rejected Reason',
+    'Current Commission Plan',   
+    'Bank Name'
+);
+
+$config['columnIndexes'] = array(
+    'agent_name',
+    'agent_code',
+    'email',    
+    'mobile1',
+    'agent_address',    
+    'agent_city',    
+    'agent_limit_name',
+    'status',
+    'agent_app_date',
+    'rejected_remarks',
+    'commission_plan_name',    
+    'bank_name'
+);
+
+$config['showActions'] =FALSE;
+$config['duration'] = $this->formData['dur'];
+
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);
+
+
+if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+  <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+</div>
+<?php } } 
+?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var city = $("#cty").val();
+    
+        $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val()+'/c/all',
+                    success: function(response) {
+                        if(response == 1) {
+                           
+                        } else {
+                           
+                            $("#city").html("");
+                           
+                            $("#city").append(response);
+                       
+                        }
+                    }
+         
+        });
+    }); 
+    
+    if($("#state").val() != ''){
+         $.ajax({
+                url: '/ajax/get-city/q/'+$("#state").val()+'/c/all',
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#city").html("");
+                            
+                            $("#city").append(response);
+                           
+                             $("#city option[value='"+city+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    }
+         
+        });
+}  
+      $("input#dur").change(function() {
+        if(this.value) {
+            var date = this.value; 
+            if(date === ''){
+              alert('Please enter From date.');  
+             return false;   
+            }
+             else{ 
+                 if(date.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)){
+                      return true;
+                    }else{
+                        alert('Please enter valid From date.');
+                      this.value = '';
+                      return false;
+                    }
+             }
+
+        }
+        
+    });
+    
+   
+    
+    
+    
+    $("#btn_exportcsv").click(function(){
+        var state = '<?php echo $this->formData['state'];?>';
+        var city = '<?php echo $this->formData['city'];?>';
+        var date_duration = '<?php echo $this->formData['date_duration'];?>';
+        if(date_duration == ''){
+            alert('Please specify duration');
+        }else if(state == ''){
+            alert('Please specify State');
+        }
+        else{
+            var url = '<?php echo $this->formatURL("/reports/exportagentactivation?&state=".$this->formData['state']."&city=".$this->formData['city']."&date_duration=".$this->formData['date_duration']);?>';    
+            $(location).attr('href',url);
+       }
+    });     
+});
+</script>

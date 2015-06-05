@@ -1,0 +1,26 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Agent fund request has been placed and corresponding details have been given below.</p>
+
+<p>Agent Code : <b><?php echo $this->agent_code; ?></b>.</p>
+<p>Agent Email : <b><?php echo $this->agent_email; ?></b>.</p>
+<p>Agent Mobile : <b><?php echo $this->agent_mobile_number; ?></b>.</p>
+<p>Agent Amount : <b><?php echo $this->amount; ?></b>.</p>
+<p>Agent Comments: <b><?php echo $this->comments; ?></b>.</p>
+<p>Request Date: <b><?php echo Util::getFormattedDate(); ?></b>.</p>
+<p>Server: <?php echo Util::getServerNameForCronAlert(); ?></p>
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo Util::getaltEmailImportant(); ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo Util::getaltEmailDisclaimer(); ?></p>

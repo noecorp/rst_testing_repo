@@ -1,0 +1,201 @@
+<div class="Boldtext">Pending Customers List</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Pending Customers List';
+$config['no_add'] = TRUE;
+$config['emptyMessage'] = 'No record found';
+if($this->sub == 1){
+// column names & indexes
+$config['columnNames'] = array(
+    'First Name',
+    'Last Name',
+    'Member Id',
+    'Card Number',
+    'Card pack Id',
+    'Date of Birth',
+    'Mobile',
+    'Email',
+    'Bank Status',
+    'Submission Date -Maker',
+    'Submission Date -Checker',
+    );
+$config['columnIndexes'] = array(
+    'first_name',
+    'last_name',
+    'member_id',
+    'card_number',
+    'card_pack_id',
+    'date_of_birth',
+    'mobile',
+    'email',
+    'status_bank',
+    'date_created',
+    'date_approval',
+);
+$config['viewLinkColumn'] = 'member_id';
+$cntColNames = count($config['columnNames']) ;
+$config['actions'] = array(
+        'approve'    =>  array(
+        'action'        => 'approve',
+        'title'         => 'Approve',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/approve.png',
+        'img_alt'       => 'Approve',
+      ),
+        'reject'    =>  array(
+        'action'        => 'reject',
+        'title'         => 'Reject',
+        'parameter'     => TRUE,
+        'icon'          => TRUE,
+        'img_url'       => '/images/icons/reject.png',
+        'img_alt'       => 'Reject',
+      ),
+    );
+
+$config['linkOrder'] = array('approve','reject');
+$config['showActions'] = true;
+
+
+$helper = $this->listingUtilities($config);
+$addURL = isset($config['addURL']) ? $config['addURL'] : '' ;
+$addbutton = isset($config['no_add']) ? $config['no_add'] : '' ;
+$disabled_icons = Zend_Registry::get("DISABLED_ICON_DETAILS");
+$cardholderStatus = Zend_Registry::get("CORP_CARDHOLDER_STATUS");
+?>
+<div style="clear:both;height: 10px;"></div>
+ 
+<div class="tablebox" style="clear:both;">
+    <div style="width:1100px; margin:auto; overflow-x: auto; overflow-y: auto;margin-left: 0px;">
+    <table width="1100" cellspacing='0'>
+       
+        <thead><!-- universal table heading --> 
+            <tr>
+                <?php /********** display the column names **********/ ?>
+                <?php foreach($config['columnNames'] as $columnName) : ?>
+                    <th><span><?php echo $columnName;?></span></th>
+                <?php endforeach;?>
+                  <th><span>Actions</span></th>
+                <?php /********** finished displaying the column names **********/ ?>
+            </tr> 
+        </thead>
+        <tbody>
+
+        <?php /********** do we have items? **********/ ?>
+        <?php if (count($this->paginator)) : ?>
+            <?php /********** we do! start displaying the items **********/ ?>
+           <?php foreach($this->paginator as $item) : ?>
+                        <?php $helper->data = $item; ?>
+                        <tr>
+                            <!--<td class="tc">
+                                <input type="checkbox" name="checkall" value="true" />
+                            </td>--> 
+                            <?php /********** displaying the inner columns **********/ ?>
+                            <?php 
+                            //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                            ?>
+                            <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                                <td>
+                                    <?php 
+                                    
+                                         if ($index == 'card_number'){
+                                         echo util::maskCard($item[$config['columnIndexes'][3]],4);
+                                     }
+                                     else{
+                                          $helper->displayItem($item, $index);
+                                     }
+                                    
+                                    ?>
+                                </td>
+                            <?php endforeach;?>
+                            <?php /********** finished displaying the inner columns **********/ ?>
+                            <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                                <!--<td style="margin:0; padding:0;">
+                                    <div class="iconbox">-->
+                                    <?php echo $helper->links($item);
+                                    ?>
+                                    <!--</div>
+                                </td> -->
+                            <?php endif; ?>
+                        </tr>    
+                    <?php endforeach;?>
+        <?php else:?>
+            <?php /********** we don't have any items **********/ ?>
+            <tr>
+                <td colspan="<?php echo $cntColNames+1;?>">
+                    <?php echo $config['emptyMessage'];?>
+                </td>
+            </tr>
+        <?php endif;?>
+        <?php /********** finished do we have items? **********/ ?>
+        </tbody> 
+    </table>
+    </div>
+</div>
+<div style="clear:both;height: 10px;"></div>    
+
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+    
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+<?php } ?>
+<script type="text/javascript">
+$(document).ready(function() {
+
+ 
+ var pincode = $("#pin").val();
+
+ if($("#state").val() != ''){
+     
+         $.ajax({
+                url: '/ajax/get-pincode-list-by-state/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                         
+                        } else {
+                            
+                            $("#pincode").html("");
+                            
+                            $("#pincode").append(response);
+                             $("#pincode option[value='"+pincode+"']").attr("selected", "selected");
+                            console.log(response);
+                         
+
+                        }
+                    },
+         
+        });
+}  
+   
+  $("#state").change(function(){
+    
+            $.ajax({
+                url: '/ajax/get-pincode-list-by-state/q/'+$("#state").val(),
+                    success: function(response) {
+                        if(response == 1) {
+                        } else {
+                            $("#pincode").html("");
+                            $("#pincode").append(response);
+                        }
+                    },
+         
+        });
+    }); 
+    
+    
+
+});      
+</script>
+<div style="clear:both;height: 100px;"></div>

@@ -1,0 +1,219 @@
+<?php
+/**
+ * Agent details
+ *
+ * @category opertaion
+ * @package operation_views
+ * @copyright Transerv
+ */
+
+?>
+
+<div class="header"> 
+    <h1>Agent Details</h1>
+     <a href="<?php echo $this->formatURL('/agentsummary/index');?>">Back</a>
+</div>
+<?php
+
+
+$data = array();
+$helper = $this->listingUtilities($data);
+$data = $this->data;
+
+
+
+
+?>
+<div class="finalaction">
+   
+    <table>
+        
+            <tr>
+                <th><?php echo 'AFN';?></th>            
+                <td>: <?php echo $data['afn'];?></td>
+            </tr>
+      
+            <tr>
+                <th><?php echo 'Agent Code';?></th>               
+                <td>: <?php echo $data['agent_code'];?></td>
+            </tr>
+      
+            <tr>
+                <th><?php echo 'Email';?></th>                
+                <td>: <?php echo $data['email'];?></td>
+            </tr>
+  
+            <tr>
+                <th><?php echo 'Status';?></th>               
+                <td>: <?php echo $data['status'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Agent Code';?></th>               
+                <td>: <?php echo $data['agent_code'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Mobile Num';?></th>               
+                <td>: <?php echo $data['mobile1'];?></td>
+            </tr>
+      
+      
+              <tr>
+                <th><?php echo 'Date Created';?></th>              
+                <td>: <?php echo $data['date_created'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Agent Code';?></th>             
+                <td>: <?php echo $data['agent_code'];?></td>
+            </tr>
+
+            <tr>
+                <th><?php echo 'Registration Type ';?></th>                
+                <td> :<?php echo $data['registration_type'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Name';?></th>              
+                <td>: <?php echo $data['title'].' '.ucfirst($data['first_name']).' '.ucfirst($data['middle_name']).' '.ucfirst($data['last_name']);?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Agent Code';?></th>             
+                <td>: <?php echo $data['agent_code'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Mobile Num';?></th>                
+                <td> :<?php echo $data['mobile1'];?></td>
+            </tr>
+            
+                   <tr>
+                <th><?php echo 'Father Name';?></th>              
+                <td>: <?php echo ucfirst($data['father_first_name']).' '.ucfirst($data['father_middle_name']).' '.ucfirst($data['father_last_name']);?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Spouse Name';?></th>              
+                <td>: <?php echo ucfirst($data['spouse_first_name']).' '.ucfirst($data['spouse_middle_name']).' '.ucfirst($data['spouse_last_name']);?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Mother Maiden Name';?></th>              
+                <td>: <?php echo ucfirst($data['mother_maiden_name']);?></td>
+                
+            </tr>
+            
+          
+                
+                 <tr>
+                <th><?php echo 'Establishment Name';?></th>              
+                <td>: <?php echo $data['eatab_name'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Office Address';?></th>             
+                <td>: <?php echo $data['office'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Education level';?></th>              
+                <td>: <?php echo $data['education_level'];?></td>
+            </tr>
+            
+             <tr>
+                <th><?php echo 'Metric School Name';?></th>              
+                <td>: <?php echo $data['matric_school_name'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Intermediate School Name';?></th>              
+                <td>: <?php echo $data['intermediate_school_name'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Graduation Degree';?></th>              
+                <td>: <?php echo $data['graduation_degree'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Graduation College';?></th>              
+                <td>: <?php echo $data['graduation_college'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Post Graduation Degree';?></th>              
+                <td>: <?php echo $data['p_graduation_degree'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Post Graduation College';?></th>              
+                <td>: <?php echo $data['p_graduation_college'];?></td>
+            </tr>
+            
+            <tr>
+                <th><?php echo 'Other Degree';?></th>              
+                <td>: <?php echo $data['other_degree'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Other College';?></th>              
+                <td>: <?php echo $data['other_college'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'DOB';?></th>              
+                <td>: <?php echo $data['date_of_birth'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Fund Account Type';?></th>              
+                <td>: <?php echo $data['fund_account_type'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Gender';?></th>              
+                <td>: <?php echo $data['gender'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Identification Type';?></th>              
+                <td>: <?php echo $data['Identification_type'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Identification No.';?></th>              
+                <td>: <?php echo $data['Identification_number'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'PAN No.';?></th>              
+                <td>: <?php echo $data['pan_number'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Residence Type';?></th>              
+                <td>: <?php echo $data['res_type'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Address Line 1';?></th>              
+                <td>: <?php echo $data['res_address1'];?></td>
+            </tr>
+            <tr>
+                <th><?php echo 'Address Line 2';?></th>              
+                <td>: <?php echo $data['res_address2'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'City';?></th>              
+                <td>: <?php echo $data['res_city'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Taluka';?></th>              
+                <td>: <?php echo $data['res_taluka'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'District';?></th>              
+                <td>: <?php echo $data['res_district'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'State';?></th>              
+                <td>: <?php echo $data['res_state'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Country';?></th>              
+                <td>: <?php echo $data['res_country'];?></td>
+            </tr>
+             <tr>
+                <th><?php echo 'Pincode';?></th>              
+                <td>: <?php echo $data['res_pincode'];?></td>
+            </tr>
+             
+    </table>
+   
+</div>

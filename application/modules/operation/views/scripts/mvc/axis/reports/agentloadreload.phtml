@@ -1,0 +1,179 @@
+<div class="Boldtext">Axis Load Reload Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+echo $this->form;
+
+if ($this->from != '' && $this->to != '') {
+
+    $config = array();
+    $duration = $this->from . ' - ' . $this->to;
+
+// messages
+    $config['pageTitle'] = isset($this->title) ? $this->title : '';
+    $config['emptyMessage'] = 'No record found.';
+    $config['no_add'] = 1;
+    $config['showActions'] = false;
+
+// column names & indexes
+    $config['columnNames'] = array(
+        'Transaction Date',
+        'Super Distributor Code',
+        'Super Distributor Name',
+        'Distributor Code',
+        'Distributor Name',
+        'Agent Code',
+        'Agent Name',
+        'Agent City',
+        'Agent Pincode',
+        'Transaction Code',
+        'Load/Reload Amount',
+        'CRN',
+        'Customer Mobile Number',
+        'Transaction Reference Number',
+    );
+
+    $config['columnIndexes'] = array(
+        'txn_date',
+        'sup_dist_code',
+        'sup_dist_name',
+        'dist_code',
+        'dist_name',
+        'agent_code',
+        'agent_name',
+        'estab_city',
+        'estab_pincode',
+        'txn_type',
+        'amount',
+        'crn',
+        'mobile_number',
+        'txn_code',
+    );
+
+    $config['showActions'] = FALSE;
+    $config['duration'] = $this->formData['dur'];
+
+// render the default listing
+    echo $this->partial(
+            'partials/report-agent-load-reload.phtml', array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+            )
+    );
+}
+?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_exportcsv").click(function () {
+            var dur = '<?php echo $this->formData['dur']; ?>';
+                var url = '<?php echo $this->formatURL("/mvc_axis_reports/exportagentloadreload?bank_unicode=" . $this->formData['bank_unicode'] . "&id=" . $this->formData['id'] . "&from_date=" . $this->formData['from_date'] . "&to_date=" . $this->formData['to_date']); ?>';
+                $(location).attr('href', url);
+        });
+
+        var agent_id = $("#agent_id").val();
+        if ($("#bank_unicode").val() != '') {
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/' + $("#bank_unicode").val() + '/p/TRUE',
+                success: function (response) {
+                    if (response === 1) {
+                    } else {
+                        $("#id").html('');
+                        $("#id").append(response);
+                        if (agent_id != '') {  
+                            $("#id option[value='" + agent_id + "']").attr("selected", "selected");
+                        }
+                    }
+                }
+            });
+        }
+
+        $("#bank_unicode").change(function () {
+            var bank_unicode = $.trim($("#bank_unicode").val());
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/' + $("#bank_unicode").val() + '/p/TRUE',
+                success: function (response) {
+                    if (response === 1) {
+                    } else {
+                        $("#id").html(response);
+                        //  $("#id").append(response);
+                    }
+                }
+            });
+        });
+
+        if ($("#bank_unicode").val() != '') {
+            $.ajax({
+                url: '/ajax/get-agentsdropdown/q/' + $("#bank_unicode").val() + '/p/TRUE',
+                success: function (response) {
+                    if (response === 1) {
+                    } else {
+                        $("#id").html('');
+                        $("#id").append(response);
+                        if (agent_id != '') {  
+                            $("#id option[value='" + agent_id + "']").attr("selected", "selected");
+                        }
+                    }
+                }
+            });
+        }
+        
+        $('form').submit(function(){
+            
+            if ($("#bank_unicode").val() == '') {
+                alert('Please specify Bank Name.');
+                $('#bank_unicode').css('background', '#ff0');
+                $("#bank_unicode").focus();
+                return false;
+            }
+            
+            var from = $.trim($("#from_date").val()); 
+            var to = $.trim($("#to_date").val()); 
+            var from_dt = from.split("-");
+            var to_dt = to.split("-");
+            var x = new Date(from_dt[2],from_dt[1],from_dt[0]);
+            var y = new Date(to_dt[2],to_dt[1],to_dt[0]);
+            var diff = y - x;
+            var one_day=1000*60*60*24;
+            var date_range = diff/one_day;
+            var max_range = "<?php echo SEARCH_DURATION_MAX; ?>";
+             /**** From and To date validation ****/
+            $('#from_date').css('background', '#fff');
+            $('#to_date').css('background', '#fff');
+
+            if(((from == '' || from =='00-00-0000'))) {
+                alert('Please specify From date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                return false;
+            } else if(((from == '' || from =='00-00-0000') && (to!='' && to!='00-00-0000'))) {
+                alert('Please specify From date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                return false;
+            }else if(((to == '' || to=='00-00-0000') && (from!='' && from!='00-00-0000'))) {
+                 alert('Please specify To date.');
+                 $('#to_date').css('background', '#ff0');
+                 $("#to_date").focus();
+                 return false;
+            } else if(diff < 0){
+                alert('From date cannot be greater than To date.');
+                $('#from_date').css('background', '#ff0');
+                $("#from_date").focus();
+                return false; 
+            }
+            else if(date_range > max_range){
+               alert('Report can be fetched for a duration not more than '+max_range+' days');
+               $('#to_date').css('background', '#ff0');
+               $("#to_date").focus();
+               return false; 
+            }
+        });
+
+    });
+</script>

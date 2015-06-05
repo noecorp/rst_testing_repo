@@ -1,0 +1,70 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  
+    var bank = $("#urlBid").val(); 
+   if(parseInt(bank) > 0){
+      
+      // $('.cancel').attr('href','/product/index?bid='+ bank);
+       $('.cancel').attr('href',document.referrer);
+      
+   }
+   else
+       {
+           //$('.cancel').attr('href','/product/index'); 
+           $('.cancel').attr('href',document.referrer); 
+          
+       }
+      
+    var options = document.getElementById('bank_id').options;
+    
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+    
+  options[i].disabled = true;
+}  
+  var bid = $("#bid").val();
+ 
+ $("#bank_id option[value='"+bid+"']").removeAttr('disabled');
+ 
+  var optionsCurr = document.getElementById('currency').options;
+    
+      for (var i=0, iLen=optionsCurr.length; i<iLen; i++) {
+    
+  optionsCurr[i].disabled = true;
+}  
+  var curr = $("#currency").val();
+ 
+ $("#currency option[value='"+curr+"']").removeAttr('disabled');
+ 
+ $("#description").attr('readOnly', 'readOnly');
+ 
+  var optionsprogramtype = document.getElementById('program_type').options;
+    
+      for (var i=0, iLen=optionsprogramtype.length; i<iLen; i++) {
+    
+  optionsprogramtype[i].disabled = true;
+}  
+  var ptype = $("#program_type").val();
+ $("#program_type option[value='"+ptype+"']").removeAttr('disabled');
+ 
+});      
+  </script>
+<?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit product: '.$this->item->name.' ('.$this->item->ecs_product_code.')';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

@@ -1,0 +1,79 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+   $dataArr = "[['Date', 'Amount'],";
+   $dataArr .= $this->agentStats['agent_remittance'];
+   $dataArr .= "]";
+    
+   $datargnArr = "[['Date', 'No. of Remitters'],";
+   $datargnArr .= $this->agentStats['agent_remittersrgn'];
+   $datargnArr .= "]";
+   
+   $datacommArr = "[['Date', 'Commission Amount'],";
+   $datacommArr .= $this->agentStats['agent_commission'];
+   $datacommArr .= "]";
+   $todayRemittanceTotal = isset($this->agentStats['today_remittance_total'])?$this->agentStats['today_remittance_total']:0;
+   $todayRemittanceCount = isset($this->agentStats['today_remittance_count'])?$this->agentStats['today_remittance_count']:0;
+    
+    $agentBal = isset($this->agentStats['agentBal'])?$this->agentStats['agentBal']:0;
+    ?>
+<?php
+  $prodRemitRatnakar = App_DI_Definition_BankProduct::getInstance(BANK_RATNAKAR_REMIT);
+  $prodRemitRatnakarUnicode = $prodRemitRatnakar->product->unicode;
+          
+$remitUnicodes = Util::productUnicodesArray(PROGRAM_TYPE_REMIT);
+$allowRemit = FALSE;
+$allowRatRemit = FALSE;
+foreach($this->agentProductUnicode as $val){
+    if(in_array($val, $remitUnicodes)) {
+        $allowRemit = TRUE;
+        break;
+    }
+}
+ if(in_array($prodRemitRatnakarUnicode, $this->agentProductUnicode)) {
+        $allowRatRemit = TRUE;
+        }
+?>
+
+<!--First Row-->
+<div class="today_date"><?php echo Util::getFormattedDate('F d, Y');?></div>
+<div style ="clear:both;"></div>
+<div class="grid-heading">General Updates</div>
+
+<div class="grid3col">
+   <?php
+    if($allowRatRemit){
+    ?>
+     <div class="column first">
+       <div class="column-heading">Transaction volume<br>(for the day)</div>
+       <?php echo CURRENCY_INR.' '.Util::numberFormat($todayRemittanceTotal); ?>
+    </div>
+  <div class="column">
+       <div class="column-heading">Transaction volume<br>(for the month)</div>
+       <?php echo CURRENCY_INR.' '.Util::numberFormat($remittanceTotal); ?>
+  </div>
+    <?php
+    }
+    ?>  
+  <div class="column">
+      <div class="column-heading">My balance</div>
+    <?php echo CURRENCY_INR.' '.Util::numberFormat($agentBal);?> 
+  </div>
+  
+</div>
+<?php if($this->agentStats['agentVirtualBal'] != FLAG_NO){ ?>
+    <div style ="clear:both;"></div>
+    <div class="grid3col"> 
+        <div class="column first">
+            <div class="column-heading">My virtual balance</div>
+            <?php echo CURRENCY_INR.' '.Util::numberFormat($this->agentStats['agentVirtualBal']);?> 
+        </div>
+    </div>
+<?php } ?>

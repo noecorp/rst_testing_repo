@@ -1,0 +1,191 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+   $dataArr = "[['Date', 'Amount'],";
+   $dataArr .= $this->agentStats['agent_remittance'];
+   $dataArr .= "]";
+    
+   $datargnArr = "[['Date', 'No. of Remitters'],";
+   $datargnArr .= $this->agentStats['agent_remittersrgn'];
+   $datargnArr .= "]";
+   
+   $datacommArr = "[['Date', 'Commission Amount'],";
+   $datacommArr .= $this->agentStats['agent_commission'];
+   $datacommArr .= "]";
+  
+    $totalAgentCommission = isset($this->agentStats['total_agent_commission'])?$this->agentStats['total_agent_commission']:0;
+    $agentBal = isset($this->agentStats['agentBal'])?$this->agentStats['agentBal']:0;
+    $agentEarnings = isset($this->agentStats['total_agent_commission'])?$this->agentStats['total_agent_commission']:0;
+    $totalCHRegistered = isset($this->agentStats['chLoadCount']['total_ch_registered'])?$this->agentStats['chLoadCount']['total_ch_registered']:0;
+    $totalLoadedAmount = isset($this->agentStats['chLoadCount']['total_loaded_amount'])?$this->agentStats['chLoadCount']['total_loaded_amount']:0;
+    $totalCHReloaded = isset($this->agentStats['chReloadCount']['total_ch_reloaded'])?$this->agentStats['chReloadCount']['total_ch_reloaded']:0;
+    $totalReloadedAmount = isset($this->agentStats['chloadReloadamt'])?$this->agentStats['chloadReloadamt']:0;
+    $remitterCount = isset($this->agentStats['remitter_count'])?$this->agentStats['remitter_count']:0;
+    $remittanceTotal = isset($this->agentStats['remittance_total'])?$this->agentStats['remittance_total']:0;
+    $remittanceCount = isset($this->agentStats['remittance_count'])?$this->agentStats['remittance_count']:0;
+    $todayCommission = isset($this->agentStats['today_commission'])?$this->agentStats['today_commission']:0;
+    $motivationMsg = isset($this->agentStats['agent_msg'])?$this->agentStats['agent_msg']:'N.A.';
+    $highestEarningAgent = isset($this->agentStats['highest_earning_agent'])?$this->agentStats['highest_earning_agent']:'NA';
+    $todayRemittanceTotal = isset($this->agentStats['today_remittance_total'])?$this->agentStats['today_remittance_total']:0;
+    $todayRemittanceCount = isset($this->agentStats['today_remittance_count'])?$this->agentStats['today_remittance_count']:0;
+    $monthRemittanceTotal = isset($this->agentStats['month_remittance_total'])?$this->agentStats['month_remittance_total']:0;
+   
+    ?>
+
+
+<!--First Row-->
+<div class="today_date"><?php echo Util::getFormattedDate('F d, Y');?></div>
+<div style ="clear:both;"></div>
+<div class="grid-heading">General Updates</div>
+<!-- <div class="grid3col_chart">
+  <div class="column_chart_comm first">
+    Div that will hold the column chart for commission amount
+    <div id="chart_div_commission"></div>  
+  </div>
+   
+  
+</div>-->
+<?php
+  $prodRemitRatnakar = App_DI_Definition_BankProduct::getInstance(BANK_RATNAKAR_REMIT);
+  $prodRemitRatnakarUnicode = $prodRemitRatnakar->product->unicode;
+          
+$remitUnicodes = Util::productUnicodesArray(PROGRAM_TYPE_REMIT);
+$allowRemit = FALSE;
+$allowRatRemit = FALSE;
+foreach($this->agentProductUnicode as $val){
+    if(in_array($val, $remitUnicodes)) {
+        $allowRemit = TRUE;
+        break;
+    }
+}
+ if(in_array($prodRemitRatnakarUnicode, $this->agentProductUnicode)) {
+        $allowRatRemit = TRUE;
+        }
+?>
+<div class="grid3col">
+    <?php
+    if($allowRatRemit){
+    ?>
+     <div class="column first">
+       <div class="column-heading">Transaction volume<br>(for the day)</div>
+       <?php echo CURRENCY_INR.' '.Util::numberFormat($todayRemittanceTotal); ?>
+    </div>
+  <div class="column">
+       <div class="column-heading">Transaction volume<br>(for the month)</div>
+       <?php echo CURRENCY_INR.' '.Util::numberFormat($monthRemittanceTotal); ?>
+  </div>
+    <?php
+    }else{
+    ?>
+  <div class="column first">
+       <div class="column-heading">My Earnings<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($agentEarnings); ?>
+      
+  </div>
+  <div class="column">
+      <div class="column-heading">Earnings for the day!</div>
+    <?php  echo CURRENCY_INR.' '.Util::numberFormat($todayCommission);?>
+<!--      <div class="column-heading">Highest earning agent<br>(for the current month)</div>
+     <?php echo $highestEarningAgent;?> -->
+  </div>
+    <?php
+    }
+    ?>
+  <div class="column last">
+      <div class="column-heading">My balance</div>
+  <?php echo CURRENCY_INR.' '.Util::numberFormat($agentBal);?>
+      
+  </div>
+</div>
+<?php if($this->agentStats['agentVirtualBal'] != FLAG_NO){ ?>
+    <div style ="clear:both;"></div>
+    <div class="grid3col"> 
+        <div class="column first">
+            <div class="column-heading">My virtual balance</div>
+            <?php echo CURRENCY_INR.' '.Util::numberFormat($this->agentStats['agentVirtualBal']);?> 
+        </div>
+    </div>
+<?php } ?>
+<!--<div class="grid3col">
+  <div class="column first">
+      <div class="column-heading">My balance<br>(for the current month)</div>
+  <?php echo CURRENCY_INR.' '.Util::numberFormat($agentBal);?>
+  </div>
+  <div class="column">
+      <div class="column-heading">My Earnings<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($agentEarnings); ?>
+      <div class="column-heading">My performance<br>(for the current month)</div>
+    <?php echo $motivationMsg;?>
+  </div>
+ 
+</div>-->
+<div style ="clear:both;"></div>
+<!--Second Row-->
+<!-- <div class="grid-heading">MVC Updates</div>
+<div class="grid3col">
+  <div class="column first">
+      <div class="column-heading">My balance<br>(for the current month)</div>
+  <?php echo CURRENCY_INR.' '.Util::numberFormat($agentBal);?>
+  </div>
+  <div class="column">
+      <div class="column-heading">My Earnings<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($agentEarnings); ?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">New enrollments<br>(for the current month)</div>
+     <?php echo $totalCHRegistered;?>
+  </div>
+</div>
+ <div class="grid3col">
+  <div class="column first">
+      <div class="column-heading">Load amount<br>(for the current month)</div>
+  <?php echo CURRENCY_INR.' '.Util::numberFormat($totalLoadedAmount);?>
+  </div>
+  <div class="column">
+      <div class="column-heading">No. of reloads<br>(for the current month)</div>
+     <?php echo $totalCHReloaded;?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">Total reload amount<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($totalReloadedAmount);?>
+  </div>
+</div>
+<div style ="clear:both;"></div>-->
+<?php 
+
+if($allowRemit && !$allowRatRemit) { ?>
+<!--Third Row-->
+ <div class="grid-heading-remit">Remittance Updates</div>
+<!-- <div class="grid3col_chart">
+  <div class="column_chart first">
+    Div that will hold the column chart for remittance amount
+    <div id="chart_div_remittance"></div>  
+  </div>
+     <div class="column_chart">
+     <div id="chart_div_remitterrgn"></div>  
+  </div>
+  
+</div>-->
+ <div style ="clear:both;">
+<div class="grid3col">
+  <div class="column first">
+      <div class="column-heading">Total Remitters registered for the month</div>
+   <?php echo $remitterCount;?>
+  </div>
+  <div class="column">
+      <div class="column-heading">Total Remittance done for the month (Count)</div>
+      <?php echo $remittanceCount;?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">Total Remittance done for the month (Amount)</div>
+      <?php  echo CURRENCY_INR.' '.Util::numberFormat($remittanceTotal);?>
+  </div>
+</div>
+<?php } 

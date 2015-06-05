@@ -1,0 +1,90 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.cancel').attr('href',document.referrer);
+    $('#name').val($('#pname').val());
+  
+    
+     $('form').submit(function(){
+      
+       var valyr = $("#cnt_out_max_txn_yearly").val();       
+       var valmnth = $("#cnt_out_max_txn_monthly").val();
+       var valdly = $("#cnt_out_max_txn_daily").val();      
+       var dly = $("#limit_out_max_daily").val();
+       var month = $("#limit_out_max_monthly").val();
+       var yrl = $("#limit_out_max_yearly").val();
+       var min = $("#limit_out_min_txn").val();
+       var max = $("#limit_out_max_txn").val();
+       
+       
+       
+         if ((valmnth.length != 0) && (valdly.length != 0) && (parseInt(valdly) > parseInt(valmnth))){
+            alert('No. of daily Transactions cannot be more than no. of monthly Transactions.'); 
+               return false;
+        }
+        
+         else if ((valyr.length != 0) && (valdly.length != 0) && (parseInt(valdly) > parseInt(valyr))){
+            alert('No. of daily Transactions cannot be more than no. of yearly Transactions.'); 
+               return false;
+        }
+       
+        else if ((valyr.length  != 0)  && (parseInt(valmnth) > parseInt(valyr))  ){
+               alert('No. of monthly Transactions cannot be more than no. of yearly Transactions.');
+                   return false;
+        }
+       else if  (  (month.length != 0) && (parseInt(month) < parseInt(dly)) ){
+                alert('Limit of daily Transactions cannot be more than limit of monthly Transactions.');
+                    return false;
+        }
+        else if  (  (yrl.length != 0) && (parseInt(yrl) < parseInt(dly)) ){
+                alert('Limit of daily Transactions cannot be more than limit of yearly Transactions.');
+                    return false;
+        }
+        else if ( (yrl.length  != 0) && (parseInt(yrl) < parseInt(month))  ){
+              alert('Limit of monthly Transactions cannot be more than limit of yearly Transactions.');
+                  return false;
+        }
+       else if ( (max.length !=0) && (min.length !=0) && (parseInt(min) > parseInt(max))  ){
+              
+               alert('Min Transactions limit cannot be more than Max Transactions limit.');
+                   return false;
+        }
+       
+            return true;
+         
+});
+     var options = document.getElementById('currency').options;
+    
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+    
+  options[i].disabled = true;
+}  
+  var cid = $("#currency").val();
+ 
+ $("#currency option[value='"+cid+"']").removeAttr('disabled');
+ 
+
+     
+       
+     
+});      
+  </script>
+<?php
+/**
+ * Add a new privilege in the application
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Add new Product Limit table: '.$this->name.' ('.$this->product_code.')';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

@@ -1,0 +1,41 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+    
+    $applicationApprovedCount = isset($this->stats['applicationApprovedCount'])?$this->stats['applicationApprovedCount']:0;
+    $physicalAppAcceptedCount = isset($this->stats['physicalAppAcceptedCount'])?$this->stats['physicalAppAcceptedCount']:0;
+    $applicationPendingCount = isset($this->stats['applicationPendingCount'])?$this->stats['applicationPendingCount']:0;
+    $pendingPhysical = isset($this->stats['pendingPhysical'])?$this->stats['pendingPhysical']:0;
+    
+?>
+
+
+<table>
+    <tr><td colspan = "2" style="text-align:right;"><?php echo Util::getFormattedDate('F d, Y');?></td></tr>
+    <tr>
+        <th>Application approved<br>(for the current month)</th> <th>Physical application accepted<br>(for the current month)</th>
+    </tr>
+
+        
+        <tr>
+            <td><?php echo $applicationApprovedCount;?></td>
+       
+            <td><?php echo $physicalAppAcceptedCount;?></td>
+       </tr>
+    <tr>
+       <th>Application pending for approval</th><th>Pending Physical application</th>
+    </tr><tr>
+       <td>   <?php echo $applicationPendingCount; ?></td>
+        
+        <td><?php echo $pendingPhysical; ?></td>
+    </tr>
+</table>
+
+<div style ="clear:both;"></div>

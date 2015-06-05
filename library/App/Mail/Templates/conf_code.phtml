@@ -1,0 +1,38 @@
+<?php
+$name = 'User';
+if(CURRENT_MODULE == 'operation') {
+    if(isset($this->firstname)) {
+        $name = ucfirst($this->firstname) . ' ' . ucfirst($this->lastname);
+    }
+} else {
+    if(isset($this->first_name)) {
+        $name = ucfirst($this->first_name) . ' ' . ucfirst($this->middle_name) . ' '. ucfirst($this->last_name);
+    }
+}
+?>
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+<p>Dear <?php echo $name; ?>,</p>
+
+<p>As per your request, Confirmation Code for Username : <?php if(CURRENT_MODULE == 'operation') {echo $this->username;} else {echo $this->email;} ?> has been generated and the same is : <?php echo $this->conf_code ?>.</p>
+
+<p>User IP: <?php echo $this->user_ip; ?></p>
+
+<p>Please use this code to proceed creating new password for for you account.</p>
+
+<p>Please Note:</p>
+
+<p>Confirmation Code's validity is one time for your current session. </p>
+
+
+<p>IMPORTANT: Please do not reply to this message or email address.</p>
+
+<p>DISCLAIMER: This communication (including the attachment(s) if any) is privileged and confidential and is directed to and intended for use by the intended addressee only. Access and use of this e-mail in any manner by anyone other than the intended addressee is unauthorized. If you are not the intended addressee, you must not use this message, notify the sender immediately and delete the message from your system (or any copies thereof).The recipient acknowledges that TranServ may be unable to exercise control or ensure or guarantee the integrity of the text of the email message or the attachment and the text and the attachment is not warranted as to completeness and accuracy. Before opening and accessing the attachment, if any, please check and scan for virus.</p>
+
+<p>TERMS AND CONDITIONS: Internet transmission lines are not always encrypted and emails are not always a secure means of transmission. The account holder acknowledges and accepts that internet transmission methods involve security risks including possible risks such as third party interception, unauthorized alteration of data and unauthorized usage. The account holder specifically agrees to exempt TranServ (including, without limitation, its affiliates and its/their directors, employees and agents) from, any and all responsibility/liability arising from such misuse and further agrees to hold TranServ (including, without limitation, its affiliates and its/their directors, employees and agents) free and harmless from all losses, costs, damages, expenses that may be suffered by the account holder due to any errors and delays.</p>
+

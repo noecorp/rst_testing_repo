@@ -1,0 +1,95 @@
+<?php
+/**
+ * Displays an user
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_groups
+ * @copyright company
+ */
+$config = array();
+$config['pageTitle'] = sprintf('Detailed view for: %s', $this->item['name']);
+
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Name',
+    'Description',
+    'Max Balance',
+    'Allow Remittance',
+    'Allow MVC',
+    'Load Validity Day',
+    'Load Validity Hour',
+    'Load Validity Min',
+    'Load Min',
+    'Load Max',
+    'Load Max Count Daily',
+    'Load Max Value Daily',
+    'Load Max Count Monthly',
+    'Load Max ValueMonthly',
+    'Load Max Count Yearly',
+    'Load Max Value Yearly',
+    'Txn Restriction Type',
+    'Txn Upload List',
+    'Txn Min',
+    'Txn Max',
+    'Txn Max Count Daily',
+    'Txn Max Value Daily',
+    'Txn Max Count Monthly',
+    'Txn Max Value Monthly',
+    'Txn Max Count Yearly',
+    'Txn Max Value Yearly',
+    'Start Date'
+    
+);
+$config['columnIndexes'] = array(
+    'name',
+    'description',
+    'max_balance',
+    'allow_remit',
+    'allow_mvc',
+    'load_validity_day',
+    'load_validity_hr',
+    'load_validity_min',
+    'load_min',
+    'load_max',
+    'load_max_cnt_daily',
+    'load_max_val_daily',
+    'load_max_cnt_monthly',
+    'load_max_val_monthly',
+    'load_max_cnt_yearly',
+    'load_max_val_yearly',
+    'txn_restriction_type',
+    'txn_upload_list',
+    'txn_min',
+    'txn_max',
+    'txn_max_cnt_daily',
+    'txn_max_val_daily',
+    'txn_max_cnt_monthly',
+    'txn_max_val_monthly',
+    'txn_max_cnt_yearly',
+    'txn_max_val_yearly',
+    'datetime_start'
+    
+);
+
+$config['backlink'] = $this->backlink;
+
+
+    // render the default listing
+    echo $this->partial(
+            'partials/default-view.phtml', array(
+        'config' => $config,
+        'item' => $this->item,
+            )
+    );
+$helper = $this->listingUtilities(array());
+    
+    if(($this->item->txn_restriction_type == 'mcc')  && $helper->can('viewbindmcc')) {
+?>
+
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL('/wallets/viewbindmcc?id='.$this->item->id); ?>">View Allowed MCCs</a></div>
+    <?php } ?>
+<div class="back" style="margin-left:30px;margin-top:15px"><a class="alt" href="<?php echo $this->formatURL($this->backlink); ?>">← Back</a></div>
+
+

@@ -1,0 +1,87 @@
+<script type="text/javascript" charset="utf-8"> 
+   $(document).ready(function() {
+         
+       $('form').submit(function(){
+       if (parseInt($("#load_validity_hr").val()) > 23)
+           {
+                alert('Load Validity Hour should be less than 24'); 
+               return false;
+        }        
+        else if (parseInt($("#load_validity_min").val()) > 59)
+           {
+                alert('Load Validity minutes should be less than 60'); 
+               return false;
+        }     
+           
+       var load_min = parseInt($("#load_min").val());
+       var load_max = parseInt($("#load_max").val());
+       
+       var load_daily = parseInt($("#load_max_val_daily").val());
+       var load_monthly = parseInt($("#load_max_val_monthly").val());
+       var load_yearly = parseInt($("#load_max_val_yearly").val());
+       
+       var txn_min = parseInt($("#txn_min").val());
+       var txn_max = parseInt($("#txn_max").val());
+       
+       var txn_daily = parseInt($("#txn_max_val_daily").val());
+       var txn_monthly = parseInt($("#txn_max_val_monthly").val());
+       var txn_yearly = parseInt($("#txn_max_val_yearly").val());
+      
+       
+       if ((load_min > 0) && (load_max > 0) && (load_min > load_max )){
+               alert('Maximum Load amount cannot be less that minimum load amount.'); 
+               return false;
+        }        
+        else if ((load_monthly > 0) && (load_daily > 0) && (load_daily > load_monthly )){
+               alert('Load amount of daily Transactions cannot be more than amount of monthly Transactions.'); 
+               return false;
+        }
+        else if ((load_yearly > 0) && (load_daily > 0) && (load_daily > load_yearly )){
+               alert('Load amount of daily Transactions cannot be more than amount of yearly Transactions.'); 
+               return false;
+        }
+        else if ((load_yearly > 0) && (load_monthly > 0)  && (load_monthly > load_yearly)  ){
+               alert('Load amount of monthly Transactions cannot be more than amount of yearly Transactions.');
+                   return false;
+        }
+        else if ((txn_min > 0) && (txn_max > 0) && (txn_min > txn_max)){
+               alert('Maximum Txn amount cannot be less that minimum Txn amount.'); 
+               return false;
+        }  
+        else if ((txn_monthly > 0) && (txn_daily > 0) && (txn_daily > txn_monthly)){
+               alert('Txn amount of daily Transactions cannot be more than amount of monthly Transactions.'); 
+               return false;
+        }
+         else if ((txn_yearly > 0) && (txn_daily > 0) && (txn_daily > txn_yearly)){
+               alert('Txn amount of daily Transactions cannot be more than amount of yearly Transactions.'); 
+               return false;
+        }
+        else if ((txn_yearly > 0)  && (txn_monthly > 0)  &&  (txn_monthly > txn_yearly)  ){
+               alert('Txn amount of monthly Transactions cannot be more than amount of yearly Transactions.');
+                   return false;
+        }
+            return true;
+});
+       
+}); 
+
+</script><?php
+/**
+ * Edit a privilege
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+$config['pageTitle'] = 'Edit Customer Limit: '.$this->item->name.' ('.$this->item->code.')';
+
+echo $this->partial(
+    'partials/default-add-edit.phtml',
+    array(
+        'form' => $this->form,
+        'config' => $config
+    )
+);

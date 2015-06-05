@@ -1,0 +1,145 @@
+<?php
+/**
+ * Displays the user's dashboard
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage backoffice_views_profile
+ * @copyright company
+ */
+//echo "<div class='Boldtext'>".$this->msg."</div>
+//    <div style='height:250px;'>&nbsp;</div>";
+
+//    $approvedAgentsCount = isset($this->agentStats['approvedAgentsCount'])?$this->agentStats['approvedAgentsCount']:0;
+//    $pendingAgentsCount = isset($this->agentStats['pendingAgentsCount'])?$this->agentStats['pendingAgentsCount']:0;
+//    $agentFundApproved = isset($this->agentStats['agentFundApproved'])?$this->agentStats['agentFundApproved']:0;
+//    $agentPendingFund = isset($this->agentStats['agentPendingFund'])?$this->agentStats['agentPendingFund']:0;
+//    $chCount = isset($this->agentStats['chCount'])?$this->agentStats['chCount']:0;
+//    $agentLoadReload = isset($this->agentStats['agentLoadReload'])?$this->agentStats['agentLoadReload']:0;
+    
+    $totalRemitterCount = isset($this->stats['totalRemitterCount'])?$this->stats['totalRemitterCount']:0;
+    $totalSuccessRemittance = isset($this->stats['totalSuccessRemittance'])?$this->stats['totalSuccessRemittance']:0;
+    $totalSuccessRemittanceCount = isset($this->stats['totalSuccessRemittanceCount'])?$this->stats['totalSuccessRemittanceCount']:0;
+    $totalFailureRemittance = isset($this->stats['totalFailureRemittance'])?$this->stats['totalFailureRemittance']:0;
+    $totalFailureRemittanceCount = isset($this->stats['totalFailureRemittanceCount'])?$this->stats['totalFailureRemittanceCount']:0;
+    $totalPendingRemittance = isset($this->stats['totalPendingRemittance'])?$this->stats['totalPendingRemittance']:0;
+    $totalPendingRemittanceCount = isset($this->stats['totalPendingRemittanceCount'])?$this->stats['totalPendingRemittanceCount']:0;
+    $totalBatchFilesCount = isset($this->stats['totalBatchFilesCount'])?$this->stats['totalBatchFilesCount']:0;
+    $totalUnprocessedBatchCount = isset($this->stats['totalUnprocessedBatchCount'])?$this->stats['totalUnprocessedBatchCount']:0;
+    $totalApprovedAgentsCount = isset($this->stats['totalApprovedAgentsCount'])?$this->stats['totalApprovedAgentsCount']:0;
+    $totalPendingAgentsCount = isset($this->stats['totalPendingAgentsCount'])?$this->stats['totalPendingAgentsCount']:0;
+    $totalAgentApprovedFund = isset($this->stats['totalAgentApprovedFund'])?$this->stats['totalAgentApprovedFund']:0;
+    $totalAgentPendingFund = isset($this->stats['totalAgentPendingFund'])?$this->stats['totalAgentPendingFund']:0;
+    $totalAgentLoadReload = isset($this->stats['totalAgentLoadReload'])?$this->stats['totalAgentLoadReload']:0;
+    $totalCardholdersRegistered = isset($this->stats['totalCardholdersRegistered'])?$this->stats['totalCardholdersRegistered']:0;
+    $highestEarningAgent = isset($this->stats['highestEarningAgent'])?$this->stats['highestEarningAgent']:0;
+    
+            
+?>
+<!--<div class="reportbox" > <img src="<?php //echo $this->baseUrl();?>/images/ops_dashboard.png" alt="Operations Dashboard" width="930px;"> </div>-->
+<!--First Row-->
+<div class="today_date"><?php echo Util::getFormattedDate('F d, Y');?></div>
+<div style ="clear:both;"></div>
+<div class="grid-heading">General Updates</div>
+<div class="grid3col">
+   <div class="column first">
+   <div class="column-heading">No. of approved agents<br>(for the current month)</div>
+  <?php echo $totalApprovedAgentsCount;?>
+  </div>  
+    
+  <div class="column">
+   <div class="column-heading">No. of pending agents<br>(for the current month)</div>
+  <?php echo $totalPendingAgentsCount;?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">Total authorized funds <br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($totalAgentApprovedFund); ?>
+  </div>
+  
+  
+  
+</div>
+<div class="grid3col">
+      
+    <div class="column first">
+    <div class="column-heading">Total unauthorized funds<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($totalAgentPendingFund); ?>
+    
+  </div>
+  <div class="column">
+      <div class="column-heading">Highest earning agent<br>(for the current month)</div>
+     <?php echo $highestEarningAgent;?> 
+  </div>
+  
+  
+</div>
+<div style ="clear:both;"></div>
+<!--Third Row-->
+
+ <div class="grid-heading">Remittance Updates</div>
+<div class="grid3col">
+  <div class="column first">
+   <div class="column-heading">Remitters registered<br>(for the current month)</div>
+   <?php echo $totalRemitterCount;?>
+  </div>
+  <div class="column">
+      <div class="column-heading">No. of successful remittance<br>(for the current month)</div>
+      <?php echo $totalSuccessRemittanceCount;?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">Total amount of successful remittance<br>(for the current month)</div>
+      <?php  echo CURRENCY_INR.' '.Util::numberFormat($totalSuccessRemittance);?>
+  </div>
+</div>
+ 
+ <div class="grid3col">
+  <div class="column first">
+   <div class="column-heading">No. of failed remittance<br>(for the current month)</div>
+   <?php echo $totalFailureRemittanceCount;?>
+  </div>
+  <div class="column">
+      <div class="column-heading">Total amount of failed remittance <br>(for the current month)</div>
+      <?php  echo CURRENCY_INR.' '.Util::numberFormat($totalFailureRemittance);?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">No. of pending remittance<br>(for the current month)</div>
+      <?php  echo $totalPendingRemittanceCount;?>
+  </div>
+</div>
+  <div class="grid3col">
+  <div class="column first">
+   <div class="column-heading">Total amount of pending remittance<br>(for the current month)</div>
+   <?php  echo CURRENCY_INR.' '.Util::numberFormat($totalPendingRemittance);?>
+  </div>
+  <div class="column">
+      <div class="column-heading">No. of NEFT batch files <br>(for the day)</div>
+      <?php  echo $totalBatchFilesCount;?>
+  </div>
+  <div class="column last">
+      <div class="column-heading">No. of unprocessed NEFT batch files</div>
+      <?php  echo $totalUnprocessedBatchCount;?>
+  </div>   
+</div>
+<div style ="clear:both;"></div>
+<!--Second Row-->
+
+
+<div class="grid-heading">MVC Updates</div>
+
+ <div class="grid3col">
+  <div class="column first">
+      <div class="column-heading">New enrollments<br>(for the current month)</div>
+     <?php echo $totalCardholdersRegistered;?>
+  </div>
+  <div class="column">
+      <div class="column-heading">Total of load/reloads<br>(for the current month)</div>
+     <?php echo CURRENCY_INR.' '.Util::numberFormat($totalAgentLoadReload) ;?>
+  </div>
+  
+</div>
+
+<!-- added for demo only -->
+<!-- div class="reportbox" >
+<img src="<?php echo $this->baseUrl();?>/images/ops_dashboard.png" alt="Operations Dashboard" width="930px;">
+</div -->

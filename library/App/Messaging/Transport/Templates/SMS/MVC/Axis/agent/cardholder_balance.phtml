@@ -1,0 +1,5 @@
+<?php if($this->ecsStatus ==  FLAG_FAILURE) { ?>
+Dear Customer, We regret to inform you that your <?php echo $this->product_name;?> application could not be processed at this moment.
+<?php } else if ($this->ecsStatus ==  FLAG_SUCCESS){ ?>
+Congratulations your <?php echo $this->product_name;?> is now active.  You can reach us at <?php echo $this->call_centre_number;?> or <?php echo $this->customer_support_email;?>
+<?php } ?>

@@ -1,0 +1,113 @@
+<?php
+/**
+ * View that defines the default listing UI 
+ *
+ *
+ * @category backoffice
+ * @package backoffice_views
+ * @subpackage partials
+ * @copyright company
+ */
+$helper = $this->listingUtilities($this->config);
+$addURL = isset($this->config['addURL']) ? $this->config['addURL'] : '' ;
+$addbutton = isset($this->config['no_add']) ? $this->config['no_add'] : '' ;
+$noteText = isset($this->config['noteText']) ? $this->config['noteText'] : '' ;
+?>
+
+<div class="Boldtext"><?php echo $helper->pageTitle();;?></div>
+
+
+<form class="plain" action="" method="post" enctype="multipart/form-data"> 
+<div class="tablebox">
+    <div style="width:950px; margin:auto; overflow-x: auto; overflow-y: hidden;">
+    <table width="950" cellspacing='0'> 
+            <thead><!-- universal table heading --> 
+                <tr>
+                    <?php /********** display the column names **********/ ?>
+                    <?php foreach($helper->getColumnNames() as $columnName) : ?>
+                        <th><span><?php echo $columnName;?></span></th>
+                    <?php endforeach;?>
+                    <?php /********** finished displaying the column names **********/ ?>
+                    <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                        <th class="last tc"><span><?php echo 'Actions';?></span></th>
+                    <?php endif; ?>
+                </tr> 
+            </thead>
+            <tbody>
+
+            <?php /********** do we have items? **********/ ?>
+            <?php if (count($this->paginator)) : ?>
+                <?php /********** we do! start displaying the items **********/ ?>
+                <?php foreach($this->paginator as $item) : ?>
+                    <?php $helper->data = $item; 
+                           $addr_append = $item->address_line1;
+                           if($item->address_line2!='')
+                               $addr_append .= ", ".$item->address_line2;
+                           if($item->city!='')
+                               $addr_append .= ", ".$item->city;
+                           if($item->district!='')
+                               $addr_append .= ", ".$item->district;
+                           if($item->state!='')
+                               $addr_append .= ", ".$item->state;
+
+                           $item->address_line1 = $addr_append; 
+
+                    ?>
+                    <tr>
+                        <!--<td class="tc">
+                            <input type="checkbox" name="checkall" value="true" />
+                        </td>--> 
+                        <?php /********** displaying the inner columns **********/ ?>
+                        <?php 
+                        //echo "<pre>";print_r($helper->getColumnIndexes());exit;
+                        ?>
+                        <?php foreach($helper->getColumnIndexes() as $index): /* start displaying columns */?>
+                            <td>
+                                <?php 
+
+                                    $helper->displayItem($item, $index);
+
+                                ?>
+                            </td>
+                        <?php endforeach;?>
+                        <?php /********** finished displaying the inner columns **********/ ?>
+                        <?php if(!isset($this->config['showActions']) || (isset($this->config['showActions']) && $this->config['showActions'])) : ?>
+                            <td class="tc">
+                                <?php echo $helper->links($item);
+
+                                ?>
+                            </td> 
+                        <?php endif; ?>
+                    </tr>    
+                <?php endforeach;?>
+                <?php /********** finished displaying the items **********/ ?>
+            <?php else:?>
+                <?php /********** we don't have any items **********/ ?>
+                <tr>
+                    <td colspan="<?php $helper->columnCount();?>" >
+                        <?php $helper->emptyMessage();?>
+                    </td>
+                </tr>
+            <?php endif;?>
+            <?php /********** finished do we have items? **********/ ?>
+            </tbody> 
+        </table>
+    </div>
+</div>
+</form>
+<div class="pagination">
+    <?php if($this->paginator Instanceof Zend_Paginator && $this->paginator->count() > 1) : ?>
+        <?php echo $this->paginator; ?>
+    <?php endif; ?>
+</div>
+
+<?php if(count($this->paginator)>0){?>
+<div class="show-xls"> 
+       
+         <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+       
+</div>
+<?php } ?>
+
+
+<div><?php echo $noteText;?></div>

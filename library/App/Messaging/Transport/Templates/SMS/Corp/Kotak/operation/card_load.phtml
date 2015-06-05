@@ -1,0 +1,5 @@
+<?php if($this->balance != FALSE)  { ?>
+Your <?php echo $this->product_name;?> ending <?php echo $this->last_four;?> has been credited with <?php echo CURRENCY_RUPEES.' '.$this->amount?> on <?php echo $this->date_time;?>. Available balance is <?php echo CURRENCY_RUPEES.' '.$this->balance?>.
+<?php } else { ?>
+Your <?php echo $this->product_name;?> ending <?php echo $this->last_four;?> has been credited with <?php echo CURRENCY_RUPEES.' '.$this->amount?> on <?php echo $this->date_time;?>.
+<?php } ?>

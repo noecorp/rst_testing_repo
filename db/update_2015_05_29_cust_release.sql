@@ -1,0 +1,1 @@
+ALTER TABLE `t_txn_agent`  ADD `load_request_id` INT(11) UNSIGNED NULL DEFAULT NULL AFTER `agent_funding_id`;

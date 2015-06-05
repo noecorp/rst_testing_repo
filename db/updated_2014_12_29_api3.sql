@@ -1,0 +1,1 @@
+ALTER TABLE `rat_corp_load_request_detail` ADD `debit_detail_id` INT UNSIGNED NULL DEFAULT NULL AFTER `txn_processing_id` ;

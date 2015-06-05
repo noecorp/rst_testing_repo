@@ -1,0 +1,43 @@
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+
+$config = array();
+
+// messages
+$config['pageTitle'] = 'Transaction Type listing';
+$config['addMessage'] = 'Add new Transaction Type'; 
+$config['emptyMessage'] = 'There is no Transaction Type at this time.';
+
+// column names & indexes
+$config['columnNames'] = array(
+    'Type Code',
+    'Name',
+    'Date Created',
+    'Is Commission'
+    
+);
+$config['columnIndexes'] = array(
+    'id',
+    'name',
+    'date_created',
+    'is_comm'
+    
+);
+$config['viewLinkColumn'] = 'name';
+$config['showActions'] = false;
+
+
+// render the default listing
+echo $this->partial(
+    'partials/default-listing.phtml',
+    array(
+        'config' => $config,
+        'paginator' => $this->paginator,
+    )
+);

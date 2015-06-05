@@ -1,0 +1,40 @@
+<STYLE type="text/css"> 
+
+p {
+font-family: verdana;
+font-size: 13px;
+}
+</STYLE>
+
+<p>Dear <?php echo ucfirst($this->name); ?>,</p>
+
+<p>You made fund request for Rs. <?php echo $this->amt; ?>. We thank you for continuing to partner with us on this endeavor.</p>
+
+<p>Having sufficient funds in your Shmart! Account enables smooth running for your business. 
+However, having too less funds in the Account may lead to break in services and frequent funding of the account. On the other hand, having too much fund will unnecessarily block your funds.</p>
+<p>Hence we have recommended the following.</p>
+
+<p>Minimum Funding Amount: Rs. <?php echo $this->min; ?> </p>
+<p>Maximum Funding Amount: Rs. <?php echo $this->max; ?>.</p>
+
+<p>Please feel free to reach us if you believe that these limits do not truly reflect your current business potential.</p>
+
+<p>Thank You.</p>
+
+<p>Shmart! Support Team</p>
+
+<p>Email ID: partner.support@shmart.co.in</p>
+
+
+<br><br>
+<p><u>IMPORTANT</u></p>
+
+<p><?php echo $this->impText; ?></p>
+
+<p><u>DISCLAIMER</u></p>
+
+<p><?php echo $this->disclaimerText; ?></p>
+
+<p><u>TERMS AND CONDITIONS</u></p>
+
+<p><?php echo $this->tcText; ?></p>

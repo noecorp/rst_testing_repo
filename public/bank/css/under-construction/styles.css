@@ -1,0 +1,30 @@
+body {
+	background: url("bg.jpg") no-repeat top rgb(184, 184, 184); font: bold 14px/20px Verdana, Arial, Helvetica, sans-serif; margin: 0px; padding: 0px; font-size-adjust: none; font-stretch: normal;
+}
+* {
+	border: currentColor;
+}
+#page {
+	margin: 20px auto; width: 800px;
+}
+.logo {
+	text-align: center; margin-top: 100px;
+}
+.contentbox {
+	background: rgb(238, 238, 238); margin: 20px; padding: 20px; border: 1px solid rgb(255, 255, 255); text-align: center; -moz-border-radius: 10px; -khtml-border-radius: 10px; -webkit-border-radius: 10px;
+}
+.para {
+	font: 18px/normal "Trebuchet MS", Verdana, Arial, "Times New Roman"; text-align: center; color: rgb(68, 68, 68); font-size-adjust: none; font-stretch: normal;
+}
+.info {
+	font: 14px/normal "Trebuchet MS", Verdana, Arial, "Times New Roman"; padding: 10px 0px; text-align: center; color: rgb(68, 68, 68); font-size-adjust: none; font-stretch: normal;
+}
+#countdown {
+	background: rgb(255, 255, 255); font: 32px/normal "Trebuchet MS", Verdana, Arial, "Times New Roman"; padding: 20px; border: 1px dashed rgb(204, 204, 204); font-size-adjust: none; font-stretch: normal; -moz-border-radius: 10px; -khtml-border-radius: 10px; -webkit-border-radius: 10px;
+}
+#subscribeform input[type=text] {
+	background: url("bg_box.gif") repeat-x rgb(255, 255, 255); padding: 10px; border: 1px solid rgb(191, 191, 191);
+}
+#subscribeform input[type=image] {
+	vertical-align: middle;
+}

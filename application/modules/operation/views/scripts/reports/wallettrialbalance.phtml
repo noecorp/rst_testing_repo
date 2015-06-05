@@ -1,0 +1,402 @@
+<div class="Boldtext">Wallet Trial Balance Report</div>
+<?php
+/**
+ * Displays all the user groups
+ *
+ * @package backoffice_views
+ * @subpackage backoffice_views_privileges
+ * @copyright company
+ */
+?>
+<div>
+    <?php echo $this->form; ?>
+</div>
+<div style="clear:both;"></div>
+<?php
+
+if ($this->on_date != '') {
+    $bankUnicodeArr = Util::bankUnicodesArray();
+    ?>
+    <div class="CSSTableGenerator" >
+        <table >
+            <tr>
+                <td colspan = '3'>VOUCHER PROCESS FOR THE DAY</td>
+                <td ><?php echo $this->on_date; ?></td>
+            </tr>
+            <tr>
+                <td><b> Particulars </b></td>
+                <td><b>Composition</b></td>
+                <td><b>DR / CR</b></td>
+                <td><b>Values in INR</b></td>
+            </tr>
+            <tr>
+                <td >Previous Day Balance</td>
+                <td>Opening Balance as on previous day</td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['opening_bal']; ?></td>
+            </tr>
+            <tr>
+                <td>Wallet load/ Reload/ API Credit</td>
+                <td>Cummulative amount for the day</td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['loads']; ?></td>
+            </tr>
+            <tr>
+                <td >Misc Wallet Credit</td>
+                <td>Manual Credit processed successfully for the day</td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td >Transaction Reversal Fee for as on date</td>
+                <td>Reversal Fee Break-up</td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td >Service Tax Reversal for as on date</td>
+                <td>Reversal Service Tax</td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Break Up</td>
+                <td></td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Wallet Load Credit (Shmart)</td>
+                <td>Total wallet credits excluding api credits</td>
+                <td>CR</td>
+                <td><?php echo '0'; ?></td>
+            </tr>
+            <tr>
+                <td>Remittance Refund Credit</td>
+                <td></td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['refund_loads']; ?></td>
+            </tr>
+    <!--                    <tr>
+                <td>Unsettled Release Credit</td>
+                <td></td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['reverted_loads']; ?></td>
+            </tr>-->
+            <tr>
+                <td>Intra Wallet Credit</td>
+                <td></td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['intrawallet_loads']; ?></td>
+            </tr>
+            <tr>
+                <td>Fee</td>
+                <td></td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Service Tax</td>
+                <td></td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td ><b>Total Transaction Credits</b></td>
+                <td></td>
+                <td></td>
+                <td><b><?php echo $this->reportdata['total_txn_cr']; ?></b></td>
+            </tr>
+            <tr>
+                <td >Transaction Fee</td>
+                <td>Fee Income</td>
+                <td>DR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td >Service Tax for as on date</td>
+                <td>Service Tax</td>
+                <td>DR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td >Misc Wallet Debit</td>
+                <td>Manual Debit processed successfully for the day</td>
+                <td>DR</td>
+                <td>0</td>
+            </tr>
+
+            <tr>
+                <td>Break Up</td>
+                <td></td>
+                <td>DR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>API Debit</td>
+                <td></td>
+                <td>DR</td>
+                <td>
+                    <?php echo $this->reportdata['debit_loads']; ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Wallet Debit (Shmart)</td>
+                <td>Total wallet debits excluding api debits</td>
+                <td>DR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Remittance Debit</td>
+                <td></td>
+                <td>DR</td>
+                <td><?php echo $this->reportdata['debit_remit_loads']; ?></td>
+            </tr>
+            <tr>
+                <td>Intra Wallet Debit</td>
+                <td></td>
+                <td>DR</td>
+                <td><?php echo $this->reportdata['intrawallet_loads']; ?></td>
+            </tr>
+            <tr>
+                <td>Fee Reversal</td>
+                <td></td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td >Wallet Auto Reversal</td>
+                <td>Cumulative reversal amount for the day</td>
+                <td>CR</td>
+                <td>0<!-- <?php //echo $this->reportdata['reversal']; ?> --></td>
+            </tr>
+            <tr>
+                <td>Service Tax Reversal</td>
+                <td></td>
+                <td>CR</td>
+                <td>0</td>
+            </tr>
+
+            <tr>
+                <td><b> Total Transaction Debits</b></td>
+                <td></td>
+                <td></td>
+                <td><b><?php echo $this->reportdata['total_txn_dr']; ?></b></td>
+            </tr>
+            <tr>
+                <td >Transaction Processing</td>
+                <td></td>
+                <td>DR</td>
+                <td><?php echo $this->reportdata['txn_dr']; ?></td>
+            </tr>
+            <tr>
+                <td >Transaction Reversal</td>
+                <td></td>
+                <td>CR</td>
+                <td><?php echo $this->reportdata['txn_cr']; ?></td>
+            </tr>
+            <tr>
+                <td ><b>Calculated Balance</b></td>
+                <td></td>
+                <td></td>
+                <td><b><?php echo $this->reportdata['calculated_balance']; ?></b></td>
+            </tr><tr>
+                <td ><b>Wallet Closing Balance</b></td>
+                <td>Actual Wallet balance for the day</td>
+                <td></td>
+                <td><b><?php echo $this->reportdata['wallet_balance']; ?></b></td>
+            </tr>
+            <tr>
+                <td ><b>Difference</b></td>
+                <td></td>
+                <td></td>
+                <td><b><?php echo $this->reportdata['difference']; ?></b></td>
+            </tr>
+
+        </table>
+    </div>
+
+
+
+
+
+    <div class="show-xls"> 
+
+        <input id="btn_exportcsv" src="/images/DOW-XLS.png" type="image" title="Export to CSV" name="btn_exportcsv">
+
+    </div>
+<?php } ?>
+
+
+<style>
+    .CSSTableGenerator {
+        margin:0px;padding:0px;
+        width:100%;
+        border:1px solid #000000;
+
+        -moz-border-radius-bottomleft:0px;
+        -webkit-border-bottom-left-radius:0px;
+        border-bottom-left-radius:0px;
+
+        -moz-border-radius-bottomright:0px;
+        -webkit-border-bottom-right-radius:0px;
+        border-bottom-right-radius:0px;
+
+        -moz-border-radius-topright:0px;
+        -webkit-border-top-right-radius:0px;
+        border-top-right-radius:0px;
+
+        -moz-border-radius-topleft:0px;
+        -webkit-border-top-left-radius:0px;
+        border-top-left-radius:0px;
+    }.CSSTableGenerator table{
+        border-collapse: collapse;
+        border-spacing: 0;
+        width:100%;
+        height:100%;
+        margin:0px;padding:0px;
+    }.CSSTableGenerator tr:last-child td:last-child {
+        -moz-border-radius-bottomright:0px;
+        -webkit-border-bottom-right-radius:0px;
+        border-bottom-right-radius:0px;
+    }
+    .CSSTableGenerator table tr:first-child td:first-child {
+        -moz-border-radius-topleft:0px;
+        -webkit-border-top-left-radius:0px;
+        border-top-left-radius:0px;
+    }
+    .CSSTableGenerator table tr:first-child {
+        background-color: grey;
+    }
+    .CSSTableGenerator table tr:first-child td:last-child {
+        -moz-border-radius-topright:0px;
+        -webkit-border-top-right-radius:0px;
+        border-top-right-radius:0px;
+    }.CSSTableGenerator tr:last-child td:first-child{
+        -moz-border-radius-bottomleft:0px;
+        -webkit-border-bottom-left-radius:0px;
+        border-bottom-left-radius:0px;
+    }.CSSTableGenerator tr:hover td{
+
+    }
+    .CSSTableGenerator tr:nth-child(odd){ background-color:#ffaa56; }
+    .CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+        vertical-align:middle;
+
+
+        border:1px solid #000000;
+        border-width:0px 1px 1px 0px;
+        text-align:left;
+        padding:14px;
+        font-size:10px;
+        font-family:Arial;
+        font-weight:normal;
+        color:#000000;
+    }.CSSTableGenerator tr:last-child td{
+        border-width:0px 1px 0px 0px;
+    }.CSSTableGenerator tr td:last-child{
+        border-width:0px 0px 1px 0px;
+    }.CSSTableGenerator tr:last-child td:last-child{
+        border-width:0px 0px 0px 0px;
+    }
+    .CSSTableGenerator tr:first-child td{
+        background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+        background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");	background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+        background-color:#ff7f00;
+        border:0px solid #000000;
+        text-align:center;
+        border-width:0px 0px 1px 1px;
+        font-size:14px;
+        font-family:Arial;
+        font-weight:bold;
+        color:#ffffff;
+    }
+    .CSSTableGenerator tr:first-child:hover td{
+        background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+        background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");	background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+        background-color:#ff7f00;
+    }
+    .CSSTableGenerator tr:first-child td:first-child{
+        border-width:0px 0px 1px 0px;
+    }
+    .CSSTableGenerator tr:first-child td:last-child{
+        border-width:0px 0px 1px 1px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#btn_exportcsv").click(function() {
+            var url = '<?php echo $this->formatURL("/reports/exportwallettrialbalance?on_date=" . $this->formData['on_date'] . '&product_id=' . $this->formData['product_id'] . '&bank_unicode=' . $this->formData['bank_unicode'].'&wallet_type=' . $this->formData['wallet_type']); ?>';
+            $(location).attr('href', url);
+
+        });
+        var product = $("#product").val();
+        if ($("#bank_unicode").val() != '') {
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/' + $("#bank_unicode").val() + '/p/1',
+                success: function(response) {
+                    if (response == 1) {
+                    } else {
+                        $("#product_id").html("");
+                        $("#product_id").append(response);
+                        $("#product_id option[value='" + product + "']").attr("selected", "selected");
+                        console.log(response);
+                    }
+                }
+            });
+        }
+
+        $("#bank_unicode").change(function() {
+            $.ajax({
+                url: '/ajax/get-bankproductscommon/q/' + $("#bank_unicode").val() + '/p/1',
+                success: function(response) {
+                    if (response == 1) {
+                    } else {
+                        $("#product_id").html("");
+                        $("#product_id").append(response);
+                        console.log(response);
+                    }
+                }
+            });
+        });
+        $('form').submit(function() {
+
+            if ($("#on_date").val() == '')
+            {
+                alert('Please enter valid  date');
+                $("#on_date").focus();
+                return false;
+            }
+            else
+            {
+                var date_start = $("#on_date").val();
+                var arr_dt = date_start.split("-");
+                var x = new Date();
+                x.setFullYear(arr_dt[2], arr_dt[1] - 1, arr_dt[0]);
+                var curdate = new Date();
+                if (x >= curdate)
+                {
+                    alert("Please enter date less than today's date");
+                    $("#on_date").val('');
+                    $("#on_date").focus();
+                    return false;
+                } else {
+
+                    if (!date_start.match(/^(0[1-9]|[12][0-9]|3[01])[\- \/.](?:(0[1-9]|1[012])[\- \/.](19|20)[0-9]{2})$/)) {
+                        alert('Please enter valid date');
+                        $("#on_date").val('');
+                        $("#on_date").focus();
+                        return false;
+                    }
+                }
+
+            }
+
+            return true;
+        });
+    });
+</script>

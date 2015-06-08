@@ -9,13 +9,15 @@
  */
 ?>
 <?php 
-if(!empty($this->showServiceAgreement)){
+if(!empty($this->showServiceAgreement) || !empty($this->showfromResendAuthCode)){
     $hideOtherDiv = 'display:block;';
 }else{
     $hideOtherDiv = (intval($this->bcecontract) == 0)? 'display:none;':'display:block;';
 }
 
-if (intval($this->bcecontract) == 0 && empty($this->showServiceAgreement)){ ?>
+$hightDiv = (intval($this->bcecontract) == 0)? 'float:left;height:190px;':'float:left;height:240px;';
+
+if (intval($this->bcecontract) == 0 && empty($this->showServiceAgreement) && empty($this->showfromResendAuthCode)){ ?>
     <style type="text/css">
         #cover{ 
             position:fixed;
@@ -893,7 +895,7 @@ if (intval($this->bcecontract) == 0 && empty($this->showServiceAgreement)){ ?>
                 <p><?php echo '<strong>Oops!</strong><br />Your Account is locked. Please contact the Agent Help Center.';?></p>
             </div>
         <?php endif;?>
-        <div class="agentbox">
+                <div class="agentbox" style="<?php echo $hightDiv;?>">
             <?php
             $user = Zend_Auth::getInstance()->getIdentity();
             
@@ -907,10 +909,15 @@ if (intval($this->bcecontract) == 0 && empty($this->showServiceAgreement)){ ?>
             <img src="<?php echo $imgUrl;?>" width ="100"/>
 
             </div>
+                
         <?php echo $this->form;?>
          <div class="div3">
+             <?php if(intval($this->bcecontract) == 0){?>
+                <div style="clear:both; height: 1px; line-height: 1px; font-size:0px;">&nbsp;</div>
+                <div style="font-size:13px; font-weight:bold; color:#fff; text-align: center;">Please enter the OTP in the below field as your acceptance to abide by the <br />Terms of the BC agreement</div>
+             <?php } ?>
              <div class="link2"><a href="<?php echo $this->formatURL('/profile/resend-authcode/');?>">Resend Authorization Code</a></div>
- 
+        
         </div>
 
     

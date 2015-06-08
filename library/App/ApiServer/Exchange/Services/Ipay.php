@@ -168,6 +168,16 @@ public function chkMobile($mobile) {
         return true; 
     }
     
+     ## Function for checking duplicate funding_no and ammount in TABLE_AGENT_FUNDING
+     public function chkDuplicateFundingNo($CheckArr){
+        $agentObj = new AgentUser();
+        $Count = $agentObj->checkDuplicateFundingNo($CheckArr);
+        if ($Count != 0) {
+            return false; 
+        }
+        return true; 
+    }
+    
     public function chkBnkTransID($iSureID) {
         if ($iSureID != '') {
             if (strlen($iSureID) < 1 || !(ctype_alnum($iSureID))) {
@@ -290,7 +300,10 @@ public function chkMobile($mobile) {
              }elseif(!$this->chkISureID($iSureID)) {
               $responseMsg = self::ERROR_INVALID_ISURE_ID_MSG;
               $response = FALSE;
-             } elseif(!$this->chkDuplicate(array('isure_id'=> $iSureID))) {
+             } elseif(!$this->chkDuplicate(array('isure_id'=> $iSureID,'amount'=> $amount))) {  // Added amount with the condition
+                $responseMsg = self::ERROR_DUPLICATE_ISURE_ID_MSG;
+                $response = FALSE;
+            }elseif(!$this->chkDuplicateFundingNo(array('funding_no'=> $iSureID,'amount'=> $amount))) {  // Function added for checking duplicate funding_no and Amount
                 $responseMsg = self::ERROR_DUPLICATE_ISURE_ID_MSG;
                 $response = FALSE;
             }/*elseif(!$this->chkDuplicate(array('Txn_Ref_No'=>(string) trim($resp->Txn_Ref_No)))) {
@@ -413,5 +426,4 @@ public function chkMobile($mobile) {
         App_Logger::log(serialize($arguments), Zend_Log::ERR);
         return self::Exception("System Error", self::$INVALID_METHOD);
     }
-
 }

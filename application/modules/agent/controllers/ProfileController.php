@@ -178,7 +178,7 @@ class ProfileController extends App_Agent_Controller
                 if($resend_verificationmsg)
                     $this->_redirect($this->formatURL('/profile/mobileverification/'));
                 else
-                    $this->_redirect($this->formatURL('/profile/authcode/'));
+                    $this->_redirect($this->formatURL('/profile/authcode/resendfrom/22'));
     }
     /**
      * Allows users to log into the application
@@ -474,6 +474,12 @@ class ProfileController extends App_Agent_Controller
 
         $showServiceAgreement =''; // flag added when auth id is wrong. do not show popup again
        
+        // Checking coming from resend auth code
+        if(!empty($this->_getParam('resendfrom')))
+        {
+           $this->_setParam('econtractaccepted',22); 
+        }
+        
         $form = new AuthcodeForm();
         if ($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getPost())){
@@ -568,11 +574,13 @@ class ProfileController extends App_Agent_Controller
                     if($changePasswordRequired){
                         $this->_redirect($this->formatURL('/profile/change-password/'));
                    } else{
-
+                         $a['econtractaccepted'] = (!empty($a['econtractaccepted']))? $a['econtractaccepted']:$this->_getParam('econtractaccepted');
                         #### checking, Agent has selected service aggreement or not 
                         if(isset($a['econtractaccepted']) && !empty($a['econtractaccepted'] && intval($a['econtractaccepted']) > 0))
                         {
-                             $userModel->updateAgentsBcEcontract($id['id']);
+                            if(intval($id['bcecontract']==0)){
+                                $userModel->updateAgentsBcEcontract($id['id']);
+                            }
                         }
 
                         $this->_redirect($this->formatURL('/profile/index/'));
@@ -590,6 +598,7 @@ class ProfileController extends App_Agent_Controller
         $this->view->form = $form;
         $this->view->bcecontract = $id['bcecontract'];  // checking whether Agent accepted service agreement or not. 
         $this->view->showServiceAgreement = $showServiceAgreement;  //flag for show popup or not
+        $this->view->showfromResendAuthCode = (!empty($this->_getParam('resendfrom'))) ? 1:'';
     }
     
     

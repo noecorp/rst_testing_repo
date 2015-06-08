@@ -854,4 +854,16 @@ class AgentFunding extends App_Model {
             return $e->getMessage();
         }
     } 
+    
+    ### Checking duplicate combination of IsureId and Amount
+    function checkIsureDuplicate($condition) {
+        $select = $this->_db->select()
+                ->from(DbTable::TABLE_AGENT_FUNDING_IPAY, array('id'))
+                ->where($condition);
+        $row = $this->_db->fetchRow($select);
+        if (!empty($row))
+            return TRUE;
+        else
+            return FALSE;
+    }
 }

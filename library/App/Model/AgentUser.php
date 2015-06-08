@@ -1687,6 +1687,17 @@ class AgentUser extends BaseUser
         }
         $num = $this->_db->fetchRow($select); 
         return $num['num'];        
+    }
+    
+    ## Function for checking duplicate funding_no and ammount in TABLE_AGENT_FUNDING
+    public function checkDuplicateFundingNo($param){
+        $select = $this->_db->select();
+        $select->from(DbTable::TABLE_AGENT_FUNDING,array('COUNT(id) AS num'));
+        foreach ($param as $key=>$val){
+            $select->where("$key=?", $val);   
+        }
+        $num = $this->_db->fetchRow($select); 
+        return $num['num'];        
     } 
     
 }

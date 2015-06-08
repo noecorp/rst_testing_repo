@@ -75,7 +75,6 @@ class AgentFundingController extends App_Agent_Controller {
             $validate = $validate && $form->isValid($formData);
             $form->populate($formData);
             if ($validate) {
-
                 if ($fund_transfer_cash_or_dd) {
                     $data['funding_no'] = $formData['other_txn'];
                     $data['funding_details'] = $formData['funding_details']; 
@@ -100,6 +99,32 @@ class AgentFundingController extends App_Agent_Controller {
                 $data['amount'] = $formData['amount'];
                 $data['fund_transfer_type_id'] = $formData['fund_transfer_type_id'];
                 $data['comments'] = $formData['comments'];
+                
+            ####### i-Sure pay Duplicate check only for Id and Ammount
+                if(isset($formData['fund_transfer_type_id']))
+                {
+                    ### Request funding Manual check for Transactionid and Amount in agent_funding table.
+                    $conditionFundingNo=" funding_no='" . $data['funding_no']. "' AND amount ='" .$data['amount']. "' ";
+                    $resDuplicate = $objFR->isDuplicate($conditionFundingNo);
+                    if($resDuplicate)
+                    {
+                         $errMsg = "Transaction Failed!!!! due to Transaction Reference Number ". $data['funding_no']." and Amount ".$data['amount']."  already used";
+                         $err = array('msg-error' => $errMsg);
+                         $this->_helper->FlashMessenger($err);
+                         $this->_redirect($this->formatURL('/agentfunding/index/'));
+                    }
+                    
+                      ### Request funding Manual check for Transactionid and Amount in agent_funding table.
+                    $conditionIsureId=" isure_id='" .$data['funding_no']. "' AND amount ='" .$data['amount']. "' ";
+                    $resDuplicate = $objFR->checkIsureDuplicate($conditionIsureId);
+                    if($resDuplicate)
+                    {
+                         $errMsg = "Transaction Failed!!!! due to Transaction Reference Number ".$data['funding_no']." and Amount ".$data['amount']." already used";
+                         $err = array('msg-error' => $errMsg);
+                         $this->_helper->FlashMessenger($err);
+                         $this->_redirect($this->formatURL('/agentfunding/index/'));
+                    }
+                }
 
                 try {
                     $resp = $objFR->addAgentFunding($data);
